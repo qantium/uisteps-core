@@ -13,37 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.storage;
-
-import java.util.Map;
+package com.qantium.uisteps.core.run.verify.conditions;
 
 /**
  *
  * @author ASolyankin
  */
-public class Storage {
+public enum LogicOperation {
+    
+    AND {
 
-    private final Map map;
+        @Override
+        public boolean execute(boolean firstCondition, boolean secondCondition) {
+            return firstCondition && secondCondition;
+        }
+    },OR {
 
-    public Storage(Map map) {
-        this.map = map;
-    }
-
-    public <T> T remember(String key, T value) {
-        map.put(key, value);
-        return value;
-    }
-
-    public <T> T remember(T value) {
-        return remember(value.getClass().getName(), value);
-    }
-
-    public <T> T remembered(String key) {
-        return (T) map.get(key);
-    }
-
-    public <T> T remembered(Class<T> key) {
-        return remembered(key.getName());
-    }
-
+        @Override
+        public boolean execute(boolean firstCondition, boolean secondCondition) {
+            return firstCondition || secondCondition;
+        }
+    };
+    
+    public abstract boolean execute(boolean firstCondition, boolean secondCondition);
+    
 }

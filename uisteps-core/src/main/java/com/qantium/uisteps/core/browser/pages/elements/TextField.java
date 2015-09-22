@@ -13,30 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.then;
+package com.qantium.uisteps.core.browser.pages.elements;
 
+import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.pages.UIObject;
+import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
- * @param <T>
  */
-public class OnDisplayedAction<T extends UIObject> extends Action {
+public abstract class TextField extends UIElement {
 
-    private final Browser browser;
-    private final Class<T> uiObject;
-
-    public OnDisplayedAction(Browser browser, Class<T> uiObject) {
-        this.browser = browser;
-        this.uiObject = uiObject;
+    public TextField(WebElement wrappedElement) {
+        super(wrappedElement);
     }
 
-    @Override
-    public T execute() {
-        return (T) browser.onDisplayed(uiObject);
-
+    public Object sendKeys(String keys) {
+        return type(keys);
     }
 
+    public Object type(String keys) {
+        inOpenedBrowser().typeInto(this, keys);
+        return null;
+    }
+
+    public Object clear() {
+        inOpenedBrowser().clear(this);
+        return null;
+    }
+
+    public Object enter(String text) {
+        inOpenedBrowser().enterInto(this, text);
+        return null;
+    }
 }

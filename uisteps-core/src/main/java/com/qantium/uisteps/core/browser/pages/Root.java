@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2014 ASolyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,37 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.storage;
+package com.qantium.uisteps.core.browser.pages;
 
-import java.util.Map;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author ASolyankin
  */
-public class Storage {
-
-    private final Map map;
-
-    public Storage(Map map) {
-        this.map = map;
-    }
-
-    public <T> T remember(String key, T value) {
-        map.put(key, value);
-        return value;
-    }
-
-    public <T> T remember(T value) {
-        return remember(value.getClass().getName(), value);
-    }
-
-    public <T> T remembered(String key) {
-        return (T) map.get(key);
-    }
-
-    public <T> T remembered(Class<T> key) {
-        return remembered(key.getName());
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Root {
 
 }

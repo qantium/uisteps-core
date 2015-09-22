@@ -13,37 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.storage;
-
-import java.util.Map;
+package com.qantium.uisteps.core.run.verify.conditions;
 
 /**
  *
  * @author ASolyankin
  */
-public class Storage {
+public abstract class WithLogicOperation {
+ 
+    private LogicOperation logicOperation = LogicOperation.AND;
+    
+    public abstract boolean isSuccessful();
 
-    private final Map map;
-
-    public Storage(Map map) {
-        this.map = map;
+    public LogicOperation getLogicOperation() {
+        return logicOperation;
     }
 
-    public <T> T remember(String key, T value) {
-        map.put(key, value);
-        return value;
+    public WithLogicOperation set(LogicOperation logicOperation) {
+        this.logicOperation = logicOperation;
+        return this;
     }
-
-    public <T> T remember(T value) {
-        return remember(value.getClass().getName(), value);
-    }
-
-    public <T> T remembered(String key) {
-        return (T) map.get(key);
-    }
-
-    public <T> T remembered(Class<T> key) {
-        return remembered(key.getName());
-    }
-
 }

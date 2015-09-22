@@ -13,37 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.storage;
+package com.qantium.uisteps.core.run.verify.results;
 
-import java.util.Map;
+import com.qantium.uisteps.core.run.verify.Verify;
 
 /**
  *
  * @author ASolyankin
  */
-public class Storage {
+public class ExpectedResult {
 
-    private final Map map;
+    private final Verify verify;
+    private final boolean condition;
 
-    public Storage(Map map) {
-        this.map = map;
+    public ExpectedResult(Verify verify, boolean condition) {
+        this.verify = verify;
+        this.condition = condition;
     }
 
-    public <T> T remember(String key, T value) {
-        map.put(key, value);
-        return value;
+    public Verify verify() {
+        return verify;
     }
 
-    public <T> T remember(T value) {
-        return remember(value.getClass().getName(), value);
+    public boolean getCondition() {
+        return condition;
     }
+    
 
-    public <T> T remembered(String key) {
-        return (T) map.get(key);
+    public ActualResult ifResultIsExpected(String expectedDescription) {
+        return new ActualResult(verify(), getCondition(), expectedDescription);
     }
-
-    public <T> T remembered(Class<T> key) {
-        return remembered(key.getName());
-    }
-
+    
 }

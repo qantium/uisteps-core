@@ -13,37 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.storage;
+package com.qantium.uisteps.core.browser.pages.elements;
 
-import java.util.Map;
+import com.qantium.uisteps.core.browser.pages.UIElement;
+import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
  */
-public class Storage {
+public abstract class Button extends UIElement {
 
-    private final Map map;
-
-    public Storage(Map map) {
-        this.map = map;
-    }
-
-    public <T> T remember(String key, T value) {
-        map.put(key, value);
-        return value;
-    }
-
-    public <T> T remember(T value) {
-        return remember(value.getClass().getName(), value);
-    }
-
-    public <T> T remembered(String key) {
-        return (T) map.get(key);
-    }
-
-    public <T> T remembered(Class<T> key) {
-        return remembered(key.getName());
+    public Button(WebElement wrappedElement) {
+        super(wrappedElement);
     }
 
 }
