@@ -25,6 +25,6 @@ public interface BrowserFactory {
 
     <T extends Browser> T getBrowser();
 
-    Browser getBrowser(WebDriver withDriver);
+    Browser getBrowser(String withDriver);
 
 }

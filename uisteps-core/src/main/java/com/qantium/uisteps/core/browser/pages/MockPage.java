@@ -16,22 +16,33 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
+import org.openqa.selenium.WebDriver;
 
 /**
  *
  * @author ASolyankin
  */
-public class MockPage extends Page {
+public class MockPage {
 
     private final Browser browser;
+    private final Url url;
+    private final String name;
 
-    public MockPage(Url url, Browser browser) {
-        super(url);
+    public MockPage(String name, Url url, Browser browser) {
+        this.name = name;
+        this.url = url;
         this.browser = browser;
+        browser.getDriver().get(url.toString());
+        
+        if(!browser.isOpened()) {
+            browser.open();
+        }
     }
 
+    
     @Override
-    public Browser inOpenedBrowser() {
-        return browser;
+    public String toString() {
+        return name + " by url <a href='" + url + "' target='blank'>" + url + "</a> with title " + browser.getCurrentTitle();
     }
+
 }

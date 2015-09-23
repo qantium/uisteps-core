@@ -81,12 +81,4 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    protected void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
-        inOpenedBrowser().waitUntil(condition, timeOutInSeconds);
-    }
-
-    protected void waitUntil(ExpectedCondition<Boolean> condition) {
-        inOpenedBrowser().waitUntil(condition);
-    }
-
 }

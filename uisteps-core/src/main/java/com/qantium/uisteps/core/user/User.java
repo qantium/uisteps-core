@@ -25,9 +25,7 @@ import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  *
@@ -50,7 +48,6 @@ public class User implements Named {
     }
 
     public Browser inOpenedBrowser() {
-
         if (browserList.isEmpty()) {
             openNewBrowser();
         }
@@ -65,7 +62,7 @@ public class User implements Named {
         return inOpenedBrowser().then(value);
     }
 
-    public Browser openNewBrowser(WebDriver withDriver) {
+    public Browser openNewBrowser(String withDriver) {
         return in(browserFactory.getBrowser(withDriver));
     }
 
@@ -183,14 +180,6 @@ public class User implements Named {
 
     public void enterInto(WrapsElement input, String text) {
         inOpenedBrowser().enterInto(input, text);
-    }
-
-    public void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
-        inOpenedBrowser().waitUntil(condition, timeOutInSeconds);
-    }
-
-    public void waitUntil(ExpectedCondition<Boolean> condition) {
-        inOpenedBrowser().waitUntil(condition);
     }
 
     public Object executeScript(String script) {

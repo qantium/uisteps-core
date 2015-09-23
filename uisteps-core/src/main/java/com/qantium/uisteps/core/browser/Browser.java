@@ -35,8 +35,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -44,29 +42,32 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class Browser {
 
-    private WebDriver driver;
+    private final WebDriver driver;
     private final UIObjectFactory uiObjectFactory;
-    private UIObjectInitializer initializer;
-    private final long timeOutInSeconds;
+    private final UIObjectInitializer initializer;
     private final WindowList windowList;
+    private boolean opened;
 
-    public Browser(long timeOutInSeconds, WebDriver driver, UIObjectFactory uiObjectFactory, UIObjectInitializer initializer) {
-        this.timeOutInSeconds = timeOutInSeconds;
-        windowList = new WindowList(this, timeOutInSeconds);
+    public Browser(WebDriver driver, UIObjectFactory uiObjectFactory, UIObjectInitializer initializer) {
         this.driver = driver;
         this.uiObjectFactory = uiObjectFactory;
         this.initializer = initializer;
+        windowList = new WindowList(driver);
+    }
+    
+    public WebDriver getDriver() {
+        return driver;
     }
 
-    public Browser(long timeOutInSeconds, WebDriver driver, UIObjectFactory pageFactory) {
-        this(timeOutInSeconds, driver, pageFactory, null);
-        initializer = new UIObjectInitializer(this);
+    public boolean isOpened() {
+        return opened;
     }
-
-    protected void setInitializer(UIObjectInitializer initializer) {
-        this.initializer = initializer;
+    
+    public Browser open() {
+        opened = true;
+        return this;
     }
-
+    
     public void openUrl(String url) {
         try {
             open(new Url(url));
@@ -75,27 +76,32 @@ public class Browser {
         }
     }
 
+    
     public void open(Url url) {
-        open(new MockPage(url, this));
+        open(new MockPage("page", url, this));
     }
 
     public <T extends Page> T open(Class<T> page, Url url) {
         return open(uiObjectFactory.instatiate(page), url);
     }
-    
+
     public <T extends Page> T open(T page, Url url) {
         page.setUrl(url);
         return open(page);
     }
-    
+
     public <T extends Page> T open(Class<T> page) {
         return open(uiObjectFactory.instatiate(page));
     }
 
     public <T extends Page> T open(T page) {
-        getDriver().get(page.getUrl().toString());
+        open(new MockPage(page.getName().toString(), page.getUrl(), this));
         initializer.initialize(page);
         return page;
+    }
+
+    protected void open(MockPage page) {
+        
     }
 
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
@@ -107,20 +113,12 @@ public class Browser {
         return uiObject;
     }
 
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
     public String getCurrentUrl() {
-        return getDriver().getCurrentUrl();
+        return driver.getCurrentUrl();
     }
 
     public String getCurrentTitle() {
-        return getDriver().getTitle();
+        return driver.getTitle();
     }
 
     public void openNewWindow() {
@@ -145,11 +143,11 @@ public class Browser {
     }
 
     public void refreshCurrentPage() {
-        getDriver().navigate().refresh();
+        driver.navigate().refresh();
     }
 
     public void deleteCookies() {
-        getDriver().manage().deleteAllCookies();
+        driver.manage().deleteAllCookies();
     }
 
     public void click(WrapsElement element) {
@@ -171,7 +169,7 @@ public class Browser {
     public void clickOnPoint(WrapsElement element, int x, int y) {
 
         try {
-            Actions actions = new Actions(getDriver());
+            Actions actions = new Actions(driver);
             actions.moveToElement(element.getWrappedElement(), x, y).click().build().perform();
 
         } catch (Exception ex) {
@@ -182,7 +180,7 @@ public class Browser {
     public void moveMouseOver(WrapsElement element) {
 
         try {
-            Actions actions = new Actions(getDriver());
+            Actions actions = new Actions(driver);
             actions.moveToElement(element.getWrappedElement()).build().perform();
         } catch (Exception ex) {
             throw new AssertionError("Cannot move mouse over " + element + "!\n" + ex);
@@ -236,22 +234,6 @@ public class Browser {
         }
     }
 
-    public void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), timeOutInSeconds);
-        wait.until(new ExpectedCondition<Boolean>() {
-
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return condition.apply(driver);
-            }
-        });
-    }
-
-    public void waitUntil(ExpectedCondition<Boolean> condition) {
-        this.waitUntil(condition, timeOutInSeconds);
-
-    }
-
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return new Then(new OnDisplayedAction<>(this, uiObject));
     }
@@ -268,21 +250,17 @@ public class Browser {
         return uiObjectFactory;
     }
 
-    public long getTimeOutInSeconds() {
-        return timeOutInSeconds;
-    }
-
     public WindowList getWindowList() {
         return windowList;
     }
 
     public Object executeScript(String script) {
-        return ((JavascriptExecutor) getDriver()).executeScript(script);
+        return ((JavascriptExecutor) driver).executeScript(script);
     }
 
     @Override
     public String toString() {
-        return executeScript("return navigator.userAgent;").toString();
+        return "browser " + executeScript("return navigator.userAgent;").toString();
     }
 
     //Select

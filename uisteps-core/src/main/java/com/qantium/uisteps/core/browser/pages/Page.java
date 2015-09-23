@@ -117,14 +117,6 @@ public abstract class Page implements UIObject, Named {
         inOpenedBrowser().refreshCurrentPage();
     }
 
-    protected void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
-        inOpenedBrowser().waitUntil(condition, timeOutInSeconds);
-    }
-
-    protected void waitUntil(ExpectedCondition<Boolean> condition) {
-        inOpenedBrowser().waitUntil(condition);
-    }
-
     @Override
     public Name getName() {
         return name;

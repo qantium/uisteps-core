@@ -15,10 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 /**
@@ -27,22 +24,13 @@ import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
  */
 public class UIObjectInitializer {
 
-    private final Browser browser;
+    private final WebDriver driver;
 
-    public UIObjectInitializer(Browser browser) {
-        this.browser = browser;
+    public UIObjectInitializer(WebDriver driver) {
+        this.driver = driver;
     }
 
-    public void initialize(UIObject uiObject) {    
-        HtmlElementLoader.populate(uiObject, browser.getDriver());
-        
-        WebDriverWait wait = new WebDriverWait(browser.getDriver(), browser.getTimeOutInSeconds());
-        wait.until(new ExpectedCondition<Boolean>() {
-
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return uiObject.isDisplayed();
-            }
-        });
+    public void initialize(UIObject uiObject) {
+        HtmlElementLoader.populate(uiObject, driver);
     }
 }
