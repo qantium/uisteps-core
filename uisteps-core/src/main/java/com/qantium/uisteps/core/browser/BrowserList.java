@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class BrowserList {
 
-    private int currentIndex = -1;
+    private int currentIndex;
     private final ArrayList<Browser> browsers = new ArrayList();
 
     public Browser getCurrentBrowser() {

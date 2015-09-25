@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.then.Then;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
