@@ -55,7 +55,7 @@
     </developers>
 
     <dependencies>
-        <dependency>
+    <!--    <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.6</version>
@@ -65,7 +65,7 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -76,7 +76,7 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert</artifactId>
             <version>1.4</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>ru.yandex.qatools.htmlelements</groupId>
             <artifactId>htmlelements-thucydides</artifactId>
@@ -182,25 +182,4 @@
             
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>maven2</id>
-            <activation>
-                <file>
-                    <missing>${basedir}</missing>
-                </file>
-            </activation>
-        </profile>
-        <profile>
-            <id>maven3</id>
-            <activation>
-                <file>
-                    <exists>${basedir}</exists>
-                </file>
-            </activation>
-            <build>
-            </build>
-        </profile>
-    </profiles>
 </project>
