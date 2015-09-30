@@ -186,5 +186,4 @@ public class Url {
     public URL getURL() throws MalformedURLException {
         return new URL(this.toString());
     }
-
 }

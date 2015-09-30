@@ -16,30 +16,34 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.name.Name;
+
 /**
  *
  * @author ASolyankin
  */
-public class MockPage {
+public class MockPage extends Page {
 
     private final Browser browser;
-    private final Url url;
-    private final String name;
 
     public MockPage(String name, Url url, Browser browser) {
-        this.name = name;
-        this.url = url;
+        super(url, new Name(name));
         this.browser = browser;
         browser.getDriver().get(url.toString());
-        
-        if(!browser.isOpened()) {
+
+        if (!browser.isOpened()) {
             browser.open();
         }
     }
-    
+
+    @Override
+    public Browser inOpenedBrowser() {
+        return browser;
+    }
+
     @Override
     public String toString() {
-        return name + " by url <a href='" + url + "' target='blank'>" + url + "</a> with title " + browser.getCurrentTitle();
+        return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
     }
 
 }

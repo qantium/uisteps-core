@@ -132,9 +132,13 @@ public abstract class Page implements UIObject, Named {
         return this;
     }
     
+    public String getUrlString() {
+        return getUrl().toString();
+    }
+    
     @Override
     public String toString() {
-        return getName() + " by url <a href='" + this.getUrl() + "' target='blank'>" + this.getUrl() + "</a> with title " + this.getTitle();
+        return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
     }
 
 }
