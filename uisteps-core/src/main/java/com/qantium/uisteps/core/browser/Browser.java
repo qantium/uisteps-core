@@ -54,7 +54,7 @@ public class Browser {
         this.initializer = initializer;
         windowList = new WindowList(driver);
     }
-    
+
     public WebDriver getDriver() {
         return driver;
     }
@@ -62,12 +62,12 @@ public class Browser {
     public boolean isOpened() {
         return opened;
     }
-    
+
     public Browser open() {
         opened = true;
         return this;
     }
-    
+
     public void openUrl(String url) {
         try {
             open(new Url(url));
@@ -76,7 +76,6 @@ public class Browser {
         }
     }
 
-    
     public void open(Url url) {
         open(new MockPage("page", url, this));
     }
@@ -101,7 +100,7 @@ public class Browser {
     }
 
     protected void open(MockPage page) {
-        
+
     }
 
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
@@ -151,68 +150,36 @@ public class Browser {
     }
 
     public void click(WrapsElement element) {
+        WebElement webElement = element.getWrappedElement();
+        String attrTarget = webElement.getAttribute("target");
 
-        try {
-            WebElement webElement = element.getWrappedElement();
-            String attrTarget = webElement.getAttribute("target");
+        webElement.click();
 
-            webElement.click();
-
-            if (attrTarget != null && !attrTarget.equals("") && !attrTarget.equals("_self")) {
-                switchToNextWindow();
-            }
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot click " + element + "! " + ex);
+        if (attrTarget != null && !attrTarget.equals("") && !attrTarget.equals("_self")) {
+            switchToNextWindow();
         }
     }
 
     public void clickOnPoint(WrapsElement element, int x, int y) {
-
-        try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element.getWrappedElement(), x, y).click().build().perform();
-
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot click " + element + "on point (" + x + "; " + y + ") !\n" + ex);
-        }
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element.getWrappedElement(), x, y).click().build().perform();
     }
 
     public void moveMouseOver(WrapsElement element) {
-
-        try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(element.getWrappedElement()).build().perform();
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot move mouse over " + element + "!\n" + ex);
-        }
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element.getWrappedElement()).build().perform();
     }
 
     public void typeInto(WrapsElement input, String text) {
-
-        try {
-            input.getWrappedElement().sendKeys(text);
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot type " + text + " into " + input + "!\n" + ex);
-        }
+        input.getWrappedElement().sendKeys(text);
     }
 
     public void clear(WrapsElement input) {
-
-        try {
-            input.getWrappedElement().clear();
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot clear " + input + "!\n" + ex);
-        }
+        input.getWrappedElement().clear();
     }
 
     public void enterInto(WrapsElement input, String text) {
-
-        try {
-            input.getWrappedElement().clear();
-            input.getWrappedElement().sendKeys(text);
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot enter " + text + " into " + input + "!" + ex);
-        }
+        input.getWrappedElement().sendKeys(text);
     }
 
     public String getTextFrom(WrapsElement input) {
@@ -269,12 +236,7 @@ public class Browser {
     }
 
     public void deselectAllValuesFrom(Select select) {
-
-        try {
-            select.getWrappedSelect().deselectAll();
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot deselect all values in " + select + "\nCause:" + ex);
-        }
+        select.getWrappedSelect().deselectAll();
     }
 
     public void deselect(Option option) {
@@ -283,12 +245,8 @@ public class Browser {
 
     //Radio button
     public void select(RadioButton button) {
-        try {
-            if (!button.isSelected()) {
-                button.click();
-            }
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot select radio button " + button + "\nCause:" + ex);
+        if (!button.isSelected()) {
+            button.click();
         }
     }
 
