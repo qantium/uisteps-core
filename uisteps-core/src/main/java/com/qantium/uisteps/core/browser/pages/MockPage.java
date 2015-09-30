@@ -16,8 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
-import org.openqa.selenium.WebDriver;
-
 /**
  *
  * @author ASolyankin
@@ -38,7 +36,6 @@ public class MockPage {
             browser.open();
         }
     }
-
     
     @Override
     public String toString() {

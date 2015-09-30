@@ -30,6 +30,8 @@ import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -120,6 +122,14 @@ public class Browser {
         return driver.getTitle();
     }
 
+    public MockPage getCurrentPage() {
+        try {
+            return new MockPage("page", new Url(getCurrentUrl()), this);
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        }
+    } 
+    
     public void openNewWindow() {
         executeScript("window.open()");
         windowList.switchToNextWindow();
@@ -183,21 +193,15 @@ public class Browser {
     }
 
     public String getTextFrom(WrapsElement input) {
-        try {
-
-            if ("input".equals(input.getWrappedElement().getTagName())) {
-                String enteredText = input.getWrappedElement().getAttribute("value");
-                if (enteredText != null) {
-                    return enteredText;
-                } else {
-                    return "";
-                }
+        if ("input".equals(input.getWrappedElement().getTagName())) {
+            String enteredText = input.getWrappedElement().getAttribute("value");
+            if (enteredText != null) {
+                return enteredText;
             } else {
-                return input.getWrappedElement().getText();
+                return "";
             }
-
-        } catch (Exception ex) {
-            throw new AssertionError("Cannot get text from " + input + "\n" + ex);
+        } else {
+            return input.getWrappedElement().getText();
         }
     }
 
