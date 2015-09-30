@@ -4,7 +4,7 @@
     <groupId>com.qantium</groupId>
     <artifactId>qantium-core</artifactId>
     <name>qantium-core</name>
-    <version>1.5</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
