@@ -18,6 +18,9 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.name.Name;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
@@ -80,10 +83,6 @@ public abstract class Page implements UIObject, Named {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIObject> T on(Class<T> uiObject) {
-        return uiObject.cast(this);
-    }
-
     protected <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
@@ -112,6 +111,14 @@ public abstract class Page implements UIObject, Named {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
+    protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+        return inOpenedBrowser().find(uiObject, by);
+    }
+
+    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().findAll(uiObject, by);
+    }
+
     public void refresh() {
         inOpenedBrowser().refreshCurrentPage();
     }
@@ -131,11 +138,11 @@ public abstract class Page implements UIObject, Named {
         this.url = url;
         return this;
     }
-    
+
     public String getUrlString() {
         return getUrl().toString();
     }
-    
+
     @Override
     public String toString() {
         return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();

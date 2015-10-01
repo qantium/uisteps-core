@@ -15,6 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
+
 /**
  *
  * @author ASolyankin
@@ -22,4 +25,6 @@ package com.qantium.uisteps.core.browser.pages;
 public interface UIObjectFactory {
 
     <T extends UIObject> T instatiate(Class<T> uiObject);
+    
+    <T extends WrapsElement> T instatiate(Class<T> uiObject, WebElement wrappedElement);
 }

@@ -15,8 +15,12 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
+import static ru.yandex.qatools.htmlelements.loader.HtmlElementLoader.populatePageObject;
+import static ru.yandex.qatools.htmlelements.utils.HtmlElementUtils.newInstance;
 
 /**
  *
@@ -32,5 +36,9 @@ public class UIObjectInitializer {
 
     public void initialize(UIObject uiObject) {
         HtmlElementLoader.populate(uiObject, driver);
+    }
+    
+    public void initializeWithSearchContext(WrapsElement searchContext) {
+        HtmlElementLoader.populatePageObject(searchContext, searchContext.getWrappedElement());
     }
 }

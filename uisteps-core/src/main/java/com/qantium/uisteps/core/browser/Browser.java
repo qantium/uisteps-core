@@ -30,8 +30,11 @@ import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -68,6 +71,27 @@ public class Browser {
     public Browser open() {
         opened = true;
         return this;
+    }
+
+    public <T extends WrapsElement> T getUIObject(Class<T> uiObject, WebElement withWebElement) {
+        T uiObjectInstance = uiObjectFactory.instatiate(uiObject, withWebElement);
+        initializer.initializeWithSearchContext(uiObjectInstance);
+        return uiObjectInstance;
+    }
+
+    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+        WebElement element = driver.findElement(by);
+        return getUIObject(uiObject, element);
+    }
+
+    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+        List<WebElement> elements = driver.findElements(by);
+        List<T> uiObjects = new ArrayList();
+
+        for (WebElement element : elements) {
+            uiObjects.add(getUIObject(uiObject, element));
+        }
+        return uiObjects;
     }
 
     public void openUrl(String url) {
@@ -128,8 +152,8 @@ public class Browser {
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
-    } 
-    
+    }
+
     public void openNewWindow() {
         executeScript("window.open()");
         windowList.switchToNextWindow();

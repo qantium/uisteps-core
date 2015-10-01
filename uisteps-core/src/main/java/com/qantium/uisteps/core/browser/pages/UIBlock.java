@@ -16,6 +16,9 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.then.Then;
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
@@ -60,10 +63,6 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIObject> T on(Class<T> uiObject) {
-        return uiObject.cast(this);
-    }
-
     protected void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }
@@ -78,6 +77,14 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
 
     protected void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
+    }
+    
+    protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+        return inOpenedBrowser().find(uiObject, by);
+    }
+
+    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().findAll(uiObject, by);
     }
 
 }
