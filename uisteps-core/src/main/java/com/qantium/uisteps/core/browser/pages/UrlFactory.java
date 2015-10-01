@@ -39,27 +39,21 @@ public abstract class UrlFactory {
     }
     
 
-    public Url getUrlOf(Class<? extends Page> pageClass) {
+    public Url getUrlOf(Class<? extends Page> page) {
         Url url = new Url();
-        
-        if (url.getHost().equals("")) {
-            url.setHost(getBaseUrl());
-        }
-        
-        getUrlOf(url, getPageClass(pageClass));
+        url.setHost(getBaseUrl());
+        getUrlOf(url, getPageClass(page));
         return url;
     }
 
-    private void getUrlOf(Url url, Class<?> clazz) {
+    private void getUrlOf(Url url, Class<?> page) {
         
-   
-        
-        if (!RootAnalizer.isRoot(clazz)) {
-            getUrlOf(url, clazz.getSuperclass());
+        if (!(page.isAnnotationPresent(Root.class) || page == Object.class)) {
+            getUrlOf(url, page.getSuperclass());
         }
         
-        if (clazz.isAnnotationPresent(urlAnnotation)) {
-            String defaultUrl = getPageUrlFrom(clazz.getAnnotation(urlAnnotation));
+        if (page.isAnnotationPresent(urlAnnotation)) {
+            String defaultUrl = getPageUrlFrom(page.getAnnotation(urlAnnotation));
             
             if (defaultUrl.contains(HOST)) {
                 Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
