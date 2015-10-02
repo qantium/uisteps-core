@@ -112,14 +112,6 @@ public abstract class Page implements UIObject, Named {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    protected <T extends WrapsElement> T find(Class<T> uiObject, By by, SearchContext searchContext) {
-        return inOpenedBrowser().find(uiObject, by, searchContext);
-    }
-
-    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
-        return inOpenedBrowser().findAll(uiObject, by, searchContext);
-    }
-
     protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by);
     }

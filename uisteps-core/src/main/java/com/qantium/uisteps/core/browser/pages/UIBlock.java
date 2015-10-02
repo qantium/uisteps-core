@@ -80,20 +80,12 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    protected <T extends WrapsElement> T find(Class<T> uiObject, By by, SearchContext searchContext) {
-        return inOpenedBrowser().find(uiObject, by, searchContext);
-    }
-
-    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
-        return inOpenedBrowser().findAll(uiObject, by, searchContext);
-    }
-
     protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by);
+        return inOpenedBrowser().find(uiObject, by, this);
     }
 
     protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by);
+        return inOpenedBrowser().findAll(uiObject, by, this);
     }
 
 }
