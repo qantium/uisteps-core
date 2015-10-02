@@ -32,10 +32,9 @@ import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioBut
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -79,19 +78,27 @@ public class Browser {
         return uiObjectInstance;
     }
 
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
-        WebElement element = driver.findElement(by);
+    public <T extends WrapsElement> T find(Class<T> uiObject, By by, SearchContext searchContext) {
+        WebElement element = searchContext.findElement(by);
         return getUIObject(uiObject, element);
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
-        List<WebElement> elements = driver.findElements(by);
+    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
+        List<WebElement> elements = searchContext.findElements(by);
         List<T> uiObjects = new ArrayList();
 
         for (WebElement element : elements) {
             uiObjects.add(getUIObject(uiObject, element));
         }
         return uiObjects;
+    }
+
+    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+        return find(uiObject, by, driver);
+    }
+
+    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+        return findAll(uiObject, by, driver);
     }
 
     public void openUrl(String url) {
