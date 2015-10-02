@@ -33,11 +33,9 @@ public abstract class UrlFactory {
         this.urlAnnotation = urlAnnotation;
     }
 
-
     public UrlFactory(Class<? extends Annotation> urlAnnotation) {
         this("#HOST", urlAnnotation);
     }
-    
 
     public Url getUrlOf(Class<? extends Page> page) {
         Url url = new Url();
@@ -48,7 +46,14 @@ public abstract class UrlFactory {
 
     private void getUrlOf(Url url, Class<?> page) {
         
-        if (!(page.isAnnotationPresent(Root.class) || page == Object.class)) {
+        if(isRoot(page)) {
+            String rootUrl = page.getAnnotation(Root.class).value();
+            if(!rootUrl.isEmpty()) {
+                url.setHost(rootUrl);
+            }
+        }
+        
+        if (!isRoot(page) && page != Object.class) {
             getUrlOf(url, page.getSuperclass());
         }
         
@@ -75,6 +80,10 @@ public abstract class UrlFactory {
                 url.appendPostfix(defaultUrl);
             }
         }
+    }
+    
+    protected boolean isRoot(Class<?> page) {
+        return page.isAnnotationPresent(Root.class);
     }
 
     protected Class<?> getPageClass(Class<?> clazz) {
