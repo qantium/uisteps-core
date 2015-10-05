@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.qantium</groupId>
     <artifactId>uisteps-core</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
@@ -145,7 +145,6 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <>
                         </manifest>
                     </archive>
                 </configuration>
