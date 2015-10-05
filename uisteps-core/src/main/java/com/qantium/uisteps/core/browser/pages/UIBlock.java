@@ -18,7 +18,6 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 

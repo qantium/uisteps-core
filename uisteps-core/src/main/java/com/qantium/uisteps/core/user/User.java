@@ -187,6 +187,7 @@ public class User implements Named {
     }
 
     public boolean see(UIObject uiObject) {
+        inOpenedBrowser().getUIObjectInitializer().initialize(uiObject);
         return uiObject.isDisplayed();
     }
 
