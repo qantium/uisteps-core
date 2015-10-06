@@ -17,11 +17,11 @@ public abstract class UIElement extends TypifiedElement implements UIObject {
         super(wrappedElement);
     }
 
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+    protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, getWrappedElement());
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
     }
 
