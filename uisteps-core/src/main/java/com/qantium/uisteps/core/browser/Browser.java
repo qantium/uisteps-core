@@ -101,32 +101,33 @@ public class Browser {
         return findAll(uiObject, by, driver);
     }
 
-    public void openUrl(String url) {
+    public void openUrl(String url, String... params) {
         try {
-            open(new Url(url));
+            open(new Url(url), params);
         } catch (MalformedURLException ex) {
             throw new AssertionError("Cannot open url " + url + "\nCause:" + ex);
         }
     }
 
-    public void open(Url url) {
-        open(new MockPage("page", url, this));
+    public void open(Url url, String... params) {
+        open(new MockPage("page", url, this).setParams(params));
     }
 
-    public <T extends Page> T open(Class<T> page, Url url) {
-        return open(uiObjectFactory.instatiate(page), url);
+    public <T extends Page> T open(Class<T> page, Url url, String... params) {
+        return open(uiObjectFactory.instatiate(page), url, params);
     }
 
-    public <T extends Page> T open(T page, Url url) {
+    public <T extends Page> T open(T page, Url url, String... params) {
         page.setUrl(url);
-        return open(page);
+        return open(page, params);
     }
 
-    public <T extends Page> T open(Class<T> page) {
-        return open(uiObjectFactory.instatiate(page));
+    public <T extends Page> T open(Class<T> page, String... params) {
+        return open(uiObjectFactory.instatiate(page), params);
     }
 
-    public <T extends Page> T open(T page) {
+    public <T extends Page> T open(T page, String... params) {
+        page.setParams(params);
         open(new MockPage(page.getName().toString(), page.getUrl(), this));
         initializer.initialize(page);
         return page;

@@ -16,6 +16,8 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,52 +28,84 @@ import java.util.regex.Pattern;
 public abstract class UrlFactory {
 
     protected final String HOST;
+    protected final String PARAM;
     protected final Class<? extends Annotation> urlAnnotation;
 
-    public UrlFactory(String HOST, Class<? extends Annotation> urlAnnotation) {
+    public UrlFactory(String HOST, String PARAM, Class<? extends Annotation> urlAnnotation) {
         this.HOST = HOST;
+        this.PARAM = PARAM;
         this.urlAnnotation = urlAnnotation;
     }
 
     public UrlFactory(Class<? extends Annotation> urlAnnotation) {
-        this("#HOST", urlAnnotation);
+        this("#HOST", "#PARAM", urlAnnotation);
     }
 
-    public Url getUrlOf(Class<? extends Page> page) {
-        Url url = new Url();
-        url.setHost(getBaseUrl());
+    public Url getUrlOf(Class<? extends Page> page, Url url, String... params) {
+
+        if (url.getHost().isEmpty()) {
+            url.setHost(getBaseUrl());
+        }
         getUrlOf(url, getPageClass(page));
-        return url;
+
+        String urlString = url.toString();
+        int paramIndex = 0;
+
+        while (urlString.contains(PARAM)) {
+            
+            try {
+                urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
+            } catch (IndexOutOfBoundsException ex) {
+                throw new RuntimeException("Url " + urlString + "  in " + getPageClass(page) + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
+            }
+            paramIndex++;
+        }
+
+        if (!url.toString().equals(urlString)) {
+            
+            try {
+                return new Url(urlString);
+            } catch (MalformedURLException ex) {
+                throw new RuntimeException("Cannot create url from string " + urlString + "\nCause:" + ex);
+            }
+        } else {
+            return url;
+        }
+
     }
 
-    private void getUrlOf(Url url, Class<?> page) {
-        
-        if(isRoot(page)) {
+    public Url getUrlOf(Class<? extends Page> page, String... params) {
+        return getUrlOf(page, new Url(), params);
+    }
+
+    protected void getUrlOf(Url url, Class<?> page) {
+
+        if (isRoot(page)) {
             String rootUrl = page.getAnnotation(Root.class).value();
-            if(!rootUrl.isEmpty()) {
+            if (!rootUrl.isEmpty()) {
                 url.setHost(rootUrl);
             }
         }
-        
+
         if (!isRoot(page) && page != Object.class) {
             getUrlOf(url, page.getSuperclass());
         }
-        
+
         if (page.isAnnotationPresent(urlAnnotation)) {
             String defaultUrl = getPageUrlFrom(page.getAnnotation(urlAnnotation));
-            
+
             if (defaultUrl.contains(HOST)) {
                 Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
                 Matcher matcher = pattern.matcher(defaultUrl);
-                
+
                 if (matcher.find()) {
                     String prefix = matcher.group(1);
                     String postfix = matcher.group(2);
-                    
+
                     if (prefix != null) {
                         url.prependPrefix(prefix);
                     }
-                    
+
                     if (postfix != null) {
                         url.appendPostfix(postfix);
                     }
@@ -81,22 +115,21 @@ public abstract class UrlFactory {
             }
         }
     }
-    
+
     protected boolean isRoot(Class<?> page) {
         return page.isAnnotationPresent(Root.class);
     }
 
-    protected Class<?> getPageClass(Class<?> clazz) {
+    protected Class<?> getPageClass(Class<?> page) {
         
-        if (clazz.getName().contains("$$")) {
-            return getPageClass(clazz.getSuperclass());
+        if (page.getName().contains("$$")) {
+            return getPageClass(page.getSuperclass());
         } else {
-            return clazz;
+            return page;
         }
     }
-    
+
     protected abstract String getBaseUrl();
-    
+
     protected abstract String getPageUrlFrom(Annotation urlAnnotation);
 }
-

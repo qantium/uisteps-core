@@ -21,7 +21,7 @@ package com.qantium.uisteps.core.run.verify.conditions;
  */
 public abstract class WithLogicOperation {
  
-    private LogicOperation logicOperation = LogicOperation.AND;
+    private LogicOperation logicOperation = LogicOperation.OR;
     
     public abstract boolean isSuccessful();
 
@@ -32,5 +32,13 @@ public abstract class WithLogicOperation {
     public WithLogicOperation set(LogicOperation logicOperation) {
         this.logicOperation = logicOperation;
         return this;
+    }
+    
+    public WithLogicOperation and() {
+        return set(LogicOperation.AND);
+    }
+    
+    public WithLogicOperation or() {
+        return set(LogicOperation.OR);
     }
 }

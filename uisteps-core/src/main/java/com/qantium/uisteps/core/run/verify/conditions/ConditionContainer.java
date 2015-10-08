@@ -24,65 +24,46 @@ import java.util.ArrayList;
 public class ConditionContainer extends WithLogicOperation {
 
     private ArrayList<WithLogicOperation> conditions = new ArrayList();
-    private boolean modified;
-    private boolean isSuccessful = true;
-    private boolean hasFailures = false;
+    private Boolean successful = null;
 
     @Override
     public boolean isSuccessful() {
 
-        if (modified) {
+        if (successful == null) {
+
+            WithLogicOperation previousCondition = null;
 
             for (WithLogicOperation condition : conditions) {
 
-                isSuccessful = condition.getLogicOperation().execute(isSuccessful, condition.isSuccessful());
-
-                if (conditions.indexOf(condition) != 0 && condition.getLogicOperation() == LogicOperation.AND && !isSuccessful) {
-                    break;
+                if (previousCondition == null) {
+                    successful = condition.isSuccessful();
+                } else {
+                    successful = previousCondition.getLogicOperation().execute(successful, condition.isSuccessful());
                 }
 
-                if (condition.getLogicOperation() == LogicOperation.OR && isSuccessful) {
-                    break;
-                }
+                previousCondition = condition;
             }
 
-            for (WithLogicOperation condition : conditions) {
-                
-                hasFailures = !condition.isSuccessful();
-                
-                if(hasFailures) {
-                    break;
-                }
+            if (successful == null) {
+                successful = true;
             }
-            
-            modified = false;
-        }
 
-        return isSuccessful;
+        }
+        return successful;
     }
 
-    public boolean hasFailures() {
-
-        if (modified) {
-            isSuccessful() ;
-        }
-
-        return hasFailures;
-    }
-    
     public void reset() {
-        modified = false;
-        isSuccessful = true;
         conditions = new ArrayList();
+        successful = null;
+        set(LogicOperation.OR);
     }
 
     public void add(WithLogicOperation condition) {
         conditions.add(condition);
-        modified = true;
     }
 
     public ArrayList<WithLogicOperation> getConditions() {
         return conditions;
     }
-    
+
 }

@@ -40,7 +40,7 @@ public class ActualResult {
     }
     
     protected Then verify(String actualResult) {
-        verify._that(new Condition(condition, expectedResult, actualResult));
+        verify._conditions(new Condition(condition, expectedResult, actualResult));
         return new Then(verify);
     }
 

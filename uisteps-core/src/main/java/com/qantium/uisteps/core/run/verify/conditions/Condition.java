@@ -25,10 +25,22 @@ public class Condition extends WithLogicOperation {
     private final String expectedResult;
     private final String actualResult;
 
+    public Condition(boolean value, String expectedResult) {
+        this(value, expectedResult, "");
+    }
+
     public Condition(boolean value, String expectedResult, String actualResult) {
-        this.successful = value;
+        successful = value;
         this.expectedResult = expectedResult;
         this.actualResult = actualResult;
+    }
+
+    public static Condition isTrue(boolean value, String expectedResult) {
+        return new Condition(value, expectedResult);
+    }
+
+    public static Condition isTrue(boolean value, String expectedResult, String actualResult) {
+        return new Condition(value, expectedResult, actualResult);
     }
 
     @Override
@@ -49,4 +61,20 @@ public class Condition extends WithLogicOperation {
         return (Condition) super.set(logicOperation);
     }
 
+    @Override
+    public Condition or() {
+        return (Condition) super.or();
+    }
+
+    @Override
+    public Condition and() {
+        return (Condition) super.and();
+    }
+
+    @Override
+    public String toString() {
+        return "Condition{" + "successful=" + successful + ", expectedResult=" + expectedResult + ", actualResult=" + actualResult + ", logicOperation=" + getLogicOperation() + "}";
+    }
+
+    
 }

@@ -59,10 +59,12 @@ public class ConditionPool extends ConditionContainer {
                 resultBuilder.append("<td bgcolor='#fd989b'><b>FAILURE</b></td>");
             }
 
-            resultBuilder.append("<td bgcolor='#ededed'>");
+            resultBuilder.append("<td>");
             
             if(iterator.hasNext()) {
+                resultBuilder.append("<b>");
                 resultBuilder.append(condition.getLogicOperation());
+                resultBuilder.append("</b>");
             }
             
             resultBuilder.append("</td>");

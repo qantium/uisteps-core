@@ -20,7 +20,6 @@ import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
@@ -33,6 +32,7 @@ public abstract class Page implements UIObject, Named {
     private Url url;
     private UrlFactory urlFactory;
     private Name name;
+    private String[] params = new String[0];
     public static final String DEFAULT_NAME = "page";
 
     public Page(UrlFactory urlFactory, Name name) {
@@ -40,6 +40,23 @@ public abstract class Page implements UIObject, Named {
         this.name = name;
     }
 
+    public UrlFactory getUrlFactory() {
+        return urlFactory;
+    }
+
+    public void setUrlFactory(UrlFactory urlFactory) {
+        this.urlFactory = urlFactory;
+    }
+
+    public String[] getParams() {
+        return params;
+    }
+
+    public Page setParams(String[] params) {
+        this.params = params;
+        return this;
+    }
+    
     public Page(UrlFactory urlFactory) {
         this(urlFactory, new Name(DEFAULT_NAME));
     }
@@ -58,7 +75,7 @@ public abstract class Page implements UIObject, Named {
         if (url == null) {
 
             if (urlFactory != null) {
-                url = urlFactory.getUrlOf(this.getClass());
+                url = urlFactory.getUrlOf(this.getClass(), params);
             } else {
                 throw new RuntimeException("Url and url factory are not set!");
             }

@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.run.verify;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.ConditionPool;
 import com.qantium.uisteps.core.run.verify.conditions.LogicOperation;
+import com.qantium.uisteps.core.run.verify.conditions.Result;
 import com.qantium.uisteps.core.run.verify.results.ExpectedResult;
 import com.qantium.uisteps.core.run.verify.results.LastExpectedResult;
 
@@ -44,7 +45,9 @@ public class Then {
     }
 
     private Verify then(LogicOperation logicOperation) {
-        verify.getResult().add(new ConditionPool().set(logicOperation));
+        Result result = verify.getResult();
+        result.getlastConditionPool().set(logicOperation);
+        result.add(new ConditionPool());
         return verify;
     }
 
@@ -77,7 +80,7 @@ public class Then {
         }
 
         public Then _that(Condition... conditions) {
-            return then(logicOperation)._that(conditions);
+            return then(logicOperation)._conditions(conditions);
         }
 
         public LastExpectedResult that(boolean condition) {
@@ -85,7 +88,7 @@ public class Then {
         }
 
         public Then that(Condition... conditions) {
-            return then(logicOperation).that(conditions);
+            return then(logicOperation).conditions(conditions);
         }
     }
 

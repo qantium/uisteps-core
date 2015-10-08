@@ -22,7 +22,7 @@ import java.util.Iterator;
  * @author ASolyankin
  */
 public class Result extends ConditionContainer {
-    
+
     public Result() {
         reset();
     }
@@ -34,57 +34,62 @@ public class Result extends ConditionContainer {
     }
 
     public void add(Condition... conditions) {
-        
+
         for (Condition condition : conditions) {
-            ConditionPool lastConditionPool = (ConditionPool) getConditions().get(getConditions().size() - 1);
-            lastConditionPool.add(condition);
+            getlastConditionPool().add(condition);
         }
+    }
+
+    public ConditionPool getlastConditionPool() {
+        return (ConditionPool) getConditions().get(getConditions().size() - 1);
     }
 
     @Override
     public String toString() {
+        
+        StringBuilder result = new StringBuilder();
 
-        StringBuilder resultBuilder = new StringBuilder();
+        result.append("<table border='1' cellpadding='3'>");
 
-        resultBuilder.append("<table border='1' cellpadding='3' bgcolor='white'>");
+        result.append("<tr>");
 
-        resultBuilder.append("<tr bgcolor='#ededed'>");
-
-        if (this.hasFailures()) {
-            resultBuilder.append("<td>");
+        if (this.isSuccessful()) {
+            result.append("<td>");
         } else {
-            resultBuilder.append("<td colspan='2'>");
+            result.append("<td colspan='2'>");
         }
 
-        resultBuilder.append("<b>Expected result</b></td>");
+        result.append("<b>Expected result</b></td>");
 
-        if (this.hasFailures()) {
-            resultBuilder.append("<td><b>Actual result</b></td>");
+        if (this.isSuccessful()) {
+            result.append("<td><b>Actual result</b></td>");
         }
 
-        resultBuilder.append("<td><b>Status</b></td>");
-        resultBuilder.append("<td></td></tr>");
+        result.append("<td><b>Status</b></td>");
+        result.append("<td></td></tr>");
 
         Iterator<WithLogicOperation> iterator = getConditions().iterator();
-
+        ConditionPool previousCondition = null;
+        
         while (iterator.hasNext()) {
 
             ConditionPool condition = (ConditionPool) iterator.next();
 
-            resultBuilder.append("<tbody>");
+            result.append("<tbody>");
 
-            if (getConditions().indexOf(condition) != 0) {
-                resultBuilder.append("<tr bgcolor='#ededed'><td colspan='4'><b>");
-                resultBuilder.append(condition.getLogicOperation());
-                resultBuilder.append("</b></td></tr>");
+            if (previousCondition != null) {
+                result.append("<tr><td colspan='4'><b>");
+                result.append(previousCondition.getLogicOperation());
+                result.append("</b></td></tr>");
             }
 
-            resultBuilder.append(condition);
-            resultBuilder.append("</tbody>");
+            result.append(condition);
+            result.append("</tbody>");
+            previousCondition = condition;
         }
 
-        resultBuilder.append("</table>");
-        return resultBuilder.toString();
+        result.append("</table>");
+        return result.toString();
 
     }
 }

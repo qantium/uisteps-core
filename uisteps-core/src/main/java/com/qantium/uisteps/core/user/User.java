@@ -98,20 +98,20 @@ public class User implements Named {
         return browserList.size();
     }
 
-    public void openUrl(String url) {
-        inOpenedBrowser().openUrl(url);
+    public void openUrl(String url, String... params) {
+        inOpenedBrowser().openUrl(url, params);
     }
 
-    public void open(Url url) {
-        inOpenedBrowser().open(url);
+    public void open(Url url, String... params) {
+        inOpenedBrowser().open(url, params);
     }
 
-    public <T extends Page> T open(Class<T> page, Url url) {
-        return inOpenedBrowser().open(page, url);
+    public <T extends Page> T open(Class<T> page, Url url, String... params) {
+        return inOpenedBrowser().open(page, url, params);
     }
 
-    public <T extends Page> T open(T page, Url url) {
-        return inOpenedBrowser().open(page, url);
+    public <T extends Page> T open(T page, Url url, String... params) {
+        return inOpenedBrowser().open(page, url, params);
     }
 
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
@@ -122,12 +122,12 @@ public class User implements Named {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends Page> T open(Class<T> page) {
-        return inOpenedBrowser().open(page);
+    public <T extends Page> T open(Class<T> page, String... params) {
+        return inOpenedBrowser().open(page, params);
     }
 
-    public <T extends Page> T open(T page) {
-        return inOpenedBrowser().open(page);
+    public <T extends Page> T open(T page, String... params) {
+        return inOpenedBrowser().open(page, params);
     }
 
     public void openNewWindow() {
