@@ -29,13 +29,18 @@ public class MockPage extends Page {
     public MockPage(String name, Url url, Browser browser) {
         super(url, new Name(name));
         this.browser = browser;
-        browser.getDriver().get(url.toString());
+        
+    }
+
+    public MockPage open() {
+        browser.getDriver().get(getUrl().toString());
 
         if (!browser.isOpened()) {
             browser.open();
         }
+        return this;
     }
-
+    
     @Override
     public Browser inOpenedBrowser() {
         return browser;
@@ -45,5 +50,10 @@ public class MockPage extends Page {
     public String toString() {
         return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
     }
-
+    
+    @Override
+    public MockPage setParams(String[] params) {
+        return (MockPage) super.setParams(params);
+    }
+    
 }

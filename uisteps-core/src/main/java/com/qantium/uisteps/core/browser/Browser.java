@@ -110,7 +110,7 @@ public class Browser {
     }
 
     public void open(Url url, String... params) {
-        open(new MockPage("page", url, this).setParams(params));
+        open(new MockPage("page", url, this).setParams(params).open());
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -128,7 +128,7 @@ public class Browser {
 
     public <T extends Page> T open(T page, String... params) {
         page.setParams(params);
-        open(new MockPage(page.getName().toString(), page.getUrl(), this));
+        open(new MockPage(page.getName().toString(), page.getUrl(), this).open());
         initializer.initialize(page);
         return page;
     }
