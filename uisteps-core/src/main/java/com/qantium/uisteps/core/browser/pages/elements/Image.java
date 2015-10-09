@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2015 A.Solyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +20,27 @@ import org.openqa.selenium.WebElement;
 
 /**
  *
- * @author ASolyankin
+ * @author A.Solyankin
  */
-public abstract class FileInput extends UIElement {
-
-    private final ru.yandex.qatools.htmlelements.element.FileInput wrappedFileInput;
+public abstract class Image extends UIElement {
     
-    public FileInput(WebElement wrappedElement) {
+    public Image(WebElement wrappedElement) {
         super(wrappedElement);
-        wrappedFileInput = new ru.yandex.qatools.htmlelements.element.FileInput(wrappedElement);
-    }
-
-    public ru.yandex.qatools.htmlelements.element.FileInput getWrappedFileInput() {
-        return wrappedFileInput;
-    }
-
-    public Object setFileToUpload(String filePath) {
-        inOpenedBrowser().setTo(this, filePath);
-        return null;
     }
     
+    public String getSource() {
+        return getWrappedElement().getAttribute("src");
+    }
+    
+    public String getAlt() {
+        return getWrappedElement().getAttribute("alt");
+    }
+    
+    public int getWidth() {
+        return getWrappedElement().getSize().width;
+    }
+    
+    public int getHeight() {
+        return getWrappedElement().getSize().height;
+    }
 }
