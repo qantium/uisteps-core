@@ -46,7 +46,10 @@ public abstract class UrlFactory {
         if (url.getHost().isEmpty()) {
             url.setHost(getBaseUrl());
         }
-        getUrlOf(url, getPageClass(page));
+        
+        Class<?> pageClass = getPageClass(page);
+        
+        getUrlOf(url, pageClass);
 
         String urlString = url.toString();
         int paramIndex = 0;
@@ -56,7 +59,7 @@ public abstract class UrlFactory {
             try {
                 urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
             } catch (IndexOutOfBoundsException ex) {
-                throw new RuntimeException("Url " + urlString + "  in " + getPageClass(page) + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
+                throw new RuntimeException("Url " + urlString + "  in " + pageClass + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
             }
             paramIndex++;
         }
