@@ -15,13 +15,14 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.browser.Browser;
 
 /**
  *
  * @author ASolyankin
  */
-public interface UIObject {
+public interface UIObject extends Named {
 
     boolean isDisplayed();
 

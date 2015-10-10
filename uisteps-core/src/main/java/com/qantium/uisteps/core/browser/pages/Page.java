@@ -26,7 +26,7 @@ import org.openqa.selenium.internal.WrapsElement;
  * @author ASolyankin
  */
 @Root
-public abstract class Page implements UIObject, Named {
+public abstract class Page implements UIObject {
 
     private Url url;
     private UrlFactory urlFactory;
@@ -154,9 +154,8 @@ public abstract class Page implements UIObject, Named {
     }
 
     @Override
-    public Page setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public Page setUrl(Url url) {

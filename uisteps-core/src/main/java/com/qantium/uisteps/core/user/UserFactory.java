@@ -39,7 +39,9 @@ public abstract class UserFactory {
     }
 
     public UserFactory add(String name, Class<? extends User> user) {
-        users.put(name, getInstanceOf(user).setName(name));
+        User usergetInstance = getInstanceOf(user);
+        usergetInstance.setName(name);
+        users.put(name, usergetInstance);
         return this;
     }
 
@@ -49,7 +51,7 @@ public abstract class UserFactory {
     }
 
     public UserFactory add(User user) {
-        return add(user.getName().toString(), user);
+        return add(user.getName(), user);
     }
 
     public UserFactory add(Class<? extends User> user) {

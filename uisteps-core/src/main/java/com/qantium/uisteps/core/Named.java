@@ -21,5 +21,5 @@ package com.qantium.uisteps.core;
  */
 public interface Named extends ru.yandex.qatools.htmlelements.element.Named {
     
-    Named setName(String name);
+    void setName(String name);
 }

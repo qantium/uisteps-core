@@ -200,9 +200,8 @@ public class User implements Named {
     }
 
     @Override
-    public User setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     @Override
