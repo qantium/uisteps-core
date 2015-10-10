@@ -15,8 +15,7 @@
  */
 package com.qantium.uisteps.core.user;
 
-import com.qantium.uisteps.core.name.Name;
-import com.qantium.uisteps.core.name.Named;
+import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.BrowserList;
 import com.qantium.uisteps.core.browser.NoBrowserException;
@@ -36,15 +35,15 @@ public class User implements Named {
     private final BrowserList browserList = new BrowserList();
     private final BrowserFactory browserFactory;
     public static final String DEFAULT_NAME = "user";
-    private Name name;
+    private String name;
 
-    public User(BrowserFactory browserFactory, Name name) {
+    public User(BrowserFactory browserFactory, String name) {
         this.browserFactory = browserFactory;
         this.name = name;
     }
 
     public User(BrowserFactory browserFactory) {
-        this(browserFactory, new Name(DEFAULT_NAME));
+        this(browserFactory, DEFAULT_NAME);
     }
 
     public Browser inOpenedBrowser() {
@@ -196,19 +195,19 @@ public class User implements Named {
     }
 
     @Override
-    public Name getName() {
+    public String getName() {
         return name;
     }
 
     @Override
     public User setName(String name) {
-        this.name.setValue(name);
+        this.name = name;
         return this;
     }
 
     @Override
     public String toString() {
-        return name.toString();
+        return getName();
     }
 
 }

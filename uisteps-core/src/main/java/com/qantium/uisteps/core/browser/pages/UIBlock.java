@@ -26,7 +26,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
  * @author ASolyankin
  */
 public abstract class UIBlock extends HtmlElement implements UIObject {
-
+    
     @Override
     public void click() {
         inOpenedBrowser().click(this);

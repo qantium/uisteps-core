@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2015 A.Solyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.name;
+package com.qantium.uisteps.core;
 
 /**
  *
- * @author ASolyankin
+ * @author A.Solyankin
  */
-public class Name {
+public interface Named extends ru.yandex.qatools.htmlelements.element.Named {
     
-    private String value;
-    private boolean isDefault = true;
-
-    public Name(String value) {
-        this.value = value;
-    }
-    
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        isDefault = false;
-        this.value = value;
-    }
-    
+    Named setName(String name);
 }

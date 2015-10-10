@@ -15,8 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.name.Name;
-import com.qantium.uisteps.core.name.Named;
+import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -31,11 +30,11 @@ public abstract class Page implements UIObject, Named {
 
     private Url url;
     private UrlFactory urlFactory;
-    private Name name;
+    private String name;
     private String[] params = new String[0];
     public static final String DEFAULT_NAME = "page";
 
-    public Page(UrlFactory urlFactory, Name name) {
+    public Page(UrlFactory urlFactory, String name) {
         this.urlFactory = urlFactory;
         this.name = name;
     }
@@ -58,16 +57,16 @@ public abstract class Page implements UIObject, Named {
     }
     
     public Page(UrlFactory urlFactory) {
-        this(urlFactory, new Name(DEFAULT_NAME));
+        this(urlFactory, DEFAULT_NAME);
     }
 
-    public Page(Url url, Name name) {
+    public Page(Url url, String name) {
         this.url = url;
         this.name = name;
     }
 
     public Page(Url url) {
-        this(url, new Name(DEFAULT_NAME));
+        this(url, DEFAULT_NAME);
     }
 
     public Url getUrl() {
@@ -142,13 +141,13 @@ public abstract class Page implements UIObject, Named {
     }
 
     @Override
-    public Name getName() {
+    public String getName() {
         return name;
     }
 
     @Override
     public Page setName(String name) {
-        this.name.setValue(name);
+        this.name = name;
         return this;
     }
 

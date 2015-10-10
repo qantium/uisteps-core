@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.UIObjectInitializer;
 import com.qantium.uisteps.core.browser.pages.MockPage;
@@ -83,6 +84,16 @@ public class Browser {
         return getUIObject(uiObject, element);
     }
 
+    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext searchContext) {
+        List<T> uiObjects = findAll(uiObject, by, searchContext);
+
+        for (T uiObjectInstance : uiObjects) {
+            uiObjectInstance.setName(name);
+        }
+
+        return uiObjects;
+    }
+
     public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
         List<WebElement> elements = searchContext.findElements(by);
         List<T> uiObjects = new ArrayList();
@@ -91,6 +102,12 @@ public class Browser {
             uiObjects.add(getUIObject(uiObject, element));
         }
         return uiObjects;
+    }
+
+    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+        T uiObjectInstance = find(uiObject, by);
+        uiObjectInstance.setName(name);
+        return uiObjectInstance;
     }
 
     public <T extends WrapsElement> T find(Class<T> uiObject, By by) {

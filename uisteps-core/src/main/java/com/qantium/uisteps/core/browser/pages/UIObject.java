@@ -24,6 +24,6 @@ import com.qantium.uisteps.core.browser.Browser;
 public interface UIObject {
 
     boolean isDisplayed();
-    
+
     Browser inOpenedBrowser();
 }

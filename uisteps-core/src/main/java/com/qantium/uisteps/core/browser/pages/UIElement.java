@@ -16,7 +16,7 @@ public abstract class UIElement extends TypifiedElement implements UIObject {
     public UIElement(WebElement wrappedElement) {
         super(wrappedElement);
     }
-
+    
     protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, getWrappedElement());
     }

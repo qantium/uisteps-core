@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.name.Name;
 
 /**
  *
@@ -27,9 +26,9 @@ public class MockPage extends Page {
     private final Browser browser;
 
     public MockPage(String name, Url url, Browser browser) {
-        super(url, new Name(name));
+        super(url, name);
         this.browser = browser;
-        
+
     }
 
     public MockPage open() {
@@ -40,7 +39,7 @@ public class MockPage extends Page {
         }
         return this;
     }
-    
+
     @Override
     public Browser inOpenedBrowser() {
         return browser;
@@ -50,10 +49,10 @@ public class MockPage extends Page {
     public String toString() {
         return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
     }
-    
+
     @Override
     public MockPage setParams(String[] params) {
         return (MockPage) super.setParams(params);
     }
-    
+
 }
