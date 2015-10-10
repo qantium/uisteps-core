@@ -88,23 +88,23 @@ public abstract class Page implements UIObject, Named {
         return executeScript("return document.readyState").equals("complete");
     }
 
-    protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }
 
-    protected <T> Then<T> then(T value) {
+    public <T> Then<T> then(T value) {
         return inOpenedBrowser().then(value);
     }
 
-    protected <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    protected <T extends UIObject> T onDisplayed(T uiObject) {
+    public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    protected Object executeScript(String script) {
+    public Object executeScript(String script) {
         return inOpenedBrowser().executeScript(script);
     }
 
@@ -112,27 +112,27 @@ public abstract class Page implements UIObject, Named {
         return inOpenedBrowser().getCurrentTitle();
     }
 
-    protected void switchToNextWindow() {
+    public void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }
 
-    protected void switchToPreviousWindow() {
+    public void switchToPreviousWindow() {
         inOpenedBrowser().switchToPreviousWindow();
     }
 
-    protected void switchToDefaultWindow() {
+    public void switchToDefaultWindow() {
         inOpenedBrowser().switchToDefaultWindow();
     }
 
-    protected void switchToWindowByIndex(int index) {
+    public void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    protected <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by);
     }
 
-    protected <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by);
     }
 

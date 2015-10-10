@@ -145,7 +145,7 @@ public class Browser {
 
     public <T extends Page> T open(T page, String... params) {
         page.setParams(params);
-        open(new MockPage(page.getName().toString(), page.getUrl(), this).open());
+        open(new MockPage(page.getName(), page.getUrl(), this).open());
         initializer.initialize(page);
         return page;
     }
