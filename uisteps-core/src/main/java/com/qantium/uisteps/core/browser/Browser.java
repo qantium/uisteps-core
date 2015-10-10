@@ -79,11 +79,26 @@ public class Browser {
         return uiObjectInstance;
     }
 
+    
+    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+        return find(uiObject, by, driver);
+    }
+    
     public <T extends WrapsElement> T find(Class<T> uiObject, By by, SearchContext searchContext) {
         WebElement element = searchContext.findElement(by);
         return getUIObject(uiObject, element);
     }
 
+    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+        return find(uiObject, name, by, driver);
+    }
+    
+    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by, SearchContext searchContext) {
+        T uiObjectInstance = find(uiObject, by, searchContext);
+        uiObjectInstance.setName(name);
+        return uiObjectInstance;
+    }
+    
     public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext searchContext) {
         List<T> uiObjects = findAll(uiObject, by, searchContext);
 
@@ -104,20 +119,14 @@ public class Browser {
         return uiObjects;
     }
 
-    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
-        T uiObjectInstance = find(uiObject, by);
-        uiObjectInstance.setName(name);
-        return uiObjectInstance;
-    }
-
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
-        return find(uiObject, by, driver);
-    }
-
     public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
         return findAll(uiObject, by, driver);
     }
 
+    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+        return findAll(uiObject, name, by, driver);
+    }
+    
     public void openUrl(String url, String... params) {
         try {
             open(new Url(url), params);

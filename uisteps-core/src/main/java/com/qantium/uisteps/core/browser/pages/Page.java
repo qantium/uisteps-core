@@ -55,7 +55,7 @@ public abstract class Page implements UIObject, Named {
         this.params = params;
         return this;
     }
-    
+
     public Page(UrlFactory urlFactory) {
         this(urlFactory, DEFAULT_NAME);
     }
@@ -132,8 +132,16 @@ public abstract class Page implements UIObject, Named {
         return inOpenedBrowser().find(uiObject, by);
     }
 
+    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().find(uiObject, name, by);
+    }
+
     public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by);
+    }
+
+    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().findAll(uiObject, name, by);
     }
 
     public void refresh() {

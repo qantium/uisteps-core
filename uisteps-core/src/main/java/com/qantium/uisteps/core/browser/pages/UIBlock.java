@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -29,11 +30,11 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
 
     public UIBlock() {
     }
-    
+
     public UIBlock(By locator) {
         setWrappedElement(findElement(locator));
     }
-    
+
     @Override
     public void click() {
         inOpenedBrowser().click(this);
@@ -87,11 +88,19 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
     }
 
     public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by, this);
+        return inOpenedBrowser().find(uiObject, by, getWrappedElement());
+    }
+
+    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
     }
 
     public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by, this);
+        return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
+    }
+
+    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
 
 }
