@@ -15,11 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
@@ -87,20 +85,24 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+    public <T extends UIObject> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, getWrappedElement());
     }
 
-    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
     }
 
-    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
 
+    @Override
+    public <T extends UIObject> T as(Class<T> uiObject) {
+        return inOpenedBrowser().displayed(uiObject, getWrappedElement());
+    }
 }

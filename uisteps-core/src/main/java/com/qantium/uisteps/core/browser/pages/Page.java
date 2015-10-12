@@ -15,11 +15,10 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.WebElement;
 
 /**
  *
@@ -128,19 +127,19 @@ public abstract class Page implements UIObject {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
+    public <T extends UIObject> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by);
     }
 
-    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().find(uiObject, name, by);
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by);
     }
 
-    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by);
     }
 
@@ -148,6 +147,11 @@ public abstract class Page implements UIObject {
         inOpenedBrowser().refreshCurrentPage();
     }
 
+    @Override
+    public <T extends UIObject> T as(Class<T> uiObject) {
+        return inOpenedBrowser().displayed(uiObject);
+    }
+    
     @Override
     public String getName() {
         return name;
@@ -172,4 +176,9 @@ public abstract class Page implements UIObject {
         return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
     }
 
+    @Override
+    public WebElement getWrappedElement() {
+        throw new UnsupportedOperationException("Page does not contain wrapped element!");
+    }
+    
 }

@@ -17,14 +17,17 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.browser.Browser;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author ASolyankin
  */
-public interface UIObject extends Named {
+public interface UIObject extends WrapsElement, Named {
 
     boolean isDisplayed();
 
     Browser inOpenedBrowser();
+    
+    <T extends UIObject> T as(Class<T> uiObject);
 }

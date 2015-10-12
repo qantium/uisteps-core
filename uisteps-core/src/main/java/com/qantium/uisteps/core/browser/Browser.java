@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.Named;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.UIObjectInitializer;
 import com.qantium.uisteps.core.browser.pages.MockPage;
@@ -73,33 +72,38 @@ public class Browser {
         return this;
     }
 
-    public <T extends WrapsElement> T getUIObject(Class<T> uiObject, WebElement withWebElement) {
+    public <T extends UIObject> T displayed(Class<T> uiObject, WebElement withWebElement) {
         T uiObjectInstance = uiObjectFactory.instatiate(uiObject, withWebElement);
         initializer.initializeWithSearchContext(uiObjectInstance);
         return uiObjectInstance;
     }
 
-    
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by) {
-        return find(uiObject, by, driver);
-    }
-    
-    public <T extends WrapsElement> T find(Class<T> uiObject, By by, SearchContext searchContext) {
-        WebElement element = searchContext.findElement(by);
-        return getUIObject(uiObject, element);
+    public <T extends UIObject> T displayed(Class<T> uiObject) {
+        T uiObjectInstance = uiObjectFactory.instatiate(uiObject);
+        initializer.initialize(uiObjectInstance);
+        return uiObjectInstance;
     }
 
-    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> T find(Class<T> uiObject, By by) {
+        return find(uiObject, by, driver);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, By by, SearchContext searchContext) {
+        WebElement element = searchContext.findElement(by);
+        return displayed(uiObject, element);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
         return find(uiObject, name, by, driver);
     }
-    
-    public <T extends Named & WrapsElement> T find(Class<T> uiObject, String name, By by, SearchContext searchContext) {
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by, SearchContext searchContext) {
         T uiObjectInstance = find(uiObject, by, searchContext);
         uiObjectInstance.setName(name);
         return uiObjectInstance;
     }
-    
-    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext searchContext) {
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext searchContext) {
         List<T> uiObjects = findAll(uiObject, by, searchContext);
 
         for (T uiObjectInstance : uiObjects) {
@@ -109,24 +113,24 @@ public class Browser {
         return uiObjects;
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by, SearchContext searchContext) {
         List<WebElement> elements = searchContext.findElements(by);
         List<T> uiObjects = new ArrayList();
 
         for (WebElement element : elements) {
-            uiObjects.add(getUIObject(uiObject, element));
+            uiObjects.add(displayed(uiObject, element));
         }
         return uiObjects;
     }
 
-    public <T extends WrapsElement> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
         return findAll(uiObject, by, driver);
     }
 
-    public <T extends Named & WrapsElement> List<T> findAll(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return findAll(uiObject, name, by, driver);
     }
-    
+
     public void openUrl(String url, String... params) {
         try {
             open(new Url(url), params);

@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
+import org.openqa.selenium.WebElement;
 
 /**
  *
@@ -53,6 +54,11 @@ public class MockPage extends Page {
     @Override
     public MockPage setParams(String[] params) {
         return (MockPage) super.setParams(params);
+    }
+
+    @Override
+    public WebElement getWrappedElement() {
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
 }
