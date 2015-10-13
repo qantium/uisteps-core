@@ -167,6 +167,14 @@ public class Browser {
 
     }
 
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By locator, SearchContext context) {
+        return onDisplayed(find(uiObject, locator, context));
+    }
+    
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By locator) {
+        return onDisplayed(find(uiObject, locator));
+    }
+    
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return onDisplayed(uiObjectFactory.instatiate(uiObject));
     }

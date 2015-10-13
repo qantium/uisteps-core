@@ -49,6 +49,7 @@ public abstract class RadioButtonGroup extends UIElement {
     public RadioButton getSelectedButton() {
 
         for (WebElement button : wrappedRadio.getButtons()) {
+
             if (button.isSelected()) {
                 return new RadioButton(button);
             }
@@ -61,10 +62,11 @@ public abstract class RadioButtonGroup extends UIElement {
     }
 
     public Object selectByValue(String value) {
+
         for (RadioButton button : getButtons()) {
             String buttonValue = button.getValue();
+
             if (value.equals(buttonValue)) {
-                button.setName(button.getName() + "from " + this.getName());
                 return button.select();
             }
         }
@@ -75,19 +77,24 @@ public abstract class RadioButtonGroup extends UIElement {
         List<RadioButton> buttons = getButtons();
 
         if (index < 0 || index >= buttons.size()) {
-            throw new AssertionError(String.format("Cannot locate radio button with index: %d", index));
+            throw new AssertionError("Cannot locate radio button with index: " + index);
         }
 
         RadioButton button = buttons.get(index);
-        button.setName(button.getName() + "from " + this.getName());
-
+        button.setIndex(index);
         button.select();
     }
 
     public class RadioButton extends UIElement {
 
+        private Integer index = null;
+
         public RadioButton(WebElement wrappedElement) {
             super(wrappedElement);
+        }
+
+        public void setIndex(Integer index) {
+            this.index = index;
         }
 
         public Object select() {
@@ -96,17 +103,23 @@ public abstract class RadioButtonGroup extends UIElement {
         }
 
         public String getValue() {
-            return this.getWrappedElement().getAttribute("value");
-        }
-
-        @Override
-        public String toString() {
-            return getName();
+            return getWrappedElement().getAttribute("value");
         }
 
         @Override
         public Browser inOpenedBrowser() {
             return RadioButtonGroup.this.inOpenedBrowser();
+        }
+
+        @Override
+        public String toString() {
+            String name = getValue() + " from " + RadioButtonGroup.this;
+
+            if (index != null) {
+                return name + " by index " + index;
+            } else {
+                return name;
+            }
         }
     }
 }

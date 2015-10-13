@@ -15,7 +15,7 @@
  */
 package com.qantium.uisteps.core.user;
 
-import com.qantium.uisteps.core.Named;
+import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.BrowserList;
 import com.qantium.uisteps.core.browser.NoBrowserException;

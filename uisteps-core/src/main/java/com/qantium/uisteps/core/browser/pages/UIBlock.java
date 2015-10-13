@@ -15,8 +15,10 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
+import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
@@ -104,5 +106,20 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
     @Override
     public <T extends UIObject> T as(Class<T> uiObject) {
         return inOpenedBrowser().displayed(uiObject, getWrappedElement());
+    }
+    
+    @Override
+    public String getName() {
+        
+        if (StringUtils.isEmpty(super.getName())) {
+            setName(NameConvertor.humanize(getClass()));
+        }
+
+        return super.getName();
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

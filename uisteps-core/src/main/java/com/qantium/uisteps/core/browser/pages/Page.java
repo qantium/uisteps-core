@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -151,11 +152,6 @@ public abstract class Page implements UIObject {
     public <T extends UIObject> T as(Class<T> uiObject) {
         return inOpenedBrowser().displayed(uiObject);
     }
-    
-    @Override
-    public String getName() {
-        return name;
-    }
 
     @Override
     public void setName(String name) {
@@ -180,5 +176,15 @@ public abstract class Page implements UIObject {
     public WebElement getWrappedElement() {
         throw new UnsupportedOperationException("Page does not contain wrapped element!");
     }
-    
+
+    @Override
+    public String getName() {
+
+        if (name.equals(Page.DEFAULT_NAME)) {
+            setName(NameConvertor.humanize(getClass()));
+        }
+
+        return name;
+    }
+
 }
