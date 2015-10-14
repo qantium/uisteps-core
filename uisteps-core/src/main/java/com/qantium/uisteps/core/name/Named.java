@@ -22,4 +22,9 @@ package com.qantium.uisteps.core.name;
 public interface Named extends ru.yandex.qatools.htmlelements.element.Named {
     
     void setName(String name);
+    
+    default <T extends Named> T withName(String name) {
+        setName(name);
+        return (T) this;
+    }
 }

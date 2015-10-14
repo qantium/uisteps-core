@@ -15,8 +15,6 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import org.openqa.selenium.WebDriver;
-
 /**
  *
  * @author ASolyankin

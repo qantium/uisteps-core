@@ -15,6 +15,8 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -22,9 +24,36 @@ import org.openqa.selenium.internal.WrapsElement;
  *
  * @author ASolyankin
  */
-public interface UIObjectFactory {
+public class UIObjectFactory {
 
-    <T extends UIObject> T instatiate(Class<T> uiObject);
-    
-    <T extends WrapsElement> T instatiate(Class<T> uiObject, WebElement wrappedElement);
+    public <T extends UIObject> T instatiate(Class<T> uiObject) {
+
+        try {
+            return (T) ConstructorUtils.invokeConstructor(uiObject, null);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
+            throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
+        }
+    }
+
+    public <T extends UIObject & WrapsElement> T instatiate(Class<T> uiObject, WebElement wrappedElement) {
+
+        if (UIBlock.class.isAssignableFrom(uiObject)) {
+
+            T uiObjectInstance = instatiate(uiObject);
+            ((UIBlock) uiObjectInstance).setWrappedElement(wrappedElement);
+            return uiObjectInstance;
+
+        }
+
+        if (UIElement.class.isAssignableFrom(uiObject)) {
+
+            try {
+                return (T) ConstructorUtils.invokeConstructor(uiObject, wrappedElement);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
+                throw new RuntimeException("Cannot instantiate " + uiObject + " with parameter " + wrappedElement + ".\nCause: " + ex);
+            }
+        }
+
+        throw new RuntimeException("Cannot instantiate! " + uiObject + " is not assignable from UIBlock or UIElement!");
+    }
 }

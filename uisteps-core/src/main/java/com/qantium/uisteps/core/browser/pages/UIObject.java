@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
-import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**

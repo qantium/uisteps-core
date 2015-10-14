@@ -16,10 +16,12 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
@@ -63,14 +65,6 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         return inOpenedBrowser().then(value);
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
     public void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }
@@ -87,30 +81,14 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
-    }
-
     @Override
     public <T extends UIObject> T as(Class<T> uiObject) {
         return inOpenedBrowser().displayed(uiObject, getWrappedElement());
     }
-    
+
     @Override
     public String getName() {
-        
+
         if (StringUtils.isEmpty(super.getName())) {
             setName(NameConvertor.humanize(getClass()));
         }
@@ -121,5 +99,59 @@ public abstract class UIBlock extends HtmlElement implements UIObject {
     @Override
     public String toString() {
         return getName();
+    }
+
+    //onDisplayed
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject, this);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, by, this);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, this);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, by, this);
+    }
+
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
+    }
+
+    //Find 
+    public <T extends UIObject> T find(Class<T> uiObject) {
+        return inOpenedBrowser().find(uiObject, this);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, By by) {
+        return inOpenedBrowser().find(uiObject, by, this);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name) {
+        return inOpenedBrowser().find(uiObject, name, this);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().find(uiObject, name, by, this);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
+        return inOpenedBrowser().findAll(uiObject, this);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().findAll(uiObject, by, this);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name) {
+        return inOpenedBrowser().findAll(uiObject, name, this);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().findAll(uiObject, name, by, this);
     }
 }

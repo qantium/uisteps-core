@@ -16,9 +16,11 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -96,14 +98,6 @@ public abstract class Page implements UIObject {
         return inOpenedBrowser().then(value);
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
     public Object executeScript(String script) {
         return inOpenedBrowser().executeScript(script);
     }
@@ -126,22 +120,6 @@ public abstract class Page implements UIObject {
 
     public void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().find(uiObject, name, by);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().findAll(uiObject, name, by);
     }
 
     public void refresh() {
@@ -186,5 +164,106 @@ public abstract class Page implements UIObject {
 
         return name;
     }
+    
+    //onDisplayed
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
+    }
 
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, by);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, by, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name) {
+        return inOpenedBrowser().onDisplayed(uiObject, name);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, by);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, by, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
+    }
+    
+    //Find 
+    public <T extends UIObject> T find(Class<T> uiObject) {
+        return inOpenedBrowser().find(uiObject);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, By by) {
+        return inOpenedBrowser().find(uiObject, by);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().find(uiObject, context);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().find(uiObject, by, context);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name) {
+        return inOpenedBrowser().find(uiObject, name);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().find(uiObject, name, by);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().find(uiObject, name, context);
+    }
+
+    public <T extends UIObject> T find(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().find(uiObject, name, by, context);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
+        return inOpenedBrowser().findAll(uiObject);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().findAll(uiObject, by);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().findAll(uiObject, context);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().findAll(uiObject, by, context);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name) {
+        return inOpenedBrowser().findAll(uiObject, name);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().findAll(uiObject, name, by);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().findAll(uiObject, name, context);
+    }
+
+    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().findAll(uiObject, name, by, context);
+    }
 }

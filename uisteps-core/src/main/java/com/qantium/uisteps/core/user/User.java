@@ -24,6 +24,8 @@ import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
@@ -113,14 +115,6 @@ public class User implements Named {
         return inOpenedBrowser().open(page, url, params);
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
     public <T extends Page> T open(Class<T> page, String... params) {
         return inOpenedBrowser().open(page, params);
     }
@@ -207,6 +201,49 @@ public class User implements Named {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public <T extends Named> T withName(String name) {
+        setName(name);
+        return (T) this;
+    }
+    
+    //onDisplayed
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, by);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, by, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name) {
+        return inOpenedBrowser().onDisplayed(uiObject, name);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, by);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayed(uiObject, name, by, context);
+    }
+
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
     }
 
 }
