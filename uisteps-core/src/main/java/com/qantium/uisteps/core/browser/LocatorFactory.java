@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import java.lang.reflect.Field;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
@@ -41,6 +42,15 @@ public class LocatorFactory {
 
     public By getLocator(Object uiObject) {
         return getLocator(uiObject.getClass());
+    }
+    
+    public By getLocator(Field field) {
+        
+        if (field.isAnnotationPresent(FindBy.class)) {
+            return getLocator(field.getAnnotation(FindBy.class));
+        } else {
+            return null;
+        }
     }
 
     public By getLocator(FindBy findBy) {
