@@ -391,7 +391,4 @@ public class Browser {
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
         return finder.findAll(uiObject, name, by, context);
     }
-    
-    
-
 }

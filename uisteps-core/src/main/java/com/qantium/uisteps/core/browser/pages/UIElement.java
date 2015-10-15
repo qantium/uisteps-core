@@ -1,11 +1,11 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 
@@ -50,7 +50,7 @@ public abstract class UIElement extends TypifiedElement implements UIObject {
     public <T extends UIObject> T as(Class<T> uiObject) {
         return inOpenedBrowser().displayed(uiObject, getWrappedElement());
     }
-    
+
     @Override
     public String getName() {
 
@@ -60,74 +60,48 @@ public abstract class UIElement extends TypifiedElement implements UIObject {
 
         return super.getName();
     }
-    
+
+    @Override
+    public <T extends Named> T withName(String name) {
+        setName(name);
+        return (T) this;
+    }
+
     @Override
     public String toString() {
         return getName();
     }
-    
+
     //Find 
     public <T extends UIObject> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(uiObject);
+        return inOpenedBrowser().find(uiObject, getWrappedElement());
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, context);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, by, context);
+        return inOpenedBrowser().find(uiObject, by, getWrappedElement());
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, String name) {
-        return inOpenedBrowser().find(uiObject, name);
+        return inOpenedBrowser().find(uiObject, name, getWrappedElement());
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().find(uiObject, name, by);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, name, context);
-    }
-
-    public <T extends UIObject> T find(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, name, by, context);
+        return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(uiObject);
+        return inOpenedBrowser().findAll(uiObject, getWrappedElement());
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, context);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, by, context);
+        return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().findAll(uiObject, name);
+        return inOpenedBrowser().findAll(uiObject, name, getWrappedElement());
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().findAll(uiObject, name, by);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, name, context);
-    }
-
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, name, by, context);
+        return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
 }
