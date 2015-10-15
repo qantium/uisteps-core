@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
-import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.codehaus.plexus.util.StringUtils;

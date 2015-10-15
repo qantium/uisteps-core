@@ -43,13 +43,13 @@ public class LocatorFactory {
     public By getLocator(Object uiObject) {
         return getLocator(uiObject.getClass());
     }
-    
+
     public By getLocator(Field field) {
-        
+
         if (field.isAnnotationPresent(FindBy.class)) {
             return getLocator(field.getAnnotation(FindBy.class));
         } else {
-            return null;
+            return getLocator(field.getType());
         }
     }
 
