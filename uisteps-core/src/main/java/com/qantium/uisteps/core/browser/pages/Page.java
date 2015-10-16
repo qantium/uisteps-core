@@ -166,7 +166,7 @@ public class Page implements UIObject {
 
         return name;
     }
-    
+
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
@@ -203,7 +203,7 @@ public class Page implements UIObject {
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
-    
+
     //Find 
     public <T extends UIObject> T find(Class<T> uiObject) {
         return inOpenedBrowser().find(uiObject);
@@ -267,5 +267,41 @@ public class Page implements UIObject {
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
         return inOpenedBrowser().findAll(uiObject, name, by, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+        return inOpenedBrowser().uiElements(proxyElements);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+        return inOpenedBrowser().uiElements(uiObject);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+        return inOpenedBrowser().uiElements(uiObject, by);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().uiElements(uiObject, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().uiElements(uiObject, by, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+        return inOpenedBrowser().uiElements(uiObject, name);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().uiElements(uiObject, name, by);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().uiElements(uiObject, name, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().uiElements(uiObject, name, by, context);
     }
 }

@@ -106,4 +106,24 @@ public class UIElement extends TypifiedElement implements UIObject {
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
+    
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+        return inOpenedBrowser().uiElements(proxyElements);
+    }
+    
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+        return inOpenedBrowser().uiElements(uiObject, getWrappedElement());
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+        return inOpenedBrowser().uiElements(uiObject, by, getWrappedElement());
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+        return inOpenedBrowser().uiElements(uiObject, name, getWrappedElement());
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().uiElements(uiObject, name, by, getWrappedElement());
+    }
 }

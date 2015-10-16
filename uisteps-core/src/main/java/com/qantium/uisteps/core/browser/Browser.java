@@ -19,6 +19,7 @@ import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.UIObjectInitializer;
 import com.qantium.uisteps.core.browser.pages.MockPage;
 import com.qantium.uisteps.core.browser.pages.Page;
+import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.UIObjectFactory;
 import com.qantium.uisteps.core.browser.pages.Url;
@@ -391,4 +392,40 @@ public class Browser {
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
         return finder.findAll(uiObject, name, by, context);
     }
+
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+        return finder.uiElements(proxyElements);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+        return finder.uiElements(uiObject);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+        return finder.uiElements(uiObject, by);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+        return finder.uiElements(uiObject, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+        return finder.uiElements(uiObject, by, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+        return finder.uiElements(uiObject, name);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+        return finder.uiElements(uiObject, name, by);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+        return finder.uiElements(uiObject, name, context);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+        return finder.uiElements(uiObject, name, by, context);
+    } 
 }

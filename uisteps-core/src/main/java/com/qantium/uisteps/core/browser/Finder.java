@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.UIObjectFactory;
 import com.qantium.uisteps.core.browser.pages.UIObjectInitializer;
@@ -109,6 +110,42 @@ public class Finder {
         return withName(findAll(uiObject, by, context), name);
     }
 
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+        return new UIElements(proxyElements);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+        return uiElements(findAll(uiObject));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+        return uiElements(findAll(uiObject, by));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+        return uiElements(findAll(uiObject, context));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+        return uiElements(findAll(uiObject, by, context));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+        return uiElements(findAll(uiObject, name));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+        return uiElements(findAll(uiObject, name, by));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+        return uiElements(findAll(uiObject, name, context));
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+        return uiElements(findAll(uiObject, name, by, context));
+    }
+
     protected <T extends UIObject> List<T> withName(List<T> uiObjects, String name) {
 
         for (Named uiObject : uiObjects) {
@@ -116,4 +153,5 @@ public class Finder {
         }
         return uiObjects;
     }
+
 }

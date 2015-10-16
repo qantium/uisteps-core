@@ -154,4 +154,24 @@ public class UIBlock extends HtmlElement implements UIObject {
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, this);
     }
+
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+        return inOpenedBrowser().uiElements(proxyElements);
+    }
+    
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+        return inOpenedBrowser().uiElements(uiObject, this);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+        return inOpenedBrowser().uiElements(uiObject, by, this);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+        return inOpenedBrowser().uiElements(uiObject, name, this);
+    }
+
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().uiElements(uiObject, name, by, this);
+    }
 }

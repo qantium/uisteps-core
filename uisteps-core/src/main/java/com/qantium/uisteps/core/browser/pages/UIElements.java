@@ -140,11 +140,11 @@ public class UIElements<E extends UIObject> implements Named {
     public UIElements<E> exceptInner(int fromIndex, int toIndex) {
         LinkedList<E> proxyList = getProxyList();
         proxyList.subList(fromIndex, toIndex).clear();
-        return getProxyUIElements(proxyList);
+        return uiElements(proxyList);
     }
 
     public UIElements<E> exceptOuter(int fromIndex, int toIndex) {
-        return getProxyUIElements(getProxyList().subList(fromIndex, toIndex));
+        return uiElements(getProxyList().subList(fromIndex, toIndex));
     }
 
     public UIElements<E> except(Integer... indexes) {
@@ -155,10 +155,10 @@ public class UIElements<E extends UIObject> implements Named {
             elements.remove(index);
         }
 
-        return getProxyUIElements(proxyList);
+        return uiElements(proxyList);
     }
 
-    private UIElements<E> getProxyUIElements(List<E> proxyElements) {
+    private UIElements<E> uiElements(List<E> proxyElements) {
         return new UIElements(proxyElements);
     }
 
