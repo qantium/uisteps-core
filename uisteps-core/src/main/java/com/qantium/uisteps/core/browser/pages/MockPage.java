@@ -56,9 +56,4 @@ public class MockPage extends Page {
         return (MockPage) super.setParams(params);
     }
 
-    @Override
-    public WebElement getWrappedElement() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
 }

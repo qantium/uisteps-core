@@ -15,15 +15,11 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
-import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
 /**
  *
@@ -129,11 +125,6 @@ public class Page implements UIObject {
     }
 
     @Override
-    public <T extends UIObject> T as(Class<T> uiObject) {
-        return inOpenedBrowser().displayed(uiObject);
-    }
-
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -153,8 +144,8 @@ public class Page implements UIObject {
     }
 
     @Override
-    public WebElement getWrappedElement() {
-        throw new UnsupportedOperationException("Page does not contain wrapped element!");
+    public SearchContext getSearchContext() {
+        return inOpenedBrowser().getDriver();
     }
 
     @Override
@@ -269,39 +260,39 @@ public class Page implements UIObject {
         return inOpenedBrowser().findAll(uiObject, name, by, context);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
         return inOpenedBrowser().uiElements(proxyElements);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return inOpenedBrowser().uiElements(uiObject, by);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, context);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, by, context);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return inOpenedBrowser().uiElements(uiObject, name);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, name, context);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, name, by, context);
     }
 }

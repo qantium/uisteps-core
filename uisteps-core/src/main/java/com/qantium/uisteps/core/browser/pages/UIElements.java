@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIObject> implements Named {
+public class UIElements<E extends UIElement> implements Named {
 
     private String name;
     private final LinkedList<E> elements = new LinkedList();

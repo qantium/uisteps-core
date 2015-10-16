@@ -15,13 +15,12 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
@@ -79,11 +78,6 @@ public class UIBlock extends HtmlElement implements UIObject {
 
     public void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
-    }
-
-    @Override
-    public <T extends UIObject> T as(Class<T> uiObject) {
-        return inOpenedBrowser().displayed(uiObject, getWrappedElement());
     }
 
     @Override
@@ -155,23 +149,28 @@ public class UIBlock extends HtmlElement implements UIObject {
         return inOpenedBrowser().findAll(uiObject, name, by, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
         return inOpenedBrowser().uiElements(proxyElements);
     }
     
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return inOpenedBrowser().uiElements(uiObject, by, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return inOpenedBrowser().uiElements(uiObject, name, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by, this);
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        return getWrappedElement();
     }
 }

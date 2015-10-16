@@ -55,8 +55,12 @@ public class User implements Named {
         this(browserManager, DEFAULT_NAME);
     }
 
+    public BrowserManager getBrowserManager() {
+        return browserManager;
+    }
+
     public Browser inOpenedBrowser() {
-        if (browserManager.hasAny()) {
+        if (getBrowserManager().hasAny()) {
             openNewBrowser();
         }
         return BrowserManager.getCurrentBrowser();
@@ -71,35 +75,35 @@ public class User implements Named {
     }
 
     public Browser openNewBrowser(String withDriver) {
-        return browserManager.openNewBrowser(withDriver);
+        return getBrowserManager().openNewBrowser(withDriver);
     }
 
     public Browser openNewBrowser() {
-        return browserManager.openNewBrowser();
+        return getBrowserManager().openNewBrowser();
     }
 
     public Browser switchToNextBrowser() {
-        return browserManager.switchToNextBrowser();
+        return getBrowserManager().switchToNextBrowser();
     }
 
     public Browser switchToPreviousBrowser() {
-        return browserManager.switchToPreviousBrowser();
+        return getBrowserManager().switchToPreviousBrowser();
     }
 
     public Browser switchToDefaultBrowser() {
-        return browserManager.switchToFirstBrowser();
+        return getBrowserManager().switchToFirstBrowser();
     }
 
     public Browser switchToBrowserByIndex(int index) throws NoBrowserException {
-        return browserManager.switchToBrowserByIndex(index);
+        return getBrowserManager().switchToBrowserByIndex(index);
     }
 
     public Browser switchToLastBrowser() {
-        return browserManager.switchToLastBrowser();
+        return getBrowserManager().switchToLastBrowser();
     }
 
     public int count() {
-        return browserManager.size();
+        return getBrowserManager().size();
     }
 
     public void openUrl(String url, String... params) {
@@ -183,12 +187,11 @@ public class User implements Named {
     }
 
     public boolean see(UIObject uiObject) {
-        inOpenedBrowser().getUIObjectInitializer().initialize(uiObject);
-        return uiObject.isDisplayed();
+        return inOpenedBrowser().initialize(uiObject).isDisplayed();
     }
 
     public boolean see(Class<? extends UIObject> uiObject) {
-        return see(inOpenedBrowser().getUIObjectFactory().instatiate(uiObject));
+        return see(inOpenedBrowser().instatiate(uiObject));
     }
 
     @Override

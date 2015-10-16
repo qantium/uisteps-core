@@ -18,20 +18,24 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.BrowserManager;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author ASolyankin
  */
-public interface UIObject extends WrapsElement, Named {
+public interface UIObject extends Named {
 
     boolean isDisplayed();
 
-    
     default Browser inOpenedBrowser() {
         return BrowserManager.getCurrentBrowser();
     }
     
-    <T extends UIObject> T as(Class<T> uiObject);
+    SearchContext getSearchContext();
+    
+    default void initialize() {
+        
+    }
 }

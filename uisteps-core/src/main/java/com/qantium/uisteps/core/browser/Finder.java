@@ -15,16 +15,14 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.browser.pages.UIObjectFactory;
-import com.qantium.uisteps.core.browser.pages.UIObjectInitializer;
 import com.qantium.uisteps.core.name.Named;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -39,20 +37,24 @@ public class Finder {
         this.browser = browser;
     }
 
+    public Browser getBrowser() {
+        return browser;
+    }
+
     public <T extends UIObject> T find(Class<T> uiObject) {
-        return find(uiObject, browser.getLocatorFactory().getLocator(uiObject));
+        return find(uiObject, getBrowser().getLocatorFactory().getLocator(uiObject));
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, By by) {
-        return find(uiObject, by, browser.getDriver());
+        return find(uiObject, by, getBrowser().getDriver());
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, SearchContext context) {
-        return find(uiObject, browser.getLocatorFactory().getLocator(uiObject), context);
+        return find(uiObject, getBrowser().getLocatorFactory().getLocator(uiObject), context);
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, By by, SearchContext context) {
-        return browser.displayed(uiObject, context.findElement(by));
+        return getBrowser().displayed(uiObject, context.findElement(by));
     }
 
     public <T extends UIObject> T find(Class<T> uiObject, String name) {
@@ -72,15 +74,15 @@ public class Finder {
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
-        return findAll(uiObject, browser.getLocatorFactory().getLocator(uiObject));
+        return findAll(uiObject, getBrowser().getLocatorFactory().getLocator(uiObject));
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
-        return findAll(uiObject, by, browser.getDriver());
+        return findAll(uiObject, by, getBrowser().getDriver());
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, SearchContext context) {
-        return findAll(uiObject, browser.getLocatorFactory().getLocator(uiObject), context);
+        return findAll(uiObject, getBrowser().getLocatorFactory().getLocator(uiObject), context);
     }
 
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by, SearchContext context) {
@@ -89,7 +91,7 @@ public class Finder {
         List<T> uiObjects = new ArrayList();
 
         for (WebElement element : elements) {
-            uiObjects.add(browser.displayed(uiObject, element));
+            uiObjects.add(getBrowser().displayed(uiObject, element));
         }
         return uiObjects;
     }
@@ -110,39 +112,39 @@ public class Finder {
         return withName(findAll(uiObject, by, context), name);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
         return new UIElements(proxyElements);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
         return uiElements(findAll(uiObject));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return uiElements(findAll(uiObject, by));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
         return uiElements(findAll(uiObject, context));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
         return uiElements(findAll(uiObject, by, context));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return uiElements(findAll(uiObject, name));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return uiElements(findAll(uiObject, name, by));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
         return uiElements(findAll(uiObject, name, context));
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
         return uiElements(findAll(uiObject, name, by, context));
     }
 
