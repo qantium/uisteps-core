@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.BrowserManager;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
@@ -27,7 +28,10 @@ public interface UIObject extends WrapsElement, Named {
 
     boolean isDisplayed();
 
-    Browser inOpenedBrowser();
+    
+    default Browser inOpenedBrowser() {
+        return BrowserManager.getCurrentBrowser();
+    }
     
     <T extends UIObject> T as(Class<T> uiObject);
 }

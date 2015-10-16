@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class Link extends UIElement {
+public class Link extends UIElement {
 
     private final ru.yandex.qatools.htmlelements.element.Link wrappedLink;
     

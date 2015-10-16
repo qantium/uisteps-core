@@ -21,16 +21,35 @@ import java.util.ArrayList;
  *
  * @author ASolyankin
  */
-public class BrowserList {
+public class BrowserManager {
 
     private int currentIndex;
     private final ArrayList<Browser> browsers = new ArrayList();
+    private final static ThreadLocal<Browser> browserThreadLocal = new ThreadLocal();
+    private final BrowserFactory browserFactory;
 
-    public Browser getCurrentBrowser() {
-        return browsers.get(currentIndex);
+    public BrowserManager(BrowserFactory browserFactory) {
+        this.browserFactory = browserFactory;
     }
     
-    public Browser switchToNextBrowser() throws BrowserListEmptyException {
+    public static Browser setCurrentBrowser(Browser browser) {
+        browserThreadLocal.set(browser);
+        return browser;
+    }
+
+    public static Browser getCurrentBrowser() {
+        return browserThreadLocal.get();
+    }
+    
+    public Browser openNewBrowser(String withDriver) {
+        return add(browserFactory.getBrowser(withDriver));
+    }
+
+    public Browser openNewBrowser() {
+        return add(browserFactory.getBrowser());
+    }
+    
+    public Browser switchToNextBrowser() {
 
         if (this.hasNext()) {
             return switchToBrowserByIndex(++currentIndex);
@@ -56,10 +75,10 @@ public class BrowserList {
         return switchToBrowserByIndex(this.size() - 1);
     }
 
-    public Browser switchToBrowserByIndex(int index) throws BrowserListEmptyException, NoBrowserException {
+    public Browser switchToBrowserByIndex(int index) {
 
-        if (this.isEmpty()) {
-            throw new BrowserListEmptyException();
+        if (this.hasAny()) {
+            throw new NoBrowserException("List of browsers is empty!");
         }
 
         if (index < 0) {
@@ -70,10 +89,14 @@ public class BrowserList {
             throw new NoBrowserException("Index is out of bounds! Index: " + index);
         }
 
-        currentIndex = index;
-        return getCurrentBrowser();
+        return setCurrentBrowser(index);
     }
 
+    protected Browser setCurrentBrowser(int index) {
+        currentIndex = index;
+        return setCurrentBrowser(browsers.get(currentIndex));
+    }
+    
     public int size() {
         return browsers.size();
     }
@@ -106,7 +129,7 @@ public class BrowserList {
         return currentIndex > 0;
     }
 
-    public boolean isEmpty() {
+    public boolean hasAny() {
         return browsers.isEmpty();
     }
 

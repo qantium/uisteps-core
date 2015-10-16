@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class Button extends UIElement {
+public class Button extends UIElement {
 
     public Button(WebElement wrappedElement) {
         super(wrappedElement);

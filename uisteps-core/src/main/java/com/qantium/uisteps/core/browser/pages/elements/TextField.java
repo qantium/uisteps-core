@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class TextField extends UIElement {
+public class TextField extends UIElement {
 
     public TextField(WebElement wrappedElement) {
         super(wrappedElement);

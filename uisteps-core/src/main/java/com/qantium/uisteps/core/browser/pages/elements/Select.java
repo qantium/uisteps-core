@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class Select extends UIElement {
+public class Select extends UIElement {
 
     private final ru.yandex.qatools.htmlelements.element.Select wrappedSelect;
 

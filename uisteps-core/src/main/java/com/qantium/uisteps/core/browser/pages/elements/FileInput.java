@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class FileInput extends UIElement {
+public class FileInput extends UIElement {
 
     private final ru.yandex.qatools.htmlelements.element.FileInput wrappedFileInput;
     

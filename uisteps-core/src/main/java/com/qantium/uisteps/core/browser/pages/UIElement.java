@@ -1,5 +1,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
@@ -13,12 +15,12 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
  *
  * @author ASolyankin
  */
-public abstract class UIElement extends TypifiedElement implements UIObject {
+public class UIElement extends TypifiedElement implements UIObject {
 
     public UIElement(WebElement wrappedElement) {
         super(wrappedElement);
     }
-
+    
     public String getText() {
         return inOpenedBrowser().getTextFrom(this);
     }

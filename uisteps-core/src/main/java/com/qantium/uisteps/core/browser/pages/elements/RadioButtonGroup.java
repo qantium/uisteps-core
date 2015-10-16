@@ -26,7 +26,7 @@ import ru.yandex.qatools.htmlelements.element.Radio;
  *
  * @author ASolyankin
  */
-public abstract class RadioButtonGroup extends UIElement {
+public class RadioButtonGroup extends UIElement {
 
     private final Radio wrappedRadio;
 

@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public abstract class CheckBox extends UIElement {
+public class CheckBox extends UIElement {
 
     private final ru.yandex.qatools.htmlelements.element.CheckBox wrappedCheckBox;
     

@@ -7,12 +7,12 @@ import org.openqa.selenium.WebDriver;
  *
  * @author ASolyankin
  */
-public class WindowList {
+public class WindowManager {
 
     private int currentHandleIndex;
     private final WebDriver driver;
 
-    public WindowList(WebDriver driver) {
+    public WindowManager(WebDriver driver) {
         this.driver = driver;
     }
 

@@ -15,6 +15,8 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
@@ -26,7 +28,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
  *
  * @author ASolyankin
  */
-public abstract class UIBlock extends HtmlElement implements UIObject {
+public class UIBlock extends HtmlElement implements UIObject {
 
     public UIBlock() {
     }

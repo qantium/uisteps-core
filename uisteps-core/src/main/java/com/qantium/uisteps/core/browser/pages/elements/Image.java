@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author A.Solyankin
  */
-public abstract class Image extends UIElement {
+public class Image extends UIElement {
     
     public Image(WebElement wrappedElement) {
         super(wrappedElement);

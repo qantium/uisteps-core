@@ -16,14 +16,13 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.Browser;
 import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
  */
-public abstract class TextBlock extends UIElement {
+public class TextBlock extends UIElement {
 
     public TextBlock(WebElement wrappedElement) {
         super(wrappedElement);

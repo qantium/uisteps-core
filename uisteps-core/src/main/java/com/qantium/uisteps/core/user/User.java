@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.user;
 
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
-import com.qantium.uisteps.core.browser.BrowserList;
+import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
@@ -34,25 +34,32 @@ import org.openqa.selenium.internal.WrapsElement;
  */
 public class User implements Named {
 
-    private final BrowserList browserList = new BrowserList();
-    private final BrowserFactory browserFactory;
+    private final BrowserManager browserManager;
     public static final String DEFAULT_NAME = "user";
     private String name;
 
-    public User(BrowserFactory browserFactory, String name) {
-        this.browserFactory = browserFactory;
+    public User(BrowserManager browserManager, String name) {
+        this.browserManager = browserManager;
         this.name = name;
+    }
+
+    public User(BrowserFactory browserFactory, String name) {
+        this(new BrowserManager(browserFactory), name);
     }
 
     public User(BrowserFactory browserFactory) {
         this(browserFactory, DEFAULT_NAME);
     }
 
+    public User(BrowserManager browserManager) {
+        this(browserManager, DEFAULT_NAME);
+    }
+
     public Browser inOpenedBrowser() {
-        if (browserList.isEmpty()) {
+        if (browserManager.hasAny()) {
             openNewBrowser();
         }
-        return browserList.getCurrentBrowser();
+        return BrowserManager.getCurrentBrowser();
     }
 
     protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
@@ -64,39 +71,35 @@ public class User implements Named {
     }
 
     public Browser openNewBrowser(String withDriver) {
-        return in(browserFactory.getBrowser(withDriver));
+        return browserManager.openNewBrowser(withDriver);
     }
 
     public Browser openNewBrowser() {
-        return in(browserFactory.getBrowser());
-    }
-
-    public Browser in(Browser browser) {
-        return browserList.add(browser);
+        return browserManager.openNewBrowser();
     }
 
     public Browser switchToNextBrowser() {
-        return browserList.switchToNextBrowser();
+        return browserManager.switchToNextBrowser();
     }
 
     public Browser switchToPreviousBrowser() {
-        return browserList.switchToPreviousBrowser();
+        return browserManager.switchToPreviousBrowser();
     }
 
     public Browser switchToDefaultBrowser() {
-        return browserList.switchToFirstBrowser();
+        return browserManager.switchToFirstBrowser();
     }
 
     public Browser switchToBrowserByIndex(int index) throws NoBrowserException {
-        return browserList.switchToBrowserByIndex(index);
+        return browserManager.switchToBrowserByIndex(index);
     }
 
     public Browser switchToLastBrowser() {
-        return browserList.switchToLastBrowser();
+        return browserManager.switchToLastBrowser();
     }
 
     public int count() {
-        return browserList.size();
+        return browserManager.size();
     }
 
     public void openUrl(String url, String... params) {
@@ -208,7 +211,7 @@ public class User implements Named {
         setName(name);
         return (T) this;
     }
-    
+
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);

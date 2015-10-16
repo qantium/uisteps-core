@@ -15,6 +15,8 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
@@ -28,7 +30,7 @@ import org.openqa.selenium.WebElement;
  * @author ASolyankin
  */
 @Root
-public abstract class Page implements UIObject {
+public class Page implements UIObject {
 
     private Url url;
     private UrlFactory urlFactory;

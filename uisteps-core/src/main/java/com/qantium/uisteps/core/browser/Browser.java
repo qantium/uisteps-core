@@ -48,7 +48,7 @@ public class Browser {
     private final WebDriver driver;
     private final UIObjectFactory uiObjectFactory;
     private final UIObjectInitializer initializer;
-    private final WindowList windowList;
+    private final WindowManager windowManager;
     private final LocatorFactory locatorFactory;
     private final Finder finder;
     private boolean opened;
@@ -59,7 +59,7 @@ public class Browser {
         this.initializer = initializer;
         this.locatorFactory = locatorFactory;
         finder = new Finder(this);
-        windowList = new WindowList(driver);
+        windowManager = new WindowManager(driver);
     }
 
     public Browser(WebDriver driver) {
@@ -186,23 +186,23 @@ public class Browser {
 
     public void openNewWindow() {
         executeScript("window.open()");
-        windowList.switchToNextWindow();
+        windowManager.switchToNextWindow();
     }
 
     public void switchToNextWindow() {
-        windowList.switchToNextWindow();
+        windowManager.switchToNextWindow();
     }
 
     public void switchToPreviousWindow() {
-        windowList.switchToPreviousWindow();
+        windowManager.switchToPreviousWindow();
     }
 
     public void switchToDefaultWindow() {
-        windowList.switchToDefaultWindow();
+        windowManager.switchToDefaultWindow();
     }
 
     public void switchToWindowByIndex(int index) {
-        windowList.switchToWindowByIndex(index);
+        windowManager.switchToWindowByIndex(index);
     }
 
     public void refreshCurrentPage() {
@@ -275,8 +275,8 @@ public class Browser {
         return uiObjectFactory;
     }
 
-    public WindowList getWindowList() {
-        return windowList;
+    public WindowManager getWindowList() {
+        return windowManager;
     }
 
     public LocatorFactory getLocatorFactory() {
