@@ -39,6 +39,19 @@ public class Page implements UIObject {
         this.name = name;
     }
 
+    public Page(UrlFactory urlFactory) {
+        this(urlFactory, DEFAULT_NAME);
+    }
+    
+    public Page(Url url, String name) {
+        this.url = url;
+        this.name = name;
+    }
+
+    public Page(Url url) {
+        this(url, DEFAULT_NAME);
+    }
+
     public UrlFactory getUrlFactory() {
         return urlFactory;
     }
@@ -54,19 +67,6 @@ public class Page implements UIObject {
     public Page setParams(String[] params) {
         this.params = params;
         return this;
-    }
-
-    public Page(UrlFactory urlFactory) {
-        this(urlFactory, DEFAULT_NAME);
-    }
-
-    public Page(Url url, String name) {
-        this.url = url;
-        this.name = name;
-    }
-
-    public Page(Url url) {
-        this(url, DEFAULT_NAME);
     }
 
     public Url getUrl() {
@@ -264,35 +264,35 @@ public class Page implements UIObject {
         return inOpenedBrowser().uiElements(proxyElements);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return inOpenedBrowser().uiElements(uiObject, by);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, by, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return inOpenedBrowser().uiElements(uiObject, name);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, name, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
         return inOpenedBrowser().uiElements(uiObject, name, by, context);
     }
 }

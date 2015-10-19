@@ -19,7 +19,6 @@ import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.BrowserManager;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *

@@ -379,39 +379,39 @@ public class Browser {
         return getFinder().findAll(uiObject, name, by, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
         return getFinder().uiElements(proxyElements);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
         return getFinder().uiElements(uiObject);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return getFinder().uiElements(uiObject, by);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
         return getFinder().uiElements(uiObject, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
         return getFinder().uiElements(uiObject, by, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return getFinder().uiElements(uiObject, name);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return getFinder().uiElements(uiObject, name, by);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
         return getFinder().uiElements(uiObject, name, context);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
         return getFinder().uiElements(uiObject, name, by, context);
     }
 

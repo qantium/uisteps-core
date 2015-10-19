@@ -149,23 +149,23 @@ public class UIBlock extends HtmlElement implements UIObject {
         return inOpenedBrowser().findAll(uiObject, name, by, this);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
         return inOpenedBrowser().uiElements(proxyElements);
     }
     
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject, this);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return inOpenedBrowser().uiElements(uiObject, by, this);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return inOpenedBrowser().uiElements(uiObject, name, this);
     }
 
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by, this);
     }
 

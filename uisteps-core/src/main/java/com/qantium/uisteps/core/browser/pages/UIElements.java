@@ -21,13 +21,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIElement> implements Named {
+public class UIElements<E extends UIObject> implements Named {
 
     private String name;
     private final LinkedList<E> elements = new LinkedList();
@@ -89,7 +91,7 @@ public class UIElements<E extends UIElement> implements Named {
         return elements.get(index);
     }
 
-    public E get(String name) {
+    public E get(String attribute, String value) {
 
         Iterator<E> iterator = elements.iterator();
 
@@ -97,12 +99,28 @@ public class UIElements<E extends UIElement> implements Named {
 
             E element = iterator.next();
 
-            if (element.getWrappedElement().getText().equals(name)) {
-                return element;
+            if (element instanceof WrapsElement) {
+
+                WebElement wrappedElement = ((WrapsElement) element).getWrappedElement();
+                String attr;
+
+                if (attribute.equals("innerText")) {
+                    attr = wrappedElement.getText();
+                } else {
+                    attr = wrappedElement.getAttribute(attribute);
+                }
+
+                if (attr.equals(value)) {
+                    return element;
+                }
             }
         }
 
-        throw new NoSuchElementException("Cannot find element by name " + name);
+        throw new NoSuchElementException("Cannot find element by attribute " + value);
+    }
+
+    public E get(String value) {
+        return get("innerText", value);
     }
 
     public UIElements<E> exceptFirst() {
