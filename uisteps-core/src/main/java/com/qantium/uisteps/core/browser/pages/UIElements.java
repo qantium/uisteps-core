@@ -72,11 +72,13 @@ public class UIElements<E extends UIObject> implements Named {
     }
 
     public E getFirst() {
-        return elements.getFirst();
+        E element = elements.getFirst();
+        return element.withName("first "  + element.getName());
     }
 
     public E getLast() {
-        return elements.getLast();
+        E element = elements.getLast();
+        return element.withName("last "  + element.getName());
     }
 
     public int size() {
@@ -88,7 +90,8 @@ public class UIElements<E extends UIObject> implements Named {
     }
 
     public E get(int index) {
-        return elements.get(index);
+        E element = elements.get(index);
+        return element.withName(element.getName() + " by index " + index);
     }
 
     public E get(String attribute, String value) {
@@ -104,14 +107,14 @@ public class UIElements<E extends UIObject> implements Named {
                 WebElement wrappedElement = ((WrapsElement) element).getWrappedElement();
                 String attr;
 
-                if (attribute.equals("innerText")) {
+                if (attribute.equals("text")) {
                     attr = wrappedElement.getText();
                 } else {
                     attr = wrappedElement.getAttribute(attribute);
                 }
 
                 if (attr.equals(value)) {
-                    return element;
+                    return element.withName(element.getName() + " with " + attribute +  " " + attr);
                 }
             }
         }
@@ -120,7 +123,7 @@ public class UIElements<E extends UIObject> implements Named {
     }
 
     public E get(String value) {
-        return get("innerText", value);
+        return get("text", value);
     }
 
     public UIElements<E> exceptFirst() {

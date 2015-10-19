@@ -4,6 +4,7 @@ import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -17,7 +18,7 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 public class UIElement extends TypifiedElement implements UIObject {
 
     private WebElement wrappedElement;
-    
+
     public UIElement(WebElement wrappedElement) {
         super(wrappedElement);
         this.wrappedElement = wrappedElement;
@@ -26,7 +27,7 @@ public class UIElement extends TypifiedElement implements UIObject {
     public UIElement() {
         super(null);
     }
-    
+
     @Override
     public WebElement getWrappedElement() {
         return wrappedElement;
@@ -35,7 +36,7 @@ public class UIElement extends TypifiedElement implements UIObject {
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
     }
-    
+
     public String getText() {
         return inOpenedBrowser().getTextFrom(this);
     }
@@ -71,12 +72,6 @@ public class UIElement extends TypifiedElement implements UIObject {
         }
 
         return super.getName();
-    }
-
-    @Override
-    public <T extends Named> T withName(String name) {
-        setName(name);
-        return (T) this;
     }
 
     @Override
@@ -116,11 +111,11 @@ public class UIElement extends TypifiedElement implements UIObject {
     public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
-    
+
     public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
         return inOpenedBrowser().uiElements(proxyElements);
     }
-    
+
     public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject, getWrappedElement());
     }
@@ -136,7 +131,7 @@ public class UIElement extends TypifiedElement implements UIObject {
     public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by, getWrappedElement());
     }
-    
+
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject, getWrappedElement());

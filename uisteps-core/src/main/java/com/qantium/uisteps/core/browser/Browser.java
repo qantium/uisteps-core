@@ -262,10 +262,6 @@ public class Browser {
         return new Then(new GetValueAction<>(value));
     }
 
-    public WindowManager getWindowList() {
-        return windowManager;
-    }
-
     public LocatorFactory getLocatorFactory() {
         return locatorFactory;
     }
