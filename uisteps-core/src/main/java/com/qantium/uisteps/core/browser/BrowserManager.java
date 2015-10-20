@@ -23,24 +23,53 @@ import java.util.ArrayList;
  */
 public class BrowserManager {
 
-    private int currentIndex;
-    private final ArrayList<Browser> browsers = new ArrayList();
-    private final static ThreadLocal<Browser> browserThreadLocal = new ThreadLocal();
+    private final static ThreadLocal<Integer> currentIndex = new ThreadLocal();
+    private final static ThreadLocal<ArrayList<Browser>> browsers = new ThreadLocal();
     private final BrowserFactory browserFactory;
 
     public BrowserManager(BrowserFactory browserFactory) {
         this.browserFactory = browserFactory;
+        init();
     }
-    
-    public static Browser setCurrentBrowser(Browser browser) {
-        browserThreadLocal.set(browser);
-        return browser;
+
+    public static ArrayList<Browser> getBrowsers() {
+        return browsers.get();
+    }
+
+    private static Integer decrementCurrentIndex() {
+        return setCurrentIndex(getCurrentIndex() - 1);
+    }
+
+    private static Integer incrementCurrentIndex() {
+        return setCurrentIndex(getCurrentIndex() + 1);
+    }
+
+    private static Integer getCurrentIndex() {
+        return currentIndex.get();
+    }
+
+    private static Integer setCurrentIndex(int index) {
+        currentIndex.set(index);
+        return getCurrentIndex();
+    }
+
+    public static void closeAllBrowsers() {
+
+        for (Browser browser : getBrowsers()) {
+            browser.getDriver().quit();
+        }
+        init();
+    }
+
+    private static void init() {
+        browsers.set(new ArrayList());
+        setCurrentIndex(-1);
     }
 
     public static Browser getCurrentBrowser() {
-        return browserThreadLocal.get();
+        return getBrowsers().get(getCurrentIndex());
     }
-    
+
     public Browser openNewBrowser(String withDriver) {
         return add(browserFactory.getBrowser(withDriver));
     }
@@ -48,11 +77,11 @@ public class BrowserManager {
     public Browser openNewBrowser() {
         return add(browserFactory.getBrowser());
     }
-    
+
     public Browser switchToNextBrowser() {
 
         if (this.hasNext()) {
-            return switchToBrowserByIndex(++currentIndex);
+            return switchToBrowserByIndex(incrementCurrentIndex());
         } else {
             return switchToFirstBrowser();
         }
@@ -61,7 +90,7 @@ public class BrowserManager {
     public Browser switchToPreviousBrowser() {
 
         if (this.hasPrevious()) {
-            return switchToBrowserByIndex(--currentIndex);
+            return switchToBrowserByIndex(decrementCurrentIndex());
         } else {
             return switchToLastBrowser();
         }
@@ -70,9 +99,9 @@ public class BrowserManager {
     public Browser switchToFirstBrowser() {
         return switchToBrowserByIndex(0);
     }
-    
+
     public Browser switchToLastBrowser() {
-        return switchToBrowserByIndex(this.size() - 1);
+        return switchToBrowserByIndex(getBrowsers().size() - 1);
     }
 
     public Browser switchToBrowserByIndex(int index) {
@@ -82,34 +111,26 @@ public class BrowserManager {
         }
 
         if (index < 0) {
-            throw new NoBrowserException("Index of browser must be positive! Index: " + index);
+            throw new NoBrowserException("Index of browser must not be negative! Index: " + index);
         }
 
-        if (index >= browsers.size()) {
-            throw new NoBrowserException("Index is out of bounds! Index: " + index);
+        if (index >= getBrowsers().size()) {
+            throw new NoBrowserException("Index of browser is out of bounds! Index: " + index);
         }
 
-        return setCurrentBrowser(index);
-    }
-
-    protected Browser setCurrentBrowser(int index) {
-        currentIndex = index;
-        return setCurrentBrowser(browsers.get(currentIndex));
-    }
-    
-    public int size() {
-        return browsers.size();
+        setCurrentIndex(index);
+        return getCurrentBrowser();
     }
 
     public Browser add(Browser browser) {
-        browsers.add(browser);
+        getBrowsers().add(browser);
         return switchToLastBrowser();
     }
 
     public void removeByIndex(int index) throws NoBrowserException {
 
         try {
-            browsers.remove(index);
+            getBrowsers().remove(index);
         } catch (IndexOutOfBoundsException ex) {
             throw new NoBrowserException("Cannot remove browser by index " + index);
         }
@@ -118,19 +139,19 @@ public class BrowserManager {
     }
 
     public void remove(Browser browser) {
-        removeByIndex(browsers.indexOf(browser));
+        removeByIndex(getBrowsers().indexOf(browser));
     }
 
     public boolean hasNext() {
-        return currentIndex < browsers.size() - 1;
+        return getCurrentIndex() < getBrowsers().size() - 1;
     }
 
     public boolean hasPrevious() {
-        return currentIndex > 0;
+        return getCurrentIndex() > 0;
     }
 
     public boolean hasAny() {
-        return browsers.isEmpty();
+        return getBrowsers().isEmpty();
     }
 
 }

@@ -103,10 +103,6 @@ public class User implements Named {
         return getBrowserManager().switchToLastBrowser();
     }
 
-    public int count() {
-        return getBrowserManager().size();
-    }
-
     public void openUrl(String url, String... params) {
         inOpenedBrowser().openUrl(url, params);
     }
