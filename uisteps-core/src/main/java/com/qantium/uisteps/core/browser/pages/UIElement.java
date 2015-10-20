@@ -1,10 +1,8 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
-import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -15,7 +13,7 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
  *
  * @author ASolyankin
  */
-public class UIElement extends TypifiedElement implements UIObject {
+public class UIElement extends TypifiedElement implements UIBlockOrElement {
 
     private WebElement wrappedElement;
 
@@ -80,35 +78,35 @@ public class UIElement extends TypifiedElement implements UIObject {
     }
 
     //Find 
-    public <T extends UIObject> T find(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject) {
         return inOpenedBrowser().find(uiObject, getWrappedElement());
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, getWrappedElement());
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name) {
         return inOpenedBrowser().find(uiObject, name, getWrappedElement());
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject) {
         return inOpenedBrowser().findAll(uiObject, getWrappedElement());
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name) {
         return inOpenedBrowser().findAll(uiObject, name, getWrappedElement());
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
     }
 
@@ -133,23 +131,23 @@ public class UIElement extends TypifiedElement implements UIObject {
     }
 
     //onDisplayed
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject, getWrappedElement());
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by, getWrappedElement());
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
         return inOpenedBrowser().onDisplayed(uiObject, name, getWrappedElement());
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, name, by, getWrappedElement());
     }
 
-    public <T extends UIObject> T onDisplayed(T uiObject) {
+    public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 

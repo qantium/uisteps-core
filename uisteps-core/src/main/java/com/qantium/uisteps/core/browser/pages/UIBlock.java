@@ -27,7 +27,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
  *
  * @author ASolyankin
  */
-public class UIBlock extends HtmlElement implements UIObject {
+public class UIBlock extends HtmlElement implements UIBlockOrElement {
 
     public UIBlock() {
     }
@@ -97,75 +97,79 @@ public class UIBlock extends HtmlElement implements UIObject {
 
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject, this);
+        if(Page.class.isAssignableFrom(uiObject)) { 
+             return inOpenedBrowser().onDisplayed(uiObject);
+        } else {
+            return (T) inOpenedBrowser().onDisplayed((Class<UIBlockOrElement>) uiObject, this);
+        }
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
         return inOpenedBrowser().onDisplayed(uiObject, name, this);
     }
 
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, name, by, this);
     }
 
-    public <T extends UIObject> T onDisplayed(T uiObject) {
+    public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
     //Find 
-    public <T extends UIObject> T find(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject) {
         return inOpenedBrowser().find(uiObject, this);
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, this);
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name) {
         return inOpenedBrowser().find(uiObject, name, this);
     }
 
-    public <T extends UIObject> T find(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().find(uiObject, name, by, this);
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject) {
         return inOpenedBrowser().findAll(uiObject, this);
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by, this);
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name) {
         return inOpenedBrowser().findAll(uiObject, name, this);
     }
 
-    public <T extends UIObject> List<T> findAll(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().findAll(uiObject, name, by, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(List<T> proxyElements) {
+    public <T extends UIBlockOrElement> UIElements<T> uiElements(List<T> proxyElements) {
         return inOpenedBrowser().uiElements(proxyElements);
     }
     
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject) {
+    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject) {
         return inOpenedBrowser().uiElements(uiObject, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, By by) {
+    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
         return inOpenedBrowser().uiElements(uiObject, by, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name) {
+    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
         return inOpenedBrowser().uiElements(uiObject, name, this);
     }
 
-    public <T extends UIObject> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
+    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
         return inOpenedBrowser().uiElements(uiObject, name, by, this);
     }
 

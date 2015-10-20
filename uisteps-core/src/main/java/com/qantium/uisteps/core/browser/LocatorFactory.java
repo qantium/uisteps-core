@@ -30,7 +30,7 @@ public class LocatorFactory {
     public By getLocator(Class<?> uiObject) {
 
         if (uiObject == Object.class) {
-            throw new RuntimeException("Cannot find locator!");
+            throw new RuntimeException("Cannot find locator for " + uiObject);
         }
 
         if (uiObject.isAnnotationPresent(FindBy.class)) {
@@ -62,21 +62,21 @@ public class LocatorFactory {
         How how;
         String using;
 
-        if (StringUtils.isEmpty(using = findBy.className())) {
+        if (!StringUtils.isEmpty(using = findBy.className())) {
             how = How.CLASS_NAME;
-        } else if (StringUtils.isEmpty(using = findBy.css())) {
+        } else if (!StringUtils.isEmpty(using = findBy.css())) {
             how = How.CSS;
-        } else if (StringUtils.isEmpty(using = findBy.id())) {
+        } else if (!StringUtils.isEmpty(using = findBy.id())) {
             how = How.ID;
-        } else if (StringUtils.isEmpty(using = findBy.linkText())) {
+        } else if (!StringUtils.isEmpty(using = findBy.linkText())) {
             how = How.LINK_TEXT;
-        } else if (StringUtils.isEmpty(using = findBy.name())) {
+        } else if (!StringUtils.isEmpty(using = findBy.name())) {
             how = How.NAME;
-        } else if (StringUtils.isEmpty(using = findBy.partialLinkText())) {
+        } else if (!StringUtils.isEmpty(using = findBy.partialLinkText())) {
             how = How.PARTIAL_LINK_TEXT;
-        } else if (StringUtils.isEmpty(using = findBy.tagName())) {
+        } else if (!StringUtils.isEmpty(using = findBy.tagName())) {
             how = How.TAG_NAME;
-        } else if (StringUtils.isEmpty(using = findBy.xpath())) {
+        } else if (!StringUtils.isEmpty(using = findBy.xpath())) {
             how = How.XPATH;
         } else {
             how = findBy.how();

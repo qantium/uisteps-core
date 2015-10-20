@@ -29,7 +29,7 @@ import org.openqa.selenium.internal.WrapsElement;
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIObject> implements Named {
+public class UIElements<E extends UIBlockOrElement> implements Named {
 
     private String name;
     private final LinkedList<E> elements = new LinkedList();
@@ -73,12 +73,12 @@ public class UIElements<E extends UIObject> implements Named {
 
     public E getFirst() {
         E element = elements.getFirst();
-        return element.withName("first "  + element.getName());
+        return element.withName("first " + element.getName());
     }
 
     public E getLast() {
         E element = elements.getLast();
-        return element.withName("last "  + element.getName());
+        return element.withName("last " + element.getName());
     }
 
     public int size() {
@@ -102,20 +102,17 @@ public class UIElements<E extends UIObject> implements Named {
 
             E element = iterator.next();
 
-            if (element instanceof WrapsElement) {
+            WebElement wrappedElement = element.getWrappedElement();
+            String attr;
 
-                WebElement wrappedElement = ((WrapsElement) element).getWrappedElement();
-                String attr;
+            if (attribute.equals("text")) {
+                attr = wrappedElement.getText();
+            } else {
+                attr = wrappedElement.getAttribute(attribute);
+            }
 
-                if (attribute.equals("text")) {
-                    attr = wrappedElement.getText();
-                } else {
-                    attr = wrappedElement.getAttribute(attribute);
-                }
-
-                if (attr.equals(value)) {
-                    return element.withName(element.getName() + " with " + attribute +  " " + attr);
-                }
+            if (attr.equals(value)) {
+                return element.withName(element.getName() + " with " + attribute + " " + attr);
             }
         }
 
