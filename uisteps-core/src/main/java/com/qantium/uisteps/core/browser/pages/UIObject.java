@@ -33,8 +33,4 @@ public interface UIObject extends Named {
     }
     
     SearchContext getSearchContext();
-    
-    default void initialize() {
-        
-    }
 }
