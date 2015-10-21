@@ -23,37 +23,45 @@ import java.util.ArrayList;
  */
 public class BrowserManager {
 
-    private final static ThreadLocal<Integer> currentIndex = new ThreadLocal();
-    private final static ThreadLocal<ArrayList<Browser>> browsers = new ThreadLocal();
+    private Integer currentIndex;
+    private ArrayList<Browser> browsers;
     private final BrowserFactory browserFactory;
+    private final static ThreadLocal<Browser> currentBrowser = new ThreadLocal();
 
     public BrowserManager(BrowserFactory browserFactory) {
         this.browserFactory = browserFactory;
         init();
     }
 
-    public static ArrayList<Browser> getBrowsers() {
-        return browsers.get();
+    public ArrayList<Browser> getBrowsers() {
+        return browsers;
     }
 
-    private static Integer decrementCurrentIndex() {
+    private Integer decrementCurrentIndex() {
         return setCurrentIndex(getCurrentIndex() - 1);
     }
 
-    private static Integer incrementCurrentIndex() {
+    private Integer incrementCurrentIndex() {
         return setCurrentIndex(getCurrentIndex() + 1);
     }
 
-    private static Integer getCurrentIndex() {
-        return currentIndex.get();
+    private Integer getCurrentIndex() {
+        return currentIndex;
     }
 
-    private static Integer setCurrentIndex(int index) {
-        currentIndex.set(index);
+    private Integer setCurrentIndex(int index) {
+        currentIndex = index;
+        
+        if(index > -1) {
+            currentBrowser.set(browsers.get(index));
+        } else {
+            currentBrowser.set(null);
+        }
+        
         return getCurrentIndex();
     }
 
-    public static void closeAllBrowsers() {
+    public void closeAllBrowsers() {
 
         for (Browser browser : getBrowsers()) {
             browser.getDriver().quit();
@@ -61,13 +69,13 @@ public class BrowserManager {
         init();
     }
 
-    private static void init() {
-        browsers.set(new ArrayList());
+    private void init() {
+        browsers = new ArrayList();
         setCurrentIndex(-1);
     }
 
     public static Browser getCurrentBrowser() {
-        return getBrowsers().get(getCurrentIndex());
+        return currentBrowser.get();
     }
 
     public Browser openNewBrowser(String withDriver) {
@@ -106,7 +114,7 @@ public class BrowserManager {
 
     public Browser switchToBrowserByIndex(int index) {
 
-        if (this.hasAny()) {
+        if (!hasAny()) {
             throw new NoBrowserException("List of browsers is empty!");
         }
 
@@ -117,7 +125,6 @@ public class BrowserManager {
         if (index >= getBrowsers().size()) {
             throw new NoBrowserException("Index of browser is out of bounds! Index: " + index);
         }
-
         setCurrentIndex(index);
         return getCurrentBrowser();
     }
@@ -151,7 +158,7 @@ public class BrowserManager {
     }
 
     public boolean hasAny() {
-        return getBrowsers().isEmpty();
+        return !getBrowsers().isEmpty();
     }
 
 }

@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.run.verify.conditions;
 
 import java.util.Iterator;
+import org.eclipse.aether.util.StringUtils;
 
 /**
  *
@@ -41,33 +42,38 @@ public class ConditionPool extends ConditionContainer {
 
             resultBuilder.append("<tr>");
 
-            if (condition.isSuccessful()) {
+            if (condition.isSuccessful() || StringUtils.isEmpty(condition.getActualResult())) {
                 resultBuilder.append("<td colspan='2'>");
             } else {
                 resultBuilder.append("<td>");
             }
 
-            resultBuilder.append(condition.getExpectedResult()).append("</td>");
+            resultBuilder
+                    .append(condition.getExpectedResult())
+                    .append("</td>");
 
-            if (!condition.isSuccessful()) {
-                resultBuilder.append("<td>").append(condition.getActualResult()).append("</td>");
+            if (!condition.isSuccessful() && !StringUtils.isEmpty(condition.getActualResult())) {
+                resultBuilder
+                        .append("<td>")
+                        .append(condition.getActualResult())
+                        .append("</td>");
             }
 
             if (condition.isSuccessful()) {
-                resultBuilder.append("<td bgcolor='#79e86f'><b>SUCCESS</b></td>");
+                resultBuilder.append("<td style='background-color:#79e86f !important'><b>SUCCESS</b></td>");
             } else {
-                resultBuilder.append("<td bgcolor='#fd989b'><b>FAILURE</b></td>");
+                resultBuilder.append("<td style='background-color:#fd989b !important'><b>FAILURE</b></td>");
             }
 
-            resultBuilder.append("<td>");
-            
-            if(iterator.hasNext()) {
-                resultBuilder.append("<b>");
-                resultBuilder.append(condition.getLogicOperation());
-                resultBuilder.append("</b>");
+            if (iterator.hasNext()) {
+                resultBuilder
+                        .append("<td>")
+                        .append("<b>")
+                        .append(condition.getLogicOperation())
+                        .append("</b>")
+                        .append("</td>");
             }
-            
-            resultBuilder.append("</td>");
+
             resultBuilder.append("</tr>");
         }
 

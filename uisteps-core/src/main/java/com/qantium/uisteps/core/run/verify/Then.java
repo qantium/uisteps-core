@@ -29,8 +29,6 @@ import com.qantium.uisteps.core.run.verify.results.LastExpectedResult;
 public class Then {
 
     private final Verify verify;
-    public final And and = new And();
-    public final Or or = new Or();
 
     public Then(Verify verify) {
         this.verify = verify;
@@ -49,47 +47,6 @@ public class Then {
         result.getlastConditionPool().set(logicOperation);
         result.add(new ConditionPool());
         return verify;
-    }
-
-    public class And extends Preposition {
-
-        public And() {
-            super(LogicOperation.AND);
-        }
-
-    }
-
-    public class Or extends Preposition {
-
-        public Or() {
-            super(LogicOperation.OR);
-        }
-
-    }
-
-    protected class Preposition {
-
-        private final LogicOperation logicOperation;
-
-        Preposition(LogicOperation logicOperation) {
-            this.logicOperation = logicOperation;
-        }
-
-        public ExpectedResult _that(boolean condition) {
-            return then(logicOperation)._that(condition);
-        }
-
-        public Then _that(Condition... conditions) {
-            return then(logicOperation)._conditions(conditions);
-        }
-
-        public LastExpectedResult that(boolean condition) {
-            return then(logicOperation).that(condition);
-        }
-
-        public Then that(Condition... conditions) {
-            return then(logicOperation).conditions(conditions);
-        }
     }
 
 }

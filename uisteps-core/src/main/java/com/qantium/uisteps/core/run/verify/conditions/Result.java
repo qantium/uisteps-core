@@ -46,50 +46,38 @@ public class Result extends ConditionContainer {
 
     @Override
     public String toString() {
-        
+
         StringBuilder result = new StringBuilder();
 
-        result.append("<table border='1' cellpadding='3'>");
-
-        result.append("<tr>");
-
-        if (this.isSuccessful()) {
-            result.append("<td>");
-        } else {
-            result.append("<td colspan='2'>");
-        }
-
-        result.append("<b>Expected result</b></td>");
-
-        if (this.isSuccessful()) {
-            result.append("<td><b>Actual result</b></td>");
-        }
-
-        result.append("<td><b>Status</b></td>");
-        result.append("<td></td></tr>");
+        result
+                .append("<table border='1' cellpadding='3' style='background-color:#EEEADD !important'>")
+                .append("<tr>")
+                .append("<td><b>Expected result</b></td>")
+                .append("<td><b>Actual result</b></td>")
+                .append("<td><b>Status</b></td>")
+                .append("</tr>");
 
         Iterator<WithLogicOperation> iterator = getConditions().iterator();
         ConditionPool previousCondition = null;
-        
+
         while (iterator.hasNext()) {
 
             ConditionPool condition = (ConditionPool) iterator.next();
 
-            result.append("<tbody>");
-
             if (previousCondition != null) {
-                result.append("<tr><td colspan='4'><b>");
-                result.append(previousCondition.getLogicOperation());
-                result.append("</b></td></tr>");
+                result
+                        .append("<tr>")
+                        .append("<td colspan='4'><b>")
+                        .append(previousCondition.getLogicOperation())
+                        .append("</b></td>")
+                        .append("</tr>");
             }
 
             result.append(condition);
-            result.append("</tbody>");
             previousCondition = condition;
         }
 
-        result.append("</table>");
-        return result.toString();
+        return result.append("</table>").toString();
 
     }
 }

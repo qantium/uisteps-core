@@ -61,7 +61,8 @@ public class User implements Named {
     }
 
     public Browser inOpenedBrowser() {
-        if (getBrowserManager().hasAny()) {
+        
+        if (!getBrowserManager().hasAny()) {
             openNewBrowser();
         }
         return BrowserManager.getCurrentBrowser();
