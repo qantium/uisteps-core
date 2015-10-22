@@ -56,12 +56,14 @@ public class Condition extends WithLogicOperation {
         return actualResult;
     }
 
-    public void setExpectedResult(String expectedResult) {
+    public Condition setExpectedResult(String expectedResult) {
         this.expectedResult = expectedResult;
+        return this;
     }
 
-    public void setActualResult(String actualResult) {
+    public Condition setActualResult(String actualResult) {
         this.actualResult = actualResult;
+        return this;
     }
 
     @Override
