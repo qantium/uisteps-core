@@ -22,24 +22,22 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIBlockOrElement> implements Named {
+public class UIElements<E extends UIBlockOrElement> extends LinkedList<E> implements Named {
 
     private String name;
-    private final LinkedList<E> elements = new LinkedList();
 
     public UIElements(List<E> elements) {
-        this.elements.addAll(elements);
+        addAll(elements);
     }
 
     public boolean isDisplayed() {
-        Iterator<E> iterator = elements.iterator();
+        Iterator<E> iterator = iterator();
 
         while (iterator.hasNext()) {
 
@@ -62,7 +60,7 @@ public class UIElements<E extends UIBlockOrElement> implements Named {
         if (StringUtils.isEmpty(name)) {
 
             try {
-                return "list of " + elements.getFirst().getName();
+                return "list of " + getFirst().getName();
             } catch (NoSuchElementException ex) {
                 return "empty list";
             }
@@ -71,32 +69,32 @@ public class UIElements<E extends UIBlockOrElement> implements Named {
         }
     }
 
+    @Override
     public E getFirst() {
-        E element = elements.getFirst();
+        E element = super.getFirst();
         return element.withName("first " + element.getName());
     }
 
+    @Override
     public E getLast() {
-        E element = elements.getLast();
+        E element = super.getLast();
         return element.withName("last " + element.getName());
     }
 
-    public int size() {
-        return elements.size();
-    }
-
+    @Override
     public E[] toArray() {
-        return (E[]) elements.toArray();
+        return (E[]) super.<E>toArray();
     }
 
+    @Override
     public E get(int index) {
-        E element = elements.get(index);
+        E element = super.get(index);
         return element.withName(element.getName() + " by index " + index);
     }
 
     public E get(String attribute, String value) {
 
-        Iterator<E> iterator = elements.iterator();
+        Iterator<E> iterator = iterator();
 
         while (iterator.hasNext()) {
 
@@ -170,7 +168,7 @@ public class UIElements<E extends UIBlockOrElement> implements Named {
         LinkedList<E> proxyList = getProxyList();
 
         for (int index : indexes) {
-            elements.remove(index);
+            remove(index);
         }
 
         return uiElements(proxyList);
@@ -182,7 +180,7 @@ public class UIElements<E extends UIBlockOrElement> implements Named {
 
     private LinkedList<E> getProxyList() {
         LinkedList<E> proxyElements = new LinkedList();
-        proxyElements.addAll(elements);
+        proxyElements.addAll(this);
         return proxyElements;
     }
 }

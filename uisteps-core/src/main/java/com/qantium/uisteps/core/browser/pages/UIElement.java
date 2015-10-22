@@ -35,6 +35,7 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         this.wrappedElement = wrappedElement;
     }
 
+    @Override
     public String getText() {
         return inOpenedBrowser().getTextFrom(this);
     }
@@ -77,59 +78,6 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         return getName();
     }
 
-    //Find 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(uiObject, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name) {
-        return inOpenedBrowser().find(uiObject, name, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().find(uiObject, name, by, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(uiObject, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().findAll(uiObject, name, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().findAll(uiObject, name, by, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
-        return inOpenedBrowser().uiElements(proxyElements);
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject) {
-        return inOpenedBrowser().uiElements(uiObject, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
-        return inOpenedBrowser().uiElements(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
-        return inOpenedBrowser().uiElements(uiObject, name, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().uiElements(uiObject, name, by, getWrappedElement());
-    }
-
     //onDisplayed
     public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject, getWrappedElement());
@@ -149,6 +97,26 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
 
     public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
+        return inOpenedBrowser().onDisplayedAll(proxyElements);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, getWrappedElement());
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by, getWrappedElement());
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name, getWrappedElement());
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, getWrappedElement());
     }
 
     @Override

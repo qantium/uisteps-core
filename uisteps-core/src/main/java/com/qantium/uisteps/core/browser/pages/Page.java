@@ -195,104 +195,39 @@ public class Page implements UIObject {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    //Find 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(uiObject);
+    public <T extends UIElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
+        return inOpenedBrowser().onDisplayedAll(proxyElements);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayedAll(uiObject);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, SearchContext context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, context);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name) {
-        return inOpenedBrowser().find(uiObject, name);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().find(uiObject, name, by);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, name, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name, by);
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().find(uiObject, name, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, SearchContext context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name, context);
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(uiObject);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().findAll(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().findAll(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().findAll(uiObject, name, by, context);
-    }
-
-    public <T extends UIElement> UIElements<T> uiElements(List<T> proxyElements) {
-        return inOpenedBrowser().uiElements(proxyElements);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject) {
-        return inOpenedBrowser().uiElements(uiObject);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
-        return inOpenedBrowser().uiElements(uiObject, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().uiElements(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().uiElements(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
-        return inOpenedBrowser().uiElements(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().uiElements(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().uiElements(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().uiElements(uiObject, name, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by, SearchContext context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, context);
     }
 }

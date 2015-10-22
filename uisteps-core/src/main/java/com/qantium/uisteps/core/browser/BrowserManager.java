@@ -51,22 +51,35 @@ public class BrowserManager {
 
     private Integer setCurrentIndex(int index) {
         currentIndex = index;
-        
-        if(index > -1) {
+
+        if (index > -1) {
             currentBrowser.set(browsers.get(index));
         } else {
             currentBrowser.set(null);
         }
-        
+
         return getCurrentIndex();
     }
 
     public void closeAllBrowsers() {
-
-        for (Browser browser : getBrowsers()) {
-            browser.getDriver().quit();
+        
+        for (int index = 0; index < getBrowsers().size(); index++) {
+            setCurrentIndex(index);
+            closeCurrentBrowser();
         }
+        
         init();
+    }
+
+    public void closeCurrentBrowser() {
+
+        try {
+            Browser browser = switchToBrowserByIndex(getCurrentIndex());
+            browser.getDriver().quit();
+            getBrowsers().remove(browser);
+            switchToNextBrowser();
+        } catch (Exception ex) {
+        }
     }
 
     private void init() {
@@ -114,19 +127,24 @@ public class BrowserManager {
 
     public Browser switchToBrowserByIndex(int index) {
 
-        if (!hasAny()) {
-            throw new NoBrowserException("List of browsers is empty!");
+        if (!this.hasAny()) {
+            showNoBrowserException("List of browsers is empty!");
         }
 
         if (index < 0) {
-            throw new NoBrowserException("Index of browser must not be negative! Index: " + index);
+            showNoBrowserException("Index of browser must not be negative! Index: " + index);
         }
 
         if (index >= getBrowsers().size()) {
-            throw new NoBrowserException("Index of browser is out of bounds! Index: " + index);
+            showNoBrowserException("Index of browser is out of bounds! Index: " + index);
         }
         setCurrentIndex(index);
         return getCurrentBrowser();
+    }
+
+    private void showNoBrowserException(String message) {
+        setCurrentIndex(-1);
+        throw new NoBrowserException(message);
     }
 
     public Browser add(Browser browser) {

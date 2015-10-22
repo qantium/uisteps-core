@@ -15,13 +15,13 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author A.Solyankin
  */
-public interface UIBlockOrElement extends UIObject, WrapsElement, WebElement {
-    
+public interface UIBlockOrElement extends UIObject, WrapsElement {
+
+    String getText();
 }

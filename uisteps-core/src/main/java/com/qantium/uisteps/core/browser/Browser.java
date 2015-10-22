@@ -127,47 +127,6 @@ public class Browser {
 
     }
 
-    //onDisplayed
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        if (Page.class.isAssignableFrom(uiObject)) {
-            return onDisplayed(displayed(uiObject));
-        } else {
-            return onDisplayed((T) find((Class<UIBlockOrElement>) uiObject));
-        }
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
-        return onDisplayed(find(uiObject, by));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, SearchContext context) {
-        return onDisplayed(find(uiObject, context));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
-        return onDisplayed(find(uiObject, by, context));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
-        return onDisplayed(find(uiObject, name));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
-        return onDisplayed(find(uiObject, name, by));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
-        return onDisplayed(find(uiObject, name, context));
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
-        return onDisplayed(find(uiObject, name, by, context));
-    }
-
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return uiObject;
-    }
-
     public String getCurrentUrl() {
         return getDriver().getCurrentUrl();
     }
@@ -315,105 +274,86 @@ public class Browser {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
     }
 
-    //Find 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject) {
-        return getFinder().find(uiObject);
+    //onDisplayed
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+
+        if (Page.class.isAssignableFrom(uiObject)) {
+            return onDisplayed(displayed(uiObject));
+        } else {
+            return onDisplayed((T) getFinder().find((Class<UIBlockOrElement>) uiObject));
+        }
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by) {
-        return getFinder().find(uiObject, by);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
+        return onDisplayed(getFinder().find(uiObject, by));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, SearchContext context) {
-        return getFinder().find(uiObject, context);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, SearchContext context) {
+        return onDisplayed(getFinder().find(uiObject, context));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, By by, SearchContext context) {
-        return getFinder().find(uiObject, by, context);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
+        return onDisplayed(getFinder().find(uiObject, by, context));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name) {
-        return getFinder().find(uiObject, name);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
+        return onDisplayed(getFinder().find(uiObject, name));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by) {
-        return getFinder().find(uiObject, name, by);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
+        return onDisplayed(getFinder().find(uiObject, name, by));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, SearchContext context) {
-        return getFinder().find(uiObject, name, context);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
+        return onDisplayed(getFinder().find(uiObject, name, context));
     }
 
-    public <T extends UIBlockOrElement> T find(Class<T> uiObject, String name, By by, SearchContext context) {
-        return getFinder().find(uiObject, name, by, context);
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
+        return onDisplayed(getFinder().find(uiObject, name, by, context));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject) {
-        return getFinder().findAll(uiObject);
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return uiObject;
+    }
+    
+    public <T extends UIElements> T onDisplayed(T uiElements) {
+        return uiElements;
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by) {
-        return getFinder().findAll(uiObject, by);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
+        return onDisplayed(getFinder().uiElements(proxyElements));
+    }
+    
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+        return onDisplayed(getFinder().uiElements(uiObject));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, SearchContext context) {
-        return getFinder().findAll(uiObject, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+        return onDisplayed(getFinder().uiElements(uiObject, by));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, By by, SearchContext context) {
-        return getFinder().findAll(uiObject, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, SearchContext context) {
+        return onDisplayed(getFinder().uiElements(uiObject, context));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name) {
-        return getFinder().findAll(uiObject, name);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, SearchContext context) {
+        return onDisplayed(getFinder().uiElements(uiObject, by, context));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by) {
-        return getFinder().findAll(uiObject, name, by);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
+        return onDisplayed(getFinder().uiElements(uiObject, name));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, SearchContext context) {
-        return getFinder().findAll(uiObject, name, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
+        return onDisplayed(getFinder().uiElements(uiObject, name, by));
     }
 
-    public <T extends UIBlockOrElement> List<T> findAll(Class<T> uiObject, String name, By by, SearchContext context) {
-        return getFinder().findAll(uiObject, name, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, SearchContext context) {
+        return onDisplayed(getFinder().uiElements(uiObject, name, context));
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(List<T> proxyElements) {
-        return getFinder().uiElements(proxyElements);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject) {
-        return getFinder().uiElements(uiObject);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, By by) {
-        return getFinder().uiElements(uiObject, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, SearchContext context) {
-        return getFinder().uiElements(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, By by, SearchContext context) {
-        return getFinder().uiElements(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name) {
-        return getFinder().uiElements(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by) {
-        return getFinder().uiElements(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, SearchContext context) {
-        return getFinder().uiElements(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> uiElements(Class<T> uiObject, String name, By by, SearchContext context) {
-        return getFinder().uiElements(uiObject, name, by, context);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by, SearchContext context) {
+        return onDisplayed(getFinder().uiElements(uiObject, name, by, context));
     }
 
     public <T extends UIObject> T instatiate(Class<T> uiObject) {
