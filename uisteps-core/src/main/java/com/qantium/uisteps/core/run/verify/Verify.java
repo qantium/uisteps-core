@@ -47,11 +47,6 @@ public class Verify {
         }
 
         public void setLogicOperation(LogicOperation logicOperation) {
-
-            if (this.logicOperation != null) {
-                throw new RuntimeException("Logic operation has been already set!");
-            }
-
             this.logicOperation = logicOperation;
         }
 
