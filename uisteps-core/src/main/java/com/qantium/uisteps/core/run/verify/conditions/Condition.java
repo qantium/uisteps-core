@@ -22,8 +22,8 @@ package com.qantium.uisteps.core.run.verify.conditions;
 public class Condition extends WithLogicOperation {
 
     private final boolean successful;
-    private final String expectedResult;
-    private final String actualResult;
+    private String expectedResult;
+    private String actualResult;
 
     public Condition(boolean value, String expectedResult) {
         this(value, expectedResult, "");
@@ -54,6 +54,14 @@ public class Condition extends WithLogicOperation {
 
     public String getActualResult() {
         return actualResult;
+    }
+
+    public void setExpectedResult(String expectedResult) {
+        this.expectedResult = expectedResult;
+    }
+
+    public void setActualResult(String actualResult) {
+        this.actualResult = actualResult;
     }
 
     @Override

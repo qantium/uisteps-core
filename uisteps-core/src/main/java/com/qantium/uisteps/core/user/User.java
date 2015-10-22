@@ -26,6 +26,7 @@ import com.qantium.uisteps.core.browser.pages.UIBlockOrElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import java.util.List;
 import org.eclipse.aether.util.StringUtils;
 import org.openqa.selenium.By;
@@ -195,39 +196,70 @@ public class User implements Named {
         return inOpenedBrowser().executeScript(script);
     }
 
-    public boolean see(Object obj) {
-        return obj != null && StringUtils.isEmpty(obj.toString());
+    private Condition getCondition(boolean condition, String expected, String altExpected, String actual) {
+        if (!condition) {
+            expected = altExpected;
+        }
+        return Condition.isTrue(condition, expected, actual);
     }
 
-    public boolean see(Object obj, String value) {
-        return obj != null && obj.toString().equals(value);
+    private Condition getSeeCondition(boolean condition, String expected, String altExpected, String actual) {
+        String message = "user see ";
+        expected = message + expected;
+        actual = message + actual;
+        altExpected = message + altExpected;
+        return getCondition(condition, expected, altExpected, actual);
     }
 
-    public boolean seePartOf(Object obj, String value) {
-        return obj != null && obj.toString().contains(value);
+    private Condition getSeeCondition(boolean condition, String expected, String actual) {
+        return getSeeCondition(condition, expected, expected, actual);
     }
 
-    public boolean see(UIBlockOrElement uiObject, String value) {
-        return uiObject != null && uiObject.getText().equals(value);
+    public Condition see(Object obj) {
+        return getSeeCondition(obj != null && StringUtils.isEmpty(obj.toString()), "" + obj, "some object", "" + obj);
     }
 
-    public boolean seePartOf(UIBlockOrElement uiObject, String value) {
-        return uiObject != null && uiObject.getText().contains(value);
+    public Condition see(Object obj, String value) {
+        return getSeeCondition(obj != null && obj.toString().equals(value), value, "" + obj);
     }
 
-    public boolean see(UIObject uiObject) {
-        return inOpenedBrowser().initialize(uiObject).isDisplayed();
+    public Condition seePartOf(Object obj, String value) {
+        String text = null;
+        
+        if(obj != null) {
+           text = obj.toString();
+        }
+        return getSeeCondition(obj != null && obj.toString().contains(value), "part \"" + text + "\" of " + value, "" + obj);
     }
 
-    public boolean see(Class<? extends UIBlockOrElement> uiObject, String value) {
-        return uiObjectInstance(uiObject).getText().equals(value);
+    public Condition see(UIBlockOrElement uiObject, String value) {
+        return getSeeCondition(uiObject != null && uiObject.getText().equals(value), value, "" + uiObject);
     }
 
-    public boolean seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
-        return uiObjectInstance(uiObject).getText().contains(value);
+    public Condition seePartOf(UIBlockOrElement uiObject, String value) {
+        String text = null;
+        
+        if(uiObject != null) {
+           text = uiObject.getText();
+        }
+        return getSeeCondition(uiObject != null && uiObject.getText().contains(value), "part \"" + text + "\" of " + value, "" + uiObject);
     }
 
-    public boolean see(Class<? extends UIObject> uiObject) {
+    public Condition see(UIObject uiObject) {
+        UIObject obj = inOpenedBrowser().initialize(uiObject);
+        return getSeeCondition(obj.isDisplayed(), "" + obj, "some object", "" + obj);
+    }
+
+    public Condition see(Class<? extends UIBlockOrElement> uiObject, String value) {
+        return getSeeCondition(uiObjectInstance(uiObject).getText().equals(value), value, "" + uiObject);
+    }
+
+    public Condition seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
+        String text = uiObjectInstance(uiObject).getText();
+        return getSeeCondition(text.contains(value), "part \"" + text + "\" of " + value, "" + uiObject);
+    }
+
+    public Condition see(Class<? extends UIObject> uiObject) {
         return see(uiObjectInstance(uiObject));
     }
 
