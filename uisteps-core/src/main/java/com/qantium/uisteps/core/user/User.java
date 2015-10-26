@@ -246,7 +246,7 @@ public class User implements Named {
     }
 
     public Condition see(UIObject uiObject) {
-        UIObject obj = inOpenedBrowser().initialize(uiObject);
+        UIObject obj = inOpenedBrowser().populate(uiObject);
         return getSeeCondition(obj.isDisplayed(), "\"" + obj + "\"", "some object", "\"" + obj + "\"");
     }
 

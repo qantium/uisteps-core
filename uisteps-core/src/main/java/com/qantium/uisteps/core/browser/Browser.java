@@ -31,8 +31,10 @@ import com.qantium.uisteps.core.browser.pages.elements.FileInput;
 import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
@@ -85,11 +87,11 @@ public class Browser {
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject, WebElement withWebElement) {
-        return initializeWithSearchContext(instatiate(uiObject, withWebElement));
+        return populateAsSearchContext(instatiate(uiObject, withWebElement));
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
-        return initialize(instatiate(uiObject));
+        return populate(instatiate(uiObject));
     }
 
     public void openUrl(String url, String... params) {
@@ -120,7 +122,7 @@ public class Browser {
     public <T extends Page> T open(T page, String... params) {
         page.setParams(params);
         open(new MockPage(page.getName(), page.getUrl(), this).open());
-        return initialize(page);
+        return populate(page);
     }
 
     protected void open(MockPage page) {
@@ -387,13 +389,50 @@ public class Browser {
         throw new RuntimeException("Cannot instantiate! " + uiObject + " is not assignable from UIBlock or UIElement!");
     }
 
-    public <T extends UIObject> T initialize(T uiObject) {
+    public <T extends UIObject> T populate(T uiObject) {
+        populate(uiObject, getDriver());
         HtmlElementLoader.populate(uiObject, getDriver());
         return uiObject;
     }
 
-    public <T extends UIObject> T initializeWithSearchContext(T context) {
+    public <T extends UIObject> T populateAsSearchContext(T context) {
         HtmlElementLoader.populatePageObject(context, context.getSearchContext());
+        populate(context, context.getSearchContext());
         return context;
+    }
+    
+    private void populate(UIObject uiObject, SearchContext context) {
+        
+        for(Field field: getFields(uiObject)) {
+            
+            try {
+                UIBlockOrElement value = getFinder().find((Class<UIBlockOrElement>) field.getType(), getLocatorFactory().getLocator(field), context);
+                field.set(uiObject, value);
+                populateAsSearchContext(value);
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+    
+    private List<Field> getFields(UIObject uiObject) {
+        return getFields(uiObject.getClass(), new ArrayList());
+    }
+    
+    private List<Field> getFields(Class<?> uiObject, List<Field> fields) {
+        
+        if(uiObject == Object.class) {
+            return fields;
+        }
+        
+        for(Field field: uiObject.getDeclaredFields()) {
+            
+            if(UIBlockOrElement.class.isAssignableFrom(field.getType()) || UIElements.class.isAssignableFrom(field.getType())) {
+                field.setAccessible(true);
+                fields.add(field);
+            }
+        }
+        
+        return getFields(uiObject.getSuperclass(), fields);
     }
 }
