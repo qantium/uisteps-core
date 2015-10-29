@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
-import org.openqa.selenium.WebElement;
 
 /**
  *

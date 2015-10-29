@@ -28,7 +28,7 @@ import org.openqa.selenium.WebElement;
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIBlockOrElement> extends UIBlock {
+public class UIElements<E extends UIElement> extends UIElement {
 
     private List<E> elements;
     private final Class<E> elementType;

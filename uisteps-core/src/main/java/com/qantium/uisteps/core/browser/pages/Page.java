@@ -162,7 +162,7 @@ public class Page implements UIObject {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by);
     }
 
@@ -170,11 +170,11 @@ public class Page implements UIObject {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayedAll(uiObject);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by);
     }
 }

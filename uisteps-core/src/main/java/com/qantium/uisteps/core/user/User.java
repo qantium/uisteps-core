@@ -22,7 +22,7 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.pages.UIBlockOrElement;
+import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
@@ -243,7 +243,7 @@ public class User implements Named {
         return displayCondition().see(description, uiObject, value);
     }
 
-    public Condition seePartOf(UIBlockOrElement obj, String value) {
+    public Condition seePartOf(UIElement obj, String value) {
         return displayCondition().seePartOf(obj, value);
     }
 
@@ -251,11 +251,11 @@ public class User implements Named {
         return displayCondition().seePartOf(obj, value);
     }
 
-    public Condition seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
+    public Condition seePartOf(Class<? extends UIElement> uiObject, String value) {
         return displayCondition().seePartOf(uiObject, value);
     }
 
-    public Condition seePartOf(String description, UIBlockOrElement obj, String value) {
+    public Condition seePartOf(String description, UIElement obj, String value) {
         return displayCondition().seePartOf(description, obj, value);
     }
 
@@ -289,15 +289,15 @@ public class User implements Named {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, UIObject context) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, UIObject context) {
         return inOpenedBrowser().onDisplayed(uiObject, context);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
         return inOpenedBrowser().onDisplayed(uiObject, by, context);
     }
 

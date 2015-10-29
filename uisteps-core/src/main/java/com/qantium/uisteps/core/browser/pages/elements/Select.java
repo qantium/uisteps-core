@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
+import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import java.util.List;
 import org.openqa.selenium.WebElement;
@@ -23,7 +24,7 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public class Select extends UIElement {
+public class Select extends UIElement implements ElementaryElement{
 
     public Select() {
     }

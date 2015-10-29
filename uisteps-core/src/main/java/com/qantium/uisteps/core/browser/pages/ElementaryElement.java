@@ -15,29 +15,10 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsElement;
-
 /**
  *
  * @author A.Solyankin
  */
-public interface UIBlockOrElement extends UIObject, WrapsElement {
-
-    String getText();
+public interface ElementaryElement {
     
-    void setContext(UIObject context);
-    
-    UIObject getContext();
-    
-    void setLocator(By locator);
-    
-    By getLocator();
-    
-    void setWrappedElement(WebElement wrappedElement);
-    
-    String getContextString();
-    
-    String getLocatorString();
 }

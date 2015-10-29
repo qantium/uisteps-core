@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.run.verify.conditions;
 
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.pages.UIBlockOrElement;
+import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import java.util.Collection;
 import org.eclipse.aether.util.StringUtils;
@@ -116,8 +116,8 @@ public class DisplayCondition {
 
         if (isDisplayed(obj)) {
 
-            if (obj instanceof UIBlockOrElement) {
-                text = ((UIBlockOrElement) obj).getText();
+            if (obj instanceof UIElement) {
+                text = ((UIElement) obj).getText();
             } else {
                 text = ((Page) obj).getName();
             }
@@ -134,8 +134,8 @@ public class DisplayCondition {
 
         if (isDisplayed(obj)) {
 
-            if (obj instanceof UIBlockOrElement) {
-                text = ((UIBlockOrElement) obj).getText();
+            if (obj instanceof UIElement) {
+                text = ((UIElement) obj).getText();
             } else {
                 text = ((Page) obj).getName();
             }
@@ -144,7 +144,7 @@ public class DisplayCondition {
         return see(description, text.equals(value), "\"" + value + "\"", "\"" + uiObject + "\"");
     }
 
-    public Condition seePartOf(UIBlockOrElement obj, String value) {
+    public Condition seePartOf(UIElement obj, String value) {
         return seePartOf("", obj, value);
     }
 
@@ -152,11 +152,11 @@ public class DisplayCondition {
         return seePartOf("", obj, value);
     }
 
-    public Condition seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
+    public Condition seePartOf(Class<? extends UIElement> uiObject, String value) {
         return see("", uiObject, value);
     }
 
-    public Condition seePartOf(String description, UIBlockOrElement obj, String value) {
+    public Condition seePartOf(String description, UIElement obj, String value) {
         String text = "";
 
         if (isDisplayed(obj)) {
@@ -175,7 +175,7 @@ public class DisplayCondition {
         return see(description, isDisplayed(obj) && obj.contains(value), "part \"" + value + "\" of \"" + obj + "\"", "\"" + obj + "\"");
     }
 
-    public Condition seePartOf(String description, Class<? extends UIBlockOrElement> uiObject, String value) {
+    public Condition seePartOf(String description, Class<? extends UIElement> uiObject, String value) {
         String text = uiObjectInstance(uiObject).getText();
         return see(description, text.contains(value), "part \"" + value + "\" of \"" + text + "\"", "\"" + uiObject + "\"");
     }

@@ -2,32 +2,31 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
+import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import ru.yandex.qatools.htmlelements.element.TypifiedElement;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author ASolyankin
  */
-public class UIElement extends TypifiedElement implements UIBlockOrElement {
+public class UIElement implements UIObject, WrapsElement {
 
     private WebElement wrappedElement;
     private By locator;
     private UIObject context;
+    private String name;
 
     public UIElement(WebElement wrappedElement) {
-        super(wrappedElement);
         this.wrappedElement = wrappedElement;
     }
 
     public UIElement() {
-        super(null);
     }
 
-    @Override
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
     }
@@ -50,22 +49,18 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         return searchContext.findElement(getLocator());
     }
 
-    @Override
     public void setContext(UIObject context) {
         this.context = context;
     }
 
-    @Override
     public UIObject getContext() {
         return context;
     }
 
-    @Override
     public By getLocator() {
         return locator;
     }
 
-    @Override
     public void setLocator(By locator) {
         this.locator = locator;
     }
@@ -75,7 +70,6 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         return getWrappedElement();
     }
 
-    @Override
     public String getText() {
         return inOpenedBrowser().getTextFrom(this);
     }
@@ -106,11 +100,16 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
     @Override
     public String getName() {
 
-        if (StringUtils.isEmpty(super.getName())) {
+        if (StringUtils.isEmpty(name)) {
             setName(NameConvertor.humanize(getClass()));
         }
 
-        return super.getName();
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -119,35 +118,38 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
     }
 
     //onDisplayed
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject, this);
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        if (Page.class.isAssignableFrom(uiObject)) {
+            return inOpenedBrowser().onDisplayed(uiObject);
+        } else {
+            return (T) inOpenedBrowser().onDisplayed((Class<UIElement>) uiObject, this);
+        }
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
+    public <T extends UIElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayedAll(uiObject, this);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
     }
 
-    @Override
     public String getContextString() {
 
         StringBuilder contextStr = new StringBuilder();
 
         if (getContext() != null) {
 
-            if (getContext() instanceof UIBlockOrElement) {
-                contextStr.append(((UIBlockOrElement) getContext()).getContextString());
+            if (getContext() instanceof UIElement) {
+                contextStr.append(((UIElement) getContext()).getContextString());
             } else {
                 contextStr.append(getContext().getName());
             }
@@ -157,15 +159,14 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         return contextStr.toString();
     }
 
-    @Override
     public String getLocatorString() {
 
         StringBuilder contextStr = new StringBuilder();
 
         if (getContext() != null) {
 
-            if (getContext() instanceof UIBlockOrElement) {
-                contextStr.append(((UIBlockOrElement) getContext()).getLocatorString());
+            if (getContext() instanceof UIElement) {
+                contextStr.append(((UIElement) getContext()).getLocatorString());
                 contextStr.append(" => ");
             }
         }
@@ -173,4 +174,36 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
         return contextStr.toString();
     }
 
+    public List<WebElement> findElements(By by) {
+        return getWrappedElement().findElements(by);
+    }
+
+    //switch window
+    public void switchToNextWindow() {
+        inOpenedBrowser().switchToNextWindow();
+    }
+
+    public void switchToPreviousWindow() {
+        inOpenedBrowser().switchToPreviousWindow();
+    }
+
+    public void switchToDefaultWindow() {
+        inOpenedBrowser().switchToDefaultWindow();
+    }
+
+    public void switchToWindowByIndex(int index) {
+        inOpenedBrowser().switchToWindowByIndex(index);
+    }
+    
+    public boolean isDisplayed() {
+        return getWrappedElement().isDisplayed();
+    }
+    
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
+    
+    public boolean isSelected() {
+        return getWrappedElement().isSelected();
+    }
 }
