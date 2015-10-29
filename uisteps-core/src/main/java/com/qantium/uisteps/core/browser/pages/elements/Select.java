@@ -25,35 +25,35 @@ import org.openqa.selenium.WebElement;
  */
 public class Select extends UIElement {
 
-    private final ru.yandex.qatools.htmlelements.element.Select wrappedSelect;
-
+    public Select() {
+    }
+    
     public Select(WebElement wrappedElement) {
         super(wrappedElement);
-        wrappedSelect = new ru.yandex.qatools.htmlelements.element.Select(wrappedElement);
     }
 
     public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
-        return wrappedSelect;
+        return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());
     }
 
     public boolean isMultiple() {
-        return wrappedSelect.isMultiple();
+        return getWrappedSelect().isMultiple();
     }
 
     public List<WebElement> getOptions() {
-        return wrappedSelect.getOptions();
+        return getWrappedSelect().getOptions();
     }
 
     public List<WebElement> getAllSelectedOptions() {
-        return wrappedSelect.getAllSelectedOptions();
+        return getWrappedSelect().getAllSelectedOptions();
     }
 
     public WebElement getFirstSelectedOption() {
-        return wrappedSelect.getFirstSelectedOption();
+        return getWrappedSelect().getFirstSelectedOption();
     }
 
     public boolean hasSelectedOption() {
-        return wrappedSelect.hasSelectedOption();
+        return getWrappedSelect().hasSelectedOption();
     }
 
     public Object select(Option option) {

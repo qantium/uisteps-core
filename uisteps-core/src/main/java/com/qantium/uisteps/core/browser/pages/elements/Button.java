@@ -27,5 +27,8 @@ public class Button extends UIElement {
     public Button(WebElement wrappedElement) {
         super(wrappedElement);
     }
+    
+    public Button() {
+    }
 
 }

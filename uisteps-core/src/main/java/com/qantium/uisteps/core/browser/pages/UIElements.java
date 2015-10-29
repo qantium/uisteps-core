@@ -15,12 +15,12 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.name.Named;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -28,15 +28,38 @@ import org.openqa.selenium.WebElement;
  * @author A.Solyankin
  * @param <E>
  */
-public class UIElements<E extends UIBlockOrElement> extends LinkedList<E> implements Named {
+public class UIElements<E extends UIBlockOrElement> extends UIBlock {
 
-    private String name;
+    private List<E> elements;
+    private final Class<E> elementType;
 
-    public UIElements(List<E> elements) {
-        addAll(elements);
+    public UIElements(Class<E> elementType) {
+        this.elementType = elementType;
     }
 
+    public Class<E> getElementType() {
+        return elementType;
+    }
+
+    public boolean isEmpty() {
+        return getElements().isEmpty();
+    }
+
+    public Iterator<E> iterator() {
+        return getElements().iterator();
+    }
+
+    public UIElements<E> subList(int fromIndex, int toIndex) {
+        return uiElements(getElements().subList(fromIndex, toIndex));
+    }
+
+    @Override
     public boolean isDisplayed() {
+
+        if (isEmpty()) {
+            return false;
+        }
+
         Iterator<E> iterator = iterator();
 
         while (iterator.hasNext()) {
@@ -46,49 +69,24 @@ public class UIElements<E extends UIBlockOrElement> extends LinkedList<E> implem
             }
         }
         return true;
-
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-
-        if (StringUtils.isEmpty(name)) {
-
-            try {
-                return "list of " + getFirst().getName();
-            } catch (NoSuchElementException ex) {
-                return "empty list";
-            }
-        } else {
-            return name;
-        }
-    }
-
-    @Override
     public E getFirst() {
-        E element = super.getFirst();
+        E element = getElements().get(0);
         return element.withName("first " + element.getName());
     }
 
-    @Override
     public E getLast() {
-        E element = super.getLast();
+        E element = getElements().get(size() - 1);
         return element.withName("last " + element.getName());
     }
 
-    @Override
     public E[] toArray() {
-        return (E[]) super.<E>toArray();
+        return (E[]) getElements().<E>toArray();
     }
 
-    @Override
     public E get(int index) {
-        E element = super.get(index);
+        E element = getElements().get(index);
         return element.withName(element.getName() + " by index " + index);
     }
 
@@ -129,6 +127,10 @@ public class UIElements<E extends UIBlockOrElement> extends LinkedList<E> implem
         return except(size() - 1);
     }
 
+    public int size() {
+        return getElements().size();
+    }
+
     public UIElements<E> exceptFromIncluding(int index) {
         return exceptInnerIncluding(index, size());
     }
@@ -154,33 +156,67 @@ public class UIElements<E extends UIBlockOrElement> extends LinkedList<E> implem
     }
 
     public UIElements<E> exceptInner(int fromIndex, int toIndex) {
-        LinkedList<E> proxyList = getProxyList();
+        List<E> proxyList = getProxyElements();
         proxyList.subList(fromIndex, toIndex).clear();
         return uiElements(proxyList);
     }
 
     public UIElements<E> exceptOuter(int fromIndex, int toIndex) {
-        return uiElements(getProxyList().subList(fromIndex, toIndex));
+        return uiElements(getProxyElements().subList(fromIndex, toIndex));
     }
 
     public UIElements<E> except(Integer... indexes) {
 
-        LinkedList<E> proxyList = getProxyList();
+        List<E> proxyList = getProxyElements();
 
         for (int index : indexes) {
-            remove(index);
+            proxyList.remove(index);
         }
 
         return uiElements(proxyList);
     }
 
     private UIElements<E> uiElements(List<E> proxyElements) {
-        return new UIElements(proxyElements);
+        UIElements uiElements = new UIElements(elementType);
+        uiElements.addAll(proxyElements);
+        return uiElements;
     }
 
-    private LinkedList<E> getProxyList() {
-        LinkedList<E> proxyElements = new LinkedList();
-        proxyElements.addAll(this);
+    public void addAll(Collection<E> c) {
+        getElements().addAll(c);
+    }
+
+    public void addAll(UIElements uiElements) {
+        addAll(uiElements.getProxyElements());
+    }
+
+    protected List<E> getElements() {
+
+        if (elements == null) {
+            elements = new ArrayList();
+            List<WebElement> webElements = getSearchContext().findElements(getLocator());
+
+            for (WebElement element : webElements) {
+                E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
+                elements.add(uiElement);
+            }
+        }
+        return elements;
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+
+        if (getContext() != null) {
+            return getContext().getSearchContext();
+        } else {
+            return inOpenedBrowser().getDriver();
+        }
+    }
+
+    private List<E> getProxyElements() {
+        List<E> proxyElements = new ArrayList();
+        proxyElements.addAll(getElements());
         return proxyElements;
     }
 }

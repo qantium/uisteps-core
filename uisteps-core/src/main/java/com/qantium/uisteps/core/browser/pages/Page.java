@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
-import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
@@ -167,36 +166,8 @@ public class Page implements UIObject {
         return inOpenedBrowser().onDisplayed(uiObject, by);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayed(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by, context);
-    }
-
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
-        return inOpenedBrowser().onDisplayedAll(proxyElements);
     }
 
     public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
@@ -205,29 +176,5 @@ public class Page implements UIObject {
 
     public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, context);
     }
 }

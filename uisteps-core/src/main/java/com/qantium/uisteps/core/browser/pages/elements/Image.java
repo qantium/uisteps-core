@@ -24,6 +24,9 @@ import org.openqa.selenium.WebElement;
  */
 public class Image extends UIElement {
     
+    public Image() {
+    }
+    
     public Image(WebElement wrappedElement) {
         super(wrappedElement);
     }

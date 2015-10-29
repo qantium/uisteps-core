@@ -23,16 +23,16 @@ import org.openqa.selenium.WebElement;
  * @author ASolyankin
  */
 public class FileInput extends UIElement {
-
-    private final ru.yandex.qatools.htmlelements.element.FileInput wrappedFileInput;
+    
+    public FileInput() {
+    }
     
     public FileInput(WebElement wrappedElement) {
         super(wrappedElement);
-        wrappedFileInput = new ru.yandex.qatools.htmlelements.element.FileInput(wrappedElement);
     }
 
     public ru.yandex.qatools.htmlelements.element.FileInput getWrappedFileInput() {
-        return wrappedFileInput;
+        return new ru.yandex.qatools.htmlelements.element.FileInput(getWrappedElement());
     }
 
     public Object setFileToUpload(String filePath) {

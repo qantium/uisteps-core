@@ -9,6 +9,9 @@ import org.openqa.selenium.WebElement;
  */
 public class Link extends UIElement {
 
+    public Link() {
+    }
+    
     public Link(WebElement wrappedElement) {
         super(wrappedElement);
     }

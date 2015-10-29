@@ -28,18 +28,22 @@ import ru.yandex.qatools.htmlelements.element.Radio;
  */
 public class RadioButtonGroup extends UIElement {
 
-    private final Radio wrappedRadio;
-
+    public RadioButtonGroup() {
+    }
+    
     public RadioButtonGroup(WebElement wrappedElement) {
         super(wrappedElement);
-        wrappedRadio = new Radio(wrappedElement);
+    }
+    
+    protected Radio getWrappedRadio() {
+        return new Radio(getWrappedElement());
     }
 
     public List<RadioButton> getButtons() {
 
         List<RadioButton> buttons = new ArrayList();
 
-        for (WebElement button : wrappedRadio.getButtons()) {
+        for (WebElement button : getWrappedRadio().getButtons()) {
             buttons.add(new RadioButton(button));
         }
 
@@ -48,7 +52,7 @@ public class RadioButtonGroup extends UIElement {
 
     public RadioButton getSelectedButton() {
 
-        for (WebElement button : wrappedRadio.getButtons()) {
+        for (WebElement button : getWrappedRadio().getButtons()) {
 
             if (button.isSelected()) {
                 return new RadioButton(button);
@@ -58,7 +62,7 @@ public class RadioButtonGroup extends UIElement {
     }
 
     public boolean hasSelectedButton() {
-        return wrappedRadio.hasSelectedButton();
+        return getWrappedRadio().hasSelectedButton();
     }
 
     public Object selectByValue(String value) {

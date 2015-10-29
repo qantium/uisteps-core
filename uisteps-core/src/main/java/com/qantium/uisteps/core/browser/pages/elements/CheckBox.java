@@ -23,16 +23,16 @@ import org.openqa.selenium.WebElement;
  * @author ASolyankin
  */
 public class CheckBox extends UIElement {
-
-    private final ru.yandex.qatools.htmlelements.element.CheckBox wrappedCheckBox;
+    
+    public CheckBox() {
+    }
     
     public CheckBox(WebElement wrappedElement) {
         super(wrappedElement);
-        wrappedCheckBox = new ru.yandex.qatools.htmlelements.element.CheckBox(wrappedElement);
     }
 
     public String getLabelText() {
-        return wrappedCheckBox.getLabelText();
+        return getWrappedCheckBox().getLabelText();
     }
 
     public Object select() {
@@ -44,9 +44,9 @@ public class CheckBox extends UIElement {
         inOpenedBrowser().deselect(this);
         return null;
     }
-
+    
     public ru.yandex.qatools.htmlelements.element.CheckBox getWrappedCheckBox() {
-        return wrappedCheckBox;
+        return new ru.yandex.qatools.htmlelements.element.CheckBox(getWrappedElement());
     }
 
 }

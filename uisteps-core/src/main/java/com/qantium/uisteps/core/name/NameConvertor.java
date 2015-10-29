@@ -1,5 +1,6 @@
 package com.qantium.uisteps.core.name;
 
+import java.lang.reflect.Field;
 import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
 /**
  *
@@ -18,5 +19,9 @@ public class NameConvertor {
 
     public static String humanize(Object obj) {
         return humanize(obj.getClass());
+    }
+    
+    public static String humanize(Field field) {
+        return HtmlElementUtils.getElementName(field);
     }
 }

@@ -24,6 +24,9 @@ import org.openqa.selenium.WebElement;
  */
 public class TextField extends UIElement {
 
+    public TextField() {
+    }
+    
     public TextField(WebElement wrappedElement) {
         super(wrappedElement);
     }

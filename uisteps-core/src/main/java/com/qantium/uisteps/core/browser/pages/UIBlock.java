@@ -20,7 +20,10 @@ import com.qantium.uisteps.core.then.Then;
 import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 /**
@@ -29,11 +32,60 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
  */
 public class UIBlock extends HtmlElement implements UIBlockOrElement {
 
-    public UIBlock() {
+    private By locator;
+    private UIObject context;
+    private WebElement wrappedElement;
+
+    @Override
+    public void setWrappedElement(WebElement wrappedElement) {
+        this.wrappedElement = wrappedElement;
     }
 
-    public UIBlock(By locator) {
-        setWrappedElement(findElement(locator));
+    @Override
+    public List<WebElement> findElements(By by) {
+        return getWrappedElement().findElements(by);
+    }
+
+    @Override
+    public WebElement getWrappedElement() {
+
+        if (wrappedElement != null) {
+            return wrappedElement;
+        }
+
+        SearchContext searchContext;
+
+        if (getContext() != null) {
+            searchContext = getContext().getSearchContext();
+        } else {
+            searchContext = inOpenedBrowser().getDriver();
+        }
+        return searchContext.findElement(getLocator());
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        return getWrappedElement();
+    }
+
+    @Override
+    public void setContext(UIObject context) {
+        this.context = context;
+    }
+
+    @Override
+    public UIObject getContext() {
+        return context;
+    }
+
+    @Override
+    public void setLocator(By locator) {
+        this.locator = locator;
+    }
+
+    @Override
+    public By getLocator() {
+        return locator;
     }
 
     @Override
@@ -97,8 +149,8 @@ public class UIBlock extends HtmlElement implements UIBlockOrElement {
 
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        if(Page.class.isAssignableFrom(uiObject)) { 
-             return inOpenedBrowser().onDisplayed(uiObject);
+        if (Page.class.isAssignableFrom(uiObject)) {
+            return inOpenedBrowser().onDisplayed(uiObject);
         } else {
             return (T) inOpenedBrowser().onDisplayed((Class<UIBlockOrElement>) uiObject, this);
         }
@@ -108,22 +160,10 @@ public class UIBlock extends HtmlElement implements UIBlockOrElement {
         return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, this);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by, this);
-    }
-
     public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
-        return inOpenedBrowser().onDisplayedAll(proxyElements);
-    }
-    
     public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayedAll(uiObject, this);
     }
@@ -132,16 +172,43 @@ public class UIBlock extends HtmlElement implements UIBlockOrElement {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
     }
 
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, this);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, this);
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public SearchContext getSearchContext() {
-        return getWrappedElement();
+    public String getContextString() {
+
+        StringBuilder contextStr = new StringBuilder();
+
+        if (getContext() != null) {
+
+            if (getContext() instanceof UIBlockOrElement) {
+                contextStr.append(((UIBlockOrElement) getContext()).getContextString());
+            } else {
+                contextStr.append(getContext().getName());
+            }
+            contextStr.append(" => ");
+        }
+        contextStr.append(getName());
+        return contextStr.toString();
     }
+
+    @Override
+    public String getLocatorString() {
+
+        StringBuilder contextStr = new StringBuilder();
+
+        if (getContext() != null) {
+
+            if (getContext() instanceof UIBlockOrElement) {
+                contextStr.append(((UIBlockOrElement) getContext()).getLocatorString());
+                contextStr.append(" => ");
+            }
+        }
+        contextStr.append(getLocator());
+        return contextStr.toString();
+    }
+
 }

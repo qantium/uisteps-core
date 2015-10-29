@@ -25,23 +25,49 @@ public class Condition extends WithLogicOperation {
     private String expectedResult;
     private String actualResult;
 
-    public Condition(boolean value, String expectedResult) {
-        this(value, expectedResult, "");
+    public Condition(boolean successful, String expectedResult) {
+        this(successful, expectedResult, "");
     }
 
-    public Condition(boolean value, String expectedResult, String actualResult) {
-        successful = value;
+    public Condition(boolean successful, String expectedResult, String actualResult) {
+        this.successful = successful;
         this.expectedResult = expectedResult;
         this.actualResult = actualResult;
     }
 
-    public static Condition isTrue(boolean value, String expectedResult) {
-        return new Condition(value, expectedResult);
+    public static Condition isTrue(boolean successful, String expectedResult) {
+        return Condition.isTrue(false, successful, expectedResult);
     }
 
-    public static Condition isTrue(boolean value, String expectedResult, String actualResult) {
-        return new Condition(value, expectedResult, actualResult);
+    public static Condition isTrue(boolean successful, String expectedResult, String actualResult) {
+        return Condition.isTrue(false, successful, expectedResult, actualResult);
     }
+
+    public static Condition isTrue(boolean successful, String expectedResult, String altExpectedResult, String actualResult) {
+        return Condition.isTrue(false, successful, expectedResult, actualResult);
+    }
+    
+    public static Condition isTrue(boolean not, boolean successful, String expectedResult) {
+        return Condition.isTrue(not, successful, expectedResult, "");
+    }
+
+    public static Condition isTrue(boolean not, boolean successful, String expectedResult, String actualResult) {
+        return Condition.isTrue(not, successful, expectedResult, expectedResult, actualResult);
+    }
+
+    public static Condition isTrue(boolean not, boolean successful, String expectedResult, String altExpectedResult, String actualResult) {
+        
+        if (not) {
+            successful = !successful;
+        } 
+        
+        if (!successful) {
+            expectedResult = altExpectedResult;
+        }
+        return new Condition(successful, expectedResult, actualResult);
+    }
+
+    
 
     @Override
     public boolean isSuccessful() {
@@ -86,5 +112,4 @@ public class Condition extends WithLogicOperation {
         return "Condition{" + "successful=" + successful + ", expectedResult=" + expectedResult + ", actualResult=" + actualResult + ", logicOperation=" + getLogicOperation() + "}";
     }
 
-    
 }

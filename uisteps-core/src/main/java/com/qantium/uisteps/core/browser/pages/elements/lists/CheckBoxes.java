@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2015 A.Solyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements;
+package com.qantium.uisteps.core.browser.pages.elements.lists;
 
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.WebElement;
+import com.qantium.uisteps.core.browser.pages.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
 
 /**
  *
- * @author ASolyankin
+ * @author A.Solyankin
  */
-public class TextBlock extends UIElement {
+public class CheckBoxes extends UIElements<CheckBox> {
 
-    public TextBlock() {
-    }
-    
-    public TextBlock(WebElement wrappedElement) {
-        super(wrappedElement);
+    public CheckBoxes() {
+        super(CheckBox.class);
     }
 }

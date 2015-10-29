@@ -2,7 +2,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
-import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -16,6 +15,8 @@ import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 public class UIElement extends TypifiedElement implements UIBlockOrElement {
 
     private WebElement wrappedElement;
+    private By locator;
+    private UIObject context;
 
     public UIElement(WebElement wrappedElement) {
         super(wrappedElement);
@@ -27,12 +28,51 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
     }
 
     @Override
-    public WebElement getWrappedElement() {
-        return wrappedElement;
-    }
-
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
+    }
+
+    @Override
+    public WebElement getWrappedElement() {
+
+        if (wrappedElement != null) {
+            return wrappedElement;
+        }
+
+        SearchContext searchContext;
+
+        if (getContext() != null) {
+            searchContext = getContext().getSearchContext();
+        } else {
+            searchContext = inOpenedBrowser().getDriver();
+        }
+
+        return searchContext.findElement(getLocator());
+    }
+
+    @Override
+    public void setContext(UIObject context) {
+        this.context = context;
+    }
+
+    @Override
+    public UIObject getContext() {
+        return context;
+    }
+
+    @Override
+    public By getLocator() {
+        return locator;
+    }
+
+    @Override
+    public void setLocator(By locator) {
+        this.locator = locator;
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        return getWrappedElement();
     }
 
     @Override
@@ -80,47 +120,57 @@ public class UIElement extends TypifiedElement implements UIBlockOrElement {
 
     //onDisplayed
     public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject, getWrappedElement());
+        return inOpenedBrowser().onDisplayed(uiObject, this);
     }
 
     public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, getWrappedElement());
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by, getWrappedElement());
+        return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
     public <T extends UIBlockOrElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
-        return inOpenedBrowser().onDisplayedAll(proxyElements);
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, this);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, getWrappedElement());
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, getWrappedElement());
+    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
     }
 
     @Override
-    public SearchContext getSearchContext() {
-        return getWrappedElement();
+    public String getContextString() {
+
+        StringBuilder contextStr = new StringBuilder();
+
+        if (getContext() != null) {
+
+            if (getContext() instanceof UIBlockOrElement) {
+                contextStr.append(((UIBlockOrElement) getContext()).getContextString());
+            } else {
+                contextStr.append(getContext().getName());
+            }
+            contextStr.append(" => ");
+        }
+        contextStr.append(getName());
+        return contextStr.toString();
     }
+
+    @Override
+    public String getLocatorString() {
+
+        StringBuilder contextStr = new StringBuilder();
+
+        if (getContext() != null) {
+
+            if (getContext() instanceof UIBlockOrElement) {
+                contextStr.append(((UIBlockOrElement) getContext()).getLocatorString());
+                contextStr.append(" => ");
+            }
+        }
+        contextStr.append(getLocator());
+        return contextStr.toString();
+    }
+
 }

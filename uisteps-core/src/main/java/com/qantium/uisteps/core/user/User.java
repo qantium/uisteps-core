@@ -23,14 +23,11 @@ import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIBlockOrElement;
-import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
-import java.util.List;
-import org.eclipse.aether.util.StringUtils;
+import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
@@ -196,75 +193,74 @@ public class User implements Named {
         return inOpenedBrowser().executeScript(script);
     }
 
-    private Condition getCondition(boolean condition, String expected, String altExpected, String actual) {
-        if (!condition) {
-            expected = altExpected;
-        }
-        return Condition.isTrue(condition, expected, actual);
+    //see
+    private DisplayCondition displayCondition() {
+        return new DisplayCondition(inOpenedBrowser());
     }
 
-    private Condition getSeeCondition(boolean condition, String expected, String altExpected, String actual) {
-        String message = "user see ";
-        expected = message + expected;
-        actual = message + actual;
-        altExpected = message + altExpected;
-        return getCondition(condition, expected, altExpected, actual);
+    public DisplayCondition not() {
+        return displayCondition().not(true);
     }
 
-    private Condition getSeeCondition(boolean condition, String expected, String actual) {
-        return getSeeCondition(condition, expected, expected, actual);
-    }
-
-    public Condition see(Object obj) {
-        return getSeeCondition(obj != null && StringUtils.isEmpty(obj.toString()), "\"" + obj + "\"", "some object", "\"" + obj + "\"");
-    }
-
-    public Condition see(Object obj, String value) {
-        return getSeeCondition(obj != null && obj.toString().equals(value), "\"" + value + "\"", "\"" + obj + "\"");
-    }
-
-    public Condition seePartOf(Object obj, String value) {
-        String text = "";
-        
-        if(obj != null) {
-           text = obj.toString();
-        }
-        return getSeeCondition(obj != null && text.contains(value), "part \"" + value + "\" of \"" + text + "\"", "\"" + obj + "\"");
-    }
-
-    public Condition see(UIBlockOrElement uiObject, String value) {
-        return getSeeCondition(uiObject != null && uiObject.getText().equals(value), "\"" + value + "\"", "\"" + uiObject + "\"");
-    }
-
-    public Condition seePartOf(UIBlockOrElement uiObject, String value) {
-        String text = "";
-        
-        if(uiObject != null) {
-           text = uiObject.getText();
-        }
-        return getSeeCondition(uiObject != null && text.contains(value), "part \"" + value + "\" of " + text, "\"" + uiObject + "\"");
-    }
-
-    public Condition see(UIObject uiObject) {
-        UIObject obj = inOpenedBrowser().populate(uiObject);
-        return getSeeCondition(obj.isDisplayed(), "\"" + obj + "\"", "some object", "\"" + obj + "\"");
-    }
-
-    public Condition see(Class<? extends UIBlockOrElement> uiObject, String value) {
-        return getSeeCondition(uiObjectInstance(uiObject).getText().equals(value), "\"" + value + "\"", "\"" + uiObject + "\"");
-    }
-
-    public Condition seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
-        String text = uiObjectInstance(uiObject).getText();
-        return getSeeCondition(text.contains(value), "part \"" + value + "\" of \"" + text + "\"", "\"" + uiObject + "\"");
+    public Condition see(UIObject obj) {
+        return displayCondition().see(obj);
     }
 
     public Condition see(Class<? extends UIObject> uiObject) {
-        return see(uiObjectInstance(uiObject));
+        return displayCondition().see(uiObject);
     }
 
-    private <T extends UIObject> T uiObjectInstance(Class<T> uiObject) {
-        return inOpenedBrowser().instatiate(uiObject);
+    
+    public Condition see(String description, UIObject obj) {
+        return displayCondition().see(description, obj);
+    }
+
+    public Condition see(String description, String obj) {
+        return displayCondition().see(description, obj);
+    }
+
+    public Condition see(String description, Class<? extends UIObject> uiObject) {
+        return displayCondition().see(description, uiObject);
+    }
+
+    public Condition see(UIObject uiObject, String value) {
+        return displayCondition().see(uiObject, value);
+    }
+
+    public Condition see(Class<? extends UIObject> uiObject, String value) {
+        return displayCondition().see(uiObject, value);
+    }
+
+    public Condition see(String description, String obj, String value) {
+        return displayCondition().see(description, obj, value);
+    }
+
+    public Condition see(String description, UIObject obj, String value) {
+        return displayCondition().see(description, obj, value);
+    }
+
+    public Condition see(String description, Class<? extends UIObject> uiObject, String value) {
+        return displayCondition().see(description, uiObject, value);
+    }
+
+    public Condition seePartOf(UIBlockOrElement obj, String value) {
+        return displayCondition().seePartOf(obj, value);
+    }
+
+    public Condition seePartOf(String obj, String value) {
+        return displayCondition().seePartOf(obj, value);
+    }
+
+    public Condition seePartOf(Class<? extends UIBlockOrElement> uiObject, String value) {
+        return displayCondition().seePartOf(uiObject, value);
+    }
+
+    public Condition seePartOf(String description, UIBlockOrElement obj, String value) {
+        return displayCondition().seePartOf(description, obj, value);
+    }
+
+    public Condition seePartOf(String description, String obj, String value) {
+        return displayCondition().seePartOf(description, obj, value);
     }
 
     @Override
@@ -297,68 +293,15 @@ public class User implements Named {
         return inOpenedBrowser().onDisplayed(uiObject, by);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, SearchContext context) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, UIObject context) {
         return inOpenedBrowser().onDisplayed(uiObject, context);
     }
 
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, SearchContext context) {
+    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
         return inOpenedBrowser().onDisplayed(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayed(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> T onDisplayed(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayed(uiObject, name, by, context);
     }
 
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(List<T> proxyElements) {
-        return inOpenedBrowser().onDisplayedAll(proxyElements);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(uiObject);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, context);
-    }
-
-    public <T extends UIBlockOrElement> UIElements<T> onDisplayedAll(Class<T> uiObject, String name, By by, SearchContext context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, name, by, context);
-    }
-
 }
