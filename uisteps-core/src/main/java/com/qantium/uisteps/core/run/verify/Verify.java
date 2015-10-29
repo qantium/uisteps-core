@@ -143,7 +143,7 @@ public class Verify {
 
     public Result result(Result result) {
         try {
-            Assert.assertTrue(result.isSuccessful());
+            Assert.assertTrue(result.toString(), result.isSuccessful());
             return result;
         } finally {
             result.reset();

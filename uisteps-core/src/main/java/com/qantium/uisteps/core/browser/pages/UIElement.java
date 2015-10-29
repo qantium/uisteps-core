@@ -195,6 +195,7 @@ public class UIElement implements UIObject, WrapsElement {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
     
+    @Override
     public boolean isDisplayed() {
         return getWrappedElement().isDisplayed();
     }
