@@ -49,5 +49,12 @@ public class CheckBox extends UIElement implements ElementaryElement {
     public ru.yandex.qatools.htmlelements.element.CheckBox getWrappedCheckBox() {
         return new ru.yandex.qatools.htmlelements.element.CheckBox(getWrappedElement());
     }
-
+    
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
+    
+    public boolean isSelected() {
+        return getWrappedElement().isSelected();
+    }
 }

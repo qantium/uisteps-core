@@ -41,4 +41,7 @@ public class FileInput extends UIElement implements ElementaryElement {
         return null;
     }
     
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
 }

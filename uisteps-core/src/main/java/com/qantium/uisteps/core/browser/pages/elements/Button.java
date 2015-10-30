@@ -32,4 +32,7 @@ public class Button extends UIElement implements ElementaryElement {
     public Button() {
     }
 
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
 }

@@ -87,7 +87,7 @@ public class Browser {
     }
 
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context) {
-        return this.displayed(uiObject, locator, context, null);
+        return displayed(uiObject, locator, context, null);
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
@@ -316,6 +316,7 @@ public class Browser {
             }
 
         }
+        
         return uiObject;
     }
 
@@ -377,12 +378,21 @@ public class Browser {
     }
 
     //onDisplayed
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return populate(uiObject);
+    }
+    
+    public <T extends UIElement> T onDisplayed(T uiObject, UIObject context) {
+        uiObject.setContext(context);
+        return onDisplayed(uiObject);
+    }
+    
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
 
         if (UIElement.class.isAssignableFrom(uiObject)) {
             return onDisplayed((T) find((Class<UIElement>) uiObject));
         } else {
-            return onDisplayed(displayed(uiObject));
+            return onDisplayed(instatiate(uiObject));
         }
     }
 
@@ -396,10 +406,6 @@ public class Browser {
 
     public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
         return onDisplayed(find(uiObject, by, context));
-    }
-
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return uiObject;
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {

@@ -50,4 +50,8 @@ public class TextField extends UIElement implements ElementaryElement {
         inOpenedBrowser().enterInto(this, text);
         return null;
     }
+    
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
 }

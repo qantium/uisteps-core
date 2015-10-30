@@ -126,5 +126,13 @@ public class RadioButtonGroup extends UIElement implements ElementaryElement {
                 return name;
             }
         }
+
+        public boolean isEnabled() {
+            return getWrappedElement().isEnabled();
+        }
+
+        public boolean isSelected() {
+            return getWrappedElement().isSelected();
+        }
     }
 }

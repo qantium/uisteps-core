@@ -89,11 +89,11 @@ public class UIElement implements UIObject, WrapsElement {
         return this;
     }
 
-    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+    protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }
 
-    public <T> Then<T> then(T value) {
+    protected <T> Then<T> then(T value) {
         return inOpenedBrowser().then(value);
     }
 
@@ -118,7 +118,12 @@ public class UIElement implements UIObject, WrapsElement {
     }
 
     //onDisplayed
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+    protected <T extends UIElement> T onDisplayed(T uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject, this);
+    }
+    
+    protected <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        
         if (Page.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().onDisplayed(uiObject);
         } else {
@@ -126,20 +131,32 @@ public class UIElement implements UIObject, WrapsElement {
         }
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
+    protected <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
-    public <T extends UIElement> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+    protected <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayedAll(uiObject, this);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+    protected <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
+    }
+    
+    protected <T extends UIElement> T find(Class<T> uiObject) {
+        return inOpenedBrowser().find(uiObject, this);
+    }
+
+    protected <T extends UIElement> T find(Class<T> uiObject, By by) {
+        return inOpenedBrowser().find(uiObject, by, this);
+    }
+
+    protected <T extends UIElement> UIElements<T> finddAll(Class<T> uiObject) {
+        return inOpenedBrowser().findAll(uiObject, this);
+    }
+
+    protected <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().findAll(uiObject, by, this);
     }
 
     public String getContextString() {
@@ -174,37 +191,29 @@ public class UIElement implements UIObject, WrapsElement {
         return contextStr.toString();
     }
 
-    public List<WebElement> findElements(By by) {
+    protected List<WebElement> findElements(By by) {
         return getWrappedElement().findElements(by);
     }
 
     //switch window
-    public void switchToNextWindow() {
+    protected void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }
 
-    public void switchToPreviousWindow() {
+    protected void switchToPreviousWindow() {
         inOpenedBrowser().switchToPreviousWindow();
     }
 
-    public void switchToDefaultWindow() {
+    protected void switchToDefaultWindow() {
         inOpenedBrowser().switchToDefaultWindow();
     }
 
-    public void switchToWindowByIndex(int index) {
+    protected void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
     
     @Override
     public boolean isDisplayed() {
         return getWrappedElement().isDisplayed();
-    }
-    
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-    
-    public boolean isSelected() {
-        return getWrappedElement().isSelected();
     }
 }

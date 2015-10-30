@@ -29,7 +29,7 @@ import org.eclipse.aether.util.StringUtils;
 public class DisplayCondition {
 
     public final Browser browser;
-    private boolean not = false;
+    private boolean not;
 
     public DisplayCondition(Browser browser) {
         this.browser = browser;
@@ -45,22 +45,34 @@ public class DisplayCondition {
     }
 
     protected Condition see(String description, boolean successful, String expected, String actual) {
-        return see(description, successful, expected, expected, actual);
-    }
-
-    protected Condition see(String description, boolean successful, String expected, String altExpected, String actual) {
+        
         String message = " is displayed";
-
+        String notMessage = " is not displayed";
+        
         if (!StringUtils.isEmpty(description)) {
             description += " ";
-        } else {
-            description = "";
         }
 
-        expected = description + expected + message;
-        actual = description + actual + message;
-        altExpected = description + altExpected + message;
-        return Condition.isTrue(not, successful, expected, altExpected, actual);
+        StringBuilder expectedMessage = new StringBuilder();
+        StringBuilder actualMessage = new StringBuilder();
+        
+        expectedMessage
+                .append(description)
+                .append(expected);
+        
+        actualMessage
+                .append(description)
+                .append(actual);
+        
+        if(not) {
+            expectedMessage.append(notMessage);
+            actualMessage.append(message);
+        } else {
+            expectedMessage.append(message);
+            actualMessage.append(notMessage);
+        } 
+        
+        return Condition.isTrue(not, successful, expectedMessage.toString(), actualMessage.toString());
     }
 
     public Condition see(UIObject obj) {
@@ -71,22 +83,13 @@ public class DisplayCondition {
         return see("", uiObject);
     }
 
-    protected String getAltExpected() {
-
-        if (not) {
-            return "nothing";
-        } else {
-            return "some object";
-        }
-    }
-
     public Condition see(String description, UIObject obj) {
         browser.populate(obj);
-        return see(description, isDisplayed(obj), "\"" + obj + "\"", getAltExpected(), "\"" + obj + "\"");
+        return see(description, isDisplayed(obj), "\"" + obj + "\"", "\"" + obj + "\"");
     }
 
     public Condition see(String description, String obj) {
-        return see(description, isDisplayed(obj), "\"" + obj + "\"", getAltExpected(), "\"" + obj + "\"");
+        return see(description, isDisplayed(obj), "\"" + obj + "\"", "\"" + obj + "\"");
     }
 
     public Condition see(String description, Class<? extends UIObject> uiObject) {

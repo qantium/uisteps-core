@@ -24,11 +24,11 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public class Select extends UIElement implements ElementaryElement{
+public class Select extends UIElement implements ElementaryElement {
 
     public Select() {
     }
-    
+
     public Select(WebElement wrappedElement) {
         super(wrappedElement);
     }
@@ -109,6 +109,12 @@ public class Select extends UIElement implements ElementaryElement{
         VALUE, VISIBLE_VALUE, INDEX;
     }
 
+    
+    
+    public boolean isEnabled() {
+        return getWrappedElement().isEnabled();
+    }
+    
     public class Option {
 
         private String name = "option";
@@ -204,5 +210,8 @@ public class Select extends UIElement implements ElementaryElement{
             return builder.toString();
         }
 
+        public boolean isSelected() {
+            return getWrappedElement().isSelected();
+        }
     }
 }

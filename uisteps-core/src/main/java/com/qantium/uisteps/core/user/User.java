@@ -23,6 +23,7 @@ import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
@@ -210,7 +211,6 @@ public class User implements Named {
         return displayCondition().see(uiObject);
     }
 
-    
     public Condition see(String description, UIObject obj) {
         return displayCondition().see(description, obj);
     }
@@ -303,5 +303,21 @@ public class User implements Named {
 
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayedAll(uiObject);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, UIObject context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, context);
+    }
+
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, UIObject context) {
+        return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
     }
 }

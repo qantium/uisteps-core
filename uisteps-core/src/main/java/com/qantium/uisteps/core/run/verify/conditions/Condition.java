@@ -47,23 +47,15 @@ public class Condition extends WithLogicOperation {
         return Condition.isTrue(false, successful, expectedResult, actualResult);
     }
     
-    public static Condition isTrue(boolean not, boolean successful, String expectedResult) {
+    static Condition isTrue(boolean not, boolean successful, String expectedResult) {
         return Condition.isTrue(not, successful, expectedResult, "");
     }
 
-    public static Condition isTrue(boolean not, boolean successful, String expectedResult, String actualResult) {
-        return Condition.isTrue(not, successful, expectedResult, expectedResult, actualResult);
-    }
-
-    public static Condition isTrue(boolean not, boolean successful, String expectedResult, String altExpectedResult, String actualResult) {
+    static Condition isTrue(boolean not, boolean successful, String expectedResult, String actualResult) {
         
         if (not) {
             successful = !successful;
         } 
-        
-        if (!successful) {
-            expectedResult = altExpectedResult;
-        }
         return new Condition(successful, expectedResult, actualResult);
     }
 
