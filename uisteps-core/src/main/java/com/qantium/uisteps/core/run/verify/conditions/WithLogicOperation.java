@@ -15,29 +15,31 @@
  */
 package com.qantium.uisteps.core.run.verify.conditions;
 
+import com.qantium.uisteps.core.run.verify.results.LogicOperation;
+
 /**
  *
  * @author ASolyankin
  */
 public abstract class WithLogicOperation {
- 
+
     private LogicOperation logicOperation = LogicOperation.OR;
-    
+
     public abstract boolean isSuccessful();
 
     public LogicOperation getLogicOperation() {
         return logicOperation;
     }
 
-    public WithLogicOperation set(LogicOperation logicOperation) {
+    public <T extends WithLogicOperation> T set(LogicOperation logicOperation) {
         this.logicOperation = logicOperation;
-        return this;
+        return (T) this;
     }
-    
+
     public WithLogicOperation and() {
         return set(LogicOperation.AND);
     }
-    
+
     public WithLogicOperation or() {
         return set(LogicOperation.OR);
     }

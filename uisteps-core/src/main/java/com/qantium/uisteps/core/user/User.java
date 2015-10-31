@@ -64,7 +64,7 @@ public class User implements Named {
 
     public Browser inOpenedBrowser() {
 
-        if (!getBrowserManager().hasAny()) {
+        if (!BrowserManager.hasAny()) {
             openNewBrowser();
         }
         return BrowserManager.getCurrentBrowser();
@@ -87,31 +87,31 @@ public class User implements Named {
     }
 
     public Browser switchToNextBrowser() {
-        return getBrowserManager().switchToNextBrowser();
+        return BrowserManager.switchToNextBrowser();
     }
 
     public Browser switchToPreviousBrowser() {
-        return getBrowserManager().switchToPreviousBrowser();
+        return BrowserManager.switchToPreviousBrowser();
     }
 
     public Browser switchToDefaultBrowser() {
-        return getBrowserManager().switchToFirstBrowser();
+        return BrowserManager.switchToFirstBrowser();
     }
 
     public Browser switchToBrowserByIndex(int index) throws NoBrowserException {
-        return getBrowserManager().switchToBrowserByIndex(index);
+        return BrowserManager.switchToBrowserByIndex(index);
     }
 
     public Browser switchToLastBrowser() {
-        return getBrowserManager().switchToLastBrowser();
+        return BrowserManager.switchToLastBrowser();
     }
 
     public void closeAllBrowsers() {
-        getBrowserManager().closeAllBrowsers();
+        BrowserManager.closeAllBrowsers();
     }
 
     public void closeCurrentBrowser() {
-        getBrowserManager().closeCurrentBrowser();
+        BrowserManager.closeCurrentBrowser();
     }
 
     public void openUrl(String url, String... params) {

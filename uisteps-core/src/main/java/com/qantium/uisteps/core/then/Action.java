@@ -20,18 +20,18 @@ package com.qantium.uisteps.core.then;
  * @author ASolyankin
  */
 public abstract class Action<T> {
-    
+
     private Object[] args;
-    
+
     public abstract <T> T execute();
-    
+
     public Action<T> setArgs(Object... args) {
         this.args = args;
         return this;
     }
-    
+
     public Object[] getArgs() {
         return args;
     }
-    
+
 }

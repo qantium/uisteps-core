@@ -31,13 +31,13 @@ public class MockPage extends Page {
 
     }
 
-    public MockPage open() {
+    public <T extends MockPage> T open() {
         browser.getDriver().get(getUrl().toString());
 
         if (!browser.isOpened()) {
             browser.open();
         }
-        return this;
+        return (T) this;
     }
 
     @Override

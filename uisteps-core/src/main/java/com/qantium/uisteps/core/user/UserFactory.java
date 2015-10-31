@@ -38,16 +38,16 @@ public abstract class UserFactory {
         return add(user, this.user);
     }
 
-    public UserFactory add(String name, Class<? extends User> user) {
+    public <T extends UserFactory> T add(String name, Class<? extends User> user) {
         User usergetInstance = getInstanceOf(user);
         usergetInstance.setName(name);
         users.put(name, usergetInstance);
-        return this;
+        return (T) this;
     }
 
-    public UserFactory add(String name, User user) {
+    public <T extends UserFactory> T add(String name, User user) {
         users.put(name, user);
-        return this;
+        return (T) this;
     }
 
     public UserFactory add(User user) {

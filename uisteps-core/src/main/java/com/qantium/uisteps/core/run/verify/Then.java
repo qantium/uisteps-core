@@ -16,8 +16,8 @@
 package com.qantium.uisteps.core.run.verify;
 
 import com.qantium.uisteps.core.run.verify.conditions.ConditionPool;
-import com.qantium.uisteps.core.run.verify.conditions.LogicOperation;
-import com.qantium.uisteps.core.run.verify.conditions.Result;
+import com.qantium.uisteps.core.run.verify.results.LogicOperation;
+import com.qantium.uisteps.core.run.verify.results.Result;
 
 /**
  *

@@ -15,6 +15,8 @@
  */
 package com.qantium.uisteps.core.run.verify.conditions;
 
+import com.qantium.uisteps.core.run.verify.results.LogicOperation;
+
 /**
  *
  * @author ASolyankin
@@ -43,23 +45,17 @@ public class Condition extends WithLogicOperation {
         return Condition.isTrue(false, successful, expectedResult, actualResult);
     }
 
-    public static Condition isTrue(boolean successful, String expectedResult, String altExpectedResult, String actualResult) {
-        return Condition.isTrue(false, successful, expectedResult, actualResult);
-    }
-    
     static Condition isTrue(boolean not, boolean successful, String expectedResult) {
         return Condition.isTrue(not, successful, expectedResult, "");
     }
 
     static Condition isTrue(boolean not, boolean successful, String expectedResult, String actualResult) {
-        
+
         if (not) {
             successful = !successful;
-        } 
+        }
         return new Condition(successful, expectedResult, actualResult);
     }
-
-    
 
     @Override
     public boolean isSuccessful() {
@@ -74,14 +70,14 @@ public class Condition extends WithLogicOperation {
         return actualResult;
     }
 
-    public Condition setExpectedResult(String expectedResult) {
+    public <T extends Condition> T setExpectedResult(String expectedResult) {
         this.expectedResult = expectedResult;
-        return this;
+        return (T) this;
     }
 
-    public Condition setActualResult(String actualResult) {
+    public <T extends Condition> T setActualResult(String actualResult) {
         this.actualResult = actualResult;
-        return this;
+        return (T) this;
     }
 
     @Override

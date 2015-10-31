@@ -26,53 +26,14 @@ import org.eclipse.aether.util.StringUtils;
  *
  * @author A.Solyankin
  */
-public class DisplayCondition {
-
-    public final Browser browser;
-    private boolean not;
+public class DisplayCondition extends ConditionBuilder {
 
     public DisplayCondition(Browser browser) {
-        this.browser = browser;
-    }
-
-    public DisplayCondition not(boolean not) {
-        this.not = not;
-        return this;
-    }
-
-    public DisplayCondition not(String not) {
-        return not(Boolean.valueOf(not));
+        super(browser);
     }
 
     protected Condition see(String description, boolean successful, String expected, String actual) {
-        
-        String message = " is displayed";
-        String notMessage = " is not displayed";
-        
-        if (!StringUtils.isEmpty(description)) {
-            description += " ";
-        }
-
-        StringBuilder expectedMessage = new StringBuilder();
-        StringBuilder actualMessage = new StringBuilder();
-        
-        expectedMessage
-                .append(description)
-                .append(expected);
-        
-        actualMessage
-                .append(description)
-                .append(actual);
-        
-        if(not) {
-            expectedMessage.append(notMessage);
-            actualMessage.append(message);
-        } else {
-            expectedMessage.append(message);
-            actualMessage.append(notMessage);
-        } 
-        
-        return Condition.isTrue(not, successful, expectedMessage.toString(), actualMessage.toString());
+        return compile(description, successful, expected, actual, "is", "displayed");
     }
 
     public Condition see(UIObject obj) {
@@ -85,11 +46,11 @@ public class DisplayCondition {
 
     public Condition see(String description, UIObject obj) {
         browser.populate(obj);
-        return see(description, isDisplayed(obj), "\"" + obj + "\"", "\"" + obj + "\"");
+        return see(description, isDisplayed(obj), quoted(obj), quoted(obj));
     }
 
     public Condition see(String description, String obj) {
-        return see(description, isDisplayed(obj), "\"" + obj + "\"", "\"" + obj + "\"");
+        return see(description, isDisplayed(obj), quoted(obj), quoted(obj));
     }
 
     public Condition see(String description, Class<? extends UIObject> uiObject) {
@@ -110,7 +71,7 @@ public class DisplayCondition {
             obj = "";
         }
 
-        return see(description, isDisplayed(obj) && obj.equals(value), "\"" + value + "\"", "\"" + obj + "\"");
+        return see(description, isDisplayed(obj) && obj.equals(value), quoted(value), quoted(obj));
     }
 
     public Condition see(String description, UIObject obj, String value) {
@@ -126,7 +87,7 @@ public class DisplayCondition {
             }
         }
 
-        return see(description, isDisplayed(obj) && text.equals(value), "\"" + value + "\"", "\"" + obj + "\"");
+        return see(description, isDisplayed(obj) && text.equals(value), quoted(value), quoted(obj));
     }
 
     public Condition see(String description, Class<? extends UIObject> uiObject, String value) {
@@ -144,7 +105,7 @@ public class DisplayCondition {
             }
         }
 
-        return see(description, text.equals(value), "\"" + value + "\"", "\"" + uiObject + "\"");
+        return see(description, text.equals(value), quoted(value), quoted(uiObject));
     }
 
     public Condition seePartOf(UIElement obj, String value) {
@@ -156,35 +117,56 @@ public class DisplayCondition {
     }
 
     public Condition seePartOf(Class<? extends UIElement> uiObject, String value) {
-        return see("", uiObject, value);
+        return seePartOf("", uiObject, value);
     }
 
     public Condition seePartOf(String description, UIElement obj, String value) {
+
         String text = "";
 
         if (isDisplayed(obj)) {
             text = obj.getText();
         }
-
-        return see(description, isDisplayed(obj) && text.contains(value), "part \"" + value + "\" of \"" + text + "\"", "\"" + obj + "\"");
+        String partOf = partOf(value, text);
+        return see(description, isDisplayed(obj) && text.contains(value),partOf, partOf);
     }
 
     public Condition seePartOf(String description, String obj, String value) {
-
-        if (!isDisplayed(obj)) {
-            obj = "";
-        }
-
-        return see(description, isDisplayed(obj) && obj.contains(value), "part \"" + value + "\" of \"" + obj + "\"", "\"" + obj + "\"");
+        String partOf = partOf(value, obj);
+        return see(description, isDisplayed(obj) && obj.contains(value), partOf, partOf);
     }
 
     public Condition seePartOf(String description, Class<? extends UIElement> uiObject, String value) {
         String text = uiObjectInstance(uiObject).getText();
-        return see(description, text.contains(value), "part \"" + value + "\" of \"" + text + "\"", "\"" + uiObject + "\"");
+        String partOf = partOf(value, text);
+        return see(description, text.contains(value), partOf, partOf);
     }
 
     protected <T extends UIObject> T uiObjectInstance(Class<T> uiObject) {
         return browser.displayed(uiObject);
+    }
+    
+    protected String partOf(String part, String of) {
+
+        StringBuilder partOf = new StringBuilder();
+        
+        partOf
+                .append("part ")
+                .append(quoted(part))
+                .append(" of ")
+                .append(quoted(of));
+
+        return partOf.toString();
+    }
+
+    protected String quoted(Object value) {
+
+        StringBuilder quoted = new StringBuilder();
+
+        if (value != null && !StringUtils.isEmpty(value.toString())) {
+            quoted.append("\"").append(value).append("\"");
+        }
+        return quoted.toString();
     }
 
     public static boolean isDisplayed(Object obj) {

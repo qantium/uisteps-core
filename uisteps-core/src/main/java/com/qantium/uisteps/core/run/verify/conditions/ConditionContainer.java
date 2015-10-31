@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.run.verify.conditions;
 
+import com.qantium.uisteps.core.run.verify.results.LogicOperation;
 import java.util.ArrayList;
 
 /**

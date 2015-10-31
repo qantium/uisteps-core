@@ -65,9 +65,9 @@ public class Page implements UIObject {
         return params;
     }
 
-    public Page setParams(String[] params) {
+    public <T extends Page> T  setParams(String[] params) {
         this.params = params;
-        return this;
+        return (T) this;
     }
 
     public Url getUrl() {
@@ -130,9 +130,9 @@ public class Page implements UIObject {
         this.name = name;
     }
 
-    public Page setUrl(Url url) {
+    public <T extends Page> T setUrl(Url url) {
         this.url = url;
-        return this;
+        return (T) this;
     }
 
     public String getUrlString() {
@@ -141,7 +141,18 @@ public class Page implements UIObject {
 
     @Override
     public String toString() {
-        return getName() + " by url <a href='" + getUrl() + "' target='blank'>" + getUrl() + "</a> with title " + getTitle();
+        StringBuilder nameBuider = new StringBuilder();
+
+        nameBuider
+                .append("\"").append(getName()).append("\"")
+                .append(" by url <a style='text-decoration: underline' href='")
+                .append(getUrl())
+                .append("' target='blank'>")
+                .append(getUrl())
+                .append("</a> with title ")
+                .append("\"").append(getTitle()).append("\"");
+
+        return nameBuider.toString();
     }
 
     @Override
@@ -163,9 +174,9 @@ public class Page implements UIObject {
     protected <T extends UIElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject, this);
     }
-    
+
     protected <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        
+
         if (Page.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().onDisplayed(uiObject);
         } else {
@@ -200,7 +211,7 @@ public class Page implements UIObject {
     protected <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
     }
-    
+
     protected List<WebElement> findElements(By by) {
         return inOpenedBrowser().getDriver().findElements(by);
     }

@@ -69,9 +69,9 @@ public class Browser {
         return opened;
     }
 
-    public Browser open() {
+    public <T extends Browser> T open() {
         opened = true;
-        return this;
+        return (T) this;
     }
 
     public WindowManager getWindowManager() {

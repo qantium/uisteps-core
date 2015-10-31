@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.run.verify.conditions;
+package com.qantium.uisteps.core.run.verify.results;
 
 /**
  *

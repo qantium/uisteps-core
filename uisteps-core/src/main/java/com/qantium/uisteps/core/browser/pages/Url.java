@@ -53,116 +53,116 @@ public class Url {
         return protocol;
     }
 
-    public Url setProtocol(String value) {
+    public <T extends Url> T setProtocol(String value) {
 
         if (value != null) {
             protocol = value;
         }
-        return this;
+        return (T) this;
     }
 
     public String getUser() {
         return user;
     }
 
-    public Url setUser(String value) {
+    public <T extends Url> T setUser(String value) {
 
         if (value != null) {
             user = value;
         }
-        return this;
+        return (T) this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public Url setPassword(String value) {
+    public <T extends Url> T setPassword(String value) {
 
         if (value != null) {
             password = value;
         }
-        return this;
+        return (T) this;
     }
 
     public String getHost() {
         return host;
     }
 
-    public Url setHost(String value) {
+    public <T extends Url> T setHost(String value) {
 
         if (value != null) {
             host = value;
         }
-        return this;
+        return (T) this;
     }
 
     public Integer getPort() {
         return port;
     }
 
-    public Url setPort(Integer value) {
+    public <T extends Url> T setPort(Integer value) {
 
         if (value != null) {
             port = value;
         }
-        return this;
+        return (T) this;
     }
 
     public String getPrefix() {
         return prefix;
     }
 
-    public Url setPrefix(String value) {
+    public <T extends Url> T setPrefix(String value) {
 
         if (value != null) {
             prefix = value;
         }
-        return this;
+        return (T) this;
     }
 
-    public Url appendPrefix(String value) {
+    public <T extends Url> T appendPrefix(String value) {
 
         if (value != null) {
             prefix += value;
         }
-        return this;
+        return (T) this;
     }
 
-    public Url prependPrefix(String value) {
+    public <T extends Url> T prependPrefix(String value) {
 
         if (value != null) {
             prefix = value + prefix;
         }
-        return this;
+        return (T) this;
     }
 
     public String getPostfix() {
         return postfix;
     }
 
-    public Url setPostfix(String value) {
+    public <T extends Url> T setPostfix(String value) {
 
         if (value != null) {
             postfix = value;
         }
-        return this;
+        return (T) this;
     }
 
-    public Url appendPostfix(String value) {
+    public <T extends Url> T appendPostfix(String value) {
 
         if (value != null) {
             postfix += value;
         }
-        return this;
+        return (T) this;
     }
 
-    public Url prependPostfix(String value) {
+    public <T extends Url> T prependPostfix(String value) {
 
         if (value != null) {
             postfix = value + postfix;
         }
-        return this;
+        return (T) this;
     }
 
     @Override
