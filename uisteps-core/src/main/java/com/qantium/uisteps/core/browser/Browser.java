@@ -104,7 +104,7 @@ public class Browser {
     }
 
     public void open(Url url, String... params) {
-        open(new MockPage("page", url, this).setParams(params).open());
+        open(new MockPage(Page.DEFAULT_NAME, url, this).setParams(params).open());
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -140,7 +140,7 @@ public class Browser {
 
     public MockPage getCurrentPage() {
         try {
-            return new MockPage("page", new Url(getCurrentUrl()), this);
+            return new MockPage(Page.DEFAULT_NAME, new Url(getCurrentUrl()), this);
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }

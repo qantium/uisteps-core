@@ -18,7 +18,10 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.BrowserManager;
+import java.util.List;
+import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
 
 /**
  *
@@ -28,9 +31,11 @@ public interface UIObject extends Named {
 
     boolean isDisplayed();
 
-    default Browser inOpenedBrowser() {
-        return BrowserManager.getCurrentBrowser();
-    }
+    Browser inOpenedBrowser();
     
     SearchContext getSearchContext();
+    
+    List<WebElement> findElements(By by);
+    
+    WebElement findElement(By by);
 }

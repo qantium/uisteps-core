@@ -199,8 +199,16 @@ public class User implements Named {
         return new DisplayCondition(inOpenedBrowser());
     }
 
+    public DisplayCondition not(String not) {
+        return displayCondition().not(not);
+    }
+
+    public DisplayCondition not(boolean not) {
+        return displayCondition().not(not);
+    }
+
     public DisplayCondition not() {
-        return displayCondition().not(true);
+        return not(true);
     }
 
     public Condition see(UIObject obj) {

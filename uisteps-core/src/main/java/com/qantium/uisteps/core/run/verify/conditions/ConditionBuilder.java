@@ -36,8 +36,8 @@ public class ConditionBuilder {
         return (T) this;
     }
 
-    public ConditionBuilder not(String not) {
-        return not(Boolean.valueOf(not));
+    public <T extends ConditionBuilder> T not(String not) {
+        return (T) not(Boolean.valueOf(not));
     }
 
     public Condition compile(String description, boolean successful, String expected, String actual, String prefix, String postfix) {
