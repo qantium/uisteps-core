@@ -77,6 +77,11 @@ public class ConditionBuilder {
                     .append(" ")
                     .append(actual);
         }
+        
+        if(StringUtils.isEmpty(expected) || expected.equals("#NULL")) {
+            not(true);
+            successful = !successful;
+        }
 
         if (not) {
             expectedMessage.append(notMessage);

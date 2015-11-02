@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -143,8 +145,12 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
+        
         try {
-            return getWrappedElement().isDisplayed();
+            WebElement element = getWrappedElement();
+            WebDriverWait wait = new WebDriverWait(inOpenedBrowser().getDriver(), 3);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return element.isDisplayed();
         } catch (Exception ex) {
             return false;
         }

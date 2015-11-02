@@ -81,7 +81,7 @@ public class Verify {
 
         for (Object arg : args) {
 
-            if(conditionCandidate == null || arg instanceof Boolean || arg instanceof Condition) {
+            if(arg instanceof Boolean || arg instanceof Condition) {
                 conditionCandidate = new ConditionCandidate();
                 candidates.add(conditionCandidate);
             }
@@ -94,8 +94,6 @@ public class Verify {
                 conditionCandidate.setLogicOperation((LogicOperation) arg);
             } else if (arg instanceof Condition) {
                 Condition condition = (Condition) arg;
-                conditions.add((Condition) arg);
-                
                 conditionCandidate.setSuccessful(condition.isSuccessful());
                 conditionCandidate.setResult(condition.getExpectedResult());
                 conditionCandidate.setResult(condition.getActualResult());

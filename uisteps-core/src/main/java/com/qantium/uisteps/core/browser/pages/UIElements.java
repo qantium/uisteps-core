@@ -30,7 +30,6 @@ import org.openqa.selenium.WebElement;
  */
 public class UIElements<E extends UIElement> extends UIElement {
 
-    private List<E> elements;
     private final Class<E> elementType;
 
     public UIElements(Class<E> elementType) {
@@ -191,15 +190,12 @@ public class UIElements<E extends UIElement> extends UIElement {
     }
 
     protected List<E> getElements() {
+        ArrayList<E> elements = new ArrayList();
+        List<WebElement> webElements = getSearchContext().findElements(getLocator());
 
-        if (elements == null) {
-            elements = new ArrayList();
-            List<WebElement> webElements = getSearchContext().findElements(getLocator());
-
-            for (WebElement element : webElements) {
-                E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
-                elements.add(uiElement);
-            }
+        for (WebElement element : webElements) {
+            E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
+            elements.add(uiElement);
         }
         return elements;
     }

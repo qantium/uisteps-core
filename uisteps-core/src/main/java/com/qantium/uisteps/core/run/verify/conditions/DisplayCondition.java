@@ -71,7 +71,7 @@ public class DisplayCondition extends ConditionBuilder {
             obj = "";
         }
 
-        return see(description, isDisplayed(obj) && obj.equals(value), quoted(value), quoted(obj));
+        return see(description, obj.equals(value), quoted(value), quoted(obj));
     }
 
     public Condition see(String description, UIObject obj, String value) {
@@ -87,7 +87,7 @@ public class DisplayCondition extends ConditionBuilder {
             }
         }
 
-        return see(description, isDisplayed(obj) && text.equals(value), quoted(value), quoted(obj));
+        return see(description, text.equals(value), quoted(value), quoted(obj));
     }
 
     public Condition see(String description, Class<? extends UIObject> uiObject, String value) {
@@ -107,7 +107,7 @@ public class DisplayCondition extends ConditionBuilder {
 
         return see(description, text.equals(value), quoted(value), quoted(uiObject));
     }
-
+    
     public Condition seePartOf(UIElement obj, String value) {
         return seePartOf("", obj, value);
     }
@@ -128,12 +128,12 @@ public class DisplayCondition extends ConditionBuilder {
             text = obj.getText();
         }
         String partOf = partOf(value, text);
-        return see(description, isDisplayed(obj) && text.contains(value),partOf, partOf);
+        return see(description, text.contains(value),partOf, partOf);
     }
 
     public Condition seePartOf(String description, String obj, String value) {
         String partOf = partOf(value, obj);
-        return see(description, isDisplayed(obj) && obj.contains(value), partOf, partOf);
+        return see(description, obj.contains(value), partOf, partOf);
     }
 
     public Condition seePartOf(String description, Class<? extends UIElement> uiObject, String value) {
