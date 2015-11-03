@@ -58,6 +58,14 @@ public class User implements Named {
         this(browserManager, DEFAULT_NAME);
     }
 
+    public User(String name) {
+        this(new BrowserFactory(), name);
+    }
+
+    public User() {
+        this(new BrowserFactory());
+    }
+
     public BrowserManager getBrowserManager() {
         return browserManager;
     }

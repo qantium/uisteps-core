@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.run.storage;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -24,13 +25,28 @@ import java.util.Map;
 public class Storage {
 
     private final Map map;
+    private final static ThreadLocal<Map> threadLocalMap = new ThreadLocal();
 
     public Storage(Map map) {
         this.map = map;
     }
 
+    public Storage() {
+        threadLocalMap.set(new ConcurrentHashMap());
+        map = null;
+    }
+
+    private Map getMap() {
+
+        if (map != null) {
+            return map;
+        } else {
+            return threadLocalMap.get();
+        }
+    }
+
     public <T> T remember(String key, T value) {
-        map.put(key, value);
+        getMap().put(key, value);
         return value;
     }
 
@@ -39,7 +55,7 @@ public class Storage {
     }
 
     public <T> T remembered(String key) {
-        return (T) map.get(key);
+        return (T) getMap().get(key);
     }
 
     public <T> T remembered(Class<T> key) {

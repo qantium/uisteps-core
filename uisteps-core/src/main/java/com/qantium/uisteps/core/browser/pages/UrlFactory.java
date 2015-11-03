@@ -15,7 +15,8 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import java.lang.annotation.Annotation;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -25,37 +26,33 @@ import java.util.regex.Pattern;
  *
  * @author ASolyankin
  */
-public abstract class UrlFactory {
+public class UrlFactory {
 
-    protected final String HOST;
-    protected final String PARAM;
-    protected final Class<? extends Annotation> urlAnnotation;
+    private final String HOST;
+    private final String PARAM;
+    private final String BASE_URL;
 
-    public UrlFactory(String HOST, String PARAM, Class<? extends Annotation> urlAnnotation) {
-        this.HOST = HOST;
-        this.PARAM = PARAM;
-        this.urlAnnotation = urlAnnotation;
-    }
-
-    public UrlFactory(Class<? extends Annotation> urlAnnotation) {
-        this("#HOST", "#PARAM", urlAnnotation);
+    public UrlFactory() {
+        HOST = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_HOST);
+        PARAM = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_PARAM);
+        BASE_URL = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL);
     }
 
     public Url getUrlOf(Class<? extends Page> page, Url url, String... params) {
 
         if (url.getHost().isEmpty()) {
-            url.setHost(getBaseUrl());
+            url.setHost(BASE_URL);
         }
-        
+
         Class<?> pageClass = getPageClass(page);
-        
+
         getUrlOf(url, pageClass);
 
         String urlString = url.toString();
         int paramIndex = 0;
 
         while (urlString.contains(PARAM)) {
-            
+
             try {
                 urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
             } catch (IndexOutOfBoundsException ex) {
@@ -65,7 +62,7 @@ public abstract class UrlFactory {
         }
 
         if (!url.toString().equals(urlString)) {
-            
+
             try {
                 return new Url(urlString);
             } catch (MalformedURLException ex) {
@@ -94,8 +91,8 @@ public abstract class UrlFactory {
             getUrlOf(url, page.getSuperclass());
         }
 
-        if (page.isAnnotationPresent(urlAnnotation)) {
-            String defaultUrl = getPageUrlFrom(page.getAnnotation(urlAnnotation));
+        if (page.isAnnotationPresent(BaseUrl.class)) {
+            String defaultUrl = page.getAnnotation(BaseUrl.class).value();
 
             if (defaultUrl.contains(HOST)) {
                 Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
@@ -124,7 +121,7 @@ public abstract class UrlFactory {
     }
 
     protected Class<?> getPageClass(Class<?> page) {
-        
+
         if (page.getName().contains("$$")) {
             return getPageClass(page.getSuperclass());
         } else {
@@ -132,7 +129,4 @@ public abstract class UrlFactory {
         }
     }
 
-    protected abstract String getBaseUrl();
-
-    protected abstract String getPageUrlFrom(Annotation urlAnnotation);
 }

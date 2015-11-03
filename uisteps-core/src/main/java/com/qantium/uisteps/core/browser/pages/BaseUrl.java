@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2015 A.Solyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,17 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.name.Named;
-import com.qantium.uisteps.core.browser.Browser;
-import java.util.List;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
- * @author ASolyankin
+ * @author A.Solyankin
  */
-public interface UIObject extends Named {
-
-    boolean isDisplayed();
-
-    Browser inOpenedBrowser();
-    
-    SearchContext getSearchContext();
-    
-    List<WebElement> findElements(By by);
-    
-    WebElement findElement(By by);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface BaseUrl {
+    String value();
 }

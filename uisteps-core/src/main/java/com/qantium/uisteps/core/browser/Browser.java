@@ -209,8 +209,10 @@ public class Browser {
     }
 
     public String getTextFrom(WrapsElement input) {
+        
         if ("input".equals(input.getWrappedElement().getTagName())) {
             String enteredText = input.getWrappedElement().getAttribute("value");
+            
             if (enteredText != null) {
                 return enteredText;
             } else {

@@ -28,17 +28,11 @@ import org.openqa.selenium.WebElement;
 public class Page extends AbstractUIObject {
 
     private Url url;
-    private UrlFactory urlFactory;
+    private final UrlFactory urlFactory = new UrlFactory();
     private String[] params = new String[0];
     public static final String DEFAULT_NAME = "page";
 
-    public Page(UrlFactory urlFactory, String name) {
-        this.urlFactory = urlFactory;
-        setName(name);
-    }
-
-    public Page(UrlFactory urlFactory) {
-        this(urlFactory, DEFAULT_NAME);
+    public Page() {
     }
 
     public Page(Url url, String name) {
@@ -46,16 +40,16 @@ public class Page extends AbstractUIObject {
         setName(name);
     }
 
+    public Page(String name) {
+        this(null, name);
+    }
+
     public Page(Url url) {
-        this(url, DEFAULT_NAME);
+        this(url, "");
     }
 
     public UrlFactory getUrlFactory() {
         return urlFactory;
-    }
-
-    public void setUrlFactory(UrlFactory urlFactory) {
-        this.urlFactory = urlFactory;
     }
 
     public String[] getParams() {
@@ -108,13 +102,13 @@ public class Page extends AbstractUIObject {
         StringBuilder nameBuider = new StringBuilder();
 
         nameBuider
-                .append("\"").append(getName()).append("\"")
-                .append(" by url <a style='text-decoration: underline' href='")
+                .append(getName())
+                .append(" by url <a href='")
                 .append(getUrl())
                 .append("' target='blank'>")
                 .append(getUrl())
                 .append("</a> with title ")
-                .append("\"").append(getTitle()).append("\"");
+                .append(getTitle());
 
         return nameBuider.toString();
     }

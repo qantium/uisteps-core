@@ -15,13 +15,15 @@
  */
 package com.qantium.uisteps.core.user;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import org.apache.commons.lang.reflect.ConstructorUtils;
 
 /**
  *
  * @author ASolyankin
  */
-public abstract class UserFactory {
+public class UserFactory {
 
     private final Class<? extends User> user;
     private final HashMap<String, User> users = new HashMap();
@@ -84,5 +86,12 @@ public abstract class UserFactory {
         return user;
     }
 
-    public abstract <T extends User> T getInstanceOf(Class<T> user);
+    public <T extends User> T getInstanceOf(Class<T> user) {
+
+        try {
+            return (T) ConstructorUtils.invokeConstructor(user, null);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
+            throw new RuntimeException("Cannot instantiate " + user + ".\nCause: " + ex);
+        }
+    }
 }

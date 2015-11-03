@@ -15,14 +15,56 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import ru.stqa.selenium.factory.WebDriverFactory;
+
 /**
  *
  * @author ASolyankin
  */
-public interface BrowserFactory {
+public class BrowserFactory {
 
-    <T extends Browser> T getBrowser();
+    public Browser getBrowser() {
+        return getBrowser(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_DRIVER));
+    }
 
-    Browser getBrowser(String withDriver);
+    public Browser getBrowser(String withDriver) {
+
+        switch (withDriver.toLowerCase()) {
+            case "firefox":
+                return getBrowser(DesiredCapabilities.firefox());
+            case "chrome":
+                return getBrowser(DesiredCapabilities.chrome());
+            case "opera":
+                return getBrowser(DesiredCapabilities.operaBlink());
+            case "iexplorer":
+                return getBrowser(DesiredCapabilities.internetExplorer());
+            case "edge":
+                return getBrowser(DesiredCapabilities.edge());
+            case "safari":
+                return getBrowser(DesiredCapabilities.safari());
+            case "android":
+                return getBrowser(DesiredCapabilities.android());
+            case "iphone":
+                return getBrowser(DesiredCapabilities.iphone());
+            case "ipad":
+                return getBrowser(DesiredCapabilities.ipad());
+            case "htmlunit":
+                return getBrowser(DesiredCapabilities.htmlUnit());
+            case "htmlunitwithjs":
+                return getBrowser(DesiredCapabilities.htmlUnitWithJs());
+            case "phantomjs":
+                return getBrowser(DesiredCapabilities.phantomjs());
+            default:
+                throw new NoBrowserException("Cannot get capabilities for driver " + withDriver + "!");
+        }
+    }
+
+    protected Browser getBrowser(Capabilities capabilities) {
+        return new Browser(WebDriverFactory.getDriver(capabilities));
+    }
 
 }
