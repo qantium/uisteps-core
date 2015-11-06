@@ -17,20 +17,12 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
  */
 public class FileInput extends UIElement implements ElementaryElement {
-    
-    public FileInput() {
-    }
-    
-    public FileInput(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
 
     public ru.yandex.qatools.htmlelements.element.FileInput getWrappedFileInput() {
         return new ru.yandex.qatools.htmlelements.element.FileInput(getWrappedElement());
@@ -40,7 +32,7 @@ public class FileInput extends UIElement implements ElementaryElement {
         inOpenedBrowser().setTo(this, filePath);
         return null;
     }
-    
+
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();
     }

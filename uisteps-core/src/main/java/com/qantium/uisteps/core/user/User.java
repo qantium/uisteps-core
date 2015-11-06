@@ -29,6 +29,8 @@ import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
@@ -92,6 +94,14 @@ public class User implements Named {
 
     public Browser openNewBrowser() {
         return getBrowserManager().openNewBrowser();
+    }
+
+    public Browser openNewBrowser(Capabilities capabilities) {
+        return getBrowserManager().openNewBrowser(capabilities);
+    }
+
+    public Browser openNewBrowser(WebDriver withDriver) {
+        return getBrowserManager().openNewBrowser(withDriver);
     }
 
     public Browser switchToNextBrowser() {
@@ -171,7 +181,7 @@ public class User implements Named {
     }
 
     public void deleteCookies() {
-        inOpenedBrowser().deleteCookies();
+        inOpenedBrowser().deleteAllCookies();
     }
 
     public void click(WrapsElement element) {

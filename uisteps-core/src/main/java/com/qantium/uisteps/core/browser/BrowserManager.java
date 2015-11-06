@@ -16,6 +16,9 @@
 package com.qantium.uisteps.core.browser;
 
 import java.util.ArrayList;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  *
@@ -95,12 +98,28 @@ public class BrowserManager {
         return currentBrowser.get();
     }
 
+    public Browser openNewBrowser(WebDriver withDriver) {
+        return add(browserFactory.getBrowser(withDriver));
+    }
+
     public Browser openNewBrowser(String withDriver) {
         return add(browserFactory.getBrowser(withDriver));
     }
 
     public Browser openNewBrowser() {
         return add(browserFactory.getBrowser());
+    }
+
+    public Browser openNewBrowser(Capabilities capabilities) {
+        return add(browserFactory.getBrowser(capabilities));
+    }
+
+    public DesiredCapabilities getDesiredCapabilities() {
+        return browserFactory.getDesiredCapabilities();
+    }
+
+    public DesiredCapabilities getDesiredCapabilities(String withDriver) {
+        return browserFactory.getDesiredCapabilities(withDriver);
     }
 
     public static Browser switchToNextBrowser() {

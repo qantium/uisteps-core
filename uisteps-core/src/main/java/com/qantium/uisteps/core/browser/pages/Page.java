@@ -15,7 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -31,22 +33,6 @@ public class Page extends AbstractUIObject {
     private final UrlFactory urlFactory = new UrlFactory();
     private String[] params = new String[0];
     public static final String DEFAULT_NAME = "page";
-
-    public Page() {
-    }
-
-    public Page(Url url, String name) {
-        this.url = url;
-        setName(name);
-    }
-
-    public Page(String name) {
-        this(null, name);
-    }
-
-    public Page(Url url) {
-        this(url, "");
-    }
 
     public UrlFactory getUrlFactory() {
         return urlFactory;
@@ -127,4 +113,31 @@ public class Page extends AbstractUIObject {
     public WebElement findElement(By by) {
         return inOpenedBrowser().getDriver().findElement(by);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!getClass().isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        
+        final Page other = (Page) obj;
+        
+        if (!Objects.equals(this.url, other.url)) {
+            return false;
+        }
+        
+        return Arrays.deepEquals(this.params, other.params);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.url);
+        hash = 11 * hash + Arrays.deepHashCode(this.params);
+        return hash;
+    }
+
 }

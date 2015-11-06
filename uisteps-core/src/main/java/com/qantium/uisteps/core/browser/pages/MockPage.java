@@ -26,9 +26,9 @@ public class MockPage extends Page {
     private final Browser browser;
 
     public MockPage(String name, Url url, Browser browser) {
-        super(url, name);
         this.browser = browser;
-
+        setUrl(url);
+        setName(name);
     }
 
     public <T extends MockPage> T open() {

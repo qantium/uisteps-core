@@ -29,7 +29,11 @@ import org.openqa.selenium.WebElement;
 public interface UIObject extends Named {
 
     boolean isDisplayed();
+    
+    boolean isPopulated();
 
+    void setPopulated(boolean populated);
+    
     Browser inOpenedBrowser();
     
     SearchContext getSearchContext();

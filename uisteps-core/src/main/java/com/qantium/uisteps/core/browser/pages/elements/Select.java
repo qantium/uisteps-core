@@ -26,13 +26,6 @@ import org.openqa.selenium.WebElement;
  */
 public class Select extends UIElement implements ElementaryElement {
 
-    public Select() {
-    }
-
-    public Select(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
-
     public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
         return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());
     }
@@ -105,11 +98,8 @@ public class Select extends UIElement implements ElementaryElement {
     }
 
     public static enum By {
-
         VALUE, VISIBLE_VALUE, INDEX;
     }
-
-    
     
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();

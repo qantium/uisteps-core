@@ -2,9 +2,12 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
-import com.qantium.uisteps.core.then.Then;
 import java.util.List;
+import java.util.Objects;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
@@ -20,13 +23,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     private WebElement wrappedElement;
     private By locator;
     private UIObject context;
-
-    public UIElement(WebElement wrappedElement) {
-        this.wrappedElement = wrappedElement;
-    }
-
-    public UIElement() {
-    }
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
@@ -69,33 +65,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     @Override
     public SearchContext getSearchContext() {
         return getWrappedElement();
-    }
-
-    public String getText() {
-        return inOpenedBrowser().getTextFrom(this);
-    }
-
-    public Object click() {
-        inOpenedBrowser().click(this);
-        return this;
-    }
-
-    public Object moveMouseOver() {
-        inOpenedBrowser().moveMouseOver(this);
-        return this;
-    }
-
-    public Object clickOnPoint(int x, int y) {
-        inOpenedBrowser().clickOnPoint(this, x, y);
-        return this;
-    }
-
-    protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
-        return inOpenedBrowser().then(uiObject);
-    }
-
-    protected <T> Then<T> then(T value) {
-        return inOpenedBrowser().then(value);
     }
 
     @Override
@@ -157,5 +126,95 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (!getClass().isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
+        final UIElement other = (UIElement) obj;
+
+        if (!Objects.equals(this.locator, other.locator)) {
+            return false;
+        }
+
+        return Objects.equals(this.context, other.context);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.locator);
+        hash = 97 * hash + Objects.hashCode(this.context);
+        return hash;
+    }
+
+    //Elements
+    public String getText() {
+        return inOpenedBrowser().getTextFrom(this);
+    }
+
+    public Object click() {
+        return inOpenedBrowser().click(this);
+    }
+
+    public Object clickAndHold() {
+        return inOpenedBrowser().clickAndHold(this);
+    }
+
+    public Object clickOnPoint(int x, int y) {
+        return inOpenedBrowser().clickOnPoint(this, x, y);
+    }
+
+    public Object doubleClick() {
+        return inOpenedBrowser().doubleClick(this);
+    }
+
+    public Object dragAndDrop(WrapsElement target) {
+        return inOpenedBrowser().dragAndDrop(this, target);
+    }
+
+    public Object dragAndDrop(int xOffset, int yOffset) {
+        return inOpenedBrowser().dragAndDrop(this, xOffset, yOffset);
+    }
+
+    public Object keyDown(Keys theKey) {
+        return inOpenedBrowser().keyDown(this, theKey);
+    }
+
+    public Object keyUp(Keys theKey) {
+        return inOpenedBrowser().keyUp(this, theKey);
+    }
+
+    public Object moveMouseOver() {
+        return inOpenedBrowser().moveMouseOver(this);
+    }
+
+    public Object moveWithOffset(int xOffset, int yOffset) {
+        return inOpenedBrowser().moveToElement(this, xOffset, yOffset);
+    }
+
+    //Tags
+    public String getTagName() {
+        return inOpenedBrowser().getTagNameOf(this);
+    }
+
+    public String getCSSProperty(String cssProperty) {
+        return inOpenedBrowser().getCSSPropertyOf(this, cssProperty);
+    }
+
+    public Point getPosition() {
+        return inOpenedBrowser().getPositionOf(this);
+    }
+
+    public Dimension getSize() {
+        return inOpenedBrowser().getSizeOf(this);
     }
 }

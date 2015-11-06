@@ -38,7 +38,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -50,19 +53,19 @@ import org.openqa.selenium.internal.WrapsElement;
  */
 public class Browser {
 
-    private final WebDriver driver;
-    private final WindowManager windowManager;
-    private final LocatorFactory locatorFactory;
+    private WebDriver driver;
+    private final WindowManager windowManager = new WindowManager();
+    private final LocatorFactory locatorFactory = new LocatorFactory();
     private boolean opened;
-
-    public Browser(WebDriver driver) {
-        this.driver = driver;
-        locatorFactory = new LocatorFactory();
-        windowManager = new WindowManager(driver);
-    }
 
     public WebDriver getDriver() {
         return driver;
+    }
+
+    public <T extends Browser> T setDriver(WebDriver driver) {
+        this.driver = driver;
+        windowManager.setDriver(driver);
+        return (T) this;
     }
 
     public boolean isOpened() {
@@ -72,10 +75,6 @@ public class Browser {
     public <T extends Browser> T open() {
         opened = true;
         return (T) this;
-    }
-
-    public WindowManager getWindowManager() {
-        return windowManager;
     }
 
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
@@ -91,20 +90,19 @@ public class Browser {
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
-        T uiObjectInstance = instatiate(uiObject);
-        return populate(uiObjectInstance);
+        return populate(instatiate(uiObject));
     }
 
-    public void openUrl(String url, String... params) {
+    public <T extends Browser> T openUrl(String url, String... params) {
         try {
-            open(new Url(url), params);
+            return open(new Url(url), params);
         } catch (MalformedURLException ex) {
             throw new AssertionError("Cannot open url " + url + "\nCause:" + ex);
         }
     }
 
-    public void open(Url url, String... params) {
-        open(new MockPage(Page.DEFAULT_NAME, url, this).setParams(params).open());
+    public <T extends Browser> T open(Url url, String... params) {
+        return open(new MockPage(Page.DEFAULT_NAME, url, this).setParams(params).open());
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -126,8 +124,8 @@ public class Browser {
         return populate(page);
     }
 
-    protected void open(MockPage page) {
-
+    protected <T extends Browser> T open(MockPage page) {
+        return (T) this;
     }
 
     public String getCurrentUrl() {
@@ -146,73 +144,221 @@ public class Browser {
         }
     }
 
-    public void openNewWindow() {
+    //Window
+    public <T extends Browser> T openNewWindow() {
         executeScript("window.open()");
-        getWindowManager().switchToNextWindow();
+        windowManager.switchToNextWindow();
+        return (T) this;
     }
 
-    public void switchToNextWindow() {
-        getWindowManager().switchToNextWindow();
+    public <T extends Browser> T switchToNextWindow() {
+        windowManager.switchToNextWindow();
+        return (T) this;
     }
 
-    public void switchToPreviousWindow() {
-        getWindowManager().switchToPreviousWindow();
+    public <T extends Browser> T switchToPreviousWindow() {
+        windowManager.switchToPreviousWindow();
+        return (T) this;
     }
 
-    public void switchToDefaultWindow() {
-        getWindowManager().switchToDefaultWindow();
+    public <T extends Browser> T switchToDefaultWindow() {
+        windowManager.switchToDefaultWindow();
+        return (T) this;
     }
 
-    public void switchToWindowByIndex(int index) {
-        getWindowManager().switchToWindowByIndex(index);
+    public <T extends Browser> T switchToWindowByIndex(int index) {
+        windowManager.switchToWindowByIndex(index);
+        return (T) this;
     }
 
-    public void refreshCurrentPage() {
+    //Window position
+    public Point getWindowPosition() {
+        return getDriver().manage().window().getPosition();
+    }
+
+    public <T extends Browser> T setWindowPosition(int newX, int newY) {
+        getDriver().manage().window().setPosition(new Point(newX, newY));
+        return (T) this;
+    }
+
+    public <T extends Browser> T moveWindowBy(int xOffset, int yOffset) {
+        getDriver().manage().window().getPosition().moveBy(xOffset, yOffset);
+        return (T) this;
+    }
+
+    public <T extends Browser> T moveWindowTo(int newX, int newY) {
+        getDriver().manage().window().getPosition().moveBy(newX, newY);
+        return (T) this;
+    }
+
+    public <T extends Browser> T maximizeWindow() {
+        getDriver().manage().window().maximize();
+        return (T) this;
+    }
+
+    //Window size
+    public Dimension getWindowSize() {
+        return getDriver().manage().window().getSize();
+    }
+
+    public <T extends Browser> T setWindowSize(int width, int height) {
+        getDriver().manage().window().setSize(new Dimension(width, height));
+        return (T) this;
+    }
+
+    public <T extends Browser> T setWindowWidth(int width) {
+        getDriver().manage().window().setSize(new Dimension(width, getWindowSize().getHeight()));
+        return (T) this;
+    }
+
+    public <T extends Browser> T setWindowHeight(int height) {
+        getDriver().manage().window().setSize(new Dimension(getWindowSize().getWidth(), height));
+        return (T) this;
+    }
+
+    public <T extends Browser> T refreshCurrentPage() {
         getDriver().navigate().refresh();
+        return (T) this;
     }
 
-    public void deleteCookies() {
+    public <T extends Browser> T deleteAllCookies() {
         getDriver().manage().deleteAllCookies();
+        return (T) this;
     }
 
-    public void click(WrapsElement element) {
+    public <T extends Browser> T deleteCookieNamed(String name) {
+        getDriver().manage().deleteCookieNamed(name);
+        return (T) this;
+    }
+
+    public Actions getActions() {
+        return new Actions(getDriver());
+    }
+
+    //Elements
+    public <T extends Browser> T click() {
+        getActions().click().perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T clickAndHold() {
+        getActions().clickAndHold().perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T clickAndHold(WrapsElement element) {
+        getActions().clickAndHold(element.getWrappedElement()).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T doubleClick() {
+        getActions().doubleClick().perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T doubleClick(WrapsElement element) {
+        getActions().doubleClick(element.getWrappedElement()).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T dragAndDrop(WrapsElement source, WrapsElement target) {
+        getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T dragAndDrop(WrapsElement element, int xOffset, int yOffset) {
+        getActions().dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T keyDown(Keys theKey) {
+        getActions().keyDown(theKey).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T keyDown(WrapsElement element, Keys theKey) {
+        getActions().keyDown(element.getWrappedElement(), theKey).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T keyUp(Keys theKey) {
+        getActions().keyUp(theKey).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T keyUp(WrapsElement element, Keys theKey) {
+        getActions().keyUp(element.getWrappedElement(), theKey).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T click(WrapsElement element) {
         WebElement webElement = element.getWrappedElement();
         String attrTarget = webElement.getAttribute("target");
 
-        webElement.click();
+        getActions().click(webElement).perform();
 
         if (attrTarget != null && !attrTarget.equals("") && !attrTarget.equals("_self")) {
             switchToNextWindow();
         }
+        return (T) this;
     }
 
-    public void clickOnPoint(WrapsElement element, int x, int y) {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(element.getWrappedElement(), x, y).click().build().perform();
+    public <T extends Browser> T clickOnPoint(WrapsElement element, int x, int y) {
+        getActions().moveToElement(element.getWrappedElement(), x, y).click().build().perform();
+        return (T) this;
     }
 
-    public void moveMouseOver(WrapsElement element) {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(element.getWrappedElement()).build().perform();
+    public <T extends Browser> T moveMouseByOffset(int xOffset, int yOffset) {
+        getActions().moveByOffset(xOffset, yOffset).perform();
+        return (T) this;
     }
 
-    public void typeInto(WrapsElement input, String text) {
-        input.getWrappedElement().sendKeys(text);
+    public <T extends Browser> T moveToElement(WrapsElement element, int xOffset, int yOffset) {
+        getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
+        return (T) this;
     }
 
-    public void clear(WrapsElement input) {
+    public <T extends Browser> T moveMouseOver(WrapsElement element) {
+        getActions().moveToElement(element.getWrappedElement()).build().perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T typeInto(WrapsElement input, String text) {
+        getActions().sendKeys(input.getWrappedElement(), text).perform();
+        return (T) this;
+    }
+
+    public <T extends Browser> T clear(WrapsElement input) {
         input.getWrappedElement().clear();
+        return (T) this;
     }
 
-    public void enterInto(WrapsElement input, String text) {
-        input.getWrappedElement().sendKeys(text);
+    public <T extends Browser> T enterInto(WrapsElement input, String text) {
+        getActions().sendKeys(input.getWrappedElement(), text).perform();
+        return (T) this;
+    }
+
+    //Tags
+    public String getTagNameOf(WrapsElement element) {
+        return element.getWrappedElement().getTagName();
+    }
+
+    public String getCSSPropertyOf(WrapsElement element, String cssProperty) {
+        return element.getWrappedElement().getCssValue(cssProperty);
+    }
+
+    public Point getPositionOf(WrapsElement element) {
+        return element.getWrappedElement().getLocation();
+    }
+
+    public Dimension getSizeOf(WrapsElement element) {
+        return element.getWrappedElement().getSize();
     }
 
     public String getTextFrom(WrapsElement input) {
-        
         if ("input".equals(input.getWrappedElement().getTagName())) {
             String enteredText = input.getWrappedElement().getAttribute("value");
-            
+
             if (enteredText != null) {
                 return enteredText;
             } else {
@@ -241,42 +387,49 @@ public class Browser {
 
     @Override
     public String toString() {
-        return "browser " + executeScript("return navigator.userAgent;").toString();
+        return getDriver().toString();//;"browser " + executeScript("return navigator.userAgent;").toString();
     }
 
     //Select
-    public void select(Option option) {
+    public <T extends Browser> T select(Option option) {
         option.select();
+        return (T) this;
     }
 
-    public void deselectAllValuesFrom(Select select) {
+    public <T extends Browser> T deselectAllValuesFrom(Select select) {
         select.getWrappedSelect().deselectAll();
+        return (T) this;
     }
 
-    public void deselect(Option option) {
+    public <T extends Browser> T deselect(Option option) {
         option.deselect();
+        return (T) this;
     }
 
     //Radio button
-    public void select(RadioButton button) {
+    public <T extends Browser> T select(RadioButton button) {
 
         if (!button.isSelected()) {
             button.getWrappedElement().click();
         }
+        return (T) this;
     }
 
     //CheckBox
-    public void select(CheckBox checkBox) {
+    public <T extends Browser> T select(CheckBox checkBox) {
         checkBox.getWrappedCheckBox().select();
+        return (T) this;
     }
 
-    public void deselect(CheckBox checkBox) {
+    public <T extends Browser> T deselect(CheckBox checkBox) {
         checkBox.getWrappedCheckBox().deselect();
+        return (T) this;
     }
 
     //FileInput
-    public void setTo(FileInput fileInput, String filePath) {
+    public <T extends Browser> T setTo(FileInput fileInput, String filePath) {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
+        return (T) this;
     }
 
     public <T extends UIObject> T instatiate(Class<T> uiObject) {
@@ -289,7 +442,11 @@ public class Browser {
     }
 
     public <T extends UIObject> T populate(T uiObject) {
-        
+
+        if (uiObject.isPopulated()) {
+            return uiObject;
+        }
+
         if (uiObject instanceof UIElement) {
             UIElement uiElement = (UIElement) uiObject;
 
@@ -318,7 +475,7 @@ public class Browser {
             }
 
         }
-        
+        uiObject.setPopulated(true);
         return uiObject;
     }
 
@@ -327,7 +484,7 @@ public class Browser {
     }
 
     private List<Field> getUIObjectFields(Class<?> uiObject, List<Field> fields) {
-        if (!UIObject.class.isAssignableFrom(uiObject) || uiObject == Page.class ||  uiObject == UIElements.class || ElementaryElement.class.isAssignableFrom(uiObject)) {
+        if (!UIObject.class.isAssignableFrom(uiObject) || uiObject == Page.class || uiObject == UIElements.class || ElementaryElement.class.isAssignableFrom(uiObject)) {
             return fields;
         }
 
@@ -383,12 +540,12 @@ public class Browser {
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return populate(uiObject);
     }
-    
+
     public <T extends UIElement> T onDisplayed(T uiObject, UIObject context) {
         uiObject.setContext(context);
         return onDisplayed(uiObject);
     }
-    
+
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
 
         if (UIElement.class.isAssignableFrom(uiObject)) {

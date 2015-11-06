@@ -10,9 +10,9 @@ import org.openqa.selenium.WebDriver;
 public class WindowManager {
 
     private int currentHandleIndex;
-    private final WebDriver driver;
+    private WebDriver driver;
 
-    public WindowManager(WebDriver driver) {
+    public void setDriver(WebDriver driver) {
         this.driver = driver;
     }
 

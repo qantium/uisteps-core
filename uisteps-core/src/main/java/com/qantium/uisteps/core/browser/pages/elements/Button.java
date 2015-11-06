@@ -17,20 +17,12 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
  */
 public class Button extends UIElement implements ElementaryElement {
-
-    public Button(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
-    
-    public Button() {
-    }
 
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();

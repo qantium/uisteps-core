@@ -29,13 +29,6 @@ import ru.yandex.qatools.htmlelements.element.Radio;
  */
 public class RadioButtonGroup extends UIElement implements ElementaryElement {
 
-    public RadioButtonGroup() {
-    }
-
-    public RadioButtonGroup(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
-
     protected Radio getWrappedRadio() {
         return new Radio(getWrappedElement());
     }
@@ -95,7 +88,7 @@ public class RadioButtonGroup extends UIElement implements ElementaryElement {
         private Integer index = null;
 
         public RadioButton(WebElement wrappedElement) {
-            super(wrappedElement);
+            setWrappedElement(wrappedElement);
         }
 
         public void setIndex(Integer index) {

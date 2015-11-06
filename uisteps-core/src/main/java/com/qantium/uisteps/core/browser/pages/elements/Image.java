@@ -17,20 +17,11 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.WebElement;
-
 /**
  *
  * @author A.Solyankin
  */
 public class Image extends UIElement implements ElementaryElement {
-    
-    public Image() {
-    }
-    
-    public Image(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
     
     public String getSource() {
         return getWrappedElement().getAttribute("src");

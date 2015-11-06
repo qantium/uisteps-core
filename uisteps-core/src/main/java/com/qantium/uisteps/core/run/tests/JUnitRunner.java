@@ -15,8 +15,6 @@
  */
 package com.qantium.uisteps.core.run.tests;
 
-import com.google.inject.Injector;
-import com.google.inject.Module;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;

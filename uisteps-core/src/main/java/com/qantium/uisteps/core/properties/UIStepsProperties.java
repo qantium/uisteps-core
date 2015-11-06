@@ -78,7 +78,7 @@ public class UIStepsProperties {
 
         try {
             properties.load(Files.newInputStream(file.toPath()));
-            logger.info("Loaded from: " + file);
+            logger.info("Loaded from: " + file.getAbsolutePath());
             return true;
         } catch (IOException ex) {
             return false;

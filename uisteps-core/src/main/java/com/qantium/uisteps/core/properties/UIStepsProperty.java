@@ -61,6 +61,18 @@ public enum UIStepsProperty {
                 public String getDefault() {
                     return "#PARAM";
                 }
+            },
+    BROWSER_WIDTH {
+                @Override
+                public String getDefault() {
+                    return "1200";
+                }
+            },
+    BROWSER_HEIGHT {
+                @Override
+                public String getDefault() {
+                    return "800";
+                }
             };
 
     @Override

@@ -17,9 +17,13 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  *
@@ -28,43 +32,68 @@ import ru.stqa.selenium.factory.WebDriverFactory;
 public class BrowserFactory {
 
     public Browser getBrowser() {
-        return getBrowser(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_DRIVER));
+        return getBrowser(BrowserFactory.this.getDesiredCapabilities());
     }
 
     public Browser getBrowser(String withDriver) {
+        return getBrowser(getDesiredCapabilities(withDriver));
+    }
+
+    public DesiredCapabilities getDesiredCapabilities() {
+        return getDesiredCapabilities(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_DRIVER)); 
+    }
+
+    public DesiredCapabilities getDesiredCapabilities(String withDriver) {
 
         switch (withDriver.toLowerCase()) {
             case "firefox":
-                return getBrowser(DesiredCapabilities.firefox());
+                return DesiredCapabilities.firefox();
             case "chrome":
-                return getBrowser(DesiredCapabilities.chrome());
+                return DesiredCapabilities.chrome();
             case "opera":
-                return getBrowser(DesiredCapabilities.operaBlink());
+                return DesiredCapabilities.operaBlink();
             case "iexplorer":
-                return getBrowser(DesiredCapabilities.internetExplorer());
+                return DesiredCapabilities.internetExplorer();
             case "edge":
-                return getBrowser(DesiredCapabilities.edge());
+                return DesiredCapabilities.edge();
             case "safari":
-                return getBrowser(DesiredCapabilities.safari());
+                return DesiredCapabilities.safari();
             case "android":
-                return getBrowser(DesiredCapabilities.android());
+                return DesiredCapabilities.android();
             case "iphone":
-                return getBrowser(DesiredCapabilities.iphone());
+                return DesiredCapabilities.iphone();
             case "ipad":
-                return getBrowser(DesiredCapabilities.ipad());
+                return DesiredCapabilities.ipad();
             case "htmlunit":
-                return getBrowser(DesiredCapabilities.htmlUnit());
+                return DesiredCapabilities.htmlUnit();
             case "htmlunitwithjs":
-                return getBrowser(DesiredCapabilities.htmlUnitWithJs());
+                return DesiredCapabilities.htmlUnitWithJs();
             case "phantomjs":
-                return getBrowser(DesiredCapabilities.phantomjs());
+                return DesiredCapabilities.phantomjs();
             default:
                 throw new NoBrowserException("Cannot get capabilities for driver " + withDriver + "!");
         }
     }
 
-    protected Browser getBrowser(Capabilities capabilities) {
-        return new Browser(WebDriverFactory.getDriver(capabilities));
+    public Browser getBrowser(Capabilities capabilities) {
+        return getBrowser(WebDriverFactory.getDriver(capabilities));
     }
 
+    public Browser getBrowser(WebDriver withDriver) {
+        setSettingsTo(withDriver);
+        Browser browser = new Browser();
+        browser.setDriver(withDriver);
+        return browser;
+    }
+    
+    protected void setSettingsTo(WebDriver driver) {
+        
+        WebDriver.Options manage = driver.manage();
+        manage.timeouts().setScriptTimeout(Long.parseLong(UIStepsProperties.getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)), TimeUnit.MILLISECONDS);
+        
+        int width = Integer.parseInt(UIStepsProperties.getProperty(BROWSER_WIDTH));
+        int height = Integer.parseInt(UIStepsProperties.getProperty(BROWSER_HEIGHT));
+        Dimension dimension = new Dimension(width, height);
+        manage.window().setSize(dimension);
+    }
 }

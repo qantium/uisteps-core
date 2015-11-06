@@ -17,20 +17,12 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.WebElement;
 
 /**
  *
  * @author ASolyankin
  */
 public class TextField extends UIElement implements ElementaryElement {
-
-    public TextField() {
-    }
-    
-    public TextField(WebElement wrappedElement) {
-        super(wrappedElement);
-    }
 
     public Object sendKeys(String keys) {
         return type(keys);

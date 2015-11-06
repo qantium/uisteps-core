@@ -30,9 +30,20 @@ import org.openqa.selenium.By;
 public abstract class AbstractUIObject implements UIObject {
 
     private String name;
+    private boolean populated;
 
     public Browser inOpenedBrowser() {
         return BrowserManager.getCurrentBrowser();
+    }
+
+    @Override
+    public boolean isPopulated() {
+        return populated;
+    }
+
+    @Override
+    public void setPopulated(boolean populated) {
+        this.populated = populated;
     }
 
     public <T extends Named> T withName(String name) {
@@ -55,40 +66,40 @@ public abstract class AbstractUIObject implements UIObject {
         return name;
     }
 
-    protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }
 
-    protected <T> Then<T> then(T value) {
+    public <T> Then<T> then(T value) {
         return inOpenedBrowser().then(value);
     }
 
-    protected Object executeScript(String script) {
+    public Object executeScript(String script) {
         return inOpenedBrowser().executeScript(script);
     }
 
-    protected void switchToNextWindow() {
+    public void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }
 
-    protected void switchToPreviousWindow() {
+    public void switchToPreviousWindow() {
         inOpenedBrowser().switchToPreviousWindow();
     }
 
-    protected void switchToDefaultWindow() {
+    public void switchToDefaultWindow() {
         inOpenedBrowser().switchToDefaultWindow();
     }
 
-    protected void switchToWindowByIndex(int index) {
+    public void switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
     }
 
     //onDisplayed
-    protected <T extends UIElement> T onDisplayed(T uiObject) {
+    public <T extends UIElement> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject, this);
     }
 
-    protected <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
 
         if (Page.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().onDisplayed(uiObject);
@@ -97,32 +108,31 @@ public abstract class AbstractUIObject implements UIObject {
         }
     }
 
-    protected <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by, this);
     }
 
-    protected <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayedAll(uiObject, this);
     }
 
-    protected <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
     }
 
-    protected <T extends UIElement> T find(Class<T> uiObject) {
+    public <T extends UIElement> T find(Class<T> uiObject) {
         return inOpenedBrowser().find(uiObject, this);
     }
 
-    protected <T extends UIElement> T find(Class<T> uiObject, By by) {
+    public <T extends UIElement> T find(Class<T> uiObject, By by) {
         return inOpenedBrowser().find(uiObject, by, this);
     }
 
-    protected <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
+    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
         return inOpenedBrowser().findAll(uiObject, this);
     }
 
-    protected <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
+    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(uiObject, by, this);
     }
-
 }
