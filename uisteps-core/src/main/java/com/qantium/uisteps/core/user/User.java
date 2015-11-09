@@ -89,19 +89,23 @@ public class User implements Named {
     }
 
     public Browser openNewBrowser(String withDriver) {
-        return getBrowserManager().openNewBrowser(withDriver);
+        return open(getBrowserManager().openNewBrowser(withDriver));
     }
 
     public Browser openNewBrowser() {
-        return getBrowserManager().openNewBrowser();
+        return open(getBrowserManager().openNewBrowser());
     }
 
     public Browser openNewBrowser(Capabilities capabilities) {
-        return getBrowserManager().openNewBrowser(capabilities);
+        return open(getBrowserManager().openNewBrowser(capabilities));
     }
 
     public Browser openNewBrowser(WebDriver withDriver) {
-        return getBrowserManager().openNewBrowser(withDriver);
+        return open(getBrowserManager().openNewBrowser(withDriver));
+    }
+
+    protected Browser open(Browser browser) {
+        return browser;
     }
 
     public Browser switchToNextBrowser() {
@@ -133,6 +137,10 @@ public class User implements Named {
     }
 
     public void openUrl(String url, String... params) {
+        
+        if (!BrowserManager.hasAny()) {
+            openNewBrowser();
+        }
         inOpenedBrowser().openUrl(url, params);
     }
 

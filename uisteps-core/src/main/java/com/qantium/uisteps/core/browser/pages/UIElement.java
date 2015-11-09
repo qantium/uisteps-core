@@ -162,43 +162,53 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     }
 
     public Object click() {
-        return inOpenedBrowser().click(this);
+        inOpenedBrowser().click(this);
+        return null;
     }
 
     public Object clickAndHold() {
-        return inOpenedBrowser().clickAndHold(this);
+        inOpenedBrowser().clickAndHold(this);
+        return null;
     }
 
     public Object clickOnPoint(int x, int y) {
-        return inOpenedBrowser().clickOnPoint(this, x, y);
+        inOpenedBrowser().clickOnPoint(this, x, y);
+        return null;
     }
 
     public Object doubleClick() {
-        return inOpenedBrowser().doubleClick(this);
+        inOpenedBrowser().doubleClick(this);
+        return null;
     }
 
     public Object dragAndDrop(WrapsElement target) {
-        return inOpenedBrowser().dragAndDrop(this, target);
+        inOpenedBrowser().dragAndDrop(this, target);
+        return null;
     }
 
     public Object dragAndDrop(int xOffset, int yOffset) {
-        return inOpenedBrowser().dragAndDrop(this, xOffset, yOffset);
+        inOpenedBrowser().dragAndDrop(this, xOffset, yOffset);
+        return null;
     }
 
     public Object keyDown(Keys theKey) {
-        return inOpenedBrowser().keyDown(this, theKey);
+        inOpenedBrowser().keyDown(this, theKey);
+        return null;
     }
 
     public Object keyUp(Keys theKey) {
-        return inOpenedBrowser().keyUp(this, theKey);
+        inOpenedBrowser().keyUp(this, theKey);
+        return null;
     }
 
     public Object moveMouseOver() {
-        return inOpenedBrowser().moveMouseOver(this);
+        inOpenedBrowser().moveMouseOver(this);
+        return null;
     }
 
     public Object moveWithOffset(int xOffset, int yOffset) {
-        return inOpenedBrowser().moveToElement(this, xOffset, yOffset);
+        inOpenedBrowser().moveToElement(this, xOffset, yOffset);
+        return null;
     }
 
     //Tags

@@ -79,6 +79,11 @@ public class Page extends AbstractUIObject {
         return (T) this;
     }
 
+    public <T extends Page> T open() {
+        inOpenedBrowser().getDriver().get(getUrl().toString());
+        return (T) this;
+    }
+    
     public String getUrlString() {
         return getUrl().toString();
     }
