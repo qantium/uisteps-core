@@ -43,7 +43,7 @@ public enum UIStepsProperty {
                 }
             },
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT {
-        
+
                 @Override
                 public String getDefault() {
                     return "3000";
@@ -56,6 +56,13 @@ public enum UIStepsProperty {
                     return "#HOST";
                 }
             },
+    UISTEPS_VARIABLE_NULL {
+
+                @Override
+                public String getDefault() {
+                    return "#NULL";
+                }
+            },
     UISTEPS_VARIABLE_PARAM {
 
                 @Override
@@ -64,14 +71,14 @@ public enum UIStepsProperty {
                 }
             },
     BROWSER_WIDTH {
-        
+
                 @Override
                 public String getDefault() {
                     return "1200";
                 }
             },
     BROWSER_HEIGHT {
-        
+
                 @Override
                 public String getDefault() {
                     return "800";

@@ -3,7 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.qantium</groupId>
     <artifactId>uisteps-core</artifactId>
-    <version>2.6</version>
+    <name>${project.artifactId}</name>
+    <version>2.7</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
@@ -12,7 +13,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <github.global.server>uistepscore</github.global.server>
     </properties>
     
     <licenses>

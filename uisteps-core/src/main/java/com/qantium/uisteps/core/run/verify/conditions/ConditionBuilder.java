@@ -16,6 +16,8 @@
 package com.qantium.uisteps.core.run.verify.conditions;
 
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.eclipse.aether.util.StringUtils;
 
 /**
@@ -77,8 +79,8 @@ public class ConditionBuilder {
                     .append(" ")
                     .append(actual);
         }
-        
-        if(StringUtils.isEmpty(expected) || expected.equals("#NULL")) {
+
+        if (StringUtils.isEmpty(expected) || expected.equals(UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_NULL))) {
             not(true);
             successful = !successful;
         }

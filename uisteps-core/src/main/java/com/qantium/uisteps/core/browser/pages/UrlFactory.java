@@ -38,47 +38,25 @@ public class UrlFactory {
         BASE_URL = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL);
     }
 
-    public Url getUrlOf(Class<? extends Page> page, Url url, String... params) {
+    public static Url getUrlOf(Class<?> page) {
+        return new UrlFactory().process(new Url(), page);
+    }
+
+    public Url getUrlOf(Class<? extends Page> page, String... params) {
+        Class<?> pageClass = getPageClass(page);
+        Url url = process(new Url(), pageClass);
+        return processParams(process(url, pageClass), params);
+    }
+
+    public boolean isRoot(Class<?> page) {
+        return page.isAnnotationPresent(Root.class);
+    }
+
+    protected Url process(Url url, Class<?> page) {
 
         if (url.getHost().isEmpty()) {
             url.setHost(BASE_URL);
         }
-
-        Class<?> pageClass = getPageClass(page);
-
-        getUrlOf(url, pageClass);
-
-        String urlString = url.toString();
-        int paramIndex = 0;
-
-        while (urlString.contains(PARAM)) {
-
-            try {
-                urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
-            } catch (IndexOutOfBoundsException ex) {
-                throw new RuntimeException("Url " + urlString + "  in " + pageClass + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
-            }
-            paramIndex++;
-        }
-
-        if (!url.toString().equals(urlString)) {
-
-            try {
-                return new Url(urlString);
-            } catch (MalformedURLException ex) {
-                throw new RuntimeException("Cannot create url from string " + urlString + "\nCause:" + ex);
-            }
-        } else {
-            return url;
-        }
-
-    }
-
-    public Url getUrlOf(Class<? extends Page> page, String... params) {
-        return getUrlOf(page, new Url(), params);
-    }
-
-    protected void getUrlOf(Url url, Class<?> page) {
 
         if (isRoot(page)) {
             String rootUrl = page.getAnnotation(Root.class).value();
@@ -88,7 +66,7 @@ public class UrlFactory {
         }
 
         if (!isRoot(page) && page != Object.class) {
-            getUrlOf(url, page.getSuperclass());
+            process(url, page.getSuperclass());
         }
 
         if (page.isAnnotationPresent(BaseUrl.class)) {
@@ -114,10 +92,34 @@ public class UrlFactory {
                 url.appendPostfix(defaultUrl);
             }
         }
+
+        return url;
     }
 
-    protected boolean isRoot(Class<?> page) {
-        return page.isAnnotationPresent(Root.class);
+    protected Url processParams(Url url, String... params) {
+        String urlString = url.toString();
+        int paramIndex = 0;
+
+        while (urlString.contains(PARAM)) {
+
+            try {
+                urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
+            } catch (IndexOutOfBoundsException ex) {
+                throw new RuntimeException("Url " + urlString + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
+            }
+            paramIndex++;
+        }
+
+        if (!url.toString().equals(urlString)) {
+
+            try {
+                return new Url(urlString);
+            } catch (MalformedURLException ex) {
+                throw new RuntimeException("Cannot create url from string " + urlString + "\nCause:" + ex);
+            }
+        } else {
+            return url;
+        }
     }
 
     protected Class<?> getPageClass(Class<?> page) {

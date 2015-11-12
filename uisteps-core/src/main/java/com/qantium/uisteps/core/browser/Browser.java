@@ -385,10 +385,6 @@ public class Browser {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Dimension getSize() {
-        return getDriver().manage().window().getSize();
-    }
     
     @Override
     public String toString() {
@@ -398,7 +394,7 @@ public class Browser {
         String os = System.getProperty("os.name");
         String osArch = System.getProperty("os.arch");
         String osVersion = System.getProperty("os.version");
-        Dimension size = getSize();
+        Dimension size = getWindowSize();
 
         browserName.append(NameConvertor.humanize(getDriver().getClass()))
                 .append(" os.name: ").append(os)
