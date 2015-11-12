@@ -14,7 +14,7 @@ public class NameConvertor {
             return humanize(klass.getSuperclass());
         }
         
-        return HtmlElementUtils.getElementName(klass);
+        return HtmlElementUtils.getElementName(klass).toLowerCase();
     }
 
     public static String humanize(Object obj) {
@@ -22,6 +22,6 @@ public class NameConvertor {
     }
     
     public static String humanize(Field field) {
-        return HtmlElementUtils.getElementName(field);
+        return HtmlElementUtils.getElementName(field).toLowerCase();
     }
 }
