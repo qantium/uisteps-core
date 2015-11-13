@@ -86,6 +86,10 @@ public class Verify {
                 candidates.add(conditionCandidate);
             }
             
+            if(conditionCandidate == null) {
+                throw new RuntimeException("First parameter must be Boolean or Condition, but not " + arg.getClass() + "!");
+            }
+            
             if (arg instanceof Boolean) {
                 conditionCandidate.setSuccessful((Boolean) arg);
             } else if (arg instanceof String) {
