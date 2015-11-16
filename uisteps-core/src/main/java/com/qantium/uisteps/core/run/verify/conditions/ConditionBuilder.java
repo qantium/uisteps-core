@@ -80,7 +80,7 @@ public class ConditionBuilder {
                     .append(actual);
         }
 
-        if (StringUtils.isEmpty(expected) || expected.equals(UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_NULL))) {
+        if (StringUtils.isEmpty(expected) || expected.equals(UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_NULL))) {
             not(true);
             successful = !successful;
         }

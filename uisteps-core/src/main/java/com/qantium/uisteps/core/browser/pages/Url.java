@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -22,6 +23,10 @@ public class Url {
 
     public Url(String url) throws MalformedURLException {
         this(new URL(url));
+        
+        if(StringUtils.contains(url, "#")) {
+            postfix += url.substring(url.indexOf("#"));
+        }
     }
 
     public Url(URL url) {
@@ -167,23 +172,26 @@ public class Url {
 
     @Override
     public String toString() {
-        String url = protocol + "://";
 
-        if (!user.equals("") && !password.equals("")) {
-            url += user + ":" + password + "@";
+        StringBuilder url = new StringBuilder();
+
+        url.append(protocol).append("://");
+
+        if (!StringUtils.isEmpty(user) && !StringUtils.isEmpty(password)) {
+            url.append(user).append(":").append(password).append("@");
         }
-        url += prefix + host;
+        url.append(prefix).append(host);
 
         if (port > -1) {
-            url += ":" + port;
+            url.append(":").append(port);
         }
 
-        url += postfix;
+        url.append(postfix);
 
-        return url;
+        return url.toString();
     }
 
     public URL getURL() throws MalformedURLException {
-        return new URL(this.toString());
+        return new URL(toString());
     }
 }

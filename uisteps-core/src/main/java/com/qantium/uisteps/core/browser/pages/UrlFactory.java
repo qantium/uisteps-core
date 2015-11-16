@@ -29,12 +29,12 @@ import java.util.regex.Pattern;
 public class UrlFactory {
 
     private final String HOST;
-    private final String PARAM;
+    private final String PARAM_REGEXP;
     private final String BASE_URL;
 
     public UrlFactory() {
-        HOST = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_HOST);
-        PARAM = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_VARIABLE_PARAM);
+        HOST = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_HOST);
+        PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_PROPERTY_REGEXP);
         BASE_URL = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL);
     }
 
@@ -45,7 +45,7 @@ public class UrlFactory {
     public Url getUrlOf(Class<? extends Page> page, String... params) {
         Class<?> pageClass = getPageClass(page);
         Url url = process(new Url(), pageClass);
-        return processParams(process(url, pageClass), params);
+        return processParams(url, params);
     }
 
     public boolean isRoot(Class<?> page) {
@@ -100,14 +100,24 @@ public class UrlFactory {
         String urlString = url.toString();
         int paramIndex = 0;
 
-        while (urlString.contains(PARAM)) {
+        Pattern pattern = Pattern.compile(PARAM_REGEXP);
+        Matcher matcher = pattern.matcher(urlString);
+
+        while (matcher.find()) {
+
+            String key = matcher.group(1);
+            String name = matcher.group(2);
+            String value = UIStepsProperties.getProperty(name);
 
             try {
-                urlString = urlString.replaceFirst(PARAM, params[paramIndex]);
+                if (value == null) {
+                    value = params[paramIndex];
+                    paramIndex++;
+                }
+                urlString = urlString.replace(key, value);
             } catch (IndexOutOfBoundsException ex) {
                 throw new RuntimeException("Url " + urlString + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
             }
-            paramIndex++;
         }
 
         if (!url.toString().equals(urlString)) {

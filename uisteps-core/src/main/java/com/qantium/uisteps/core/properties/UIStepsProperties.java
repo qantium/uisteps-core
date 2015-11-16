@@ -86,7 +86,13 @@ public class UIStepsProperties {
     }
 
     public static String getProperty(String key) {
-        return properties.getProperty(key);
+        String property = properties.getProperty(key.toLowerCase());
+        
+        if(property != null) {
+            return property;
+        } else {
+            return properties.getProperty(key);
+        }
     }
 
     public static String getProperty(UIStepsProperty property) {

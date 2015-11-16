@@ -49,25 +49,25 @@ public enum UIStepsProperty {
                     return "3000";
                 }
             },
-    UISTEPS_VARIABLE_HOST {
+    UISTEPS_HOST {
 
                 @Override
                 public String getDefault() {
                     return "#HOST";
                 }
             },
-    UISTEPS_VARIABLE_NULL {
+    UISTEPS_NULL {
 
                 @Override
                 public String getDefault() {
                     return "#NULL";
                 }
             },
-    UISTEPS_VARIABLE_PARAM {
+    UISTEPS_PROPERTY_REGEXP {
 
                 @Override
                 public String getDefault() {
-                    return "#PARAM";
+                    return "(\\[(.*?)\\])";
                 }
             },
     BROWSER_WIDTH {
