@@ -29,7 +29,7 @@ public class BaseUserTest<U extends User> extends JUnitTest {
     public final U user;
 
     public BaseUserTest(Class<U> user) {
-        
+
         try {
             this.user = (U) ConstructorUtils.invokeConstructor(user, null);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {

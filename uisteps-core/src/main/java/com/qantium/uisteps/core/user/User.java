@@ -30,8 +30,10 @@ import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
@@ -74,10 +76,10 @@ public class User implements Named {
 
     public Browser inOpenedBrowser() {
 
-        if (!BrowserManager.hasAny()) {
+        if (!getBrowserManager().hasAny()) {
             openNewBrowser();
         }
-        return BrowserManager.getCurrentBrowser();
+        return getBrowserManager().getCurrentBrowser();
     }
 
     protected <T extends UIObject> Then<T> then(Class<T> uiObject) {
@@ -88,64 +90,71 @@ public class User implements Named {
         return inOpenedBrowser().then(value);
     }
 
-    public Browser openNewBrowser(String withDriver) {
-        return open(getBrowserManager().openNewBrowser(withDriver));
+    public <T extends User> T openNewBrowser(String withDriver) {
+        getBrowserManager().openNewBrowser(withDriver);
+        return (T) this;
     }
 
-    public Browser openNewBrowser() {
-        return open(getBrowserManager().openNewBrowser());
+    public <T extends User> T openNewBrowser() {
+        getBrowserManager().openNewBrowser();
+        return (T) this;
     }
 
-    public Browser openNewBrowser(Capabilities capabilities) {
-        return open(getBrowserManager().openNewBrowser(capabilities));
+    public <T extends User> T openNewBrowser(Capabilities capabilities) {
+        getBrowserManager().openNewBrowser(capabilities);
+        return (T) this;
     }
 
-    public Browser openNewBrowser(WebDriver withDriver) {
-        return open(getBrowserManager().openNewBrowser(withDriver));
+    public <T extends User> T openNewBrowser(WebDriver withDriver) {
+        getBrowserManager().openNewBrowser(withDriver);
+        return (T) this;
     }
 
-    protected Browser open(Browser browser) {
-        return browser;
+    public <T extends User> T switchToNextBrowser() {
+        getBrowserManager().switchToNextBrowser();
+        return (T) this;
     }
 
-    public Browser switchToNextBrowser() {
-        return BrowserManager.switchToNextBrowser();
+    public <T extends User> T switchToPreviousBrowser() {
+        getBrowserManager().switchToPreviousBrowser();
+        return (T) this;
     }
 
-    public Browser switchToPreviousBrowser() {
-        return BrowserManager.switchToPreviousBrowser();
+    public <T extends User> T switchToDefaultBrowser() {
+        getBrowserManager().switchToFirstBrowser();
+        return (T) this;
     }
 
-    public Browser switchToDefaultBrowser() {
-        return BrowserManager.switchToFirstBrowser();
+    public <T extends User> T switchToBrowserByIndex(int index) throws NoBrowserException {
+        getBrowserManager().switchToBrowserByIndex(index);
+        return (T) this;
     }
 
-    public Browser switchToBrowserByIndex(int index) throws NoBrowserException {
-        return BrowserManager.switchToBrowserByIndex(index);
-    }
-
-    public Browser switchToLastBrowser() {
-        return BrowserManager.switchToLastBrowser();
+    public <T extends User> T switchToLastBrowser() {
+        getBrowserManager().switchToLastBrowser();
+        return (T) this;
     }
 
     public void closeAllBrowsers() {
-        BrowserManager.closeAllBrowsers();
+        getBrowserManager().closeAllBrowsers();
     }
 
-    public void closeCurrentBrowser() {
-        BrowserManager.closeCurrentBrowser();
+    public <T extends User> T closeCurrentBrowser() {
+        getBrowserManager().closeCurrentBrowser();
+        return (T) this;
     }
 
-    public void openUrl(String url, String... params) {
-        
-        if (!BrowserManager.hasAny()) {
+    public <T extends User> T openUrl(String url, String... params) {
+        if (!getBrowserManager().hasAny()) {
             openNewBrowser();
         }
         inOpenedBrowser().openUrl(url, params);
+        return (T) this;
     }
 
-    public void open(Url url, String... params) {
+    public <T extends User> T open(Url url, String... params) {
         inOpenedBrowser().open(url, params);
+        return (T) this;
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -164,56 +173,130 @@ public class User implements Named {
         return inOpenedBrowser().open(page, params);
     }
 
-    public void openNewWindow() {
+    //Window
+    public <T extends User> T openNewWindow() {
         inOpenedBrowser().openNewWindow();
+        return (T) this;
     }
 
-    public void switchToNextWindow() {
+    public <T extends User> T switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
+        return (T) this;
     }
 
-    public void switchToPreviousWindow() {
+    public <T extends User> T switchToPreviousWindow() {
         inOpenedBrowser().switchToPreviousWindow();
+        return (T) this;
     }
 
-    public void switchToDefaultWindow() {
+    public <T extends User> T switchToDefaultWindow() {
         inOpenedBrowser().switchToDefaultWindow();
+        return (T) this;
     }
 
-    public void switchToWindowByIndex(int index) {
+    public <T extends User> T switchToWindowByIndex(int index) {
         inOpenedBrowser().switchToWindowByIndex(index);
+        return (T) this;
     }
 
-    public void refreshCurrentPage() {
+    public Point getWindowPosition() {
+        return inOpenedBrowser().getWindowPosition();
+    }
+
+    public <T extends User> T setWindowPosition(int newX, int newY) {
+        inOpenedBrowser().setWindowPosition(newX, newY);
+        return (T) this;
+    }
+
+    public <T extends User> T moveWindowBy(int xOffset, int yOffset) {
+        inOpenedBrowser().moveWindowBy(xOffset, yOffset);
+        return (T) this;
+    }
+
+    public <T extends User> T moveWindowTo(int newX, int newY) {
+        inOpenedBrowser().moveWindowTo(newX, newY);
+        return (T) this;
+    }
+
+    public <T extends User> T maximizeWindow() {
+        inOpenedBrowser().maximizeWindow();
+        return (T) this;
+    }
+
+    public Dimension getWindowSize() {
+        return inOpenedBrowser().getWindowSize();
+    }
+
+    public <T extends User> T setWindowSize(int width, int height) {
+        inOpenedBrowser().setWindowSize(width, height);
+        return (T) this;
+    }
+
+    public <T extends User> T setWindowWidth(int width) {
+        inOpenedBrowser().setWindowWidth(width);
+        return (T) this;
+    }
+
+    public <T extends User> T setWindowHeight(int height) {
+        inOpenedBrowser().setWindowHeight(height);
+        return (T) this;
+    }
+
+    //Current page
+    public <T extends User> T refreshCurrentPage() {
         inOpenedBrowser().refreshCurrentPage();
+        return (T) this;
     }
 
-    public void deleteCookies() {
-        inOpenedBrowser().deleteAllCookies();
+    public String getCurrentTitle() {
+        return inOpenedBrowser().getCurrentTitle();
     }
 
-    public void click(WrapsElement element) {
-        inOpenedBrowser().click(element);
+    public Page getCurrentPage() {
+        return inOpenedBrowser().getCurrentPage();
     }
 
-    public void clickOnPoint(WrapsElement element, int x, int y) {
-        inOpenedBrowser().clickOnPoint(element, x, y);
+    //Cookies
+    public <T extends User> T deleteCookies() {
+        Browser inOpenedBrowser = inOpenedBrowser();
+        inOpenedBrowser.deleteAllCookies();
+        return (T) this;
     }
 
-    public void moveMouseOver(WrapsElement element) {
-        inOpenedBrowser().moveMouseOver(element);
+    public <T extends User> T deleteCookieNamed(String name) {
+        inOpenedBrowser().deleteCookieNamed(name);
+        return (T) this;
     }
 
-    public void typeInto(WrapsElement input, String text) {
-        inOpenedBrowser().typeInto(input, text);
+    //Actions
+    public <T extends User> T click() {
+        inOpenedBrowser().click();
+        return (T) this;
     }
 
-    public void clear(WrapsElement input) {
-        inOpenedBrowser().clear(input);
+    public <T extends User> T clickAndHold() {
+        inOpenedBrowser().clickAndHold();
+        return (T) this;
     }
 
-    public void enterInto(WrapsElement input, String text) {
-        inOpenedBrowser().enterInto(input, text);
+    public <T extends User> T doubleClick() {
+        inOpenedBrowser().doubleClick();
+        return (T) this;
+    }
+
+    public <T extends User> T keyDown(Keys theKey) {
+        inOpenedBrowser().keyDown(theKey);
+        return (T) this;
+    }
+
+    public <T extends User> T keyUp(Keys theKey) {
+        inOpenedBrowser().keyUp(theKey);
+        return (T) this;
+    }
+
+    public <T extends User> T moveMouseByOffset(int xOffset, int yOffset) {
+        inOpenedBrowser().moveMouseByOffset(xOffset, yOffset);
+        return (T) this;
     }
 
     public Object executeScript(String script) {

@@ -24,6 +24,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import ru.stqa.selenium.factory.WebDriverFactoryMode;
 
 /**
  *
@@ -31,8 +32,12 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
  */
 public class BrowserFactory {
 
+    public BrowserFactory() {
+        WebDriverFactory.setMode(WebDriverFactoryMode.UNRESTRICTED);
+    }
+    
     public Browser getBrowser() {
-        return getBrowser(BrowserFactory.this.getDesiredCapabilities());
+        return getBrowser(getDesiredCapabilities());
     }
 
     public Browser getBrowser(String withDriver) {

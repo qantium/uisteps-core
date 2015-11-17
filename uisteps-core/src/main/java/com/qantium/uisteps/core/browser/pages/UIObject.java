@@ -30,9 +30,9 @@ public interface UIObject extends Named {
 
     boolean isDisplayed();
     
-    boolean isPopulated();
+    boolean isPopulatedBy(Browser browser);
 
-    void setPopulated(boolean populated);
+    void setBrowser(Browser browser);
     
     Browser inOpenedBrowser();
     

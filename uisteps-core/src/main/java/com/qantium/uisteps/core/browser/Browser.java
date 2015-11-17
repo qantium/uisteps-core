@@ -68,7 +68,7 @@ public class Browser {
         windowManager.setDriver(driver);
 
     }
-
+    
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
         T uiObjectInstance = instatiate(uiObject);
         uiObjectInstance.setLocator(locator);
@@ -94,11 +94,11 @@ public class Browser {
     }
 
     public void open(Url url, String... params) {
-        open(new Page()
+        Page page = new Page();
+        open(page
                 .<Page>withName(DEFAULT_NAME)
                 .setUrl(url)
                 .setParams(params)
-                .open()
         );
     }
 
@@ -107,8 +107,7 @@ public class Browser {
     }
 
     public <T extends Page> T open(T page, Url url, String... params) {
-        page.setUrl(url);
-        return open(page, params);
+        return open(page.setUrl(url), params);
     }
 
     public <T extends Page> T open(Class<T> page, String... params) {
@@ -117,11 +116,8 @@ public class Browser {
 
     public <T extends Page> T open(T page, String... params) {
         page.setParams(params);
-        open(page.open());
+        getDriver().get(page.getUrl().toString());
         return populate(page);
-    }
-
-    protected void open(Page page) {
     }
 
     public String getCurrentUrl() {
@@ -462,7 +458,7 @@ public class Browser {
 
     public <T extends UIObject> T populate(T uiObject) {
 
-        if (uiObject.isPopulated()) {
+        if (uiObject.isPopulatedBy(this)) {
             return uiObject;
         }
 
@@ -486,7 +482,9 @@ public class Browser {
                 uiElement.setName(NameConvertor.humanize(field));
                 field.set(uiObject, uiElement);
 
-                if (!(uiElement instanceof ElementaryElement)) {
+                if (uiElement instanceof ElementaryElement) {
+                    uiElement.setBrowser(this);
+                } else {
                     populate(uiElement);
                 }
             } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -494,7 +492,7 @@ public class Browser {
             }
 
         }
-        uiObject.setPopulated(true);
+        uiObject.setBrowser(this);
         return uiObject;
     }
 

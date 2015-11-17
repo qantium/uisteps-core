@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
@@ -30,20 +29,20 @@ import org.openqa.selenium.By;
 public abstract class AbstractUIObject implements UIObject {
 
     private String name;
-    private boolean populated;
+    private Browser browser;
 
     public Browser inOpenedBrowser() {
-        return BrowserManager.getCurrentBrowser();
+        return browser;
     }
 
     @Override
-    public boolean isPopulated() {
-        return populated;
+    public boolean isPopulatedBy(Browser browser) {
+        return this.browser != null && this.browser.equals(browser);
     }
 
     @Override
-    public void setPopulated(boolean populated) {
-        this.populated = populated;
+    public void setBrowser(Browser browser) {
+        this.browser = browser;
     }
 
     public <T extends Named> T withName(String name) {

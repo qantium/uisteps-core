@@ -53,6 +53,6 @@ public class JUnitListener extends RunListener {
     }
     
     protected void closeAllBrowsers() {
-        BrowserManager.closeAllBrowsers();
+        BrowserManager.reset();
     }
 }
