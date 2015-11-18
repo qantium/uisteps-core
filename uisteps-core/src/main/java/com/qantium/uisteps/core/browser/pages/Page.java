@@ -15,9 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -30,34 +28,9 @@ import org.openqa.selenium.WebElement;
 public class Page extends AbstractUIObject {
 
     private Url url;
-    private final UrlFactory urlFactory = new UrlFactory();
-    private String[] params = new String[0];
     public static final String DEFAULT_NAME = "page";
 
-    public UrlFactory getUrlFactory() {
-        return urlFactory;
-    }
-
-    public String[] getParams() {
-        return params;
-    }
-
-    public <T extends Page> T setParams(String[] params) {
-        this.params = params;
-        return (T) this;
-    }
-
     public Url getUrl() {
-
-        if (url == null) {
-
-            if (urlFactory != null) {
-                url = urlFactory.getUrlOf(this.getClass(), params);
-            } else {
-                throw new RuntimeException("Url and url factory are not set!");
-            }
-        }
-
         return url;
     }
 
@@ -78,7 +51,7 @@ public class Page extends AbstractUIObject {
         this.url = url;
         return (T) this;
     }
-    
+
     public String getUrlString() {
         return getUrl().toString();
     }
@@ -113,31 +86,4 @@ public class Page extends AbstractUIObject {
     public WebElement findElement(By by) {
         return inOpenedBrowser().getDriver().findElement(by);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!getClass().isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        
-        final Page other = (Page) obj;
-        
-        if (!Objects.equals(this.url, other.url)) {
-            return false;
-        }
-        
-        return Arrays.deepEquals(this.params, other.params);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + Objects.hashCode(this.url);
-        hash = 11 * hash + Arrays.deepHashCode(this.params);
-        return hash;
-    }
-
 }

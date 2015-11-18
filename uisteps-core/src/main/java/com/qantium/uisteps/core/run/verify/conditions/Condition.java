@@ -38,15 +38,15 @@ public class Condition extends WithLogicOperation {
     }
 
     public static Condition isTrue(boolean successful, String expectedResult) {
-        return Condition.isTrue(false, successful, expectedResult);
+        return isTrue(false, successful, expectedResult);
     }
 
     public static Condition isTrue(boolean successful, String expectedResult, String actualResult) {
-        return Condition.isTrue(false, successful, expectedResult, actualResult);
+        return isTrue(false, successful, expectedResult, actualResult);
     }
 
     static Condition isTrue(boolean not, boolean successful, String expectedResult) {
-        return Condition.isTrue(not, successful, expectedResult, "");
+        return isTrue(not, successful, expectedResult, "");
     }
 
     static Condition isTrue(boolean not, boolean successful, String expectedResult, String actualResult) {

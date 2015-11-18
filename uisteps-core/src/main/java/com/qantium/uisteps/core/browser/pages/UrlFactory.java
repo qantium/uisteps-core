@@ -41,6 +41,10 @@ public class UrlFactory {
     public static Url getUrlOf(Class<?> page) {
         return new UrlFactory().process(new Url(), page);
     }
+    
+    public Url getUrlOf(Page page, String... params) {
+        return processParams(page.getUrl(), params);
+    }
 
     public Url getUrlOf(Class<? extends Page> page, String... params) {
         Class<?> pageClass = getPageClass(page);

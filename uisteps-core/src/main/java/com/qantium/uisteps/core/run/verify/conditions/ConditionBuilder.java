@@ -80,7 +80,7 @@ public class ConditionBuilder {
                     .append(actual);
         }
 
-        if (StringUtils.isEmpty(expected) || expected.equals(UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_NULL))) {
+        if (StringUtils.isEmpty(expected) || UIStepsProperties.getProperty(UIStepsProperty.UISTEPS_NULL).equals(expected)) {
             not(true);
             successful = !successful;
         }
@@ -93,6 +93,6 @@ public class ConditionBuilder {
             actualMessage.append(notMessage);
         }
 
-        return Condition.isTrue(not, successful, expectedMessage.toString().trim().replace("  ", " "), actualMessage.toString().trim().replace("  ", " "));
+        return Condition.isTrue(not, successful, expectedMessage.toString().trim().replace("\\s*", "\\s"), actualMessage.toString().trim().replace("\\s*", "\\s"));
     }
 }

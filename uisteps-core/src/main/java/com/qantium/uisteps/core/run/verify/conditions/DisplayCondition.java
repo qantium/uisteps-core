@@ -19,8 +19,10 @@ import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.screenshots.Screenshot;
 import java.util.Collection;
 import org.eclipse.aether.util.StringUtils;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
 
 /**
  *
@@ -30,6 +32,21 @@ public class DisplayCondition extends ConditionBuilder {
 
     public DisplayCondition(Browser browser) {
         super(browser);
+    }
+
+    public Condition see(Screenshot screenshot1, Screenshot screenshot2) {
+        return see("screenshots", screenshot1, screenshot2);
+    }
+
+    public Condition see(String description, Screenshot screenshot1, Screenshot screenshot2) {
+
+        ImageDiff diff = screenshot1.getDiffFrom(screenshot2);
+     //   String expected;
+        //    String actual = "screenshots have difference";
+
+    //    if(diff.hasDiff()) {
+        //     }
+        return compile(description, diff.hasDiff(), "одинаковые", "расходятся", "have", "difference");
     }
 
     protected Condition see(String description, boolean successful, String expected, String actual) {
@@ -107,7 +124,7 @@ public class DisplayCondition extends ConditionBuilder {
 
         return see(description, text.equals(value), quoted(value), quoted(uiObject));
     }
-    
+
     public Condition seePartOf(UIElement obj, String value) {
         return seePartOf("", obj, value);
     }
@@ -128,7 +145,7 @@ public class DisplayCondition extends ConditionBuilder {
             text = obj.getText();
         }
         String partOf = partOf(value, text);
-        return see(description, text.contains(value),partOf, partOf);
+        return see(description, text.contains(value), partOf, partOf);
     }
 
     public Condition seePartOf(String description, String obj, String value) {
@@ -145,11 +162,11 @@ public class DisplayCondition extends ConditionBuilder {
     protected <T extends UIObject> T uiObjectInstance(Class<T> uiObject) {
         return browser.displayed(uiObject);
     }
-    
+
     protected String partOf(String part, String of) {
 
         StringBuilder partOf = new StringBuilder();
-        
+
         partOf
                 .append("part ")
                 .append(quoted(part))

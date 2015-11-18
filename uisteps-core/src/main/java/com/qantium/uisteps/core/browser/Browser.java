@@ -18,11 +18,11 @@ package com.qantium.uisteps.core.browser;
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.Page;
-import static com.qantium.uisteps.core.browser.pages.Page.DEFAULT_NAME;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.browser.pages.UrlFactory;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
 import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
@@ -30,6 +30,9 @@ import com.qantium.uisteps.core.browser.pages.elements.FileInput;
 import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
+import com.qantium.uisteps.core.browser.screenshots.Ignored;
+import com.qantium.uisteps.core.browser.screenshots.Photographer;
+import com.qantium.uisteps.core.browser.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -58,15 +61,39 @@ public class Browser {
     private final WindowManager windowManager = new WindowManager();
     private final LocatorFactory locatorFactory = new LocatorFactory();
     private String name;
-
-    public WebDriver getDriver() {
-        return driver;
-    }
+    private Photographer photographer;
+    private UrlFactory urlFactory;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager.setDriver(driver);
+    }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+    
+    public void setUrlFactory(UrlFactory urlFactory) {
+        this.urlFactory = urlFactory;
+    }
+
+    public UrlFactory getUrlFactory() {
+        if (urlFactory == null) {
+            setUrlFactory(new UrlFactory());
+        }
+        return urlFactory;
+    }
+    
+    public void setPhotographer(Photographer photographer) {
+        this.photographer = photographer;
+    }
+
+    public Photographer getPhotographer() {
+
+        if (photographer == null) {
+            photographer = new Photographer(getDriver());
+        }
+        return photographer;
     }
     
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
@@ -95,11 +122,7 @@ public class Browser {
 
     public void open(Url url, String... params) {
         Page page = new Page();
-        open(page
-                .<Page>withName(DEFAULT_NAME)
-                .setUrl(url)
-                .setParams(params)
-        );
+        open(page.<Page>withName(Page.DEFAULT_NAME).setUrl(url), params);
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -115,7 +138,7 @@ public class Browser {
     }
 
     public <T extends Page> T open(T page, String... params) {
-        page.setParams(params);
+        page.setUrl(getUrlFactory().getUrlOf(page, params));
         getDriver().get(page.getUrl().toString());
         return populate(page);
     }
@@ -131,7 +154,7 @@ public class Browser {
     public Page getCurrentPage() {
 
         try {
-            return new Page().<Page>withName(DEFAULT_NAME).setUrl(new Url(getCurrentUrl()));
+            return new Page().<Page>withName(Page.DEFAULT_NAME).setUrl(new Url(getCurrentUrl()));
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
@@ -381,7 +404,7 @@ public class Browser {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
 
@@ -598,5 +621,18 @@ public class Browser {
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, UIObject context) {
         return onDisplayed(findAll(uiObject, by, context));
+    }
+
+    //Screenshots
+    public Screenshot takeScreenshot() {
+        return getPhotographer().takeScreenshot();
+    }
+
+    public Screenshot takeScreenshot(UIElement... elements) {
+        return getPhotographer().takeScreenshot(elements);
+    }
+
+    public Screenshot takeScreenshot(Ignored... elements) {
+        return getPhotographer().takeScreenshot(elements);
     }
 }

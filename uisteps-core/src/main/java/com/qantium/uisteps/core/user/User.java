@@ -26,6 +26,8 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.browser.screenshots.Ignored;
+import com.qantium.uisteps.core.browser.screenshots.Screenshot;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
 import org.openqa.selenium.By;
@@ -320,8 +322,12 @@ public class User implements Named {
         return not(true);
     }
 
-    public Condition see(UIObject obj) {
-        return displayCondition().see(obj);
+    public Condition see(Screenshot screenshot1, Screenshot screenshot2) {
+        return displayCondition().see(screenshot1, screenshot2);
+    }
+
+    public Condition see(String description, Screenshot screenshot1, Screenshot screenshot2) {
+        return displayCondition().see(description, screenshot1, screenshot2);
     }
 
     public Condition see(Class<? extends UIObject> uiObject) {
@@ -395,8 +401,7 @@ public class User implements Named {
         return getName();
     }
 
-    @Override
-    public <T extends Named> T withName(String name) {
+    public <T extends User> T withName(String name) {
         setName(name);
         return (T) this;
     }
@@ -436,5 +441,18 @@ public class User implements Named {
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, UIObject context) {
         return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
+    }
+
+    //take screenshot
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot();
+    }
+
+    public Screenshot takeScreenshot(UIElement... elements) {
+        return inOpenedBrowser().takeScreenshot(elements);
+    }
+
+    public Screenshot takeScreenshot(Ignored... elements) {
+        return inOpenedBrowser().takeScreenshot(elements);
     }
 }

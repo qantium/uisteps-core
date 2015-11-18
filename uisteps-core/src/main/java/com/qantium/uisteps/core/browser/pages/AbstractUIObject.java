@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.name.NameConvertor;
-import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
@@ -45,7 +44,7 @@ public abstract class AbstractUIObject implements UIObject {
         this.browser = browser;
     }
 
-    public <T extends Named> T withName(String name) {
+    public <T extends AbstractUIObject> T withName(String name) {
         setName(name);
         return (T) this;
     }
