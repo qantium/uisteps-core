@@ -14,6 +14,7 @@ public class WindowManager {
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
+        currentHandleIndex = 0;
     }
 
     public void switchToNextWindow() {

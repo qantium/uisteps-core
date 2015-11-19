@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -24,6 +23,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import org.apache.commons.lang3.StringUtils;
+import ru.stqa.selenium.factory.RemoteDriverProvider;
 import ru.stqa.selenium.factory.WebDriverFactoryMode;
 
 /**
@@ -35,69 +36,113 @@ public class BrowserFactory {
     public BrowserFactory() {
         WebDriverFactory.setMode(WebDriverFactoryMode.UNRESTRICTED);
     }
-    
+
     public Browser getBrowser() {
         return getBrowser(getDesiredCapabilities());
     }
 
-    public Browser getBrowser(String withDriver) {
-        return getBrowser(getDesiredCapabilities(withDriver));
-    }
-
-    public DesiredCapabilities getDesiredCapabilities() {
-        return getDesiredCapabilities(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_DRIVER)); 
-    }
-
-    public DesiredCapabilities getDesiredCapabilities(String withDriver) {
-
-        switch (withDriver.toLowerCase()) {
-            case "firefox":
-                return DesiredCapabilities.firefox();
-            case "chrome":
-                return DesiredCapabilities.chrome();
-            case "opera":
-                return DesiredCapabilities.operaBlink();
-            case "iexplorer":
-                return DesiredCapabilities.internetExplorer();
-            case "edge":
-                return DesiredCapabilities.edge();
-            case "safari":
-                return DesiredCapabilities.safari();
-            case "android":
-                return DesiredCapabilities.android();
-            case "iphone":
-                return DesiredCapabilities.iphone();
-            case "ipad":
-                return DesiredCapabilities.ipad();
-            case "htmlunit":
-                return DesiredCapabilities.htmlUnit();
-            case "htmlunitwithjs":
-                return DesiredCapabilities.htmlUnitWithJs();
-            case "phantomjs":
-                return DesiredCapabilities.phantomjs();
-            default:
-                throw new NoBrowserException("Cannot get capabilities for driver " + withDriver + "!");
-        }
+    public Browser getBrowser(Driver driver) {
+        return getBrowser(getDesiredCapabilities(driver));
     }
 
     public Browser getBrowser(Capabilities capabilities) {
-        return getBrowser(WebDriverFactory.getDriver(capabilities));
+        String hub = UIStepsProperties.getProperty(WEBDRIVER_REMOTE_URL);
+
+        if (StringUtils.isEmpty(hub)) {
+            return getBrowser(WebDriverFactory.getDriver(capabilities));
+        } else {
+            return getBrowser(hub, capabilities);
+        }
     }
 
-    public Browser getBrowser(WebDriver withDriver) {
-        setSettingsTo(withDriver);
+    public Browser getBrowser(WebDriver driver) {
+        System.out.println("===================================================4 " + driver);
+        setSettingsTo(driver);
         Browser browser = new Browser();
-        browser.setDriver(withDriver);
+        browser.setDriver(driver);
         return browser;
     }
-    
+
+    //Remote
+    public Browser getBrowser(String hub) {
+        return getBrowser(hub, getDesiredCapabilities());
+    }
+
+    public Browser getBrowser(String hub, Driver driver) {
+        return getBrowser(hub, getDesiredCapabilities(driver));
+    }
+
+    public Browser getBrowser(String hub, Capabilities capabilities) {
+        WebDriver driver = new RemoteDriverProvider.Default().createDriver(hub, capabilities);
+        return getBrowser(driver);
+    }
+
+    public DesiredCapabilities getDesiredCapabilities() {
+        System.out.println("===================================================0 " + UIStepsProperties.getProperty(WEBDRIVER_DRIVER));
+        System.out.println("===================================================1 " + Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase()));
+        Driver driver = Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase());
+        System.out.println("===================================================2 " + driver);
+        DesiredCapabilities cap = getDesiredCapabilities(driver);
+        System.out.println("===================================================3 " + cap);
+        return cap;
+    }
+
+    public DesiredCapabilities getDesiredCapabilities(Driver driver) {
+
+        switch (driver) {
+            case FIREFOX:
+                return DesiredCapabilities.firefox();
+            case CHROME:
+                return DesiredCapabilities.chrome();
+            case OPERA:
+                return DesiredCapabilities.operaBlink();
+            case IEXPLORER:
+                return DesiredCapabilities.internetExplorer();
+            case EDGE:
+                return DesiredCapabilities.edge();
+            case SAFARI:
+                return DesiredCapabilities.safari();
+            case ANDROID:
+                return DesiredCapabilities.android();
+            case IPHONE:
+                return DesiredCapabilities.iphone();
+            case IPAD:
+                return DesiredCapabilities.ipad();
+            case HTMLUNIT:
+                return DesiredCapabilities.htmlUnit();
+            case HTMLUNITWITHJS:
+                return DesiredCapabilities.htmlUnitWithJs();
+            case PHANTOMJS:
+                return DesiredCapabilities.phantomjs();
+            default:
+                throw new NoBrowserException("Cannot get capabilities for driver " + driver + "!");
+        }
+    }
+
     protected void setSettingsTo(WebDriver driver) {
-        
+
         WebDriver.Options manage = driver.manage();
         manage.timeouts().setScriptTimeout(Long.parseLong(UIStepsProperties.getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)), TimeUnit.MILLISECONDS);
-        
-        int width = Integer.parseInt(UIStepsProperties.getProperty(BROWSER_WIDTH));
-        int height = Integer.parseInt(UIStepsProperties.getProperty(BROWSER_HEIGHT));
+
+        String widthProperty = UIStepsProperties.getProperty(BROWSER_WIDTH);
+        String heightProperty = UIStepsProperties.getProperty(BROWSER_WIDTH);
+        WebDriver.Window window = manage.window();
+        Dimension size = window.getSize();
+
+        int width;
+        int height;
+
+        if (!StringUtils.isEmpty(widthProperty)) {
+            width = Integer.parseInt(widthProperty);
+        } else {
+            width = size.width;
+        }
+
+        if (!StringUtils.isEmpty(heightProperty)) {
+            height = Integer.parseInt(heightProperty);
+        } else {
+            height = size.height;
+        }
         Dimension dimension = new Dimension(width, height);
         manage.window().setSize(dimension);
     }

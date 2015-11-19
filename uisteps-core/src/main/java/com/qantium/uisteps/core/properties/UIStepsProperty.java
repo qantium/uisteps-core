@@ -21,7 +21,7 @@ package com.qantium.uisteps.core.properties;
  */
 public enum UIStepsProperty {
 
-    UISTEPS_PROPERTIES_PATH {
+    PROPERTIES_PATH {
 
                 @Override
                 public String getDefault() {
@@ -33,6 +33,13 @@ public enum UIStepsProperty {
                 @Override
                 public String getDefault() {
                     return "firefox";
+                }
+            },
+    WEBDRIVER_REMOTE_URL {
+
+                @Override
+                public String getDefault() {
+                    return "";
                 }
             },
     WEBDRIVER_BASE_URL {
@@ -49,21 +56,49 @@ public enum UIStepsProperty {
                     return "3000";
                 }
             },
-    UISTEPS_HOST {
+    SCREENSHOTS_TO_DIR {
+
+                @Override
+                public String getDefault() {
+                    return "target/screenshots";
+                }
+            },
+    SCREENSHOTS_FROM_DIR {
+
+                @Override
+                public String getDefault() {
+                    return SCREENSHOTS_TO_DIR.getDefault();
+                }
+            },
+    SCREENSHOTS_SCALE_WIDTH {
+
+                @Override
+                public String getDefault() {
+                    return "48";
+                }
+            },
+    SCREENSHOTS_SCALE_HEIGHT {
+
+                @Override
+                public String getDefault() {
+                    return "48";
+                }
+            },
+    HOST {
 
                 @Override
                 public String getDefault() {
                     return "#HOST";
                 }
             },
-    UISTEPS_NULL {
+    NULL {
 
                 @Override
                 public String getDefault() {
                     return "#NULL";
                 }
             },
-    UISTEPS_PROPERTY_REGEXP {
+    PROPERTY_REGEXP {
 
                 @Override
                 public String getDefault() {

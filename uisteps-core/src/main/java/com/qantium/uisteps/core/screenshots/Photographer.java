@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.screenshots;
+package com.qantium.uisteps.core.screenshots;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import java.awt.image.BufferedImage;
@@ -110,7 +110,7 @@ public class Photographer {
         BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
         return new Screenshot(image);
     }
-
+    
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
 

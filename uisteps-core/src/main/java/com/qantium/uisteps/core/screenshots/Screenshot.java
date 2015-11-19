@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.screenshots;
+package com.qantium.uisteps.core.screenshots;
 
 import com.google.common.io.Files;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,21 +32,44 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 public class Screenshot {
 
     private final BufferedImage image;
+    private File dir = new File(UIStepsProperties.getProperty(UIStepsProperty.SCREENSHOTS_TO_DIR));
 
     public Screenshot(BufferedImage image) {
         this.image = image;
+    }
+
+    public static Screenshot getFrom(File file) throws IOException {
+        return new Screenshot(ImageIO.read(file));
+    }
+
+    public <T extends Screenshot> T toDir(String dir) {
+        this.dir = new File(dir);
+        return (T) this;
+    }
+
+    public File getDir() {
+        return dir;
     }
 
     public BufferedImage getImage() {
         return image;
     }
 
-    public File save(File file) throws IOException {
-        String extension = Files.getFileExtension(file.getPath());
-        ImageIO.write(image, extension, file);
-        return file;
+    public File save(String dir, String file) throws IOException {
+        return toDir(dir).save(file);
     }
-    
+
+    public File save(String file) throws IOException {
+
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        String extension = Files.getFileExtension(file);
+        File screenshot = new File(dir, file);
+        ImageIO.write(image, extension, screenshot);
+        return screenshot;
+    }
+
     public ImageDiff getDiffFrom(Screenshot screenshot) {
         return new ImageDiffer().makeDiff(this.getImage(), screenshot.getImage());
     }

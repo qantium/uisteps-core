@@ -28,14 +28,22 @@ public class BrowserManager {
 
     private final static ThreadLocal<Integer> currentIndex = new ThreadLocal();
     private final static ThreadLocal<ArrayList<Browser>> browsers = new ThreadLocal();
-    private final BrowserFactory browserFactory;
+    private BrowserFactory browserFactory = new BrowserFactory();
     private final static ThreadLocal<Browser> currentBrowser = new ThreadLocal();
 
-    public BrowserManager(BrowserFactory browserFactory) {
-        this.browserFactory = browserFactory;
-        reset();
+    public BrowserManager() {
+        browsers.set(new ArrayList());
+        currentIndex.set(-1);
     }
 
+    public BrowserFactory getBrowserFactory() {
+        return browserFactory;
+    }
+
+    public void setBrowserFactory(BrowserFactory browserFactory) {
+        this.browserFactory = browserFactory;
+    }
+    
     public ArrayList<Browser> getBrowsers() {
 
         if (browsers.get() == null) {
@@ -101,28 +109,38 @@ public class BrowserManager {
         return currentBrowser.get();
     }
 
-    public Browser openNewBrowser(WebDriver withDriver) {
-        return open(browserFactory.getBrowser(withDriver));
+    public Browser openNewBrowser(WebDriver driver) {
+        return open(getBrowserFactory().getBrowser(driver));
     }
 
-    public Browser openNewBrowser(String withDriver) {
-        return open(browserFactory.getBrowser(withDriver));
+    public Browser openNewBrowser(Driver driver) {
+        return open(getBrowserFactory().getBrowser(driver));
     }
 
     public Browser openNewBrowser() {
-        return open(browserFactory.getBrowser());
+        return open(getBrowserFactory().getBrowser());
     }
 
     public Browser openNewBrowser(Capabilities capabilities) {
-        return open(browserFactory.getBrowser(capabilities));
+        return open(getBrowserFactory().getBrowser(capabilities));
     }
 
-    public DesiredCapabilities getDesiredCapabilities() {
-        return browserFactory.getDesiredCapabilities();
+    public Browser openNewBrowser(String hub) {
+        return open(getBrowserFactory().getBrowser(hub));
     }
 
-    public DesiredCapabilities getDesiredCapabilities(String withDriver) {
-        return browserFactory.getDesiredCapabilities(withDriver);
+    public Browser openNewBrowser(String hub, Driver driver) {
+        return open(getBrowserFactory().getBrowser(hub, driver));
+    }
+
+    public Browser openNewBrowser(String hub, Capabilities capabilities) {
+        return open(getBrowserFactory().getBrowser(hub, capabilities));
+    }
+
+    public Browser open(Browser browser) {
+        getBrowsers().add(browser);
+        setCurrentIndex(getBrowsers().size() - 1);
+        return getCurrentBrowser();
     }
 
     public Browser switchToNextBrowser() {
@@ -171,12 +189,6 @@ public class BrowserManager {
     private void showNoBrowserException(String message) {
         setCurrentIndex(-1);
         throw new NoBrowserException(message);
-    }
-
-    public Browser open(Browser browser) {
-        getBrowsers().add(browser);
-        setCurrentIndex(getBrowsers().size() - 1);
-        return getCurrentBrowser();
     }
 
     public void removeByIndex(int index) throws NoBrowserException {

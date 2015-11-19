@@ -21,15 +21,18 @@ import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.Driver;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
-import com.qantium.uisteps.core.browser.screenshots.Ignored;
-import com.qantium.uisteps.core.browser.screenshots.Screenshot;
+import com.qantium.uisteps.core.screenshots.Ignored;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
+import java.io.File;
+import java.io.IOException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -43,37 +46,24 @@ import org.openqa.selenium.WebDriver;
  */
 public class User implements Named {
 
-    private final BrowserManager browserManager;
+    private BrowserManager browserManager = new BrowserManager();
     public static final String DEFAULT_NAME = "user";
     private String name;
 
-    public User(BrowserManager browserManager, String name) {
-        this.browserManager = browserManager;
+    public User(String name) {
         this.name = name;
     }
 
-    public User(BrowserFactory browserFactory, String name) {
-        this(new BrowserManager(browserFactory), name);
-    }
-
-    public User(BrowserFactory browserFactory) {
-        this(browserFactory, DEFAULT_NAME);
-    }
-
-    public User(BrowserManager browserManager) {
-        this(browserManager, DEFAULT_NAME);
-    }
-
-    public User(String name) {
-        this(new BrowserFactory(), name);
-    }
-
     public User() {
-        this(new BrowserFactory());
+        this(DEFAULT_NAME);
     }
 
     public BrowserManager getBrowserManager() {
         return browserManager;
+    }
+
+    public void setBrowserManager(BrowserManager browserManager) {
+        this.browserManager = browserManager;
     }
 
     public Browser inOpenedBrowser() {
@@ -92,8 +82,9 @@ public class User implements Named {
         return inOpenedBrowser().then(value);
     }
 
-    public <T extends User> T openNewBrowser(String withDriver) {
-        getBrowserManager().openNewBrowser(withDriver);
+    //Browser
+    public <T extends User> T openNewBrowser(Driver driver) {
+        getBrowserManager().openNewBrowser(driver);
         return (T) this;
     }
 
@@ -107,8 +98,23 @@ public class User implements Named {
         return (T) this;
     }
 
-    public <T extends User> T openNewBrowser(WebDriver withDriver) {
-        getBrowserManager().openNewBrowser(withDriver);
+    public <T extends User> T openNewBrowser(String hub, Driver driver) {
+        getBrowserManager().openNewBrowser(hub, driver);
+        return (T) this;
+    }
+
+    public <T extends User> T openNewBrowser(String hub) {
+        getBrowserManager().openNewBrowser(hub);
+        return (T) this;
+    }
+
+    public <T extends User> T openNewBrowser(String hub, Capabilities capabilities) {
+        getBrowserManager().openNewBrowser(hub, capabilities);
+        return (T) this;
+    }
+    
+    public <T extends User> T openNewBrowser(WebDriver driver) {
+        getBrowserManager().openNewBrowser(driver);
         return (T) this;
     }
 
@@ -322,12 +328,12 @@ public class User implements Named {
         return not(true);
     }
 
-    public Condition see(Screenshot screenshot1, Screenshot screenshot2) {
-        return displayCondition().see(screenshot1, screenshot2);
+    public Condition seeEqual(Screenshot screenshot1, Screenshot screenshot2) {
+        return displayCondition().seeEqual(screenshot1, screenshot2);
     }
 
-    public Condition see(String description, Screenshot screenshot1, Screenshot screenshot2) {
-        return displayCondition().see(description, screenshot1, screenshot2);
+    public Condition seeEqual(String description, Screenshot screenshot1, Screenshot screenshot2) {
+        return displayCondition().seeEqual(description, screenshot1, screenshot2);
     }
 
     public Condition see(Class<? extends UIObject> uiObject) {

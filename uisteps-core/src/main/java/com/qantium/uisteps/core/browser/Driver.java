@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.screenshots;
+package com.qantium.uisteps.core.browser;
+
 
 /**
  *
  * @author A.Solyankin
  */
-public enum Ignore {
-    
-    LOCATORS, ELEMENTS, AREAS;
+public enum Driver {
+
+    FIREFOX, CHROME, OPERA, IEXPLORER, EDGE, SAFARI, ANDROID, IPHONE, IPAD, HTMLUNIT, HTMLUNITWITHJS, PHANTOMJS;
 }

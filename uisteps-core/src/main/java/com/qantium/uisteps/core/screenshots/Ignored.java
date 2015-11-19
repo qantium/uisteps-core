@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.screenshots;
+package com.qantium.uisteps.core.screenshots;
 
 import com.google.common.collect.Lists;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
 import ru.yandex.qatools.ashot.coordinates.Coords;

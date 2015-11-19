@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.util.Properties;
 import org.codehaus.plexus.util.StringUtils;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,55 +31,48 @@ import org.slf4j.LoggerFactory;
  */
 public class UIStepsProperties {
 
-    private static final Properties properties = new Properties(getDefaults());
-    private static final String workingDirectory = System.getProperty("user.dir");
-    private static final String homeDirectory = System.getProperty("user.home");
-    private static final String propertiesFileName = "uisteps.properties";
+    private static Properties properties;
+    private static final String WORKIND_DIR = System.getProperty("user.dir");
+    private static final String HOME_DIR = System.getProperty("user.home");
+    private static final String PROPERTIES_FILE_NAME = "uisteps.properties";
     private static final String AS = "AS#";
-    private static final Logger logger = LoggerFactory.getLogger(UIStepsProperties.class);
 
-    static {
+    private static Properties getProperties() {
 
-        logger.info("UISTEPS PROPERTIES ========================");
+        if (properties == null) {
+            properties = new Properties(getDefaults());
+            load(PROPERTIES_FILE_NAME, properties);
+            String path = getProperty(PROPERTIES_PATH);
 
-        load(propertiesFileName);
-
-        String path = getProperty(UISTEPS_PROPERTIES_PATH);
-
-        if (!StringUtils.isEmpty(path)) {
-            load(path);
-        }
-
-        for (String propertyName : properties.stringPropertyNames()) {
-            String property = properties.getProperty(propertyName);
-
-            if (property.startsWith(AS)) {
-                properties.setProperty(propertyName, properties.getProperty(property.replace(AS, "")));
-                property = properties.getProperty(propertyName);
+            if (!StringUtils.isEmpty(path)) {
+                load(path, properties);
             }
 
-            logger.info(propertyName + " = " + property);
-        }
-        logger.info("===========================================");
+            for (String propertyName : properties.stringPropertyNames()) {
+                String property = properties.getProperty(propertyName);
 
+                if (property.startsWith(AS)) {
+                    properties.setProperty(propertyName, properties.getProperty(property.replace(AS, "")));
+                }
+
+            }
+        }
+        return properties;
     }
 
-    private static void load(String propertiesFileName) {
+    private static void load(String propertiesFileName, Properties properties) {
+        if (!loadForm(new File(propertiesFileName), properties)) {
 
-        if (!loadForm(new File(propertiesFileName))) {
-
-            if (!loadForm(new File(workingDirectory, propertiesFileName))) {
-                loadForm(new File(homeDirectory, propertiesFileName));
+            if (!loadForm(new File(WORKIND_DIR, propertiesFileName), properties)) {
+                loadForm(new File(HOME_DIR, propertiesFileName), properties);
             }
-
         }
     }
 
-    private static boolean loadForm(File file) {
+    private static boolean loadForm(File file, Properties properties) {
 
         try {
             properties.load(Files.newInputStream(file.toPath()));
-            logger.info("Loaded from: " + file.getAbsolutePath());
             return true;
         } catch (IOException ex) {
             return false;
@@ -86,12 +80,12 @@ public class UIStepsProperties {
     }
 
     public static String getProperty(String key) {
-        String property = properties.getProperty(key.toLowerCase());
-        
-        if(property != null) {
+        key = key.toLowerCase();
+        String property = getProperties().getProperty(key);
+        if (property != null) {
             return property;
         } else {
-            return properties.getProperty(key);
+            return System.getProperty(key);
         }
     }
 
@@ -100,7 +94,6 @@ public class UIStepsProperties {
     }
 
     private static Properties getDefaults() {
-
         Properties defaults = new Properties();
 
         for (UIStepsProperty property : UIStepsProperty.values()) {

@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -85,5 +86,11 @@ public class Page extends AbstractUIObject {
     @Override
     public WebElement findElement(By by) {
         return inOpenedBrowser().getDriver().findElement(by);
+    }
+
+    //Screenshots
+    @Override
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot();
     }
 }

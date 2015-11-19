@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.google.common.io.Files;
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.Page;
@@ -30,15 +31,18 @@ import com.qantium.uisteps.core.browser.pages.elements.FileInput;
 import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
-import com.qantium.uisteps.core.browser.screenshots.Ignored;
-import com.qantium.uisteps.core.browser.screenshots.Photographer;
-import com.qantium.uisteps.core.browser.screenshots.Screenshot;
+import com.qantium.uisteps.core.screenshots.Ignored;
+import com.qantium.uisteps.core.screenshots.Photographer;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
@@ -58,11 +62,11 @@ import org.openqa.selenium.internal.WrapsElement;
 public class Browser {
 
     private WebDriver driver;
-    private final WindowManager windowManager = new WindowManager();
-    private final LocatorFactory locatorFactory = new LocatorFactory();
     private String name;
-    private Photographer photographer;
-    private UrlFactory urlFactory;
+    private final WindowManager windowManager = new WindowManager();
+    private LocatorFactory locatorFactory = new LocatorFactory();
+    private Photographer photographer = new Photographer(getDriver());
+    private UrlFactory urlFactory = new UrlFactory();
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
@@ -72,30 +76,31 @@ public class Browser {
     public WebDriver getDriver() {
         return driver;
     }
-    
+
     public void setUrlFactory(UrlFactory urlFactory) {
         this.urlFactory = urlFactory;
     }
 
     public UrlFactory getUrlFactory() {
-        if (urlFactory == null) {
-            setUrlFactory(new UrlFactory());
-        }
         return urlFactory;
     }
-    
+
     public void setPhotographer(Photographer photographer) {
         this.photographer = photographer;
     }
 
     public Photographer getPhotographer() {
-
-        if (photographer == null) {
-            photographer = new Photographer(getDriver());
-        }
         return photographer;
     }
-    
+
+    public LocatorFactory getLocatorFactory() {
+        return locatorFactory;
+    }
+
+    public void setLocatorFactory(LocatorFactory locatorFactory) {
+        this.locatorFactory = locatorFactory;
+    }
+
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
         T uiObjectInstance = instatiate(uiObject);
         uiObjectInstance.setLocator(locator);
@@ -168,7 +173,6 @@ public class Browser {
 
     public void switchToNextWindow() {
         windowManager.switchToNextWindow();
-
     }
 
     public void switchToPreviousWindow() {
@@ -389,10 +393,6 @@ public class Browser {
         return new Then(new GetValueAction<>(value));
     }
 
-    public LocatorFactory getLocatorFactory() {
-        return locatorFactory;
-    }
-
     public Object executeScript(String script) {
         return ((JavascriptExecutor) getDriver()).executeScript(script);
     }
@@ -415,7 +415,7 @@ public class Browser {
         String osVersion = System.getProperty("os.version");
         Dimension size = getWindowSize();
 
-        browserName.append(NameConvertor.humanize(getDriver().getClass()))
+        browserName.append(NameConvertor.humanize(getDriver().getClass()).replace(" driver", ""))
                 .append(" os.name: ").append(os)
                 .append(" os.arch: ").append(osArch)
                 .append(" os.version: ").append(osVersion)

@@ -19,8 +19,13 @@ import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.browser.screenshots.Screenshot;
+import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.UUID;
 import org.eclipse.aether.util.StringUtils;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 
@@ -34,19 +39,39 @@ public class DisplayCondition extends ConditionBuilder {
         super(browser);
     }
 
-    public Condition see(Screenshot screenshot1, Screenshot screenshot2) {
-        return see("screenshots", screenshot1, screenshot2);
+    public Condition seeEqual(Screenshot screenshot1, Screenshot screenshot2) {
+        return seeEqual("", screenshot1, screenshot2);
     }
 
-    public Condition see(String description, Screenshot screenshot1, Screenshot screenshot2) {
+    public Condition seeEqual(String description, Screenshot screenshot1, Screenshot screenshot2) {
 
         ImageDiff diff = screenshot1.getDiffFrom(screenshot2);
-     //   String expected;
-        //    String actual = "screenshots have difference";
+        boolean noDiff = !diff.hasDiff();
 
-    //    if(diff.hasDiff()) {
-        //     }
-        return compile(description, diff.hasDiff(), "одинаковые", "расходятся", "have", "difference");
+        String expected = "screenshots have no diff";
+        String actual = "diff ";
+
+        if (!noDiff) {
+            File fromDir = new File(UIStepsProperties.getProperty(SCREENSHOTS_FROM_DIR));
+            String diffImage = UUID.randomUUID() + ".png";
+
+            try {
+                new Screenshot(diff.getMarkedImage()).save(diffImage);
+                String path = fromDir + "/" + diffImage;
+                actual = "<a target='blank' href='" + path + "'>"
+                        + "<img class='screenshot' width='" + UIStepsProperties.getProperty(SCREENSHOTS_SCALE_WIDTH)
+                        + "' height='" + UIStepsProperties.getProperty(SCREENSHOTS_SCALE_HEIGHT) + "' src='" + path + "' href='" + path + "'>"
+                        + "</a>";
+            } catch (IOException ex) {
+                throw new RuntimeException("Cannot save screenshot diff with name " + diffImage + "\nCause:" + ex);
+            }
+        }
+
+        if (not) {
+            return compile(description, noDiff, actual, expected, "", "", "");
+        } else {
+            return compile(description, noDiff, expected, actual, "", "", "");
+        }
     }
 
     protected Condition see(String description, boolean successful, String expected, String actual) {

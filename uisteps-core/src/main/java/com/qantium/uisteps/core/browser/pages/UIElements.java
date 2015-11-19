@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -83,7 +84,18 @@ public class UIElements<E extends UIElement> extends UIElement {
     public E[] toArray() {
         return (E[]) getElements().<E>toArray();
     }
+    
+    public List<E> getElements() {
+        ArrayList<E> elements = new ArrayList();
+        List<WebElement> webElements = getSearchContext().findElements(getLocator());
 
+        for (WebElement element : webElements) {
+            E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
+            elements.add(uiElement);
+        }
+        return elements;
+    }
+    
     public E get(int index) {
         E element = getElements().get(index);
         return element.withName(element.getName() + " by index " + index);
@@ -171,7 +183,6 @@ public class UIElements<E extends UIElement> extends UIElement {
         for (int index : indexes) {
             proxyList.remove(index);
         }
-
         return uiElements(proxyList);
     }
 
@@ -189,17 +200,6 @@ public class UIElements<E extends UIElement> extends UIElement {
         addAll(uiElements.getProxyElements());
     }
 
-    protected List<E> getElements() {
-        ArrayList<E> elements = new ArrayList();
-        List<WebElement> webElements = getSearchContext().findElements(getLocator());
-
-        for (WebElement element : webElements) {
-            E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
-            elements.add(uiElement);
-        }
-        return elements;
-    }
-
     @Override
     public SearchContext getSearchContext() {
 
@@ -214,5 +214,11 @@ public class UIElements<E extends UIElement> extends UIElement {
         List<E> proxyElements = new ArrayList();
         proxyElements.addAll(getElements());
         return proxyElements;
+    }
+
+    //Screenshots
+    @Override
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot(toArray());
     }
 }

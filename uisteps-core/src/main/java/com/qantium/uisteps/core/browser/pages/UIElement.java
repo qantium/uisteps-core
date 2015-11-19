@@ -1,5 +1,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.screenshots.Ignored;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.util.List;
@@ -227,4 +229,11 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public Dimension getSize() {
         return inOpenedBrowser().getSizeOf(this);
     }
+    
+    //Screenshots
+    @Override
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot(this);
+    }
+    
 }

@@ -17,6 +17,8 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.screenshots.Ignored;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -41,4 +43,6 @@ public interface UIObject extends Named {
     List<WebElement> findElements(By by);
     
     WebElement findElement(By by);
+    
+    Screenshot takeScreenshot();
 }
