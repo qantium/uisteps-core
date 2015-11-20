@@ -56,7 +56,6 @@ public class BrowserFactory {
     }
 
     public Browser getBrowser(WebDriver driver) {
-        System.out.println("===================================================4 " + driver);
         setSettingsTo(driver);
         Browser browser = new Browser();
         browser.setDriver(driver);
@@ -78,13 +77,8 @@ public class BrowserFactory {
     }
 
     public DesiredCapabilities getDesiredCapabilities() {
-        System.out.println("===================================================0 " + UIStepsProperties.getProperty(WEBDRIVER_DRIVER));
-        System.out.println("===================================================1 " + Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase()));
         Driver driver = Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase());
-        System.out.println("===================================================2 " + driver);
-        DesiredCapabilities cap = getDesiredCapabilities(driver);
-        System.out.println("===================================================3 " + cap);
-        return cap;
+        return getDesiredCapabilities(driver);
     }
 
     public DesiredCapabilities getDesiredCapabilities(Driver driver) {
@@ -125,7 +119,7 @@ public class BrowserFactory {
         manage.timeouts().setScriptTimeout(Long.parseLong(UIStepsProperties.getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)), TimeUnit.MILLISECONDS);
 
         String widthProperty = UIStepsProperties.getProperty(BROWSER_WIDTH);
-        String heightProperty = UIStepsProperties.getProperty(BROWSER_WIDTH);
+        String heightProperty = UIStepsProperties.getProperty(BROWSER_HEIGHT);
         WebDriver.Window window = manage.window();
         Dimension size = window.getSize();
 

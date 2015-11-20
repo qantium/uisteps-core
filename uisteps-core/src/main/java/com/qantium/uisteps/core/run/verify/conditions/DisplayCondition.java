@@ -49,28 +49,33 @@ public class DisplayCondition extends ConditionBuilder {
         boolean noDiff = !diff.hasDiff();
 
         String expected = "screenshots have no diff";
-        String actual = "diff ";
+        StringBuilder actual = new StringBuilder("");
 
         if (!noDiff) {
-            File fromDir = new File(UIStepsProperties.getProperty(SCREENSHOTS_FROM_DIR));
+            String fromDir = UIStepsProperties.getProperty(SCREENSHOTS_FROM_DIR);
             String diffImage = UUID.randomUUID() + ".png";
 
             try {
                 new Screenshot(diff.getMarkedImage()).save(diffImage);
                 String path = fromDir + "/" + diffImage;
-                actual = "<a target='blank' href='" + path + "'>"
-                        + "<img class='screenshot' width='" + UIStepsProperties.getProperty(SCREENSHOTS_SCALE_WIDTH)
-                        + "' height='" + UIStepsProperties.getProperty(SCREENSHOTS_SCALE_HEIGHT) + "' src='" + path + "' href='" + path + "'>"
-                        + "</a>";
+                actual.append("diff ")
+                        .append("<a target='blank' href='").append(path).append("'>")
+                        .append("<img class='screenshot' width='")
+                        .append(UIStepsProperties.getProperty(SCREENSHOTS_SCALE_WIDTH))
+                        .append("' height='")
+                        .append(UIStepsProperties.getProperty(SCREENSHOTS_SCALE_HEIGHT))
+                        .append("' src='").append(path)
+                        .append("' href='").append(path)
+                        .append("'></a>");
             } catch (IOException ex) {
                 throw new RuntimeException("Cannot save screenshot diff with name " + diffImage + "\nCause:" + ex);
             }
         }
 
         if (not) {
-            return compile(description, noDiff, actual, expected, "", "", "");
+            return compile(description, noDiff, actual.toString(), expected, "", "", "");
         } else {
-            return compile(description, noDiff, expected, actual, "", "", "");
+            return compile(description, noDiff, expected, actual.toString(), "", "", "");
         }
     }
 
@@ -222,7 +227,6 @@ public class DisplayCondition extends ConditionBuilder {
         } else if (StringUtils.isEmpty(obj.toString())) {
             return false;
         }
-
         return true;
 
     }

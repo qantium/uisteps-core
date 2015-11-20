@@ -18,7 +18,6 @@ package com.qantium.uisteps.core.browser;
 import java.util.ArrayList;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  *
@@ -45,10 +44,6 @@ public class BrowserManager {
     }
     
     public ArrayList<Browser> getBrowsers() {
-
-        if (browsers.get() == null) {
-            reset();
-        }
         return browsers.get();
     }
 

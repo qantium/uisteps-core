@@ -109,14 +109,14 @@ public enum UIStepsProperty {
 
                 @Override
                 public String getDefault() {
-                    return "1200";
+                    return "";
                 }
             },
     BROWSER_HEIGHT {
 
                 @Override
                 public String getDefault() {
-                    return "800";
+                    return "";
                 }
             };
 

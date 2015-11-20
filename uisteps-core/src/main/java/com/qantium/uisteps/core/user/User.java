@@ -19,7 +19,6 @@ import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.browser.NoBrowserException;
-import com.qantium.uisteps.core.browser.BrowserFactory;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.Driver;
 import com.qantium.uisteps.core.browser.pages.Page;
@@ -31,8 +30,6 @@ import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.run.verify.conditions.Condition;
 import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
-import java.io.File;
-import java.io.IOException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -153,9 +150,6 @@ public class User implements Named {
     }
 
     public <T extends User> T openUrl(String url, String... params) {
-        if (!getBrowserManager().hasAny()) {
-            openNewBrowser();
-        }
         inOpenedBrowser().openUrl(url, params);
         return (T) this;
     }
@@ -251,8 +245,8 @@ public class User implements Named {
     }
 
     //Current page
-    public <T extends User> T refreshCurrentPage() {
-        inOpenedBrowser().refreshCurrentPage();
+    public <T extends User> T refreshtPage() {
+        inOpenedBrowser().refreshPage();
         return (T) this;
     }
 

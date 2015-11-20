@@ -16,10 +16,12 @@
 package com.qantium.uisteps.core.screenshots;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIElements;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.openqa.selenium.By;
@@ -89,7 +91,7 @@ public class Photographer {
 
         return ignore((Coords[]) coords.toArray());
     }
-    
+
     public Photographer ignore(Coords... areas) {
         Set<Coords> coords = new HashSet();
         coords.addAll(Arrays.asList(areas));
@@ -110,12 +112,25 @@ public class Photographer {
         BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
         return new Screenshot(image);
     }
-    
+
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
 
         for (UIElement element : elements) {
-            webElements.add(element.getWrappedElement());
+
+            if (element instanceof UIElements) {
+
+                UIElements uiElements = (UIElements) element;
+
+                Iterator iterator = uiElements.getElements().iterator();
+                while (iterator.hasNext()) {
+                    UIElement uiElement = (UIElement) iterator.next();
+                    webElements.add(uiElement.getWrappedElement());
+                }
+
+            } else {
+                webElements.add(element.getWrappedElement());
+            }
         }
         BufferedImage image = getAShot().takeScreenshot(getDriver(), webElements).getImage();
         return new Screenshot(image);

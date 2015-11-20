@@ -17,6 +17,9 @@ package com.qantium.uisteps.core.screenshots;
 
 import com.google.common.collect.Lists;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIElements;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.openqa.selenium.By;
 import ru.yandex.qatools.ashot.coordinates.Coords;
@@ -39,7 +42,20 @@ public class Ignored {
 
     public Ignored(Ignore ignored, UIElement... elements) {
         this.elements = ignored;
-        this.uiElements = Lists.newArrayList(elements);
+        uiElements = new ArrayList();
+
+        for (UIElement element : elements) {
+            if (element instanceof UIElements) {
+                Iterator iterator = ((UIElements) element).getElements().iterator();
+
+                while (iterator.hasNext()) {
+                    UIElement uiElement = (UIElement) iterator.next();
+                    uiElements.add(uiElement);
+                }
+            } else {
+                uiElements.add(element);
+            }
+        }
     }
 
     public Ignored(Ignore ignored, Coords... areas) {
@@ -57,6 +73,20 @@ public class Ignored {
 
     public List<Coords> getAreas() {
         return areas;
+    }
+
+    public List getList() {
+
+        switch (elements) {
+            case LOCATORS:
+                return getLocators();
+            case ELEMENTS:
+                return getElements();
+            case AREAS:
+                return getAreas();
+            default:
+                return null;
+        }
     }
 
     //ignore
@@ -78,6 +108,11 @@ public class Ignored {
 
     public static Ignored ignore(int x, int y, int width, int height) {
         return ignore(new Coords(x, y, width, height));
+    }
+
+    @Override
+    public String toString() {
+        return "ignore " + elements.toString().toLowerCase() + ":" + getList();
     }
 
 }

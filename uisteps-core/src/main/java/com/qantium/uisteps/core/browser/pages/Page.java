@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -31,6 +32,11 @@ public class Page extends AbstractUIObject {
     private Url url;
     public static final String DEFAULT_NAME = "page";
 
+    public Page() {
+        url = UrlFactory.getUrlOf(getClass());
+        setName(DEFAULT_NAME);
+    }
+
     public Url getUrl() {
         return url;
     }
@@ -44,17 +50,9 @@ public class Page extends AbstractUIObject {
         return executeScript("return document.readyState").equals("complete");
     }
 
-    public void refresh() {
-        inOpenedBrowser().refreshCurrentPage();
-    }
-
     public <T extends Page> T setUrl(Url url) {
         this.url = url;
         return (T) this;
-    }
-
-    public String getUrlString() {
-        return getUrl().toString();
     }
 
     @Override
@@ -67,8 +65,7 @@ public class Page extends AbstractUIObject {
                 .append(getUrl())
                 .append("' target='blank'>")
                 .append(getUrl())
-                .append("</a> with title ")
-                .append(getTitle());
+                .append("</a>");
 
         return nameBuider.toString();
     }
@@ -93,4 +90,13 @@ public class Page extends AbstractUIObject {
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot();
     }
+
+    public Screenshot takeScreenshot(UIElement... elements) {
+        return inOpenedBrowser().takeScreenshot(elements);
+    }
+
+    public Screenshot takeScreenshot(Ignored... elements) {
+        return inOpenedBrowser().takeScreenshot(elements);
+    }
+
 }

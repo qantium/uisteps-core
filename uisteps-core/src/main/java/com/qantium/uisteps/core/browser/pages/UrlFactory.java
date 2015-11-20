@@ -96,7 +96,6 @@ public class UrlFactory {
                 url.appendPostfix(defaultUrl);
             }
         }
-
         return url;
     }
 

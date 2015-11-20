@@ -55,10 +55,6 @@ public class Screenshot {
         return image;
     }
 
-    public File save(String dir, String file) throws IOException {
-        return toDir(dir).save(file);
-    }
-
     public File save(String file) throws IOException {
 
         if (!dir.exists()) {

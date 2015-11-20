@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.google.common.io.Files;
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.Page;
@@ -35,14 +34,11 @@ import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
@@ -65,12 +61,13 @@ public class Browser {
     private String name;
     private final WindowManager windowManager = new WindowManager();
     private LocatorFactory locatorFactory = new LocatorFactory();
-    private Photographer photographer = new Photographer(getDriver());
+    private Photographer photographer = null;
     private UrlFactory urlFactory = new UrlFactory();
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager.setDriver(driver);
+        photographer = new Photographer(driver);
     }
 
     public WebDriver getDriver() {
@@ -117,17 +114,16 @@ public class Browser {
         return populate(instatiate(uiObject));
     }
 
-    public void openUrl(String url, String... params) {
+    public Page openUrl(String url, String... params) {
         try {
-            open(new Url(url), params);
+            return open(new Url(url), params);
         } catch (MalformedURLException ex) {
             throw new AssertionError("Cannot open url " + url + "\nCause:" + ex);
         }
     }
 
-    public void open(Url url, String... params) {
-        Page page = new Page();
-        open(page.<Page>withName(Page.DEFAULT_NAME).setUrl(url), params);
+    public Page open(Url url, String... params) {
+        return open(new Page(), url, params);
     }
 
     public <T extends Page> T open(Class<T> page, Url url, String... params) {
@@ -144,8 +140,13 @@ public class Browser {
 
     public <T extends Page> T open(T page, String... params) {
         page.setUrl(getUrlFactory().getUrlOf(page, params));
+        populate(page);
+        return open(page);
+    }
+
+    public <T extends Page> T open(T page) {
         getDriver().get(page.getUrl().toString());
-        return populate(page);
+        return page;
     }
 
     public String getCurrentUrl() {
@@ -232,7 +233,7 @@ public class Browser {
 
     }
 
-    public void refreshCurrentPage() {
+    public void refreshPage() {
         getDriver().navigate().refresh();
 
     }
@@ -489,7 +490,7 @@ public class Browser {
             UIElement uiElement = (UIElement) uiObject;
 
             if (uiElement.getLocator() == null) {
-                By locator = getLocatorFactory().getLocator(uiObject);
+                By locator = getLocatorFactory().getLocator(uiElement);
                 uiElement.setLocator(locator);
             }
         }

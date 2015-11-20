@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.run.storage;
 
+import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,6 +46,10 @@ public class Storage {
         }
     }
 
+    public File remember(File file) {
+        return remember(file.getPath(), file);
+    }
+    
     public <T> T remember(String key, T value) {
         getMap().put(key, value);
         return value;

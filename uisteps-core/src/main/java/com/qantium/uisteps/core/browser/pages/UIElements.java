@@ -33,7 +33,11 @@ public class UIElements<E extends UIElement> extends UIElement {
 
     private final Class<E> elementType;
 
-    public UIElements(Class<E> elementType) {
+    public UIElements(Class<E> elementType) throws IllegalArgumentException {
+
+        if (UIElements.class.isAssignableFrom(elementType)) {
+            throw new IllegalArgumentException("UIElements cannot contain other elemnts with type " + elementType);
+        }
         this.elementType = elementType;
     }
 
@@ -84,7 +88,7 @@ public class UIElements<E extends UIElement> extends UIElement {
     public E[] toArray() {
         return (E[]) getElements().<E>toArray();
     }
-    
+
     public List<E> getElements() {
         ArrayList<E> elements = new ArrayList();
         List<WebElement> webElements = getSearchContext().findElements(getLocator());
@@ -95,7 +99,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         }
         return elements;
     }
-    
+
     public E get(int index) {
         E element = getElements().get(index);
         return element.withName(element.getName() + " by index " + index);
