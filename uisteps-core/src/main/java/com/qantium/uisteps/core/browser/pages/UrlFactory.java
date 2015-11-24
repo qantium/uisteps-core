@@ -47,8 +47,7 @@ public class UrlFactory {
     }
 
     public Url getUrlOf(Class<? extends Page> page, String... params) {
-        Class<?> pageClass = getPageClass(page);
-        Url url = process(new Url(), pageClass);
+        Url url = process(new Url(), page);
         return processParams(url, params);
     }
 
@@ -132,15 +131,6 @@ public class UrlFactory {
             }
         } else {
             return url;
-        }
-    }
-
-    protected Class<?> getPageClass(Class<?> page) {
-
-        if (page.getName().contains("$$")) {
-            return getPageClass(page.getSuperclass());
-        } else {
-            return page;
         }
     }
 

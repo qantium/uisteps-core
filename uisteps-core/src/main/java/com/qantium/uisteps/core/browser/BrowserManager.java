@@ -30,11 +30,6 @@ public class BrowserManager {
     private BrowserFactory browserFactory = new BrowserFactory();
     private final static ThreadLocal<Browser> currentBrowser = new ThreadLocal();
 
-    public BrowserManager() {
-        browsers.set(new ArrayList());
-        currentIndex.set(-1);
-    }
-
     public BrowserFactory getBrowserFactory() {
         return browserFactory;
     }
@@ -42,8 +37,12 @@ public class BrowserManager {
     public void setBrowserFactory(BrowserFactory browserFactory) {
         this.browserFactory = browserFactory;
     }
-    
+
     public ArrayList<Browser> getBrowsers() {
+
+        if (browsers.get() == null) {
+            reset();
+        }
         return browsers.get();
     }
 
@@ -72,11 +71,6 @@ public class BrowserManager {
     }
 
     public void closeAllBrowsers() {
-
-        for (Browser browser : getBrowsers()) {
-            browser.getDriver().quit();
-        }
-
         reset();
     }
 

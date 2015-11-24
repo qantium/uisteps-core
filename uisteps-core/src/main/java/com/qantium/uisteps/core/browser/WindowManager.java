@@ -9,20 +9,20 @@ import org.openqa.selenium.WebDriver;
  */
 public class WindowManager {
 
-    private int currentHandleIndex;
+    private int currentWindowIndex;
     private WebDriver driver;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
-        currentHandleIndex = 0;
+        currentWindowIndex = 0;
     }
 
     public void switchToNextWindow() {
-        switchToWindowByIndex(currentHandleIndex + 1);
+        switchToWindowByIndex(currentWindowIndex + 1);
     }
 
     public void switchToPreviousWindow() {
-        switchToWindowByIndex(currentHandleIndex - 1);
+        switchToWindowByIndex(currentWindowIndex - 1);
     }
 
     public void switchToDefaultWindow() {
@@ -40,11 +40,17 @@ public class WindowManager {
             switchToDefaultWindow();
         } else {
             driver.switchTo().window((String) handles.toArray()[index]);
-            currentHandleIndex = index;
+            currentWindowIndex = index;
         }
     }
 
     public int getCountOfWindows() {
         return driver.getWindowHandles().size();
     }
+
+    public int getCurrentWindowIndex() {
+        return currentWindowIndex;
+    }
+    
+    
 }

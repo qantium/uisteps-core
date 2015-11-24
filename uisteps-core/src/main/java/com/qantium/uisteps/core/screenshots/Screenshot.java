@@ -18,9 +18,11 @@ package com.qantium.uisteps.core.screenshots;
 import com.google.common.io.Files;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
+import com.qantium.uisteps.core.storage.Save;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.imageio.ImageIO;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
@@ -29,26 +31,21 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
  *
  * @author A.Solyankin
  */
-public class Screenshot {
+public class Screenshot implements Save {
 
     private final BufferedImage image;
-    private File dir = new File(UIStepsProperties.getProperty(UIStepsProperty.SCREENSHOTS_TO_DIR));
+    private String dir = UIStepsProperties.getProperty(UIStepsProperty.HOME_DIR);
 
     public Screenshot(BufferedImage image) {
         this.image = image;
     }
 
+    public static Screenshot getFrom(InputStream inputStream) throws IOException {
+        return new Screenshot(ImageIO.read(inputStream));
+    }
+    
     public static Screenshot getFrom(File file) throws IOException {
         return new Screenshot(ImageIO.read(file));
-    }
-
-    public <T extends Screenshot> T toDir(String dir) {
-        this.dir = new File(dir);
-        return (T) this;
-    }
-
-    public File getDir() {
-        return dir;
     }
 
     public BufferedImage getImage() {
@@ -56,17 +53,21 @@ public class Screenshot {
     }
 
     public File save(String file) throws IOException {
-
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
         String extension = Files.getFileExtension(file);
-        File screenshot = new File(dir, file);
-        ImageIO.write(image, extension, screenshot);
-        return screenshot;
+        File homeDir = new File(dir);
+        File screenshot = new File(homeDir, file);
+        Files.createParentDirs(screenshot);
+        ImageIO.write(getImage(), extension, screenshot);
+        return new File(file);
     }
 
     public ImageDiff getDiffFrom(Screenshot screenshot) {
         return new ImageDiffer().makeDiff(this.getImage(), screenshot.getImage());
+    }
+
+    @Override
+    public Screenshot toDir(String dir) {
+        this.dir = dir;
+        return this;
     }
 }

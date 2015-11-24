@@ -28,8 +28,8 @@ import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
-import com.qantium.uisteps.core.run.verify.conditions.Condition;
-import com.qantium.uisteps.core.run.verify.conditions.DisplayCondition;
+import com.qantium.uisteps.core.verify.conditions.Condition;
+import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -330,6 +330,10 @@ public class User implements Named {
         return displayCondition().seeEqual(description, screenshot1, screenshot2);
     }
 
+    public Condition see(UIObject uiObject) {
+        return displayCondition().see(uiObject);
+    }
+    
     public Condition see(Class<? extends UIObject> uiObject) {
         return displayCondition().see(uiObject);
     }

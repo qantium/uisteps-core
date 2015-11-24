@@ -56,11 +56,9 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public String getName() {
-
         if (StringUtils.isEmpty(name)) {
             setName(NameConvertor.humanize(getClass()));
         }
-
         return name;
     }
 

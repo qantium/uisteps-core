@@ -56,18 +56,11 @@ public enum UIStepsProperty {
                     return "3000";
                 }
             },
-    SCREENSHOTS_TO_DIR {
+    HOME_DIR {
 
                 @Override
                 public String getDefault() {
-                    return "target/screenshots";
-                }
-            },
-    SCREENSHOTS_FROM_DIR {
-
-                @Override
-                public String getDefault() {
-                    return SCREENSHOTS_TO_DIR.getDefault();
+                    return "target/site";
                 }
             },
     SCREENSHOTS_SCALE_WIDTH {

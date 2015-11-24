@@ -30,11 +30,10 @@ import org.openqa.selenium.WebElement;
 public class Page extends AbstractUIObject {
 
     private Url url;
-    public static final String DEFAULT_NAME = "page";
 
     public Page() {
         url = UrlFactory.getUrlOf(getClass());
-        setName(DEFAULT_NAME);
+        setName("");
     }
 
     public Url getUrl() {

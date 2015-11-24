@@ -9,12 +9,12 @@ import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
 public class NameConvertor {
 
     public static String humanize(Class<?> klass) {
+        String name = HtmlElementUtils.getElementName(klass);
         
-        if(klass.getSimpleName().contains("$$")) {
-            return humanize(klass.getSuperclass());
+        if(name.contains("$")) {
+            name = name.split("\\$")[0].trim();
         }
-        
-        return HtmlElementUtils.getElementName(klass).toLowerCase();
+        return name.toLowerCase();
     }
 
     public static String humanize(Object obj) {

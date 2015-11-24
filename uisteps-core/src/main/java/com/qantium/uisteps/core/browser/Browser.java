@@ -63,6 +63,7 @@ public class Browser {
     private LocatorFactory locatorFactory = new LocatorFactory();
     private Photographer photographer = null;
     private UrlFactory urlFactory = new UrlFactory();
+    private UIObject cached;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
@@ -160,7 +161,7 @@ public class Browser {
     public Page getCurrentPage() {
 
         try {
-            return new Page().<Page>withName(Page.DEFAULT_NAME).setUrl(new Url(getCurrentUrl()));
+            return new Page().<Page>withName("page").setUrl(new Url(getCurrentUrl()));
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
@@ -231,6 +232,25 @@ public class Browser {
     public void setWindowHeight(int height) {
         getDriver().manage().window().setSize(new Dimension(getWindowSize().getWidth(), height));
 
+    }
+
+    public void setWindowSize(String size, String delimiter) {
+        Dimension defaultDimension = getWindowSize();
+        int width = defaultDimension.width;
+        int height = defaultDimension.height;
+
+        String[] dimension = size.split(delimiter);
+
+        if (dimension.length > 0) {
+
+            if (!StringUtils.isEmpty(size)) {
+                width = Integer.parseInt(dimension[0]);
+            }
+        } else if (dimension.length > 1) {
+            height = Integer.parseInt(dimension[1]);
+        }
+
+        setWindowSize(width, height);
     }
 
     public void refreshPage() {
@@ -479,7 +499,7 @@ public class Browser {
             throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
         }
     }
-
+    
     public <T extends UIObject> T populate(T uiObject) {
 
         if (uiObject.isPopulatedBy(this)) {
