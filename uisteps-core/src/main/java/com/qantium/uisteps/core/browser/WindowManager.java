@@ -4,32 +4,59 @@ import java.util.Set;
 import org.openqa.selenium.WebDriver;
 
 /**
+ * Provides switching between browser windowse
  *
  * @author ASolyankin
  */
 public class WindowManager {
 
+    /**
+     * Index of available window
+     */
     private int currentWindowIndex;
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    public void setDriver(WebDriver driver) {
+    public WindowManager(WebDriver driver) {
         this.driver = driver;
-        currentWindowIndex = 0;
     }
 
+    /**
+     * Switch to next available window
+     *
+     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
+     * @throws IndexOutOfBoundsException @see WindowManager#switchToWindowByIndex(int)
+     */
     public void switchToNextWindow() {
         switchToWindowByIndex(currentWindowIndex + 1);
     }
-
+    
+    /**
+     * Switch to previous available window
+     *
+     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
+     * @throws IndexOutOfBoundsException @see WindowManager#switchToWindowByIndex(int)
+     */
     public void switchToPreviousWindow() {
         switchToWindowByIndex(currentWindowIndex - 1);
     }
-
+    
+    /**
+     * Switch to window by index 0
+     *
+     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
+     */
     public void switchToDefaultWindow() {
         switchToWindowByIndex(0);
     }
 
-    public void switchToWindowByIndex(int index) throws NoWindowException {
+    /**
+     * Switch to window by index
+     * 
+     * @param index index of window to switch to
+     * @throws NoWindowException if no opened windows
+     * @throws IndexOutOfBoundsException if index less than 0 or more count of opened windows  
+     */
+    public void switchToWindowByIndex(int index) throws NoWindowException, IndexOutOfBoundsException {
         Set<String> handles = driver.getWindowHandles();
 
         if (handles.isEmpty()) {
@@ -37,20 +64,38 @@ public class WindowManager {
         }
 
         if (index < 0 || index >= handles.size()) {
-            switchToDefaultWindow();
-        } else {
-            driver.switchTo().window((String) handles.toArray()[index]);
-            currentWindowIndex = index;
+            throw new IndexOutOfBoundsException("Cannot switch to window by index " + 1);
         }
+
+        driver.switchTo().window((String) handles.toArray()[index]);
+        currentWindowIndex = index;
     }
 
+    /**
+     * @return true if it is possible to switch to next window
+     */
+    public boolean hasNextWindow() {
+        return currentWindowIndex < driver.getWindowHandles().size() - 1;
+    }
+
+    /**
+     * @return true if it is possible to switch to previous window
+     */
+    public boolean hasPreviousWindow() {
+        return currentWindowIndex > 0;
+    }
+
+    /**
+     * @return count of opened windows
+     */
     public int getCountOfWindows() {
         return driver.getWindowHandles().size();
     }
 
+    /**
+     * @return index of available window
+     */
     public int getCurrentWindowIndex() {
         return currentWindowIndex;
     }
-    
-    
 }

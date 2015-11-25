@@ -17,11 +17,9 @@ package com.qantium.uisteps.core.browser;
 
 import java.util.ArrayList;
 import java.util.Map;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
 /**
- *
  * @author ASolyankin
  */
 public class BrowserManager {

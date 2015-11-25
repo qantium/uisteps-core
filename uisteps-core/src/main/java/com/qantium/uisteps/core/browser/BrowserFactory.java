@@ -169,7 +169,7 @@ public class BrowserFactory {
             case PHANTOMJS:
                 return DesiredCapabilities.phantomjs();
             default:
-                throw new NoBrowserException("Cannot get capabilities for driver " + driver + "!");
+                throw new IllegalArgumentException("Cannot get capabilities for driver " + driver + "!");
         }
     }
 

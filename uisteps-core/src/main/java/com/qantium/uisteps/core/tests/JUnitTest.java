@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.tests;
 
-import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.storage.Storage;
 import com.qantium.uisteps.core.verify.Assume;
 import com.qantium.uisteps.core.verify.Verify;
@@ -40,25 +39,5 @@ public class JUnitTest {
 
     public JUnitTest() {
         this(new Verify(), new Assume(), new Storage());
-    }
-
-    public <T> T remember(String key, T value) {
-        return storage.put(key, value);
-    }
-
-    public <T extends Named> T remember(T value) {
-        return storage.put(value);
-    }
-
-    public <T> T remember(T value) {
-        return storage.put(value);
-    }
-
-    public <T> T remembered(String key) {
-        return storage.get(key);
-    }
-
-    public <T> T remembered(Class<T> key) {
-        return storage.get(key);
     }
 }
