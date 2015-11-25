@@ -39,6 +39,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
@@ -63,6 +64,7 @@ public class Browser {
     private final WindowManager windowManager = new WindowManager();
     private LocatorFactory locatorFactory = new LocatorFactory();
     private UrlFactory urlFactory = new UrlFactory();
+    private BrowserMobProxyServer proxy;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
@@ -93,6 +95,14 @@ public class Browser {
         this.locatorFactory = locatorFactory;
     }
 
+    public BrowserMobProxyServer getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(BrowserMobProxyServer proxy) {
+        this.proxy = proxy;
+    }
+    
     public void close() {
         if (driver != null) {
             driver.quit();

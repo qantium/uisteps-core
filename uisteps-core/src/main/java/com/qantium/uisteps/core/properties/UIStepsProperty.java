@@ -49,6 +49,13 @@ public enum UIStepsProperty {
                     return "";
                 }
             },
+    WEBDRIVER_PROXY{
+
+                @Override
+                public String getDefault() {
+                    return "";
+                }
+            },
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT {
 
                 @Override

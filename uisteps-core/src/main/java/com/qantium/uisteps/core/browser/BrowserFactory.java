@@ -24,7 +24,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import java.util.Map;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.remote.CapabilityType;
 import ru.stqa.selenium.factory.RemoteDriverProvider;
 import ru.stqa.selenium.factory.WebDriverFactoryMode;
 
@@ -37,9 +41,7 @@ public class BrowserFactory {
     static {
         WebDriverFactory.setMode(WebDriverFactoryMode.UNRESTRICTED);
     }
-    
-    
-    
+
     public Browser getBrowser() {
         return getBrowser(getDesiredCapabilities());
     }
@@ -55,15 +57,36 @@ public class BrowserFactory {
     public Browser getBrowser(Driver driver, Map<String, Object> capabilities) {
         return getBrowser(getDesiredCapabilities(driver, capabilities));
     }
-    
-    protected Browser getBrowser(Capabilities capabilities) {
+
+    protected Browser getBrowser(DesiredCapabilities capabilities) {
+
         String hub = UIStepsProperties.getProperty(WEBDRIVER_REMOTE_URL);
+        Browser browser;
+
+        String proxyProperty = UIStepsProperties.getProperty(WEBDRIVER_PROXY);
+        BrowserMobProxyServer proxy = null;
+
+        if (!StringUtils.isEmpty(proxyProperty)) {
+            proxy = new BrowserMobProxyServer();
+            Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+            capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+            proxy.start();
+            proxy.newHar();
+        }
 
         if (StringUtils.isEmpty(hub)) {
-            return getBrowser(WebDriverFactory.getDriver(capabilities));
+            browser = getBrowser(WebDriverFactory.getDriver(capabilities));
         } else {
-            return getBrowser(hub, capabilities);
+            browser = getBrowser(hub, capabilities);
         }
+
+        if (proxy != null) {
+            BrowserMobProxyServer mobProxy = (BrowserMobProxyServer) proxy;
+            browser.setProxy(mobProxy);
+        }
+
+        return browser;
+
     }
 
     public Browser getBrowser(WebDriver driver) {
@@ -89,7 +112,7 @@ public class BrowserFactory {
     public Browser getBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
         return getBrowser(hub, getDesiredCapabilities(driver, capabilities));
     }
-    
+
     protected Browser getBrowser(String hub, Capabilities capabilities) {
         WebDriver driver = new RemoteDriverProvider.Default().createDriver(hub, capabilities);
         return getBrowser(driver);
@@ -97,13 +120,13 @@ public class BrowserFactory {
 
     public DesiredCapabilities getDesiredCapabilities(Map<String, Object> capabilities) {
         DesiredCapabilities desiredCapabilities = getDesiredCapabilities();
-        
-        for(String capability: capabilities.keySet()) {
+
+        for (String capability : capabilities.keySet()) {
             desiredCapabilities.setCapability(capability, capabilities.get(capability));
         }
         return desiredCapabilities;
     }
-    
+
     public DesiredCapabilities getDesiredCapabilities() {
         Driver driver = Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase());
         return getDesiredCapabilities(driver);
@@ -111,13 +134,13 @@ public class BrowserFactory {
 
     public DesiredCapabilities getDesiredCapabilities(Driver driver, Map<String, Object> capabilities) {
         DesiredCapabilities desiredCapabilities = getDesiredCapabilities(driver);
-        
-        for(String capability: capabilities.keySet()) {
+
+        for (String capability : capabilities.keySet()) {
             desiredCapabilities.setCapability(capability, capabilities.get(capability));
         }
         return desiredCapabilities;
     }
-    
+
     public DesiredCapabilities getDesiredCapabilities(Driver driver) {
 
         switch (driver) {
