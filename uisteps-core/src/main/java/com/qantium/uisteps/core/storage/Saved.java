@@ -62,6 +62,13 @@ public class Saved {
             link.append(getFile());
         }
 
+        link
+                .append("</a> <a download href='")
+                .append(getFile())
+                .append("'>")
+                .append("[<u>download</u>]")
+                .append("</a>");
+
         return link.toString();
     }
 
