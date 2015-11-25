@@ -50,6 +50,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsElement;
+import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
  *
@@ -61,14 +62,11 @@ public class Browser {
     private String name;
     private final WindowManager windowManager = new WindowManager();
     private LocatorFactory locatorFactory = new LocatorFactory();
-    private Photographer photographer = null;
     private UrlFactory urlFactory = new UrlFactory();
-    private UIObject cached;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager.setDriver(driver);
-        photographer = new Photographer(driver);
     }
 
     public WebDriver getDriver() {
@@ -83,12 +81,8 @@ public class Browser {
         return urlFactory;
     }
 
-    public void setPhotographer(Photographer photographer) {
-        this.photographer = photographer;
-    }
-
     public Photographer getPhotographer() {
-        return photographer;
+        return new Photographer(getDriver());
     }
 
     public LocatorFactory getLocatorFactory() {
@@ -97,6 +91,12 @@ public class Browser {
 
     public void setLocatorFactory(LocatorFactory locatorFactory) {
         this.locatorFactory = locatorFactory;
+    }
+
+    public void close() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
@@ -221,25 +221,24 @@ public class Browser {
 
     public void setWindowSize(int width, int height) {
         getDriver().manage().window().setSize(new Dimension(width, height));
-
     }
 
     public void setWindowWidth(int width) {
-        getDriver().manage().window().setSize(new Dimension(width, getWindowSize().getHeight()));
+        setWindowSize(width, getWindowSize().getHeight());
 
     }
 
     public void setWindowHeight(int height) {
-        getDriver().manage().window().setSize(new Dimension(getWindowSize().getWidth(), height));
+        setWindowSize(getWindowSize().getWidth(), height);
 
     }
 
-    public void setWindowSize(String size, String delimiter) {
+    public void setWindowSize(String size) {
         Dimension defaultDimension = getWindowSize();
         int width = defaultDimension.width;
         int height = defaultDimension.height;
 
-        String[] dimension = size.split(delimiter);
+        String[] dimension = size.split("x");
 
         if (dimension.length > 0) {
 
@@ -499,7 +498,7 @@ public class Browser {
             throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
         }
     }
-    
+
     public <T extends UIObject> T populate(T uiObject) {
 
         if (uiObject.isPopulatedBy(this)) {
@@ -645,6 +644,18 @@ public class Browser {
     }
 
     //Screenshots
+    public Photographer inScreenshotIgnoring(By... locators) {
+        return getPhotographer().ignore(locators);
+    }
+
+    public Photographer inScreenshotIgnoring(UIElement... elements) {
+        return getPhotographer().ignore(elements);
+    }
+
+    public Photographer inScreenshotIgnoring(Coords... areas) {
+        return getPhotographer().ignore(areas);
+    }
+
     public Screenshot takeScreenshot() {
         return getPhotographer().takeScreenshot();
     }

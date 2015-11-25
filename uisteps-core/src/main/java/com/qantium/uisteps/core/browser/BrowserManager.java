@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser;
 
 import java.util.ArrayList;
+import java.util.Map;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -76,7 +77,7 @@ public class BrowserManager {
 
     public void closeCurrentBrowser() {
         Browser browser = getCurrentBrowser();
-        browser.getDriver().quit();
+        browser.close();
         getBrowsers().remove(browser);
         switchToNextBrowser();
     }
@@ -98,6 +99,14 @@ public class BrowserManager {
         return currentBrowser.get();
     }
 
+    public Browser openNewBrowser() {
+        return open(getBrowserFactory().getBrowser());
+    }
+
+    public Browser openNewBrowser(Map<String, Object> capabilities) {
+        return open(getBrowserFactory().getBrowser(capabilities));
+    }
+
     public Browser openNewBrowser(WebDriver driver) {
         return open(getBrowserFactory().getBrowser(driver));
     }
@@ -106,24 +115,24 @@ public class BrowserManager {
         return open(getBrowserFactory().getBrowser(driver));
     }
 
-    public Browser openNewBrowser() {
-        return open(getBrowserFactory().getBrowser());
-    }
-
-    public Browser openNewBrowser(Capabilities capabilities) {
-        return open(getBrowserFactory().getBrowser(capabilities));
+    public Browser openNewBrowser(Driver driver, Map<String, Object> capabilities) {
+        return open(getBrowserFactory().getBrowser(driver, capabilities));
     }
 
     public Browser openNewBrowser(String hub) {
         return open(getBrowserFactory().getBrowser(hub));
     }
 
+    public Browser openNewBrowser(String hub, Map<String, Object> capabilities) {
+        return open(getBrowserFactory().getBrowser(hub, capabilities));
+    }
+
     public Browser openNewBrowser(String hub, Driver driver) {
         return open(getBrowserFactory().getBrowser(hub, driver));
     }
 
-    public Browser openNewBrowser(String hub, Capabilities capabilities) {
-        return open(getBrowserFactory().getBrowser(hub, capabilities));
+    public Browser openNewBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
+        return open(getBrowserFactory().getBrowser(hub, driver, capabilities));
     }
 
     public Browser open(Browser browser) {

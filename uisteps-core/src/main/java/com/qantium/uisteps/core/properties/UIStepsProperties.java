@@ -21,9 +21,6 @@ import java.nio.file.Files;
 import java.util.Properties;
 import org.codehaus.plexus.util.StringUtils;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -54,13 +51,13 @@ public class UIStepsProperties {
                 if (property.startsWith(AS)) {
                     properties.setProperty(propertyName, properties.getProperty(property.replace(AS, "")));
                 }
-
             }
         }
         return properties;
     }
 
     private static void load(String propertiesFileName, Properties properties) {
+        
         if (!loadForm(new File(propertiesFileName), properties)) {
 
             if (!loadForm(new File(WORKIND_DIR, propertiesFileName), properties)) {

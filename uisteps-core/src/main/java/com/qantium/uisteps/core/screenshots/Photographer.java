@@ -89,7 +89,7 @@ public class Photographer {
             coords.add(new Coords(position.x, position.y, size.width, size.height));
         }
 
-        return ignore((Coords[]) coords.toArray());
+        return ignore(coords.toArray(new Coords[elements.length]));
     }
 
     public Photographer ignore(Coords... areas) {
@@ -112,7 +112,7 @@ public class Photographer {
         BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
         return new Screenshot(image);
     }
-
+    
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
 

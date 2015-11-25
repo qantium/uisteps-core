@@ -112,7 +112,7 @@ public class Ignored {
 
     @Override
     public String toString() {
-        return "ignore " + elements.toString().toLowerCase() + ":" + getList();
+        return "ignoring " + elements.toString().toLowerCase() + ":" + getList();
     }
 
 }

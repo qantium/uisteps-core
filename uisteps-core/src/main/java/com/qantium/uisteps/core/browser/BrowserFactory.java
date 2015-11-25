@@ -23,6 +23,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import ru.stqa.selenium.factory.RemoteDriverProvider;
 import ru.stqa.selenium.factory.WebDriverFactoryMode;
@@ -33,10 +34,12 @@ import ru.stqa.selenium.factory.WebDriverFactoryMode;
  */
 public class BrowserFactory {
 
-    public BrowserFactory() {
+    static {
         WebDriverFactory.setMode(WebDriverFactoryMode.UNRESTRICTED);
     }
-
+    
+    
+    
     public Browser getBrowser() {
         return getBrowser(getDesiredCapabilities());
     }
@@ -45,7 +48,15 @@ public class BrowserFactory {
         return getBrowser(getDesiredCapabilities(driver));
     }
 
-    public Browser getBrowser(Capabilities capabilities) {
+    public Browser getBrowser(Map<String, Object> capabilities) {
+        return getBrowser(getDesiredCapabilities(capabilities));
+    }
+
+    public Browser getBrowser(Driver driver, Map<String, Object> capabilities) {
+        return getBrowser(getDesiredCapabilities(driver, capabilities));
+    }
+    
+    protected Browser getBrowser(Capabilities capabilities) {
         String hub = UIStepsProperties.getProperty(WEBDRIVER_REMOTE_URL);
 
         if (StringUtils.isEmpty(hub)) {
@@ -71,16 +82,42 @@ public class BrowserFactory {
         return getBrowser(hub, getDesiredCapabilities(driver));
     }
 
-    public Browser getBrowser(String hub, Capabilities capabilities) {
+    public Browser getBrowser(String hub, Map<String, Object> capabilities) {
+        return getBrowser(hub, getDesiredCapabilities(capabilities));
+    }
+
+    public Browser getBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
+        return getBrowser(hub, getDesiredCapabilities(driver, capabilities));
+    }
+    
+    protected Browser getBrowser(String hub, Capabilities capabilities) {
         WebDriver driver = new RemoteDriverProvider.Default().createDriver(hub, capabilities);
         return getBrowser(driver);
     }
 
+    public DesiredCapabilities getDesiredCapabilities(Map<String, Object> capabilities) {
+        DesiredCapabilities desiredCapabilities = getDesiredCapabilities();
+        
+        for(String capability: capabilities.keySet()) {
+            desiredCapabilities.setCapability(capability, capabilities.get(capability));
+        }
+        return desiredCapabilities;
+    }
+    
     public DesiredCapabilities getDesiredCapabilities() {
         Driver driver = Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase());
         return getDesiredCapabilities(driver);
     }
 
+    public DesiredCapabilities getDesiredCapabilities(Driver driver, Map<String, Object> capabilities) {
+        DesiredCapabilities desiredCapabilities = getDesiredCapabilities(driver);
+        
+        for(String capability: capabilities.keySet()) {
+            desiredCapabilities.setCapability(capability, capabilities.get(capability));
+        }
+        return desiredCapabilities;
+    }
+    
     public DesiredCapabilities getDesiredCapabilities(Driver driver) {
 
         switch (driver) {

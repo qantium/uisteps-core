@@ -27,15 +27,17 @@ import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.screenshots.Ignored;
+import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
+import java.util.Map;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
  *
@@ -90,13 +92,13 @@ public class User implements Named {
         return (T) this;
     }
 
-    public <T extends User> T openNewBrowser(Capabilities capabilities) {
-        getBrowserManager().openNewBrowser(capabilities);
+    public <T extends User> T openNewBrowser(Driver driver, Map<String, Object> capabilities) {
+        getBrowserManager().openNewBrowser(driver, capabilities);
         return (T) this;
     }
 
-    public <T extends User> T openNewBrowser(String hub, Driver driver) {
-        getBrowserManager().openNewBrowser(hub, driver);
+    public <T extends User> T openNewBrowser(Map<String, Object> capabilities) {
+        getBrowserManager().openNewBrowser(capabilities);
         return (T) this;
     }
 
@@ -105,11 +107,21 @@ public class User implements Named {
         return (T) this;
     }
 
-    public <T extends User> T openNewBrowser(String hub, Capabilities capabilities) {
+    public <T extends User> T openNewBrowser(String hub, Map<String, Object> capabilities) {
         getBrowserManager().openNewBrowser(hub, capabilities);
         return (T) this;
     }
-    
+
+    public <T extends User> T openNewBrowser(String hub, Driver driver) {
+        getBrowserManager().openNewBrowser(hub, driver);
+        return (T) this;
+    }
+
+    public <T extends User> T openNewBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
+        getBrowserManager().openNewBrowser(hub, driver, capabilities);
+        return (T) this;
+    }
+
     public <T extends User> T openNewBrowser(WebDriver driver) {
         getBrowserManager().openNewBrowser(driver);
         return (T) this;
@@ -229,6 +241,11 @@ public class User implements Named {
         return inOpenedBrowser().getWindowSize();
     }
 
+    public <T extends User> T setWindowSize(String size) {
+        inOpenedBrowser().setWindowSize(size);
+        return (T) this;
+    }
+
     public <T extends User> T setWindowSize(int width, int height) {
         inOpenedBrowser().setWindowSize(width, height);
         return (T) this;
@@ -333,7 +350,7 @@ public class User implements Named {
     public Condition see(UIObject uiObject) {
         return displayCondition().see(uiObject);
     }
-    
+
     public Condition see(Class<? extends UIObject> uiObject) {
         return displayCondition().see(uiObject);
     }
@@ -448,6 +465,18 @@ public class User implements Named {
     }
 
     //take screenshot
+    public Photographer inScreenshotIgnoring(By... locators) {
+        return inOpenedBrowser().inScreenshotIgnoring(locators);
+    }
+
+    public Photographer inScreenshotIgnoring(UIElement... elements) {
+        return inOpenedBrowser().inScreenshotIgnoring(elements);
+    }
+
+    public Photographer inScreenshotIgnoring(Coords... areas) {
+        return inOpenedBrowser().inScreenshotIgnoring(areas);
+    }
+
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot();
     }

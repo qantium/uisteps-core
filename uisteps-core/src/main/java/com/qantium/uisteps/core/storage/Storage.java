@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
+import net.lightbody.bmp.core.har.Har;
 
 /**
  *
@@ -46,32 +47,38 @@ public class Storage {
     private Map getMap() {
         return threadLocalMap.get();
     }
-
+    
     public File save(Saved file) {
-        return Storage.this.put(file.getFile());
+        return put(file.getFile());
     }
 
     public File save(Save file, String path) throws IOException {
         Saved savedFile = new Saved(file.toDir(dir).save(path));
         return save(savedFile);
     }
-
-    public File save(String data, String path) throws IOException {
+    
+     public File save(String data, String path) throws IOException {
         return save(data.getBytes(), path);
+    }
+
+    public File save(Har har, String path) throws IOException {
+        File file = new File(new File(dir),path);
+        Files.createParentDirs(file);
+        har.writeTo(file);
+        return save(new Saved(new File(path)));
     }
     
     public File save(byte[] bytes, String path) throws IOException {
         File file = new File(new File(dir), path);
-        com.google.common.io.Files.createParentDirs(file);
+        Files.createParentDirs(file);
         Files.write(bytes, file);
-        com.google.common.io.Files.createParentDirs(file);
         return save(new Saved(new File(path)));
     }
     
     public File save(RenderedImage image, String path) throws IOException {
         File file = new File(new File(dir), path);
         String extension = com.google.common.io.Files.getFileExtension(path);
-        com.google.common.io.Files.createParentDirs(file);
+        Files.createParentDirs(file);
         ImageIO.write(image, extension, file);
         return save(new Saved(new File(path)));
     }
