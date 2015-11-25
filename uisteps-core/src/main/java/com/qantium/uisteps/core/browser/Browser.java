@@ -65,6 +65,7 @@ public class Browser {
     private LocatorFactory locatorFactory = new LocatorFactory();
     private UrlFactory urlFactory = new UrlFactory();
     private BrowserMobProxyServer proxy;
+    private Photographer photographer;
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
@@ -84,7 +85,11 @@ public class Browser {
     }
 
     public Photographer getPhotographer() {
-        return new Photographer(getDriver());
+        
+        if(photographer == null) {
+            photographer = new Photographer(getDriver());
+        }
+        return photographer;
     }
 
     public LocatorFactory getLocatorFactory() {
@@ -99,7 +104,7 @@ public class Browser {
         return proxy;
     }
 
-    public void setProxy(BrowserMobProxyServer proxy) {
+    protected void setProxy(BrowserMobProxyServer proxy) {
         this.proxy = proxy;
     }
     
