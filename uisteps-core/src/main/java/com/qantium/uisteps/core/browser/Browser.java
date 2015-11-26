@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang.reflect.ConstructorUtils;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -73,6 +73,14 @@ public class Browser {
         photographer = new Photographer(driver);
     }
 
+    protected WindowManager getWindowManager() {
+        
+        if(driver == null) {
+            throw new NullPointerException("Driver must be set to get windowManager");
+        }
+        return windowManager;
+    }
+    
     public WebDriver getDriver() {
         return driver;
     }
@@ -90,6 +98,10 @@ public class Browser {
     }
     
     public Photographer getPhotographer() {
+        
+        if(driver == null) {
+            throw new NullPointerException("Driver must be set to get photographer");
+        }
         return photographer;
     }
 
@@ -186,23 +198,23 @@ public class Browser {
     //Window
     public void openNewWindow() {
         executeScript("window.open()");
-        windowManager.switchToNextWindow();
+        getWindowManager().switchToNextWindow();
     }
 
     public void switchToNextWindow() {
-        windowManager.switchToNextWindow();
+        getWindowManager().switchToNextWindow();
     }
 
     public void switchToPreviousWindow() {
-        windowManager.switchToPreviousWindow();
+        getWindowManager().switchToPreviousWindow();
     }
 
     public void switchToDefaultWindow() {
-        windowManager.switchToDefaultWindow();
+        getWindowManager().switchToDefaultWindow();
     }
 
     public void switchToWindowByIndex(int index) {
-        windowManager.switchToWindowByIndex(index);
+        getWindowManager().switchToWindowByIndex(index);
     }
 
     //Window position
@@ -261,7 +273,9 @@ public class Browser {
             if (!StringUtils.isEmpty(size)) {
                 width = Integer.parseInt(dimension[0]);
             }
-        } else if (dimension.length > 1) {
+        } 
+        
+        if (dimension.length > 1) {
             height = Integer.parseInt(dimension[1]);
         }
 

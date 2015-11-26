@@ -4,7 +4,7 @@ import java.util.Set;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Provides switching between browser windowse
+ * Provides switching between browser windows
  *
  * @author ASolyankin
  */
