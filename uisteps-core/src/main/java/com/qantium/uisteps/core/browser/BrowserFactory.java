@@ -54,7 +54,7 @@ public class BrowserFactory {
     }
 
     /**
-     * Opens browser with default settings Default settings are set in 
+     * Opens browser with default settings 
      * 
      * @return Browser browser
      * 
@@ -102,7 +102,7 @@ public class BrowserFactory {
     /**
      * Internal method Can be overrided if you know what you do
      * <p>
-     * Checks property webdriver.remote.url e.g. webdriver.remote.url =
+     * Checks property webdriver.remote.url, e.g. webdriver.remote.url =
      * http://127.0.0.1:4444/wd/hub If this property is set returns browser with
      * remote driver
      * <p>
