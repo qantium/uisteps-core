@@ -31,15 +31,15 @@ package com.qantium.uisteps.core.browser.pages;
  * <li>Image</li>
  * </ul>
  * 
- * @see com.qantium.uisteps.core.browser.pages.Button
- * @see com.qantium.uisteps.core.browser.pages.Link
- * @see com.qantium.uisteps.core.browser.pages.TextField
- * @see com.qantium.uisteps.core.browser.pages.TextBlock
- * @see com.qantium.uisteps.core.browser.pages.Select
- * @see com.qantium.uisteps.core.browser.pages.RadioButtonGroup
- * @see com.qantium.uisteps.core.browser.pages.CheckBox
- * @see com.qantium.uisteps.core.browser.pages.FileInput
- * @see com.qantium.uisteps.core.browser.pages.Image
+ * @see com.qantium.uisteps.core.browser.pages.elements.Button
+ * @see com.qantium.uisteps.core.browser.pages.elements.Link
+ * @see com.qantium.uisteps.core.browser.pages.elements.TextField
+ * @see com.qantium.uisteps.core.browser.pages.elements.TextBlock
+ * @see com.qantium.uisteps.core.browser.pages.elements.Select
+ * @see com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup
+ * @see com.qantium.uisteps.core.browser.pages.elements.CheckBox
+ * @see com.qantium.uisteps.core.browser.pages.elements.FileInput
+ * @see com.qantium.uisteps.core.browser.pages.elements.Image
  * 
  * @author A.Solyankin
  */
