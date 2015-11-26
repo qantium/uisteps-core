@@ -33,7 +33,7 @@ public class UrlFactory {
     private final String BASE_URL;
 
     public UrlFactory() {
-        HOST = UIStepsProperties.getProperty(UIStepsProperty.HOST);
+        HOST = UIStepsProperties.getProperty(UIStepsProperty.BASE_URL_HOST);
         PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.PROPERTY_REGEXP);
         BASE_URL = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL);
     }

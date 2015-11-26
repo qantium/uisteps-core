@@ -23,8 +23,10 @@ public class WindowManager {
     /**
      * Switch to next available window
      *
-     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
-     * @throws IndexOutOfBoundsException @see WindowManager#switchToWindowByIndex(int)
+     * @throws NoWindowException 
+     * @throws IndexOutOfBoundsException 
+     * 
+     * @see WindowManager#switchToWindowByIndex(int index)
      */
     public void switchToNextWindow() {
         switchToWindowByIndex(currentWindowIndex + 1);
@@ -33,8 +35,10 @@ public class WindowManager {
     /**
      * Switch to previous available window
      *
-     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
-     * @throws IndexOutOfBoundsException @see WindowManager#switchToWindowByIndex(int)
+     * @throws NoWindowException
+     * @throws IndexOutOfBoundsException 
+     * 
+     * @see WindowManager#switchToWindowByIndex(int index)
      */
     public void switchToPreviousWindow() {
         switchToWindowByIndex(currentWindowIndex - 1);
@@ -43,7 +47,9 @@ public class WindowManager {
     /**
      * Switch to window by index 0
      *
-     * @throws NoWindowException @see WindowManager#switchToWindowByIndex(int)
+     * @throws NoWindowException 
+     * 
+     * @see WindowManager#switchToWindowByIndex(int index)
      */
     public void switchToDefaultWindow() {
         switchToWindowByIndex(0);

@@ -17,7 +17,10 @@ package com.qantium.uisteps.core.browser;
 
 
 /**
- *
+ * Collection of drivers witch can be instatiated
+ * 
+ * @see com.qantium.uisteps.core.browser.BrowserFactory
+ * 
  * @author A.Solyankin
  */
 public enum Driver {

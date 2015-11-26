@@ -187,21 +187,6 @@ public class BrowserManager {
         throw new NoBrowserException(message);
     }
 
-    public void removeByIndex(int index) throws NoBrowserException {
-
-        try {
-            getBrowsers().remove(index);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new NoBrowserException("Cannot remove browser by index " + index);
-        }
-
-        switchToNextBrowser();
-    }
-
-    public void remove(Browser browser) {
-        removeByIndex(getBrowsers().indexOf(browser));
-    }
-
     public boolean hasNext() {
         return getCurrentIndex() < getBrowsers().size() - 1;
     }

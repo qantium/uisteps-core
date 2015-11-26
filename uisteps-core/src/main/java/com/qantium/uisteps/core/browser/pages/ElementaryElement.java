@@ -16,7 +16,31 @@
 package com.qantium.uisteps.core.browser.pages;
 
 /**
- *
+ * Marker for UIElement that should not be populated 
+ * <p>
+ * Elementary elements:
+ * <ul>
+ * <li>Button</li>
+ * <li>Link</li>
+ * <li>TextField</li>
+ * <li>TextBlock</li>
+ * <li>Select</li>
+ * <li>RadioButtonGroup</li>
+ * <li>CheckBox</li>
+ * <li>FileInput</li>
+ * <li>Image</li>
+ * </ul>
+ * 
+ * @see com.qantium.uisteps.core.browser.pages.Button
+ * @see com.qantium.uisteps.core.browser.pages.Link
+ * @see com.qantium.uisteps.core.browser.pages.TextField
+ * @see com.qantium.uisteps.core.browser.pages.TextBlock
+ * @see com.qantium.uisteps.core.browser.pages.Select
+ * @see com.qantium.uisteps.core.browser.pages.RadioButtonGroup
+ * @see com.qantium.uisteps.core.browser.pages.CheckBox
+ * @see com.qantium.uisteps.core.browser.pages.FileInput
+ * @see com.qantium.uisteps.core.browser.pages.Image
+ * 
  * @author A.Solyankin
  */
 public interface ElementaryElement {

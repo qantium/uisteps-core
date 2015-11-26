@@ -24,7 +24,12 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
- *
+ * Any element (Page or UIElement) of user interface
+ * 
+ * @see com.qantium.uisteps.core.browser.pages.Page
+ * @see com.qantium.uisteps.core.browser.pages.UIElement
+ * @see com.qantium.uisteps.core.browser.pages.UIElements
+ * 
  * @author ASolyankin
  */
 public interface UIObject extends Named {

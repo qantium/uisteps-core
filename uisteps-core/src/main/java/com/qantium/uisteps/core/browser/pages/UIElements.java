@@ -26,6 +26,8 @@ import org.openqa.selenium.WebElement;
 
 /**
  *
+ * Contains elemnets of one type
+ * 
  * @author A.Solyankin
  * @param <E>
  */
