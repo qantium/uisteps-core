@@ -107,6 +107,31 @@ public class UIElements<E extends UIElement> extends UIElement {
         return element.withName(element.getName() + " by index " + index);
     }
 
+    public E getContains(String attribute, String value) {
+        
+        Iterator<E> iterator = iterator();
+
+        while (iterator.hasNext()) {
+
+            E element = iterator.next();
+
+            WebElement wrappedElement = element.getWrappedElement();
+            String attr;
+
+            if (attribute.equals("text")) {
+                attr = wrappedElement.getText();
+            } else {
+                attr = wrappedElement.getAttribute(attribute);
+            }
+
+            if (attr.contains(value)) {
+                return element.withName(element.getName() + " with " + attribute + " contains " + attr);
+            }
+        }
+
+        throw new NoSuchElementException("Cannot find element by attribute " + value);
+    }
+    
     public E get(String attribute, String value) {
 
         Iterator<E> iterator = iterator();
@@ -134,6 +159,10 @@ public class UIElements<E extends UIElement> extends UIElement {
 
     public E get(String value) {
         return get("text", value);
+    }
+    
+    public E getContains(String value) {
+        return getContains("text", value);
     }
 
     public UIElements<E> exceptFirst() {
