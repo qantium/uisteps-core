@@ -66,7 +66,7 @@ public class Browser {
     private UrlFactory urlFactory = new UrlFactory();
     private BrowserMobProxyServer proxy;
     private Photographer photographer;
-    
+
     protected void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager = new WindowManager(driver);
@@ -74,13 +74,13 @@ public class Browser {
     }
 
     protected WindowManager getWindowManager() {
-        
-        if(driver == null) {
+
+        if (driver == null) {
             throw new NullPointerException("Driver must be set to get windowManager");
         }
         return windowManager;
     }
-    
+
     public WebDriver getDriver() {
         return driver;
     }
@@ -96,10 +96,10 @@ public class Browser {
     protected void setPhotographer(Photographer photographer) {
         this.photographer = photographer;
     }
-    
+
     public Photographer getPhotographer() {
-        
-        if(driver == null) {
+
+        if (driver == null) {
             throw new NullPointerException("Driver must be set to get photographer");
         }
         return photographer;
@@ -120,7 +120,7 @@ public class Browser {
     protected void setProxy(BrowserMobProxyServer proxy) {
         this.proxy = proxy;
     }
-    
+
     public void close() {
         if (driver != null) {
             driver.quit();
@@ -234,7 +234,6 @@ public class Browser {
 
     public void moveWindowTo(int newX, int newY) {
         getDriver().manage().window().getPosition().moveBy(newX, newY);
-
     }
 
     public void maximizeWindow() {
@@ -273,8 +272,8 @@ public class Browser {
             if (!StringUtils.isEmpty(size)) {
                 width = Integer.parseInt(dimension[0]);
             }
-        } 
-        
+        }
+
         if (dimension.length > 1) {
             height = Integer.parseInt(dimension[1]);
         }
@@ -417,6 +416,36 @@ public class Browser {
         return element.getWrappedElement().getLocation();
     }
 
+    public Point getMiddlePositionOf(WrapsElement element) {
+        Point position = getPositionOf(element);
+        Dimension size = getSizeOf(element);
+
+        int x = position.x + size.width / 2;
+        int y = position.y + size.height / 2;
+
+        return new Point(x, y);
+    }
+
+    public Point getRelativePositionOf(WrapsElement element, WrapsElement target) {
+        Point elementPosition = getPositionOf(element);
+        Point targetPosition = getPositionOf(target);
+
+        int x = elementPosition.x - targetPosition.x;
+        int y = elementPosition.y - targetPosition.y;
+
+        return new Point(x, y);
+    }
+
+    public Point getRelativeMiddlePositionOf(WrapsElement element, WrapsElement target) {
+        Point elementPosition = getMiddlePositionOf(element);
+        Point targetPosition = getMiddlePositionOf(target);
+
+        int x = elementPosition.x - targetPosition.x;
+        int y = elementPosition.y - targetPosition.y;
+
+        return new Point(x, y);
+    }
+    
     public Dimension getSizeOf(WrapsElement element) {
         return element.getWrappedElement().getSize();
     }

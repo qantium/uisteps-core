@@ -208,7 +208,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return null;
     }
 
-    public Object moveWithOffset(int xOffset, int yOffset) {
+    public Object moveMouseOverWithOffset(int xOffset, int yOffset) {
         inOpenedBrowser().moveToElement(this, xOffset, yOffset);
         return null;
     }
@@ -226,14 +226,25 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return inOpenedBrowser().getPositionOf(this);
     }
 
+    public Point getMiddlePosition() {
+        return inOpenedBrowser().getMiddlePositionOf(this);
+    }
+    public Point getRelativePositionOf(WrapsElement target) {
+        return inOpenedBrowser().getRelativePositionOf(this, target);
+    }
+
+    public Point getRelativeMiddlePositionOf(WrapsElement element, WrapsElement target) {
+        return inOpenedBrowser().getRelativeMiddlePositionOf(this, target);
+    }
+
     public Dimension getSize() {
         return inOpenedBrowser().getSizeOf(this);
     }
-    
+
     //Screenshots
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot(this);
     }
-    
+
 }
