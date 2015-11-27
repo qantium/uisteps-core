@@ -23,8 +23,8 @@ public class WindowManager {
     /**
      * Switch to next available window
      *
-     * @throws NoWindowException 
-     * @throws IndexOutOfBoundsException 
+     * @throws NoWindowException if no opened windows
+     * @throws IndexOutOfBoundsException if index less than 0 or more count of opened windows
      * 
      * @see WindowManager#switchToWindowByIndex(int index)
      */
@@ -35,8 +35,8 @@ public class WindowManager {
     /**
      * Switch to previous available window
      *
-     * @throws NoWindowException
-     * @throws IndexOutOfBoundsException 
+     * @throws NoWindowException if no opened windows
+     * @throws IndexOutOfBoundsException if index less than 0 or more count of opened windows
      * 
      * @see WindowManager#switchToWindowByIndex(int index)
      */
@@ -47,7 +47,7 @@ public class WindowManager {
     /**
      * Switch to window by index 0
      *
-     * @throws NoWindowException 
+     * @throws NoWindowException if no opened windows
      * 
      * @see WindowManager#switchToWindowByIndex(int index)
      */

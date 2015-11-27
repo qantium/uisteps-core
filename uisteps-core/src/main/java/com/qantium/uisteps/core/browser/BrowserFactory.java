@@ -17,19 +17,13 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.stqa.selenium.factory.WebDriverFactory;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Map;
-import net.lightbody.bmp.BrowserMobProxyServer;
-import net.lightbody.bmp.client.ClientUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import ru.stqa.selenium.factory.RemoteDriverProvider;
 import ru.stqa.selenium.factory.WebDriverFactoryMode;
@@ -53,6 +47,8 @@ public class BrowserFactory {
         WebDriverFactory.setMode(WebDriverFactoryMode.UNRESTRICTED);
     }
 
+    
+    
     /**
      * Opens browser with default settings 
      * 
@@ -63,42 +59,89 @@ public class BrowserFactory {
     public Browser getBrowser() {
         return getBrowser(getDesiredCapabilities());
     }
+    
+    
+    /**
+     * Opens browser with default settings and specified proxy
+     * 
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     * 
+     * @see com.qantium.uisteps.core.properties.UIStepsProperties
+     */
+    public Browser getBrowser(Proxy proxy) {
+        return getBrowser(getDesiredCapabilities(), proxy);
+    }
 
     /**
      * Opens browser with specified driver
      *
-     * @param driver 
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
      * @return Browser browser
      * 
-     * @see com.qantium.uisteps.core.browser.Driver
      */
     public Browser getBrowser(Driver driver) {
         return getBrowser(getDesiredCapabilities(driver));
+    }
+    
+    /**
+     * Opens browser with specified driver and proxy
+     *
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     * 
+     */
+    public Browser getBrowser(Driver driver, Proxy proxy) {
+        return getBrowser(getDesiredCapabilities(driver), proxy);
     }
 
     /**
      * Opens default browser with specified capabilities
      *
-     * @param capabilities
+     * @param capabilities map of capabilities
      * @return Browser browser
      */
     public Browser getBrowser(Map<String, Object> capabilities) {
         return getBrowser(getDesiredCapabilities(capabilities));
     }
+    
+    /**
+     * Opens default browser with specified capabilities and proxy
+     *
+     * @param capabilities map of capabilities
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     */
+    public Browser getBrowser(Map<String, Object> capabilities, Proxy proxy) {
+        return getBrowser(getDesiredCapabilities(capabilities), proxy);
+    }
 
     /**
      * Opens browser with specified driver and capabilities
      *
-     * @param driver 
-     * @param capabilities
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
+     * @param capabilities map of capabilities
      * @return Browser browser
      * 
-     * @see com.qantium.uisteps.core.browser.Driver
      */
     public Browser getBrowser(Driver driver, Map<String, Object> capabilities) {
         return getBrowser(getDesiredCapabilities(driver, capabilities));
     }
-
+    
+    /**
+     * Opens browser with specified driver, capabilities and proxy
+     *
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
+     * @param capabilities map of capabilities
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     * 
+     */
+    public Browser getBrowser(Driver driver, Map<String, Object> capabilities, Proxy proxy) {
+        return getBrowser(getDesiredCapabilities(driver, capabilities), proxy);
+    }
+    
     /**
      * Internal method Can be overrided if you know what you do
      * <p>
@@ -118,56 +161,57 @@ public class BrowserFactory {
      * <li>webdriver.proxy = :7777</li>
      * </ul>
      * 
-     * @param capabilities
+     * @param capabilities capabilities for driver
      * @return Browser browser
      * 
-     * @see om.qantium.uisteps.core.properties.UIStepsProperties
+     * @see com.qantium.uisteps.core.properties.UIStepsProperties
      */
     protected Browser getBrowser(DesiredCapabilities capabilities) {
-
-        String hub = UIStepsProperties.getProperty(WEBDRIVER_REMOTE_URL);
-        Browser browser;
-
         String proxyProperty = UIStepsProperties.getProperty(WEBDRIVER_PROXY);
-        BrowserMobProxyServer proxy = null;
-
+        Proxy proxy = null;
+        
         //Check proxy
         if (!StringUtils.isEmpty(proxyProperty)) {
 
             String[] address = proxyProperty.split(":");
 
-            InetAddress ip = null;
+            String ip = null;
             Integer port = null;
 
             if (address.length > 0 && !StringUtils.isEmpty(address[0])) {
-
-                try {
-
-                    if ("localhost".equals(address[0]) || "127.0.0.1".equals(address[0])) {
-                        ip = InetAddress.getLocalHost();
-                    } else {
-                        ip = InetAddress.getByAddress(address[0].getBytes());
-                    }
-                } catch (UnknownHostException ex) {
-                    throw new RuntimeException("Cannot get proxy address!\nCause: " + ex);
-                }
+                ip = address[0];
             }
 
             if (address.length > 1) {
                 port = Integer.parseInt(address[1]);
             }
-            proxy = new BrowserMobProxyServer();
-            Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
-            capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
-
-            if (ip != null && port != null) {
-                proxy.start(port, ip);
-            } else if (port != null) {
-                proxy.start(port);
-            } else {
-                proxy.start();
-            }
-            proxy.newHar();
+            
+            proxy = Proxy.getProxy(ip, port);
+            
+        }
+        return getBrowser(capabilities, proxy);
+    }
+ 
+    /**
+     * Internal method Can be overrided if you know what you do
+     * <p>
+     * Checks property webdriver.remote.url, e.g. webdriver.remote.url =
+     * http://127.0.0.1:4444/wd/hub If this property is set returns browser with
+     * remote driver and specified proxy
+     * 
+     * @param capabilities capabilities for driver
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     * 
+     * @see com.qantium.uisteps.core.properties.UIStepsProperties
+     */
+    protected Browser getBrowser(DesiredCapabilities capabilities, Proxy proxy) {
+        String hub = UIStepsProperties.getProperty(WEBDRIVER_REMOTE_URL);
+        Browser browser;
+        
+        //Check proxy
+        if (proxy != null) {
+            capabilities.setCapability(CapabilityType.PROXY, proxy.getSeleniumProxy());
         }
 
         //Check remote driver 
@@ -178,19 +222,16 @@ public class BrowserFactory {
         }
 
         if (proxy != null) {
-            BrowserMobProxyServer mobProxy = (BrowserMobProxyServer) proxy;
-            browser.setProxy(mobProxy);
+            browser.setProxy(proxy.getMobProxy());
+            proxy.start().newHar();
         }
         return browser;
     }
-
     /**
      * Opens browser with specified  driver
      *
-     * @param driver
+     * @param driver {@link org.openqa.selenium.WebDriver}
      * @return Browser browser
-     * 
-     * @see org.openqa.selenium.WebDriver
      */
     public Browser getBrowser(WebDriver driver) {
         setSettingsTo(driver);
@@ -208,25 +249,46 @@ public class BrowserFactory {
     public Browser getBrowser(String hub) {
         return getBrowser(hub, getDesiredCapabilities());
     }
-
+    
+    /**
+     * Opens browser with remote default driver and specified proxy
+     *
+     * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     */
+    public Browser getBrowser(String hub, Proxy proxy) {
+        return getBrowser(hub, getDesiredCapabilities(), proxy);
+    }
+    
     /**
      * Opens browser with remote specified driver
      *
      * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
-     * @param driver
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
      * @return Browser browser
-     * 
-     * @see com.qantium.uisteps.core.browser.Driver
      */
     public Browser getBrowser(String hub, Driver driver) {
         return getBrowser(hub, getDesiredCapabilities(driver));
     }
-
+    
+    /**
+     * Opens browser with remote specified driver and proxy
+     *
+     * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser browser
+     */
+    public Browser getBrowser(String hub, Driver driver, Proxy proxy) {
+        return getBrowser(hub, getDesiredCapabilities(driver), proxy);
+    }
+    
     /**
      * Opens browser with remote default driver and specified capabilities
      *
      * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
-     * @param capabilities
+     * @param capabilities map of capabilities
      * @return Browser
      */
     public Browser getBrowser(String hub, Map<String, Object> capabilities) {
@@ -234,33 +296,53 @@ public class BrowserFactory {
     }
 
     /**
+     * Opens browser with remote default driver and specified capabilities and proxy
+     *
+     * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
+     * @param capabilities map of capabilities
+     * @param proxy {@link com.qantium.uisteps.core.browser.Proxy}
+     * @return Browser
+     */
+    public Browser getBrowser(String hub, Map<String, Object> capabilities, Proxy proxy) {
+        return getBrowser(hub, getDesiredCapabilities(capabilities), proxy);
+    }
+    /**
      * Opens browser with remote specified driver and capabilities
      *
      * @param hub url for remote driver e.g. http://127.0.0.1:4444/wd/hub
-     * @param driver 
-     * @param capabilities
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
+     * @param capabilities map of capabilities
      * @return Browser
-     * 
-     * @see com.qantium.uisteps.core.browser.Driver
      */
     public Browser getBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
         return getBrowser(hub, getDesiredCapabilities(driver, capabilities));
     }
-
-    private Browser getBrowser(String hub, Capabilities capabilities) {
+    
+    public Browser getBrowser(String hub, Driver driver, Map<String, Object> capabilities, Proxy proxy) {
+        return getBrowser(hub, getDesiredCapabilities(driver, capabilities), proxy);
+    }
+    
+    private Browser getBrowser(String hub, DesiredCapabilities capabilities) {
         WebDriver driver = new RemoteDriverProvider.Default().createDriver(hub, capabilities);
         return getBrowser(driver);
     }
 
+    private Browser getBrowser(String hub, DesiredCapabilities capabilities, Proxy proxy) {
+        capabilities.setCapability(CapabilityType.PROXY, proxy.getSeleniumProxy());
+        return getBrowser(hub, capabilities);
+    }
+    
+    
+    
     /**
      * Get DesiredCapabilities for default driver with specified capabilities
      *
-     * @param capabilities
+     * @param capabilities map of capabilities
      * @return DesiredCapabilities
      * 
      * @see org.openqa.selenium.remote.DesiredCapabilities
      */
-    public DesiredCapabilities getDesiredCapabilities(Map<String, Object> capabilities) {
+    private DesiredCapabilities getDesiredCapabilities(Map<String, Object> capabilities) {
         DesiredCapabilities desiredCapabilities = getDesiredCapabilities();
 
         for (String capability : capabilities.keySet()) {
@@ -276,12 +358,12 @@ public class BrowserFactory {
      * 
      * @see org.openqa.selenium.remote.DesiredCapabilities
      */
-    public DesiredCapabilities getDesiredCapabilities() {
+    private DesiredCapabilities getDesiredCapabilities() {
         Driver driver = Driver.valueOf(UIStepsProperties.getProperty(WEBDRIVER_DRIVER).toUpperCase());
         return getDesiredCapabilities(driver);
     }
 
-    public DesiredCapabilities getDesiredCapabilities(Driver driver, Map<String, Object> capabilities) {
+    private DesiredCapabilities getDesiredCapabilities(Driver driver, Map<String, Object> capabilities) {
         DesiredCapabilities desiredCapabilities = getDesiredCapabilities(driver);
 
         for (String capability : capabilities.keySet()) {
@@ -293,13 +375,12 @@ public class BrowserFactory {
     /**
      * Get DesiredCapabilities for specified driver
      *
-     * @param driver  driver
+     * @param driver {@link com.qantium.uisteps.core.browser.Driver}
      * @return DesiredCapabilities
      * 
-     * @see com.qantium.uisteps.core.browser.Driver
      * @see org.openqa.selenium.remote.DesiredCapabilities
      */
-    public DesiredCapabilities getDesiredCapabilities(Driver driver) {
+    private DesiredCapabilities getDesiredCapabilities(Driver driver) {
 
         switch (driver) {
             case FIREFOX:
@@ -330,13 +411,13 @@ public class BrowserFactory {
                 throw new IllegalArgumentException("Cannot get capabilities for driver " + driver + "!");
         }
     }
-
+    
     /**
      * Sets default setting to driver: timeout (in milliseconds), width and height 
      * <p>
      * This method can be overrided if you whant to set additionsl properties
      *
-     * @param driver
+     * @param driver {@link org.openqa.selenium.WebDriver}
      * 
      * @see com.qantium.uisteps.core.properties.UIStepsProperties
      */
