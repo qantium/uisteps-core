@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements.lists;
+package com.qantium.uisteps.core.browser.pages.elements.scroll;
 
-import com.qantium.uisteps.core.browser.pages.UIElements;
-import com.qantium.uisteps.core.browser.pages.elements.scroll.Scroll;
+import org.openqa.selenium.internal.WrapsElement;
+
 
 /**
  *
  * @author A.Solyankin
  */
-public class Equalizer extends UIElements<Scroll> {
+public class VerticalScroll extends Scroll {
 
-    public Equalizer(Class<Scroll> elementType) {
-        super(elementType);
+    public Object scroll(int pixels) {
+        inOpenedBrowser().verticalScroll(this, pixels);
+        return null;
     }
-
+    
+    @Override
+    public Object scrollTo(WrapsElement target) {
+        inOpenedBrowser().verticalScrollToTarget(this, target);
+        return null;
+    }
 }

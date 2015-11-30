@@ -328,19 +328,19 @@ public class Browser {
     public void contextClick() {
         getActions().contextClick().perform();
     }
-    
+
     public void contextClick(WrapsElement element) {
         getActions().contextClick(element.getWrappedElement()).perform();
     }
-    
+
     public void releaseMouse() {
         getActions().release().perform();
     }
-    
+
     public void releaseMouse(WrapsElement element) {
         getActions().release(element.getWrappedElement()).perform();
     }
-    
+
     public void dragAndDrop(WrapsElement source, WrapsElement target) {
         getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
 
@@ -459,7 +459,7 @@ public class Browser {
 
         return new Point(x, y);
     }
-    
+
     public Dimension getSizeOf(WrapsElement element) {
         return element.getWrappedElement().getSize();
     }
@@ -489,7 +489,7 @@ public class Browser {
     public Object executeAsyncScript(String script, Object... args) {
         return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
     }
-    
+
     public Object executeScript(String script, Object... args) {
         return ((JavascriptExecutor) getDriver()).executeScript(script, args);
     }
@@ -551,55 +551,60 @@ public class Browser {
     //CheckBox
     public void select(CheckBox checkBox) {
         checkBox.getWrappedCheckBox().select();
-
     }
 
     public void deselect(CheckBox checkBox) {
         checkBox.getWrappedCheckBox().deselect();
-
     }
-    
+
     //Scroll
-    public void scroll(WrapsElement element, int x, int y) {
+    public void scrollToTarget(WrapsElement scroll, WrapsElement target) {
+        Point scrollPosition = getPositionOf(scroll);
+        Point targetPosition = getPositionOf(target);
+        scroll(scroll, new Point(targetPosition.x - scrollPosition.x, targetPosition.y - scrollPosition.y));
+    }
+
+    public void verticalScrollToTarget(WrapsElement scroll, WrapsElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        verticalScroll(scroll, targetPosition.y - scrollPosition.y);
+    }
+
+    public void horizontalScrollToTarget(WrapsElement scroll, WrapsElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        horizontalScroll(scroll, targetPosition.x - scrollPosition.x);
+    }
+
+    public void horizontalScroll(WrapsElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, new Point(pixels, position.y));
+    }
+
+    public void verticalScroll(WrapsElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, new Point(position.x, pixels));
+    }
+
+    public void scroll(WrapsElement scroll, int x, int y) {
         getActions()
-                .clickAndHold(element.getWrappedElement())
+                .clickAndHold(scroll.getWrappedElement())
                 .moveByOffset(x, y)
                 .release()
                 .perform();
     }
-    
-    public void horizontalScroll(WrapsElement element, int pixels) {
-        Point position = getMiddlePositionOf(element);
-        scroll(element, pixels, position.y);
-    }
-    
-    public void verticalScroll(WrapsElement element, int pixels) {
-        Point middlePosition = getMiddlePositionOf(element);
-        scroll(element, middlePosition.x, pixels);
-        
-    }
-    
-    public void scrollAndHold(WrapsElement element, int x, int y) {
+
+    protected void scroll(WrapsElement scroll, Point point) {
         getActions()
-                .clickAndHold(element.getWrappedElement())
-                .moveByOffset(x, y)
+                .clickAndHold(scroll.getWrappedElement())
+                .moveByOffset(point.x, point.y)
+                .release()
                 .perform();
     }
     
-    public void horizontalScrollAndHold(WrapsElement element, int pixels) {
-        Point position = getMiddlePositionOf(element);
-        scrollAndHold(element, pixels, position.y);
-    }
-    
-    public void verticalScrollAndHold(WrapsElement element, int pixels) {
-        Point position = getMiddlePositionOf(element);
-        scrollAndHold(element, position.y, pixels);
-    }
-
     //FileInput
     public void setTo(FileInput fileInput, String filePath) {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
-
     }
 
     public <T extends UIObject> T instatiate(Class<T> uiObject) {

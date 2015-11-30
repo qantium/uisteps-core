@@ -13,45 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements;
+package com.qantium.uisteps.core.browser.pages.elements.scroll;
 
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author A.Solyankin
  */
 public class Scroll extends UIElement implements ElementaryElement {
-
+    
     public Object scroll(int x, int y) {
         inOpenedBrowser().scroll(this, x, y);
         return null;
     }
 
-    public Object horizontalScroll(int pixels) {
-        inOpenedBrowser().horizontalScroll(this, pixels);
+    public Object scrollTo(WrapsElement target) {
+        inOpenedBrowser().scrollToTarget(this, target);
         return null;
     }
-
-    public Object verticalScroll(int pixels) {
-        inOpenedBrowser().verticalScroll(this, pixels);
-        return null;
-    }
-
-    public Object scrollAndHold(int x, int y) {
-        inOpenedBrowser().scrollAndHold(this, x, y);
-        return null;
-    }
-
-    public Object horizontalScrollAndHold(int pixels) {
-        inOpenedBrowser().horizontalScrollAndHold(this, pixels);
-        return null;
-    }
-
-    public Object verticalScrollAndHold(int pixels) {
-        inOpenedBrowser().verticalScrollAndHold(this, pixels);
-        return null;
-    }
-
 }
