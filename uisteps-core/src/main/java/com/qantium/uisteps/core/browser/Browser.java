@@ -252,7 +252,6 @@ public class Browser {
 
     public void setWindowWidth(int width) {
         setWindowSize(width, getWindowSize().getHeight());
-
     }
 
     public void setWindowHeight(int height) {
@@ -326,6 +325,22 @@ public class Browser {
 
     }
 
+    public void contextClick() {
+        getActions().contextClick().perform();
+    }
+    
+    public void contextClick(WrapsElement element) {
+        getActions().contextClick(element.getWrappedElement()).perform();
+    }
+    
+    public void releaseMouse() {
+        getActions().release().perform();
+    }
+    
+    public void releaseMouse(WrapsElement element) {
+        getActions().release(element.getWrappedElement()).perform();
+    }
+    
     public void dragAndDrop(WrapsElement source, WrapsElement target) {
         getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
 
@@ -348,7 +363,6 @@ public class Browser {
 
     public void keyUp(Keys theKey) {
         getActions().keyUp(theKey).perform();
-
     }
 
     public void keyUp(WrapsElement element, Keys theKey) {
@@ -472,8 +486,12 @@ public class Browser {
         return new Then(new GetValueAction<>(value));
     }
 
-    public Object executeScript(String script) {
-        return ((JavascriptExecutor) getDriver()).executeScript(script);
+    public Object executeAsyncScript(String script, Object... args) {
+        return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
+    }
+    
+    public Object executeScript(String script, Object... args) {
+        return ((JavascriptExecutor) getDriver()).executeScript(script, args);
     }
 
     public String getName() {
@@ -525,11 +543,9 @@ public class Browser {
 
     //Radio button
     public void select(RadioButton button) {
-
         if (!button.isSelected()) {
             button.getWrappedElement().click();
         }
-
     }
 
     //CheckBox
@@ -541,6 +557,43 @@ public class Browser {
     public void deselect(CheckBox checkBox) {
         checkBox.getWrappedCheckBox().deselect();
 
+    }
+    
+    //Scroll
+    public void scroll(WrapsElement element, int x, int y) {
+        getActions()
+                .clickAndHold(element.getWrappedElement())
+                .moveByOffset(x, y)
+                .release()
+                .perform();
+    }
+    
+    public void horizontalScroll(WrapsElement element, int pixels) {
+        Point position = getMiddlePositionOf(element);
+        scroll(element, pixels, position.y);
+    }
+    
+    public void verticalScroll(WrapsElement element, int pixels) {
+        Point middlePosition = getMiddlePositionOf(element);
+        scroll(element, middlePosition.x, pixels);
+        
+    }
+    
+    public void scrollAndHold(WrapsElement element, int x, int y) {
+        getActions()
+                .clickAndHold(element.getWrappedElement())
+                .moveByOffset(x, y)
+                .perform();
+    }
+    
+    public void horizontalScrollAndHold(WrapsElement element, int pixels) {
+        Point position = getMiddlePositionOf(element);
+        scrollAndHold(element, pixels, position.y);
+    }
+    
+    public void verticalScrollAndHold(WrapsElement element, int pixels) {
+        Point position = getMiddlePositionOf(element);
+        scrollAndHold(element, position.y, pixels);
     }
 
     //FileInput

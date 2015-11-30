@@ -183,6 +183,14 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return null;
     }
 
+    public void contextClick(WrapsElement element) {
+        inOpenedBrowser().contextClick(this);
+    }
+
+    public void releaseMouse() {
+        inOpenedBrowser().releaseMouse(this);
+    }
+
     public Object dragAndDrop(WrapsElement target) {
         inOpenedBrowser().dragAndDrop(this, target);
         return null;
@@ -229,6 +237,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public Point getMiddlePosition() {
         return inOpenedBrowser().getMiddlePositionOf(this);
     }
+
     public Point getRelativePositionOf(WrapsElement target) {
         return inOpenedBrowser().getRelativePositionOf(this, target);
     }

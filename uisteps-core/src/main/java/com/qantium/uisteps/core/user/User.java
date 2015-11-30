@@ -303,6 +303,14 @@ public class User implements Named {
         return (T) this;
     }
 
+    public void contextClick() {
+        inOpenedBrowser().contextClick();
+    }
+
+    public void releaseMouse() {
+        inOpenedBrowser().releaseMouse();
+    }
+
     public <T extends User> T keyDown(Keys theKey) {
         inOpenedBrowser().keyDown(theKey);
         return (T) this;
@@ -318,8 +326,12 @@ public class User implements Named {
         return (T) this;
     }
 
-    public Object executeScript(String script) {
-        return inOpenedBrowser().executeScript(script);
+    public Object executeAsyncScript(String script, Object... args) {
+        return inOpenedBrowser().executeAsyncScript(script, args);
+    }
+
+    public Object executeScript(String script, Object... args) {
+        return inOpenedBrowser().executeScript(script, args);
     }
 
     //see
