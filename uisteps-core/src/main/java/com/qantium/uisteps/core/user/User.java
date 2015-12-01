@@ -37,6 +37,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
@@ -258,6 +260,22 @@ public class User implements Named {
 
     public <T extends User> T setWindowHeight(int height) {
         inOpenedBrowser().setWindowHeight(height);
+        return (T) this;
+    }
+
+    //Scrooll window
+    public <T extends User> T scrollWindowByOffset(int x, int y) {
+        inOpenedBrowser().scrollWindowByOffset(x, y);
+        return (T) this;
+    }
+
+    public <T extends User> T scrollWindowToTarget(WrapsElement element) {
+        inOpenedBrowser().scrollWindowToTarget(element);
+        return (T) this;
+    }
+
+    public <T extends User> T scrollWindowToTargetByOffset(WrapsElement element, int x, int y) {
+        inOpenedBrowser().scrollWindowToTargetByOffset(element, x, y);
         return (T) this;
     }
 

@@ -557,6 +557,26 @@ public class Browser {
         checkBox.getWrappedCheckBox().deselect();
     }
 
+    //Scrooll window
+    public void scrollWindowByOffset(int x, int y) {
+        executeScript("window.scrollBy(" + x + "," + y + ");");
+    }
+
+    public void scrollWindowToTarget(WrapsElement element) {
+        executeScript("arguments[0].scrollIntoView();", element.getWrappedElement());
+    }
+
+    public void scrollWindowToTargetByOffset(WrapsElement element, int x, int y) {
+        WebElement target = element.getWrappedElement();
+        Point location = target.getLocation();
+
+        int xLocation = location.x + x;
+        int yLocation = location.y + y;
+        String script = "window.scroll(arguments[0],arguments[1]);";
+
+        executeScript(script, xLocation, yLocation);
+    }
+
     //Scroll
     public void scrollToTarget(WrapsElement scroll, WrapsElement target) {
         Point scrollPosition = getPositionOf(scroll);
@@ -601,7 +621,7 @@ public class Browser {
                 .release()
                 .perform();
     }
-    
+
     //FileInput
     public void setTo(FileInput fileInput, String filePath) {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
