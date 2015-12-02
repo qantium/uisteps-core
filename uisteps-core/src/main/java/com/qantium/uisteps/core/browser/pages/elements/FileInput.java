@@ -29,7 +29,7 @@ public class FileInput extends UIElement implements ElementaryElement {
     }
 
     public Object setFileToUpload(String filePath) {
-        inOpenedBrowser().setTo(this, filePath);
+        inOpenedBrowser().setFileToUpload(this, filePath);
         return null;
     }
 

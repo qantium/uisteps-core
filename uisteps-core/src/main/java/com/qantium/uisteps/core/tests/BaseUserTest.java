@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.tests;
 
 import com.qantium.uisteps.core.user.User;
 import java.lang.reflect.InvocationTargetException;
-import org.apache.commons.lang.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 /**
  *
@@ -31,7 +31,7 @@ public class BaseUserTest<U extends User> extends JUnitTest {
     public BaseUserTest(Class<U> user) {
 
         try {
-            this.user = (U) ConstructorUtils.invokeConstructor(user, null);
+            this.user = (U) ConstructorUtils.invokeConstructor(user, new Object[0]);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new RuntimeException("Cannot instantiate " + user + ".\nCause: " + ex);
         }

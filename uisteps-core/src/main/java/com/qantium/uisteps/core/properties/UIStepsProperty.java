@@ -55,15 +55,6 @@ public enum UIStepsProperty {
     /**
      * Set "properties.path" to specify in what file properties are set.
      * Path can be relative or absolute
-     *//**
-     * Set "properties.path" to specify in what file properties are set.
-     * Path can be relative or absolute
-     *//**
-     * Set "properties.path" to specify in what file properties are set.
-     * Path can be relative or absolute
-     *//**
-     * Set "properties.path" to specify in what file properties are set.
-     * Path can be relative or absolute
      */
     PROPERTIES_PATH {
 

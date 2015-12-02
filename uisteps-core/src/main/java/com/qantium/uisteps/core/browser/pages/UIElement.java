@@ -1,6 +1,5 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
@@ -26,29 +25,48 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     private By locator;
     private UIObject context;
 
-    public void setWrappedElement(WebElement wrappedElement) {
+    /**
+     * Internal method
+     * 
+     * @param wrappedElement
+     * @throws IllegalStateException if wrappedElement is already set
+     */
+    public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
+        
+        if(this.wrappedElement != null) {
+            throw new IllegalStateException("WrappedElement is already set to " + this);
+        }
         this.wrappedElement = wrappedElement;
     }
 
     @Override
     public WebElement getWrappedElement() {
 
-        if (wrappedElement != null) {
-            return wrappedElement;
+        if (wrappedElement == null) {
+            SearchContext searchContext;
+
+            if (getContext() != null) {
+                searchContext = getContext().getSearchContext();
+            } else {
+                searchContext = inOpenedBrowser().getDriver();
+            }
+
+            wrappedElement = searchContext.findElement(getLocator());
         }
-
-        SearchContext searchContext;
-
-        if (getContext() != null) {
-            searchContext = getContext().getSearchContext();
-        } else {
-            searchContext = inOpenedBrowser().getDriver();
-        }
-
-        return searchContext.findElement(getLocator());
+        return wrappedElement;
     }
 
+    /**
+     * Internal method
+     * 
+     * @param context
+     * @throws IllegalStateException if context is already set
+     */
     public void setContext(UIObject context) {
+        
+        if(this.context != null) {
+            throw new IllegalStateException("Context is already set to " + this);
+        }
         this.context = context;
     }
 
@@ -59,8 +77,18 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public By getLocator() {
         return locator;
     }
-
+    
+    /**
+     * Internal method
+     * 
+     * @param locator
+     * @throws IllegalStateException if locator is already set
+     */
     public void setLocator(By locator) {
+        
+        if(this.locator != null) {
+            throw new IllegalStateException("Locator is already set to " + this);
+        }
         this.locator = locator;
     }
 

@@ -105,8 +105,7 @@ public class LocatorFactory {
             case XPATH:
                 return By.xpath(using);
             default:
-                throw new RuntimeException("Cannot get " + how + " " + using + " locator!");
-
+                throw new IllegalArgumentException("Cannot get " + how + " " + using + " locator!");
         }
     }
 

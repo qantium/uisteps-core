@@ -33,7 +33,7 @@ import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 import ru.yandex.qatools.ashot.coordinates.CoordsProvider;
 import ru.yandex.qatools.ashot.cropper.ImageCropper;
-import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
+import ru.yandex.qatools.ashot.screentaker.ShootingStrategy;
 
 /**
  *

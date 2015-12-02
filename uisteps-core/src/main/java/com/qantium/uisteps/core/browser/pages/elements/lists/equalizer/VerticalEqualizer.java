@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements.lists;
+package com.qantium.uisteps.core.browser.pages.elements.lists.equalizer;
 
 import com.qantium.uisteps.core.browser.pages.UIElements;
-import com.qantium.uisteps.core.browser.pages.elements.scroll.Scroll;
+import com.qantium.uisteps.core.browser.pages.elements.scroll.VerticalScroll;
 
 /**
  *
  * @author A.Solyankin
  */
-public class Equalizer extends UIElements<Scroll> {
+public class VerticalEqualizer extends UIElements<VerticalScroll> {
 
-    public Equalizer(Class<Scroll> elementType) {
-        super(elementType);
+    public VerticalEqualizer() {
+        super(VerticalScroll.class);
     }
-
+    
 }

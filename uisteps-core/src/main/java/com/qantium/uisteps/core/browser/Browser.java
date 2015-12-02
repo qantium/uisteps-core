@@ -40,8 +40,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import net.lightbody.bmp.BrowserMobProxyServer;
-import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -623,14 +623,14 @@ public class Browser {
     }
 
     //FileInput
-    public void setTo(FileInput fileInput, String filePath) {
+    public void setFileToUpload(FileInput fileInput, String filePath) {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
     }
 
     public <T extends UIObject> T instatiate(Class<T> uiObject) {
 
         try {
-            return (T) ConstructorUtils.invokeConstructor(uiObject, null);
+            return (T) ConstructorUtils.invokeConstructor(uiObject, new Object[0]);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
         }

@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.user;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import org.apache.commons.lang.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 /**
  *
@@ -89,7 +89,7 @@ public class UserFactory {
     public <T extends User> T getInstanceOf(Class<T> user) {
 
         try {
-            return (T) ConstructorUtils.invokeConstructor(user, null);
+            return (T) ConstructorUtils.invokeConstructor(user, new Object[0]);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new RuntimeException("Cannot instantiate " + user + ".\nCause: " + ex);
         }

@@ -68,7 +68,7 @@ public class UrlFactory {
             }
         }
 
-        if (!isRoot(page) && page != Object.class) {
+        if (!isRoot(page) && page != Page.class) {
             process(url, page.getSuperclass());
         }
 
