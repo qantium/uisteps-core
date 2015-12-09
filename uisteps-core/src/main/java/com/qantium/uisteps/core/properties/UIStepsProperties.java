@@ -31,27 +31,11 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
  * override properties in home directory. Working directory is 
  * taken from System.getProperty("user.dir"). Home directory is 
  * taken from System.getProperty("user.home")
+ * At last all properties can be oveerided in "uisteps.local.properties".
+ * The rules for it are same with "uisteps.properties" file
  * <p>
  * Property can be overrided by another using "AS#" construction, 
  * e.g. webdriver.driver = AS#driver
- * <p>
- * List of properties:
- * <ul>
- * <li>properties.path</li>
- * <li>webdriver.driver</li>
- * <li>webdriver.remote.url</li>
- * <li>webdriver.base.url</li>
- * <li>webdriver.proxy</li>
- * <li>webdriver.timeouts.implicitlywait</li>
- * <li>home.dir</li>
- * <li>screenshots.scale.width</li>
- * <li>screenshots.scale.height</li>
- * <li>base.url.host</li>
- * <li>null.value</li>
- * <li>property.regexp</li>
- * <li>browser.width</li>
- * <li>browser.height</li>
- * </ul>
  * 
  * @see com.qantium.uisteps.core.properties.UIStepsProperty
  * 
@@ -59,10 +43,11 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
  */
 public class UIStepsProperties {
 
-    private static Properties properties;
+    private static volatile Properties properties;
     private static final String WORKIND_DIR = System.getProperty("user.dir");
     private static final String HOME_DIR = System.getProperty("user.home");
     private static final String PROPERTIES_FILE_NAME = "uisteps.properties";
+    private static final String PROPERTIES_LOCAL_FILE_NAME = "uisteps.local.properties";
     private static final String AS = "AS#";
 
     /**
@@ -70,7 +55,7 @@ public class UIStepsProperties {
      * 
      * @return Properties
      */
-    private static Properties getProperties() {
+    public static Properties getProperties() {
 
         if (properties == null) {
             properties = new Properties(getDefaults());
@@ -80,7 +65,8 @@ public class UIStepsProperties {
             if (!StringUtils.isEmpty(path)) {
                 load(path, properties);
             }
-
+            load(PROPERTIES_LOCAL_FILE_NAME, properties);
+            
             for (String propertyName : properties.stringPropertyNames()) {
                 String property = properties.getProperty(propertyName);
 
@@ -88,6 +74,7 @@ public class UIStepsProperties {
                     properties.setProperty(propertyName, properties.getProperty(property.replace(AS, "")));
                 }
             }
+            
         }
         return properties;
     }
@@ -121,27 +108,21 @@ public class UIStepsProperties {
     }
 
     /**
-     * Get property by key
+     * Get property by key, 
      * 
      * @param key
      * @return the string value if there is no property with that key.
      */
     public static String getProperty(String key) {
         key = key.toLowerCase();
-        String property = getProperties().getProperty(key);
-        
-        if (property != null) {
-            return property;
-        } else {
-            return System.getProperty(key);
-        }
+        return getProperties().getProperty(key);
     }
 
     /**
-     * Get property
+     * Gets the property indicated by the specified key
      * 
      * @param property
-     * @return Properties
+     * @return the string value of the property, or null if there is no property with that key.
      */
     public static String getProperty(UIStepsProperty property) {
         return getProperty(property.toString());
@@ -150,11 +131,12 @@ public class UIStepsProperties {
     /**
      * Get default properties
      * 
-     * @return Properties
+     * @return system properties merged with default properties 
+     * spesified in uisteps property files
      */
     private static Properties getDefaults() {
-        Properties defaults = new Properties();
-
+        Properties defaults = new Properties(System.getProperties());
+        
         for (UIStepsProperty property : UIStepsProperty.values()) {
             defaults.setProperty(property.toString(), property.getDefault());
         }

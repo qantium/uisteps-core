@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 
@@ -27,59 +28,58 @@ import net.lightbody.bmp.client.ClientUtil;
 public class Proxy {
 
     private final BrowserMobProxyServer mobProxy;
-    private final org.openqa.selenium.Proxy seleniumProxy;
+    private org.openqa.selenium.Proxy seleniumProxy;
     private final InetAddress ip;
     private final Integer port;
 
-    public static Proxy getProxy(String ip, Integer port) {
-        return new Proxy(ip, port);
-    }
+    public static class ProxyBuilder {
 
-    public static Proxy getProxy(Integer port) {
-        return new Proxy(null, port);
-    }
+        private InetAddress ip;
+        private Integer port = null;
 
-    public static Proxy getProxy(String ip) {
-        return new Proxy(ip, null);
-    }
-
-    protected Proxy(String ip, Integer port) {
-
-        
-        try {
-            if(ip != null) {
-                
+        public ProxyBuilder setIp(String ip) {
+            
+            try {
                 if ("localhost".equals(ip) || "127.0.0.1".equals(ip)) {
                     this.ip = InetAddress.getLocalHost();
                 } else {
-                    this.ip = InetAddress.getByAddress(ip.getBytes());
+                    this.ip = InetAddress.getByName(ip);
                 }
-            } else {
-                this.ip = null;
+            } catch (UnknownHostException ex) {
+                throw new RuntimeException("Cannot get proxy address!\nCause: " + ex);
             }
-        } catch (UnknownHostException ex) {
-            throw new RuntimeException("Cannot get proxy address!\nCause: " + ex);
+            return this;
         }
 
+        public ProxyBuilder setPort(Integer port) {
+            this.port = port;
+            return this;
+        }
+
+        public Proxy build() {
+            return new Proxy(ip, port);
+        }
+    }
+
+    protected Proxy(InetAddress ip, Integer port) {
+        this.ip = ip;
         this.port = port;
         mobProxy = new BrowserMobProxyServer();
-        seleniumProxy = ClientUtil.createSeleniumProxy(mobProxy);
     }
-
-
-    public BrowserMobProxyServer start() {
+    
+    public org.openqa.selenium.Proxy start() {
         
-        if (ip != null && port != null) {
-            mobProxy.start(port, ip);
-        } else if (port != null) {
-            mobProxy.start(port);
-        } else {
-            mobProxy.start();
+        if(seleniumProxy == null) {
+            if (ip != null && port != null) {
+                mobProxy.start(port, this.ip);
+            } else if (port != null) {
+                mobProxy.start(port);
+            } else {
+                mobProxy.start();
+            }
+            mobProxy.newHar();
+            seleniumProxy = ClientUtil.createSeleniumProxy(mobProxy);
         }
-        return mobProxy;
-    }
-
-    public org.openqa.selenium.Proxy getSeleniumProxy() {
         return seleniumProxy;
     }
 
@@ -94,6 +94,5 @@ public class Proxy {
     public Integer getPort() {
         return port;
     }
-    
-    
+
 }

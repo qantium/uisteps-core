@@ -254,6 +254,10 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return inOpenedBrowser().getTagNameOf(this);
     }
 
+    public String getAttribute(String attribute) {
+        return inOpenedBrowser().getAttribute(this, attribute);
+    }
+    
     public String getCSSProperty(String cssProperty) {
         return inOpenedBrowser().getCSSPropertyOf(this, cssProperty);
     }

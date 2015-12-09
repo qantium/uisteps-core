@@ -39,10 +39,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -70,7 +72,6 @@ public class Browser {
     protected void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager = new WindowManager(driver);
-        photographer = new Photographer(driver);
     }
 
     protected WindowManager getWindowManager() {
@@ -102,6 +103,11 @@ public class Browser {
         if (driver == null) {
             throw new NullPointerException("Driver must be set to get photographer");
         }
+        
+        if(photographer == null) {
+            photographer = new Photographer(driver);
+        }
+        
         return photographer;
     }
 
@@ -124,6 +130,10 @@ public class Browser {
     public void close() {
         if (driver != null) {
             driver.quit();
+        }
+        
+        if (proxy != null) {
+            proxy.stop();
         }
     }
 
@@ -173,7 +183,7 @@ public class Browser {
         return open(page);
     }
 
-    public <T extends Page> T open(T page) {
+    protected <T extends Page> T open(T page) {
         getDriver().get(page.getUrl().toString());
         return page;
     }
@@ -241,6 +251,15 @@ public class Browser {
 
     }
 
+    //Navigation
+    public void goBack() {
+        getDriver().navigate().back();
+    }
+    
+    public void goForward() {
+        getDriver().navigate().forward();
+    }
+    
     //Window size
     public Dimension getWindowSize() {
         return getDriver().manage().window().getSize();
@@ -295,6 +314,10 @@ public class Browser {
 
     }
 
+    public Set<Cookie> getCookies() {
+        return getDriver().manage().getCookies();
+    }
+    
     public Actions getActions() {
         return new Actions(getDriver());
     }
@@ -421,7 +444,11 @@ public class Browser {
     public String getTagNameOf(WrapsElement element) {
         return element.getWrappedElement().getTagName();
     }
-
+    
+    public String getAttribute(WrapsElement element, String attribute) {
+        return element.getWrappedElement().getAttribute(attribute);
+    }
+    
     public String getCSSPropertyOf(WrapsElement element, String cssProperty) {
         return element.getWrappedElement().getCssValue(cssProperty);
     }
@@ -748,6 +775,7 @@ public class Browser {
         if (UIElement.class.isAssignableFrom(uiObject)) {
             return onDisplayed((T) find((Class<UIElement>) uiObject));
         } else {
+            T page = instatiate(uiObject);
             return onDisplayed(instatiate(uiObject));
         }
     }

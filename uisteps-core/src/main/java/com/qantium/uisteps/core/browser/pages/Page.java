@@ -29,10 +29,9 @@ import org.openqa.selenium.WebElement;
 @Root
 public class Page extends AbstractUIObject {
 
-    private Url url;
+    private Url url = new Url();
 
     public Page() {
-        url = UrlFactory.getUrlOf(getClass());
         setName("");
     }
 
@@ -56,17 +55,18 @@ public class Page extends AbstractUIObject {
 
     @Override
     public String toString() {
-        StringBuilder nameBuider = new StringBuilder();
+        StringBuilder pageName = new StringBuilder();
+        pageName.append(getName());
 
-        nameBuider
-                .append(getName())
-                .append(" by url <a href='")
-                .append(getUrl())
-                .append("' target='blank'>")
-                .append(getUrl())
-                .append("</a>");
-
-        return nameBuider.toString();
+        if (getUrl() != null) {
+            pageName
+                    .append(" by url <a href='")
+                    .append(getUrl())
+                    .append("' target='blank'>")
+                    .append(getUrl())
+                    .append("</a>");
+        }
+        return pageName.toString();
     }
 
     @Override

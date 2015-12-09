@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Url {
 
-    private String protocol = "http";
+    private String protocol = "";
     private String user = "";
     private String password = "";
     private String prefix = "";
@@ -175,8 +175,10 @@ public class Url {
 
         StringBuilder url = new StringBuilder();
 
-        url.append(protocol).append("://");
-
+        if(!StringUtils.isEmpty(protocol)) {
+            url.append(protocol).append("://");
+        }
+        
         if (!StringUtils.isEmpty(user) && !StringUtils.isEmpty(password)) {
             url.append(user).append(":").append(password).append("@");
         }

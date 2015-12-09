@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +28,7 @@ import org.openqa.selenium.WebElement;
 /**
  *
  * Contains elemnets of one type
- * 
+ *
  * @author A.Solyankin
  * @param <E>
  */
@@ -107,66 +108,106 @@ public class UIElements<E extends UIElement> extends UIElement {
         return element.withName(element.getName() + " by index " + index);
     }
 
-    public E getContains(String attribute, String value) {
-        
-        Iterator<E> iterator = iterator();
+    public E gettByAttributeContains(String attribute, String value) {
+        return get(Find.ATTRIBUTE, How.CONTAINS, attribute, value);
+    }
 
-        while (iterator.hasNext()) {
-
-            E element = iterator.next();
-
-            WebElement wrappedElement = element.getWrappedElement();
-            String attr;
-
-            if (attribute.equals("text")) {
-                attr = wrappedElement.getText();
-            } else {
-                attr = wrappedElement.getAttribute(attribute);
-            }
-
-            if (attr.contains(value)) {
-                return element.withName(element.getName() + " with " + attribute + " contains " + attr);
-            }
-        }
-
-        throw new NoSuchElementException("Cannot find element by attribute " + value);
+    public E getByAttribute(String attribute, String value) {
+        return get(Find.ATTRIBUTE, How.EQUAL, attribute, value);
     }
     
-    public E get(String attribute, String value) {
+    public E gettByCSSPropertyContains(String attribute, String value) {
+        return get(Find.CSS, How.CONTAINS, attribute, value);
+    }
+
+    public E getByCSSProperty(String attribute, String value) {
+        return get(Find.CSS, How.EQUAL, attribute, value);
+    }
+
+    protected E get(Find find, How how, String... attribute) {
 
         Iterator<E> iterator = iterator();
 
         while (iterator.hasNext()) {
 
             E element = iterator.next();
+            boolean isFound = false;
 
             WebElement wrappedElement = element.getWrappedElement();
             String attr;
 
-            if (attribute.equals("text")) {
+            if (find == Find.TEXT) {
                 attr = wrappedElement.getText();
+            } else if (find == Find.ATTRIBUTE) {
+                attr = wrappedElement.getAttribute(attribute[0]);
             } else {
-                attr = wrappedElement.getAttribute(attribute);
+                attr = wrappedElement.getCssValue(attribute[0]);
             }
 
-            if (attr.equals(value)) {
-                return element.withName(element.getName() + " with " + attribute + " " + attr);
+            if ((how == How.EQUAL && attr.equals(attribute[1])) || (how == How.CONTAINS && attr.contains(attribute[1]))) {
+                isFound = true;
+            }
+
+            if (isFound) {
+                return element.withName(element.getName() + " with " + how + " " + attr);
             }
         }
 
-        throw new NoSuchElementException("Cannot find element by attribute " + value);
+        throw new NoSuchElementException("Cannot find element by attribute " + Arrays.toString(attribute));
     }
 
-    public E get(String value) {
-        return get("text", value);
+    public E getByText(String value) {
+        return get(Find.TEXT, How.EQUAL, value);
     }
-    
-    public E getContains(String value) {
-        return getContains("text", value);
+
+    public E gettByTextContains(String value) {
+        return get(Find.TEXT, How.CONTAINS, value);
     }
 
     public UIElements<E> exceptFirst() {
         return except(0);
+    }
+
+    protected enum Find {
+
+        ATTRIBUTE {
+                    private String attr;
+
+                    public String get() {
+                        return attr;
+                    }
+
+                    public void set(String attr) {
+                        this.attr = attr;
+                    }
+                }, CSS {
+                    private String attr;
+
+                    public String get() {
+                        return attr;
+                    }
+
+                    public void set(String attr) {
+                        this.attr = attr;
+                    }
+                }, TEXT;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+
+    }
+
+    protected enum How {
+
+        CONTAINS, EQUAL;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+
     }
 
     public UIElements<E> exceptLast() {

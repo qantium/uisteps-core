@@ -19,42 +19,43 @@ package com.qantium.uisteps.core.properties;
  * Contains settings that can be set before test running
  * <p>
  * Property can be overrided in "uisteps.properties" file or in another file
- * whitch path is set in "properties.path" property. Both files must be in 
- * working or/and home directory. Properties in working directory 
- * override properties in home directory. Working directory is 
- * taken from System.getProperty("user.dir"). Home directory is 
- * taken from System.getProperty("user.home")
+ * whitch path is set in "properties.path" property. Both files must be in
+ * working or/and home directory. Properties in working directory override
+ * properties in home directory. Working directory is taken from
+ * System.getProperty("user.dir"). Home directory is taken from
+ * System.getProperty("user.home") At last all properties can be oveerided in
+ * "uisteps.local.properties". The rules for it are same with
+ * "uisteps.properties" file
  * <p>
- * Property can be overrided by another using "AS#" construction, 
- * e.g. webdriver.driver = AS#driver
+ * Property can be overrided by another using "AS#" construction, e.g.
+ * webdriver.driver = AS#driver
  * <p>
- * List of properties:
- * <ul>
- * <li>properties.path</li>
- * <li>webdriver.driver</li>
- * <li>webdriver.remote.url</li>
- * <li>webdriver.base.url</li>
- * <li>webdriver.proxy</li>
- * <li>webdriver.timeouts.implicitlywait</li>
- * <li>home.dir</li>
- * <li>screenshots.scale.width</li>
- * <li>screenshots.scale.height</li>
- * <li>base.url.host</li>
- * <li>null.value</li>
- * <li>property.regexp</li>
- * <li>browser.width</li>
- * <li>browser.height</li>
- * </ul>
- * 
+ * @see UIStepsProperty.PROPERTIES_PATH
+ * @see UIStepsProperty.WEBDRIVER_DRIVER
+ * @see UIStepsProperty.WEBDRIVER_REMOTE_URL
+ * @see UIStepsProperty.WEBDRIVER_BASE_URL_HOST
+ * @see UIStepsProperty.WEBDRIVER_BASE_URL_PROTOCOL
+ * @see UIStepsProperty.WEBDRIVER_BASE_URL_USER
+ * @see UIStepsProperty.WEBDRIVER_BASE_URL_PASSWORD
+ * @see UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT
+ * @see UIStepsProperty.HOME_DIR
+ * @see UIStepsProperty.SCREENSHOTS_SCALE_WIDTH
+ * @see UIStepsProperty.SCREENSHOTS_SCALE_HEIGHT
+ * @see UIStepsProperty.BASE_URL_HOST
+ * @see UIStepsProperty.NULL_VALUE
+ * @see UIStepsProperty.PROPERTY_REGEXP
+ * @see UIStepsProperty.BROWSER_WIDTH
+ * @see UIStepsProperty.BROWSER_HEIGHT
+ *
  * @see com.qantium.uisteps.core.properties.UIStepsProperties
- * 
+ *
  * @author A.Solyankin
  */
 public enum UIStepsProperty {
 
     /**
-     * Set "properties.path" to specify in what file properties are set.
-     * Path can be relative or absolute
+     * Set "properties.path" to specify in what file alternative properties are
+     * set. Path can be relative or absolute
      */
     PROPERTIES_PATH {
 
@@ -64,8 +65,8 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "webdriver.driver" to specify with what driver by default 
-     * browser will be opened
+     * Set "webdriver.driver" to specify with what driver by default browser
+     * will be opened
      */
     WEBDRIVER_DRIVER {
 
@@ -75,8 +76,8 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "webdriver.remote.url" to specify url for remote driver 
-     * browser will be opened
+     * Set "webdriver.remote.url" to specify url for remote driver browser will
+     * be opened
      */
     WEBDRIVER_REMOTE_URL {
 
@@ -86,12 +87,53 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "webdriver.remote.url" to specify base url for pages
-     * 
+     * Set "webdriver.base.url.host" to specify base host for pages
+     *
      * @see com.qantium.uisteps.core.browser.pages.BaseUrl
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
-    WEBDRIVER_BASE_URL {
+    WEBDRIVER_BASE_URL_HOST {
+
+                @Override
+                public String getDefault() {
+                    return "";
+                }
+            },
+    /**
+     * Set "webdriver.base.url.protocol" to specify base protocol for page url
+     *
+     * @see com.qantium.uisteps.core.browser.pages.BaseUrl
+     * @see com.qantium.uisteps.core.browser.pages.UrlFactory
+     */
+    WEBDRIVER_BASE_URL_PROTOCOL {
+
+                @Override
+                public String getDefault() {
+                    return "http";
+                }
+            },
+    /**
+     * Set "webdriver.base.url.user" to specify user for basic authorization to
+     * page
+     *
+     * @see com.qantium.uisteps.core.browser.pages.BaseUrl
+     * @see com.qantium.uisteps.core.browser.pages.UrlFactory
+     */
+    WEBDRIVER_BASE_URL_USER {
+
+                @Override
+                public String getDefault() {
+                    return "";
+                }
+            },
+    /**
+     * Set "webdriver.base.url.password" to specify password for basic
+     * authorization to page
+     *
+     * @see com.qantium.uisteps.core.browser.pages.BaseUrl
+     * @see com.qantium.uisteps.core.browser.pages.UrlFactory
+     */
+    WEBDRIVER_BASE_URL_PASSWORD {
 
                 @Override
                 public String getDefault() {
@@ -101,17 +143,17 @@ public enum UIStepsProperty {
     /**
      * Set "webdriver.proxy" to specify ip and port for proxy server
      * <p>
-     * Examples: 
+     * Examples:
      * <ul>
-     * <li>webdriver.proxy = localhost<li> 
+     * <li>webdriver.proxy = localhost<li>
      * <li>webdriver.proxy = localhost:7777</li>
-     * <li>webdriver.proxy = 127.0.0.1:7777</li> 
+     * <li>webdriver.proxy = 127.0.0.1:7777</li>
      * <li>webdriver.proxy = :7777</li>
      * </ul>
-     * 
+     *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
-    WEBDRIVER_PROXY{
+    WEBDRIVER_PROXY {
 
                 @Override
                 public String getDefault() {
@@ -119,7 +161,8 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait timeouts
+     * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait
+     * timeouts
      */
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT {
 
@@ -130,8 +173,9 @@ public enum UIStepsProperty {
             },
     /**
      * Set "home.dir" to specify directory for saved file
-     * 
-     * @see com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String) 
+     *
+     * @see
+     * com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String)
      * @see com.qantium.uisteps.core.storage.Storage
      * @see com.qantium.uisteps.core.storage.Saved
      */
@@ -144,7 +188,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "screenshots.scale.width" to specify scaled width of saved images
-     * 
+     *
      * @see com.qantium.uisteps.core.storage.Storage
      * @see com.qantium.uisteps.core.storage.Saved
      */
@@ -157,7 +201,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "screenshots.scale.height" to specify scaled height of saved images
-     * 
+     *
      * @see com.qantium.uisteps.core.storage.Storage
      * @see com.qantium.uisteps.core.storage.Saved
      */
@@ -170,7 +214,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "base.url.host" to specify string for host part in BaseUrl
-     * 
+     *
      * @see com.qantium.uisteps.core.browser.pages.BaseUrl
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
@@ -193,7 +237,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "property.regexp" to specify regexp for parameters in url
-     * 
+     *
      * @see com.qantium.uisteps.core.browser.pages.BaseUrl
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
@@ -206,7 +250,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "browser.width" to specify width of opened browser
-     * 
+     *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     BROWSER_WIDTH {
@@ -218,7 +262,7 @@ public enum UIStepsProperty {
             },
     /**
      * Set "browser.height" to specify height of opened browser
-     * 
+     *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     BROWSER_HEIGHT {

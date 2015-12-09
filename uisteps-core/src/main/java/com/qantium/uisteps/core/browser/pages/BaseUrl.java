@@ -27,5 +27,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface BaseUrl {
-    String value();
+    String value() default "";
+    String protocol() default "";
+    String host() default "";
+    String user() default "";
+    String password() default "";
+    String[] params() default {};
 }

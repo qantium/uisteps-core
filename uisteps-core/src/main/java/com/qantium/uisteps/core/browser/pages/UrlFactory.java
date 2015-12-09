@@ -17,10 +17,15 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
-import java.net.MalformedURLException;
-import java.util.Arrays;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_BASE_URL_PROTOCOL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -30,107 +35,163 @@ public class UrlFactory {
 
     private final String HOST;
     private final String PARAM_REGEXP;
-    private final String BASE_URL;
+    private final String BASE_HOST;
+    private final String BASE_PROTOCOL;
 
     public UrlFactory() {
         HOST = UIStepsProperties.getProperty(UIStepsProperty.BASE_URL_HOST);
         PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.PROPERTY_REGEXP);
-        BASE_URL = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL);
+        BASE_HOST = UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_BASE_URL_HOST);
+        BASE_PROTOCOL = UIStepsProperties.getProperty(WEBDRIVER_BASE_URL_PROTOCOL);
     }
 
-    public static Url getUrlOf(Class<?> page) {
-        return new UrlFactory().process(new Url(), page);
-    }
-    
     public Url getUrlOf(Page page, String... params) {
-        return processParams(page.getUrl(), params);
+
+        if (page.getUrl() == null) {
+            page.setUrl(getUrlOf(page.getClass(), params));
+        }
+        return page.getUrl();
     }
 
     public Url getUrlOf(Class<? extends Page> page, String... params) {
-        Url url = process(new Url(), page);
-        return processParams(url, params);
+        Url url = new Url();
+        
+        if (!ArrayUtils.isEmpty(params)) {
+            processParams(url, params);
+        }
+        process(url, page);
+
+        if (!ArrayUtils.isEmpty(params)) {
+            processParams(url, UIStepsProperties.getProperties());
+        } 
+        return url;
     }
 
     public boolean isRoot(Class<?> page) {
         return page.isAnnotationPresent(Root.class);
     }
 
-    protected Url process(Url url, Class<?> page) {
+    protected void process(Url url, Class<?> page) {
 
-        if (url.getHost().isEmpty()) {
-            url.setHost(BASE_URL);
-        }
-
-        if (isRoot(page)) {
-            String rootUrl = page.getAnnotation(Root.class).value();
-            if (!rootUrl.isEmpty()) {
-                url.setHost(rootUrl);
-            }
-        }
-
-        if (!isRoot(page) && page != Page.class) {
+        if (!isRoot(page)) {
             process(url, page.getSuperclass());
         }
-
+        
         if (page.isAnnotationPresent(BaseUrl.class)) {
-            String defaultUrl = page.getAnnotation(BaseUrl.class).value();
+            BaseUrl baseUrlAnnotation = page.getAnnotation(BaseUrl.class);
 
-            if (defaultUrl.contains(HOST)) {
-                Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
-                Matcher matcher = pattern.matcher(defaultUrl);
+            String protocol = baseUrlAnnotation.protocol();
+            String host = baseUrlAnnotation.value();
+            String user = baseUrlAnnotation.user();
+            String password = baseUrlAnnotation.password();
+            String urlValue = baseUrlAnnotation.value();
+            String[] urlParams = baseUrlAnnotation.params();
 
-                if (matcher.find()) {
-                    String prefix = matcher.group(1);
-                    String postfix = matcher.group(2);
+            if (!StringUtils.isEmpty(protocol)) {
+                url.setProtocol(protocol);
+            }
 
-                    if (prefix != null) {
-                        url.prependPrefix(prefix);
+            if (!StringUtils.isEmpty(host)) {
+                url.setHost(host);
+            }
+
+            if (!StringUtils.isEmpty(user)) {
+                url.setUser(user);
+            }
+
+            if (!StringUtils.isEmpty(password)) {
+                url.setPassword(user);
+            }
+
+            if (!StringUtils.isEmpty(urlValue)) {
+
+                if (urlValue.contains(HOST)) {
+                    Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
+                    Matcher matcher = pattern.matcher(urlValue);
+
+                    if (matcher.find()) {
+                        String prefix = matcher.group(1);
+                        String postfix = matcher.group(2);
+
+                        if (!StringUtils.isEmpty(prefix)) {
+                            url.prependPrefix(prefix);
+                        }
+
+                        if (!StringUtils.isEmpty(postfix)) {
+                            url.appendPostfix(postfix);
+                        }
                     }
-
-                    if (postfix != null) {
-                        url.appendPostfix(postfix);
-                    }
+                } else {
+                    url.appendPostfix(urlValue);
                 }
-            } else {
-                url.appendPostfix(defaultUrl);
+            }
+
+            if (!ArrayUtils.isEmpty(urlParams)) {
+                processParams(url, urlParams);
             }
         }
-        return url;
+
+        if (StringUtils.isEmpty(url.getHost())) {
+            url.setHost(BASE_HOST);
+        }
+
+        if (StringUtils.isEmpty(url.getProtocol())) {
+            url.setProtocol(BASE_PROTOCOL);
+        }
     }
 
-    protected Url processParams(Url url, String... params) {
-        String urlString = url.toString();
+    protected void processParams(Url url, String... params) {
+        List<String> urlParams = new ArrayList();
+        Map<String, String> paramsMap = new HashMap();
+
+        for (String param : params) {
+            Pattern pattern = Pattern.compile("(.+?)=(.*)");
+            Matcher matcher = pattern.matcher(param);
+
+            if (matcher.matches()) {
+                paramsMap.put(matcher.group(1), matcher.group(2));
+            } else {
+                urlParams.add(param);
+            }
+        }
+        processParams(url, paramsMap, urlParams.toArray(new String[urlParams.size()]));
+    }
+
+    protected void processParams(Url url, Map propeties, String... params) {
         int paramIndex = 0;
 
         Pattern pattern = Pattern.compile(PARAM_REGEXP);
-        Matcher matcher = pattern.matcher(urlString);
+        Matcher matcher = pattern.matcher(url.toString());
 
         while (matcher.find()) {
 
             String key = matcher.group(1);
             String name = matcher.group(2);
-            String value = UIStepsProperties.getProperty(name);
+            String value = propeties.get(name).toString();
 
-            try {
-                if (value == null) {
+            if (value == null) {
+                
+                if(paramIndex < params.length) {
                     value = params[paramIndex];
                     paramIndex++;
+                } else {
+                    continue;
                 }
-                urlString = urlString.replace(key, value);
-            } catch (IndexOutOfBoundsException ex) {
-                throw new RuntimeException("Url " + urlString + " needs more params! Params: " + Arrays.toString(params) + " \nCause:" + ex);
             }
-        }
 
-        if (!url.toString().equals(urlString)) {
+            String prefix = url.getPrefix();
 
-            try {
-                return new Url(urlString);
-            } catch (MalformedURLException ex) {
-                throw new RuntimeException("Cannot create url from string " + urlString + "\nCause:" + ex);
+            if (prefix.contains(key)) {
+                url.setPrefix(prefix.replace(key, value));
+                continue;
             }
-        } else {
-            return url;
+
+            String postfix = url.getPrefix();
+
+            if (postfix.contains(key)) {
+                url.setPostfix(prefix.replace(key, value));
+            }
+
         }
     }
 

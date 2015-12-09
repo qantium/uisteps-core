@@ -32,12 +32,13 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
 import java.util.Map;
+import java.util.Set;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
@@ -189,6 +190,17 @@ public class User implements Named {
         return inOpenedBrowser().open(page, params);
     }
 
+    //Navigation
+    public <T extends User> T goBack() {
+        inOpenedBrowser().goBack();
+        return (T) this;
+    }
+
+    public <T extends User> T goForward() {
+        inOpenedBrowser().goForward();
+        return (T) this;
+    }
+
     //Window
     public <T extends User> T openNewWindow() {
         inOpenedBrowser().openNewWindow();
@@ -303,6 +315,10 @@ public class User implements Named {
     public <T extends User> T deleteCookieNamed(String name) {
         inOpenedBrowser().deleteCookieNamed(name);
         return (T) this;
+    }
+
+    public Set<Cookie> getCookies() {
+        return inOpenedBrowser().getCookies();
     }
 
     //Actions
