@@ -108,7 +108,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         return element.withName(element.getName() + " by index " + index);
     }
 
-    public E gettByAttributeContains(String attribute, String value) {
+    public E getByAttributeContains(String attribute, String value) {
         return get(Find.ATTRIBUTE, How.CONTAINS, attribute, value);
     }
 
@@ -116,7 +116,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         return get(Find.ATTRIBUTE, How.EQUAL, attribute, value);
     }
     
-    public E gettByCSSPropertyContains(String attribute, String value) {
+    public E getByCSSPropertyContains(String attribute, String value) {
         return get(Find.CSS, How.CONTAINS, attribute, value);
     }
 
@@ -160,7 +160,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         return get(Find.TEXT, How.EQUAL, value);
     }
 
-    public E gettByTextContains(String value) {
+    public E getByTextContains(String value) {
         return get(Find.TEXT, How.CONTAINS, value);
     }
 
