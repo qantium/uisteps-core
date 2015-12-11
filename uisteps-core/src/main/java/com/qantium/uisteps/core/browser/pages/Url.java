@@ -60,7 +60,9 @@ public class Url {
 
     public <T extends Url> T setProtocol(String value) {
 
-        if (value != null) {
+        if(StringUtils.isEmpty(value)) {
+            protocol = "";
+        } else {
             protocol = value;
         }
         return (T) this;
@@ -72,7 +74,9 @@ public class Url {
 
     public <T extends Url> T setUser(String value) {
 
-        if (value != null) {
+        if(StringUtils.isEmpty(value)) {
+            user = "";
+        } else {
             user = value;
         }
         return (T) this;
@@ -83,8 +87,10 @@ public class Url {
     }
 
     public <T extends Url> T setPassword(String value) {
-
-        if (value != null) {
+        
+        if(StringUtils.isEmpty(value)) {
+            password = "";
+        } else {
             password = value;
         }
         return (T) this;
@@ -96,7 +102,9 @@ public class Url {
 
     public <T extends Url> T setHost(String value) {
 
-        if (value != null) {
+        if(StringUtils.isEmpty(value)) {
+            host = "";
+        } else {
             host = value;
         }
         return (T) this;
@@ -119,13 +127,15 @@ public class Url {
     }
 
     public <T extends Url> T setPrefix(String value) {
-
-        if (value != null) {
+        
+        if(StringUtils.isEmpty(value)) {
+            prefix = "";
+        } else {
             prefix = value;
         }
         return (T) this;
     }
-
+    
     public <T extends Url> T appendPrefix(String value) {
 
         if (value != null) {
@@ -155,9 +165,11 @@ public class Url {
     }
 
     public <T extends Url> T appendPostfix(String value) {
-
-        if (value != null) {
-            postfix += value;
+        
+        if(StringUtils.isEmpty(value)) {
+            postfix = "";
+        } else {
+            postfix = value;
         }
         return (T) this;
     }

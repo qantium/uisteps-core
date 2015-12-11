@@ -43,7 +43,8 @@ package com.qantium.uisteps.core.properties;
  * @see UIStepsProperty.SCREENSHOTS_SCALE_HEIGHT
  * @see UIStepsProperty.BASE_URL_HOST
  * @see UIStepsProperty.NULL_VALUE
- * @see UIStepsProperty.PROPERTY_REGEXP
+ * @see UIStepsProperty.BASE_URL_PARAM_REGEXP
+ * @see UIStepsProperty.BASE_URL_PARAM_VALUE_REGEXP
  * @see UIStepsProperty.BROWSER_WIDTH
  * @see UIStepsProperty.BROWSER_HEIGHT
  *
@@ -53,6 +54,10 @@ package com.qantium.uisteps.core.properties;
  */
 public enum UIStepsProperty {
 
+    /**
+     * Set "properties.path" to specify in what file alternative properties are
+     * set. Path can be relative or absolute
+     */
     /**
      * Set "properties.path" to specify in what file alternative properties are
      * set. Path can be relative or absolute
@@ -226,7 +231,7 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "base.url.host" to specify string for null values
+     * Set "null.value" to specify string for null values
      */
     NULL_VALUE {
 
@@ -236,16 +241,30 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "property.regexp" to specify regexp for parameters in url
+     * Set "base.url.param.regexp" to specify regexp for parameters in url
      *
      * @see com.qantium.uisteps.core.browser.pages.BaseUrl
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
-    PROPERTY_REGEXP {
+    BASE_URL_PARAM_REGEXP {
 
                 @Override
                 public String getDefault() {
                     return "(\\[(.*?)\\])";
+                }
+            },
+    /**
+     * Set "base.url.param.value.regexp" to specify regexp for key-value
+     * parameters in url
+     *
+     * @see com.qantium.uisteps.core.browser.pages.BaseUrl
+     * @see com.qantium.uisteps.core.browser.pages.UrlFactory
+     */
+    BASE_URL_PARAM_VALUE_REGEXP {
+
+                @Override
+                public String getDefault() {
+                    return "(.+?)=(.*)";
                 }
             },
     /**

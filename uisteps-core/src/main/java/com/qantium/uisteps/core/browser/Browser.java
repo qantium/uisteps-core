@@ -38,9 +38,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
@@ -178,7 +181,8 @@ public class Browser {
     }
 
     public <T extends Page> T open(T page, String... params) {
-        page.setUrl(getUrlFactory().getUrlOf(page, params));
+        Url url = getUrlFactory().getUrlOf(page, params);
+        page.setUrl(url);
         populate(page);
         return open(page);
     }
