@@ -30,7 +30,7 @@ import org.openqa.selenium.WebElement;
  * Contains elemnets of one type
  *
  * @author A.Solyankin
- * @param <E>
+ * @param <E> specifies the type of elements
  */
 public class UIElements<E extends UIElement> extends UIElement {
 

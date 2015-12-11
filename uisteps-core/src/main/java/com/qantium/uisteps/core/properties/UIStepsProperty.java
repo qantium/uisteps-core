@@ -30,23 +30,26 @@ package com.qantium.uisteps.core.properties;
  * Property can be overrided by another using "AS#" construction, e.g.
  * webdriver.driver = AS#driver
  * <p>
- * @see UIStepsProperty.PROPERTIES_PATH
- * @see UIStepsProperty.WEBDRIVER_DRIVER
- * @see UIStepsProperty.WEBDRIVER_REMOTE_URL
- * @see UIStepsProperty.WEBDRIVER_BASE_URL_HOST
- * @see UIStepsProperty.WEBDRIVER_BASE_URL_PROTOCOL
- * @see UIStepsProperty.WEBDRIVER_BASE_URL_USER
- * @see UIStepsProperty.WEBDRIVER_BASE_URL_PASSWORD
- * @see UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT
- * @see UIStepsProperty.HOME_DIR
- * @see UIStepsProperty.SCREENSHOTS_SCALE_WIDTH
- * @see UIStepsProperty.SCREENSHOTS_SCALE_HEIGHT
- * @see UIStepsProperty.BASE_URL_HOST
- * @see UIStepsProperty.NULL_VALUE
- * @see UIStepsProperty.BASE_URL_PARAM_REGEXP
- * @see UIStepsProperty.BASE_URL_PARAM_VALUE_REGEXP
- * @see UIStepsProperty.BROWSER_WIDTH
- * @see UIStepsProperty.BROWSER_HEIGHT
+ * List of properties:
+ * <ul>
+ * <li>properties.path</li>
+ * <li>webdriver.driver</li>
+ * <li>webdriver.remote.url</li>
+ * <li>webdriver.base.url.host</li>
+ * <li>webdriver.base.url.protocol</li>
+ * <li>webdriver.base.url.user</li>
+ * <li>webdriver.base.url.password</li>
+ * <li>webdriver.timeouts.implicitlywait</li>
+ * <li>home.dir</li>
+ * <li>screenshots.scale.width</li>
+ * <li>screenshots.scale.height</li>
+ * <li>base.url.host</li>
+ * <li>null.value</li>
+ * <li>base.url.param.regexp</li>
+ * <li>base.url.param.value.regexp</li>
+ * <li>browser.width</li>
+ * <li>browser.height</li>
+ * </ul>
  *
  * @see com.qantium.uisteps.core.properties.UIStepsProperties
  *

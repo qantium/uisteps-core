@@ -28,7 +28,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     /**
      * Internal method
      * 
-     * @param wrappedElement
+     * @param wrappedElement WebElement that will be wrapped
      * @throws IllegalStateException if wrappedElement is already set
      */
     public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
@@ -59,7 +59,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     /**
      * Internal method
      * 
-     * @param context
+     * @param context can be a page or another element
      * @throws IllegalStateException if context is already set
      */
     public void setContext(UIObject context) {
@@ -81,7 +81,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     /**
      * Internal method
      * 
-     * @param locator
+     * @param locator for elemnt search
      * @throws IllegalStateException if locator is already set
      */
     public void setLocator(By locator) {

@@ -22,7 +22,7 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 /**
  *
  * @author A.Solyankin
- * @param <U>
+ * @param <U> specifies the type of user
  */
 public class BaseUserTest<U extends User> extends JUnitTest {
 

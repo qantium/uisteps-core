@@ -21,7 +21,7 @@ import com.qantium.uisteps.core.browser.pages.UIObject;
 /**
  *
  * @author ASolyankin
- * @param <T>
+ * @param <T> specifies the type of uiobject
  */
 public class OnDisplayedAction<T extends UIObject> extends Action {
 

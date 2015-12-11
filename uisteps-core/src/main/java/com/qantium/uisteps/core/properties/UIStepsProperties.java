@@ -111,7 +111,7 @@ public class UIStepsProperties {
     /**
      * Get property by key,
      *
-     * @param key
+     * @param key specifes the key of property
      * @return the string value if there is no property with that key.
      */
     public static String getProperty(String key) {
@@ -119,9 +119,9 @@ public class UIStepsProperties {
     }
 
     /**
-     * Gets the property indicated by the specified key
+     * Get the property
      *
-     * @param property
+     * @param property specifes property
      * @return the string value of the property, or null if there is no property
      * with that key.
      */

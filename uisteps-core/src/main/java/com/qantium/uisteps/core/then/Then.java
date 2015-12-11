@@ -18,7 +18,7 @@ package com.qantium.uisteps.core.then;
 /**
  *
  * @author ASolyankin
- * @param <T>
+ * @param <T> specifies the type of action
  */
 public class Then<T> {
     
