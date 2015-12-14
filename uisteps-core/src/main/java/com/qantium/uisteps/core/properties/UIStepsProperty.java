@@ -40,6 +40,10 @@ package com.qantium.uisteps.core.properties;
  * <li>webdriver.base.url.user</li>
  * <li>webdriver.base.url.password</li>
  * <li>webdriver.timeouts.implicitlywait</li>
+ * <li>webdriver.proxy = localhost<li>
+ * <li>webdriver.proxy = localhost:7777</li>
+ * <li>webdriver.proxy = 127.0.0.1:7777</li>
+ * <li>webdriver.proxy = :7777</li>
  * <li>home.dir</li>
  * <li>screenshots.scale.width</li>
  * <li>screenshots.scale.height</li>
@@ -77,7 +81,6 @@ public enum UIStepsProperty {
      * will be opened
      */
     WEBDRIVER_DRIVER {
-
                 @Override
                 public String getDefault() {
                     return "firefox";

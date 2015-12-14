@@ -482,12 +482,12 @@ public class User implements Named {
         return inOpenedBrowser().onDisplayed(uiObject, by);
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, UIObject context) {
-        return inOpenedBrowser().onDisplayed(uiObject, context);
+    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayed(context, uiObject);
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
-        return inOpenedBrowser().onDisplayed(uiObject, by, context);
+    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayed(context, uiObject, by);
     }
 
     public <T extends UIObject> T onDisplayed(T uiObject) {
@@ -502,12 +502,12 @@ public class User implements Named {
         return inOpenedBrowser().onDisplayedAll(uiObject, by);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, UIObject context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, context);
+    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayedAll(context, uiObject);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, UIObject context) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by, context);
+    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By by) {
+        return inOpenedBrowser().onDisplayedAll(context, uiObject, by);
     }
 
     //take screenshot

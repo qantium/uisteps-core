@@ -100,35 +100,35 @@ public abstract class AbstractUIObject implements UIObject {
         if (Page.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().onDisplayed(uiObject);
         } else {
-            return (T) inOpenedBrowser().onDisplayed((Class<UIElement>) uiObject, this);
+            return (T) inOpenedBrowser().onDisplayed(this,(Class<UIElement>) uiObject);
         }
     }
 
     public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, by, this);
+        return inOpenedBrowser().onDisplayed(this, uiObject, by);
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, this);
+        return inOpenedBrowser().onDisplayedAll(this, uiObject);
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by, this);
+        return inOpenedBrowser().onDisplayedAll(this, uiObject, by);
     }
 
     public <T extends UIElement> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(uiObject, this);
+        return inOpenedBrowser().find(this, uiObject);
     }
 
     public <T extends UIElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(uiObject, by, this);
+        return inOpenedBrowser().find(this, uiObject, by);
     }
 
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(uiObject, this);
+        return inOpenedBrowser().findAll(this, uiObject);
     }
 
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(uiObject, by, this);
+        return inOpenedBrowser().findAll(this, uiObject, by);
     }
 }

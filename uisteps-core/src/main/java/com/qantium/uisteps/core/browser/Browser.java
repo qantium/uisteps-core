@@ -38,12 +38,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import net.lightbody.bmp.BrowserMobProxyServer;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
@@ -106,11 +103,11 @@ public class Browser {
         if (driver == null) {
             throw new NullPointerException("Driver must be set to get photographer");
         }
-        
-        if(photographer == null) {
+
+        if (photographer == null) {
             photographer = new Photographer(driver);
         }
-        
+
         return photographer;
     }
 
@@ -134,13 +131,13 @@ public class Browser {
         if (driver != null) {
             driver.quit();
         }
-        
+
         if (proxy != null) {
             proxy.stop();
         }
     }
 
-    public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context, WebElement wrappedElement) {
+    public <T extends UIElement> T displayed(UIObject context, Class<T> uiObject, By locator, WebElement wrappedElement) {
         T uiObjectInstance = instatiate(uiObject);
         uiObjectInstance.setLocator(locator);
         uiObjectInstance.setContext(context);
@@ -148,8 +145,8 @@ public class Browser {
         return populate(uiObjectInstance);
     }
 
-    public <T extends UIElement> T displayed(Class<T> uiObject, By locator, UIObject context) {
-        return displayed(uiObject, locator, context, null);
+    public <T extends UIElement> T displayed(UIObject context, Class<T> uiObject, By locator) {
+        return displayed(context, uiObject, locator, null);
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
@@ -259,11 +256,11 @@ public class Browser {
     public void goBack() {
         getDriver().navigate().back();
     }
-    
+
     public void goForward() {
         getDriver().navigate().forward();
     }
-    
+
     //Window size
     public Dimension getWindowSize() {
         return getDriver().manage().window().getSize();
@@ -321,7 +318,7 @@ public class Browser {
     public Set<Cookie> getCookies() {
         return getDriver().manage().getCookies();
     }
-    
+
     public Actions getActions() {
         return new Actions(getDriver());
     }
@@ -448,11 +445,11 @@ public class Browser {
     public String getTagNameOf(WrapsElement element) {
         return element.getWrappedElement().getTagName();
     }
-    
+
     public String getAttribute(WrapsElement element, String attribute) {
         return element.getWrappedElement().getAttribute(attribute);
     }
-    
+
     public String getCSSPropertyOf(WrapsElement element, String cssProperty) {
         return element.getWrappedElement().getCssValue(cssProperty);
     }
@@ -733,16 +730,17 @@ public class Browser {
     }
 
     public <T extends UIElement> T find(Class<T> uiObject, By locator) {
-        return find(uiObject, locator, null);
+        return displayed(null, uiObject, locator);
     }
 
-    public <T extends UIElement> T find(Class<T> uiObject, UIObject context) {
-        return find(uiObject, null, context);
+    public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
+        return find(context, uiObject, null);
     }
 
-    public <T extends UIElement> T find(Class<T> uiObject, By locator, UIObject context) {
-        return displayed(uiObject, locator, context);
+    public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
+        return displayed(context, uiObject, locator);
     }
+
 
     //find all
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
@@ -750,14 +748,14 @@ public class Browser {
     }
 
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By locator) {
-        return findAll(uiObject, locator, null);
+        return findAll(null, uiObject, locator);
     }
 
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, UIObject context) {
-        return findAll(uiObject, null, context);
+    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject) {
+        return findAll(context, uiObject, null);
     }
 
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By locator, UIObject context) {
+    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject, By locator) {
         UIElements<T> uiElements = new UIElements(uiObject);
         uiElements.setLocator(locator);
         uiElements.setContext(context);
@@ -788,12 +786,12 @@ public class Browser {
         return onDisplayed(find(uiObject, by));
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, UIObject context) {
-        return onDisplayed(find(uiObject, context));
+    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
+        return onDisplayed(find(context, uiObject));
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by, UIObject context) {
-        return onDisplayed(find(uiObject, by, context));
+    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By by) {
+        return onDisplayed(find(context, uiObject, by));
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
@@ -804,12 +802,12 @@ public class Browser {
         return onDisplayed(findAll(uiObject, by));
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, UIObject context) {
-        return onDisplayed(findAll(uiObject, context));
+    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject) {
+        return onDisplayed(findAll(context, uiObject));
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by, UIObject context) {
-        return onDisplayed(findAll(uiObject, by, context));
+    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By by) {
+        return onDisplayed(findAll(context, uiObject, by));
     }
 
     //Screenshots

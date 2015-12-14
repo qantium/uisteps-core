@@ -67,15 +67,26 @@ public class UIStepsProperties {
             }
             load(PROPERTIES_LOCAL_FILE_NAME, properties);
 
+            Properties sysProperties = System.getProperties();
+            
+            for (String sysProperty : sysProperties.stringPropertyNames()) {
+                properties.setProperty(sysProperty, sysProperties.getProperty(sysProperty));
+            }
+
             for (String propertyName : properties.stringPropertyNames()) {
                 String property = properties.getProperty(propertyName);
 
                 if (property.startsWith(AS)) {
                     String fromProperty = properties.getProperty(property.replace(AS, ""));
+                    
+                    if(fromProperty == null) {
+                        throw new RuntimeException("Cannot find property " + property + " for setting to " + propertyName + "!");
+                    }
                     properties.setProperty(propertyName, fromProperty);
                 }
             }
-
+            
+            
         }
         return properties;
     }
@@ -136,7 +147,7 @@ public class UIStepsProperties {
      * uisteps property files
      */
     private static Properties getDefaults() {
-        Properties defaults = new Properties(System.getProperties());
+        Properties defaults = new Properties();
 
         for (UIStepsProperty property : UIStepsProperty.values()) {
             defaults.setProperty(property.toString(), property.getDefault());

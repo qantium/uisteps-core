@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 
@@ -38,7 +37,7 @@ public class Proxy {
         private Integer port = null;
 
         public ProxyBuilder setIp(String ip) {
-            
+
             try {
                 if ("localhost".equals(ip) || "127.0.0.1".equals(ip)) {
                     this.ip = InetAddress.getLocalHost();
@@ -66,16 +65,19 @@ public class Proxy {
         this.port = port;
         mobProxy = new BrowserMobProxyServer();
     }
-    
+
     public org.openqa.selenium.Proxy start() {
-        
-        if(seleniumProxy == null) {
-            if (ip != null && port != null) {
-                mobProxy.start(port, this.ip);
-            } else if (port != null) {
-                mobProxy.start(port);
-            } else {
-                mobProxy.start();
+
+        if (seleniumProxy == null) {
+
+            if (!mobProxy.isStarted()) {
+                if (ip != null && port != null) {
+                    mobProxy.start(port, this.ip);
+                } else if (port != null) {
+                    mobProxy.start(port);
+                } else {
+                    mobProxy.start();
+                }
             }
             mobProxy.newHar();
             seleniumProxy = ClientUtil.createSeleniumProxy(mobProxy);

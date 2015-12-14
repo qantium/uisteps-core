@@ -97,7 +97,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         List<WebElement> webElements = getSearchContext().findElements(getLocator());
 
         for (WebElement element : webElements) {
-            E uiElement = inOpenedBrowser().displayed(getElementType(), getLocator(), getContext(), element);
+            E uiElement = inOpenedBrowser().displayed(getContext(), getElementType(), getLocator(), element);
             elements.add(uiElement);
         }
         return elements;
@@ -115,7 +115,7 @@ public class UIElements<E extends UIElement> extends UIElement {
     public E getByAttribute(String attribute, String value) {
         return get(Find.ATTRIBUTE, How.EQUAL, attribute, value);
     }
-    
+
     public E getByCSSPropertyContains(String attribute, String value) {
         return get(Find.CSS, How.CONTAINS, attribute, value);
     }
