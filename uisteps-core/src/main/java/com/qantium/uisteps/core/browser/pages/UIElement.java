@@ -146,11 +146,10 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
-
         try {
             WebElement element = getWrappedElement();
-            int waitInSeconds = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)) / 1000;
-            WebDriverWait wait = new WebDriverWait(inOpenedBrowser().getDriver(), waitInSeconds);
+            long timeOutInSeconds = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)) / 1000;
+            WebDriverWait wait = new WebDriverWait(inOpenedBrowser().getDriver(), timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(element));
             return element.isDisplayed();
         } catch (Exception ex) {

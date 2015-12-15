@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.pages.ElementaryElement;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.browser.pages.Page;
@@ -34,12 +35,15 @@ import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -50,9 +54,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
@@ -184,8 +192,29 @@ public class Browser {
         return open(page);
     }
 
+    public void waitUntilIsDisplayed(UIObject uiObject) {
+        IsDisplayedWait wait = new IsDisplayedWait(uiObject);
+        long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+        wait.withTimeout(timeout, TimeUnit.MILLISECONDS);
+        wait.until(new Function<UIObject, Boolean>() {
+
+            @Override
+            public Boolean apply(UIObject uiObject) {
+                return uiObject.isDisplayed();
+            }
+        });
+    }
+
+    protected class IsDisplayedWait extends FluentWait<UIObject> {
+
+        public IsDisplayedWait(UIObject uiObject) {
+            super(uiObject);
+        }
+    }
+
     protected <T extends Page> T open(T page) {
         getDriver().get(page.getUrl().toString());
+        waitUntilIsDisplayed(page);
         return page;
     }
 
@@ -740,7 +769,6 @@ public class Browser {
     public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
         return displayed(context, uiObject, locator);
     }
-
 
     //find all
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {

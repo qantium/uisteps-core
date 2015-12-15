@@ -127,7 +127,7 @@ public class UrlFactory {
                 paramName = matcher.group(1);
                 paramValue = matcher.group(2);
             } else {
-                throw new IllegalArgumentException("Parameter " + param + " has illegal format!");
+                throw new IllegalArgumentException("Parameter " + param + " has illegal format! Must be name=value");
             }
             params.put(paramName, paramValue);
         }
