@@ -71,7 +71,9 @@ public class UIElements<E extends UIElement> extends UIElement {
 
         while (iterator.hasNext()) {
 
-            if (!iterator.next().isDisplayed()) {
+            try {
+                inOpenedBrowser().waitUntilIsDisplayed(iterator.next());
+            } catch (Exception ex) {
                 return false;
             }
         }

@@ -534,4 +534,9 @@ public class User implements Named {
     public Screenshot takeScreenshot(Ignored... elements) {
         return inOpenedBrowser().takeScreenshot(elements);
     }
+    
+    public <T extends User> T waitUntilIsDisplayed(UIObject uiObject) {
+        inOpenedBrowser().waitUntilIsDisplayed(uiObject);
+        return (T) this;
+    }
 }

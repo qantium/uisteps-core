@@ -40,6 +40,7 @@ package com.qantium.uisteps.core.properties;
  * <li>webdriver.base.url.user</li>
  * <li>webdriver.base.url.password</li>
  * <li>webdriver.timeouts.implicitlywait</li>
+ * <li>webdriver.timeouts.polling</li>
  * <li>webdriver.proxy = localhost<li>
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
@@ -172,7 +173,7 @@ public enum UIStepsProperty {
                 }
             },
     /**
-     * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait
+     * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait in milliseconds
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT {
@@ -180,6 +181,17 @@ public enum UIStepsProperty {
                 @Override
                 public String getDefault() {
                     return "3000";
+                }
+            },
+    /**
+     * Set "webdriver.timeouts.polling" to specify polling time in milliseconds for implicitly wait
+     * timeouts
+     */
+    WEBDRIVER_TIMEOUTS_POLLING {
+
+                @Override
+                public String getDefault() {
+                    return "250";
                 }
             },
     /**

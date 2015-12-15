@@ -193,22 +193,21 @@ public class Browser {
     }
 
     public void waitUntilIsDisplayed(UIObject uiObject) {
-        IsDisplayedWait wait = new IsDisplayedWait(uiObject);
-        long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-        wait.withTimeout(timeout, TimeUnit.MILLISECONDS);
-        wait.until(new Function<UIObject, Boolean>() {
+        
+        try {
+            IsDisplayedWait wait = new IsDisplayedWait(uiObject);
+            long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+            long pollingTime = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING));
+            wait.withTimeout(timeout, TimeUnit.MILLISECONDS).pollingEvery(pollingTime, TimeUnit.MILLISECONDS);
+            wait.until(new Function<UIObject, Boolean>() {
 
-            @Override
-            public Boolean apply(UIObject uiObject) {
-                return uiObject.isDisplayed();
-            }
-        });
-    }
-
-    protected class IsDisplayedWait extends FluentWait<UIObject> {
-
-        public IsDisplayedWait(UIObject uiObject) {
-            super(uiObject);
+                @Override
+                public Boolean apply(UIObject uiObject) {
+                    return uiObject.isDisplayed();
+                }
+            });
+        } catch (Exception ex) {
+            throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
         }
     }
 

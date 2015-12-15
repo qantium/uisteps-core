@@ -1,8 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.screenshots.Screenshot;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
 import java.util.List;
 import java.util.Objects;
 import org.openqa.selenium.By;
@@ -12,8 +10,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -146,15 +142,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
-        try {
-            WebElement element = getWrappedElement();
-            long timeOutInSeconds = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)) / 1000;
-            WebDriverWait wait = new WebDriverWait(inOpenedBrowser().getDriver(), timeOutInSeconds);
-            wait.until(ExpectedConditions.visibilityOf(element));
-            return element.isDisplayed();
-        } catch (Exception ex) {
-            return false;
-        }
+        return getWrappedElement().isDisplayed();
     }
 
     @Override

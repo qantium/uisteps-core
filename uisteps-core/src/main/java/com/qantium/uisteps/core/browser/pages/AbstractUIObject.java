@@ -100,7 +100,7 @@ public abstract class AbstractUIObject implements UIObject {
         if (Page.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().onDisplayed(uiObject);
         } else {
-            return (T) inOpenedBrowser().onDisplayed(this,(Class<UIElement>) uiObject);
+            return (T) inOpenedBrowser().onDisplayed(this, (Class<UIElement>) uiObject);
         }
     }
 
@@ -130,5 +130,13 @@ public abstract class AbstractUIObject implements UIObject {
 
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(this, uiObject, by);
+    }
+
+    public void waitUntilIsDisplayed(UIObject uiObject) {
+        inOpenedBrowser().waitUntilIsDisplayed(uiObject);
+    }
+
+    public void waitUntilIsDisplayed() {
+        waitUntilIsDisplayed(this);
     }
 }
