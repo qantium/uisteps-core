@@ -16,14 +16,8 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.then.Then;
-import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIElements;
-import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.browser.pages.Url;
-import com.qantium.uisteps.core.browser.pages.UrlFactory;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
 import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
@@ -37,6 +31,7 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -44,27 +39,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
- *
  * @author ASolyankin
  */
 public class Browser {
@@ -145,23 +129,16 @@ public class Browser {
         }
     }
 
-    public <T extends UIElement> T displayed(UIObject context, Class<T> uiObject, By locator, WebElement wrappedElement) {
-        T uiObjectInstance = instatiate(uiObject);
-        uiObjectInstance.setLocator(locator);
-        uiObjectInstance.setContext(context);
-        uiObjectInstance.setWrappedElement(wrappedElement);
-        return populate(uiObjectInstance);
-    }
-
     public <T extends UIElement> T displayed(UIObject context, Class<T> uiObject, By locator) {
-        return displayed(context, uiObject, locator, null);
+        return init(instatiate(uiObject), context, locator);
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
-        return populate(instatiate(uiObject));
+        return init(instatiate(uiObject), null, null);
     }
 
     public Page openUrl(String url, String... params) {
+
         try {
             return open(new Url(url), params);
         } catch (MalformedURLException ex) {
@@ -178,7 +155,8 @@ public class Browser {
     }
 
     public <T extends Page> T open(T page, Url url, String... params) {
-        return open(page.setUrl(url), params);
+        page.setUrl(url);
+        return open(page, params);
     }
 
     public <T extends Page> T open(Class<T> page, String... params) {
@@ -188,12 +166,16 @@ public class Browser {
     public <T extends Page> T open(T page, String... params) {
         Url url = getUrlFactory().getUrlOf(page, params);
         page.setUrl(url);
-        populate(page);
-        return open(page);
+        return openPage(page);
+    }
+
+    protected <T extends Page> T openPage(T page) {
+        getDriver().get(page.getUrl().toString());
+        init(page, null, null);
+        return page;
     }
 
     public void waitUntilIsDisplayed(UIObject uiObject) {
-        
         try {
             IsDisplayedWait wait = new IsDisplayedWait(uiObject);
             long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
@@ -209,12 +191,6 @@ public class Browser {
         } catch (Exception ex) {
             throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
         }
-    }
-
-    protected <T extends Page> T open(T page) {
-        getDriver().get(page.getUrl().toString());
-        waitUntilIsDisplayed(page);
-        return page;
     }
 
     public String getCurrentUrl() {
@@ -263,7 +239,6 @@ public class Browser {
 
     public void setWindowPosition(int newX, int newY) {
         getDriver().manage().window().setPosition(new Point(newX, newY));
-
     }
 
     public void moveWindowBy(int xOffset, int yOffset) {
@@ -277,7 +252,6 @@ public class Browser {
 
     public void maximizeWindow() {
         getDriver().manage().window().maximize();
-
     }
 
     //Navigation
@@ -330,12 +304,10 @@ public class Browser {
 
     public void refreshPage() {
         getDriver().navigate().refresh();
-
     }
 
     public void deleteAllCookies() {
         getDriver().manage().deleteAllCookies();
-
     }
 
     public void deleteCookieNamed(String name) {
@@ -354,27 +326,22 @@ public class Browser {
     //Elements
     public void click() {
         getActions().click().perform();
-
     }
 
     public void clickAndHold() {
         getActions().clickAndHold().perform();
-
     }
 
     public void clickAndHold(WrapsElement element) {
         getActions().clickAndHold(element.getWrappedElement()).perform();
-
     }
 
     public void doubleClick() {
         getActions().doubleClick().perform();
-
     }
 
     public void doubleClick(WrapsElement element) {
         getActions().doubleClick(element.getWrappedElement()).perform();
-
     }
 
     public void contextClick() {
@@ -395,22 +362,18 @@ public class Browser {
 
     public void dragAndDrop(WrapsElement source, WrapsElement target) {
         getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
-
     }
 
     public void dragAndDrop(WrapsElement element, int xOffset, int yOffset) {
         getActions().dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform();
-
     }
 
     public void keyDown(Keys theKey) {
         getActions().keyDown(theKey).perform();
-
     }
 
     public void keyDown(WrapsElement element, Keys theKey) {
         getActions().keyDown(element.getWrappedElement(), theKey).perform();
-
     }
 
     public void keyUp(Keys theKey) {
@@ -419,54 +382,46 @@ public class Browser {
 
     public void keyUp(WrapsElement element, Keys theKey) {
         getActions().keyUp(element.getWrappedElement(), theKey).perform();
-
     }
 
     public void click(WrapsElement element) {
         WebElement webElement = element.getWrappedElement();
         String attrTarget = webElement.getAttribute("target");
-
-        getActions().click(webElement).perform();
+        webElement.click();
 
         if (attrTarget != null && !attrTarget.equals("") && !attrTarget.equals("_self")) {
             switchToNextWindow();
         }
-
     }
 
     public void clickOnPoint(WrapsElement element, int x, int y) {
         getActions().moveToElement(element.getWrappedElement(), x, y).click().build().perform();
-
     }
 
     public void moveMouseByOffset(int xOffset, int yOffset) {
         getActions().moveByOffset(xOffset, yOffset).perform();
-
     }
 
     public void moveToElement(WrapsElement element, int xOffset, int yOffset) {
         getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
-
     }
 
     public void moveMouseOver(WrapsElement element) {
-        getActions().moveToElement(element.getWrappedElement()).build().perform();
-
+        getActions().moveToElement(element.getWrappedElement()).perform();
     }
 
     public void typeInto(WrapsElement input, String text) {
-        getActions().sendKeys(input.getWrappedElement(), text).perform();
-
+        input.getWrappedElement().sendKeys(text);
     }
 
     public void clear(WrapsElement input) {
         input.getWrappedElement().clear();
-
     }
 
     public void enterInto(WrapsElement input, String text) {
-        getActions().sendKeys(input.getWrappedElement(), text).perform();
-
+        WebElement webElement = input.getWrappedElement();
+        webElement.clear();
+        webElement.sendKeys(text);
     }
 
     //Tags
@@ -686,49 +641,53 @@ public class Browser {
     public <T extends UIObject> T instatiate(Class<T> uiObject) {
 
         try {
-            return (T) ConstructorUtils.invokeConstructor(uiObject, new Object[0]);
+            return ConstructorUtils.invokeConstructor(uiObject);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
         }
     }
 
-    public <T extends UIObject> T populate(T uiObject) {
+    private boolean isInitedByThisBrowser(UIObject uiObject) {
+        return this.equals(uiObject.inOpenedBrowser());
+    }
 
-        if (uiObject.isPopulatedBy(this)) {
+    public <T extends UIObject> T init(T uiObject, UIObject context, By locator) {
+
+
+        if (isInitedByThisBrowser(uiObject)) {
             return uiObject;
         }
 
         if (uiObject instanceof UIElement) {
             UIElement uiElement = (UIElement) uiObject;
 
-            if (uiElement.getLocator() == null) {
-                By locator = getLocatorFactory().getLocator(uiElement);
-                uiElement.setLocator(locator);
+            if (locator == null) {
+                locator = getLocatorFactory().getLocator(uiElement);
             }
+
+            if(context == null) {
+
+                uiObject.getClass().getAnnotation(Context.class);
+            }
+
+            uiElement.setContext(context);
+            uiElement.setLocator(locator);
         }
 
         for (Field field : getUIObjectFields(uiObject)) {
-            Class<?> fieldType = field.getType();
 
             try {
-                UIElement uiElement = instatiate((Class<UIElement>) fieldType);
-                By locator = getLocatorFactory().getLocator(field);
-                uiElement.setLocator(locator);
-                uiElement.setContext(uiObject);
+                UIElement uiElement = instatiate((Class<UIElement>) field.getType());
                 uiElement.setName(NameConvertor.humanize(field));
                 field.set(uiObject, uiElement);
-
-                if (uiElement instanceof ElementaryElement) {
-                    uiElement.setBrowser(this);
-                } else {
-                    populate(uiElement);
-                }
+                init(uiElement, uiObject, getLocatorFactory().getLocator(field));
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 throw new RuntimeException(ex);
             }
 
         }
         uiObject.setBrowser(this);
+        uiObject.afterInitialization();
         return uiObject;
     }
 
@@ -737,7 +696,8 @@ public class Browser {
     }
 
     private List<Field> getUIObjectFields(Class<?> uiObject, List<Field> fields) {
-        if (!UIObject.class.isAssignableFrom(uiObject) || uiObject == Page.class || uiObject == UIElements.class || ElementaryElement.class.isAssignableFrom(uiObject)) {
+
+        if (!UIObject.class.isAssignableFrom(uiObject) || uiObject == Page.class  || uiObject == UIElement.class || uiObject == UIElements.class || ElementaryElement.class.isAssignableFrom(uiObject)) {
             return fields;
         }
 
@@ -791,12 +751,11 @@ public class Browser {
 
     //onDisplayed
     public <T extends UIObject> T onDisplayed(T uiObject) {
-        return populate(uiObject);
+        return init(uiObject, null, null);
     }
 
     public <T extends UIElement> T onDisplayed(T uiObject, UIObject context) {
-        uiObject.setContext(context);
-        return onDisplayed(uiObject);
+        return init(uiObject, context, null);
     }
 
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
@@ -804,7 +763,6 @@ public class Browser {
         if (UIElement.class.isAssignableFrom(uiObject)) {
             return onDisplayed((T) find((Class<UIElement>) uiObject));
         } else {
-            T page = instatiate(uiObject);
             return onDisplayed(instatiate(uiObject));
         }
     }

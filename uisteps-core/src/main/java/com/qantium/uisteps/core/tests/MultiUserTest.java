@@ -22,16 +22,16 @@ import com.qantium.uisteps.core.user.UserFactory;
  *
  * @author ASolyankin
  */
-public class MultiUserTest extends JUnitTest {
+public class MultiUserTest extends BaseTest {
 
     public final UserFactory users;
 
-    public MultiUserTest() {
-        this(new JUnitListener());
+    public MultiUserTest(UserFactory users) {
+        this.users = users;
     }
 
-    public MultiUserTest(JUnitListener listener) {
-        this.users = new UserFactory();
+    public MultiUserTest() {
+        this(new UserFactory());
     }
 
     public User by(String user) {

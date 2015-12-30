@@ -337,12 +337,14 @@ public class User implements Named {
         return (T) this;
     }
 
-    public void contextClick() {
+    public  <T extends User> T contextClick() {
         inOpenedBrowser().contextClick();
+        return (T) this;
     }
 
-    public void releaseMouse() {
+    public  <T extends User> T releaseMouse() {
         inOpenedBrowser().releaseMouse();
+        return (T) this;
     }
 
     public <T extends User> T keyDown(Keys theKey) {

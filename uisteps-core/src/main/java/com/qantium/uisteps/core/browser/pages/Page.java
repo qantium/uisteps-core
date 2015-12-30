@@ -70,11 +70,6 @@ public class Page extends AbstractUIObject {
     }
 
     @Override
-    public SearchContext getSearchContext() {
-        return inOpenedBrowser().getDriver();
-    }
-
-    @Override
     public List<WebElement> findElements(By by) {
         return inOpenedBrowser().getDriver().findElements(by);
     }
@@ -98,4 +93,8 @@ public class Page extends AbstractUIObject {
         return inOpenedBrowser().takeScreenshot(elements);
     }
 
+    @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
+    }
 }

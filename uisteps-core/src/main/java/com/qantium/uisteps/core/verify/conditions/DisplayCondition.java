@@ -22,7 +22,6 @@ import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.storage.Saved;
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
 import org.eclipse.aether.util.StringUtils;
@@ -100,7 +99,6 @@ public class DisplayCondition extends ConditionBuilder {
     }
 
     public Condition see(String description, UIObject obj) {
-        browser.populate(obj);
         return see(description, isDisplayed(obj), quoted(obj), quoted(obj));
     }
 

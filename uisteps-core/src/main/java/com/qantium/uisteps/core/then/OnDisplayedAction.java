@@ -35,7 +35,7 @@ public class OnDisplayedAction<T extends UIObject> extends Action {
 
     @Override
     public T execute() {
-        return (T) browser.onDisplayed(uiObject);
+        return browser.onDisplayed(uiObject);
 
     }
 

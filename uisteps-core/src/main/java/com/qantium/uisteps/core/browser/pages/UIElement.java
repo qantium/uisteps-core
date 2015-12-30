@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -39,15 +38,12 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public WebElement getWrappedElement() {
 
         if (wrappedElement == null) {
-            SearchContext searchContext;
 
-            if (getContext() != null) {
-                searchContext = getContext().getSearchContext();
+            if(getContext() == null) {
+                wrappedElement = inOpenedBrowser().getDriver().findElement(getLocator());
             } else {
-                searchContext = inOpenedBrowser().getDriver();
+                wrappedElement = getContext().findElement(getLocator());
             }
-
-            wrappedElement = searchContext.findElement(getLocator());
         }
         return wrappedElement;
     }
@@ -67,6 +63,11 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     }
 
     public UIObject getContext() {
+
+        if(context == null && this.getClass().isAnnotationPresent(Context.class)) {
+
+
+        }
         return context;
     }
 
@@ -86,11 +87,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
             throw new IllegalStateException("Locator is already set to " + this);
         }
         this.locator = locator;
-    }
-
-    @Override
-    public SearchContext getSearchContext() {
-        return getWrappedElement();
     }
 
     @Override
@@ -142,7 +138,12 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
-        return getWrappedElement().isDisplayed();
+
+        try {
+            return getWrappedElement().isDisplayed();
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     @Override
@@ -158,11 +159,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
         final UIElement other = (UIElement) obj;
 
-        if (!Objects.equals(this.locator, other.locator)) {
-            return false;
-        }
-
-        return Objects.equals(this.context, other.context);
+        return Objects.equals(this.locator, other.locator) && Objects.equals(this.context, other.context);
     }
 
     @Override
@@ -198,7 +195,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return null;
     }
 
-    public void contextClick(WrapsElement element) {
+    public void contextClick() {
         inOpenedBrowser().contextClick(this);
     }
 
@@ -275,4 +272,8 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return inOpenedBrowser().takeScreenshot(this);
     }
 
+    @Override
+    public void afterInitialization() {
+        //do nothing
+    }
 }

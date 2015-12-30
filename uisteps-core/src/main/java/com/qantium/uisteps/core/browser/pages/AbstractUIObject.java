@@ -35,11 +35,6 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     @Override
-    public boolean isPopulatedBy(Browser browser) {
-        return this.browser != null && this.browser.equals(browser);
-    }
-
-    @Override
     public void setBrowser(Browser browser) {
         this.browser = browser;
     }
@@ -132,11 +127,14 @@ public abstract class AbstractUIObject implements UIObject {
         return inOpenedBrowser().findAll(this, uiObject, by);
     }
 
+    @Override
     public void waitUntilIsDisplayed(UIObject uiObject) {
         inOpenedBrowser().waitUntilIsDisplayed(uiObject);
     }
 
+    @Override
     public void waitUntilIsDisplayed() {
         waitUntilIsDisplayed(this);
     }
+
 }

@@ -32,21 +32,23 @@ import org.openqa.selenium.WebElement;
  * 
  * @author ASolyankin
  */
-public interface UIObject extends Named {
+public interface UIObject extends Named, SearchContext {
 
     boolean isDisplayed();
-    
-    boolean isPopulatedBy(Browser browser);
 
     void setBrowser(Browser browser);
     
     Browser inOpenedBrowser();
-    
-    SearchContext getSearchContext();
     
     List<WebElement> findElements(By by);
     
     WebElement findElement(By by);
     
     Screenshot takeScreenshot();
+
+    void waitUntilIsDisplayed(UIObject uiObject);
+
+    void waitUntilIsDisplayed();
+
+    void afterInitialization();
 }

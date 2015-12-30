@@ -71,9 +71,7 @@ public class UIElements<E extends UIElement> extends UIElement {
 
         while (iterator.hasNext()) {
 
-            try {
-                inOpenedBrowser().waitUntilIsDisplayed(iterator.next());
-            } catch (Exception ex) {
+            if(!iterator.next().isDisplayed()) {
                 return false;
             }
         }
@@ -96,10 +94,10 @@ public class UIElements<E extends UIElement> extends UIElement {
 
     public List<E> getElements() {
         ArrayList<E> elements = new ArrayList();
-        List<WebElement> webElements = getSearchContext().findElements(getLocator());
 
-        for (WebElement element : webElements) {
-            E uiElement = inOpenedBrowser().displayed(getContext(), getElementType(), getLocator(), element);
+        for (WebElement element : findElements(getLocator())) {
+            E uiElement = inOpenedBrowser().displayed(getContext(), getElementType(), getLocator());
+            uiElement.setWrappedElement(element);
             elements.add(uiElement);
         }
         return elements;
@@ -276,16 +274,6 @@ public class UIElements<E extends UIElement> extends UIElement {
 
     public void addAll(UIElements uiElements) {
         addAll(uiElements.getProxyElements());
-    }
-
-    @Override
-    public SearchContext getSearchContext() {
-
-        if (getContext() != null) {
-            return getContext().getSearchContext();
-        } else {
-            return inOpenedBrowser().getDriver();
-        }
     }
 
     private List<E> getProxyElements() {

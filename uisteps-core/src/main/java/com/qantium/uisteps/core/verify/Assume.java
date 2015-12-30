@@ -24,13 +24,8 @@ import com.qantium.uisteps.core.verify.results.Result;
 public class Assume extends Verify {
     
     @Override
-    public Result result(Result result) {
-        try {
-            org.junit.Assume.assumeTrue(result.isSuccessful());
-            return result;
-        } finally {
-            result.reset();
-        }
+    public void result(Result result) {
+        org.junit.Assume.assumeTrue(result.isSuccessful());
     }
     
 }
