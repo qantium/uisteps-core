@@ -1,5 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import org.openqa.selenium.internal.WrapsElement;
  *
  * @author ASolyankin
  */
+@Init
 public class UIElement extends AbstractUIObject implements WrapsElement {
 
     private WebElement wrappedElement;
@@ -63,11 +65,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     }
 
     public UIObject getContext() {
-
-        if(context == null && this.getClass().isAnnotationPresent(Context.class)) {
-
-
-        }
         return context;
     }
 
@@ -78,7 +75,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     /**
      * Internal method
      * 
-     * @param locator for elemnt search
+     * @param locator for element search
      * @throws IllegalStateException if locator is already set
      */
     public void setLocator(By locator) {

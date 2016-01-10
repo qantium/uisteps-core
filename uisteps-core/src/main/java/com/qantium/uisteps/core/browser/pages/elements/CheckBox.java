@@ -15,14 +15,15 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 
 /**
  *
  * @author ASolyankin
  */
-public class CheckBox extends UIElement implements ElementaryElement {
+@Init(false)
+public class CheckBox extends UIElement {
 
     public String getLabelText() {
         return getWrappedCheckBox().getLabelText();

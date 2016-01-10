@@ -177,7 +177,7 @@ public class Browser {
 
     public void waitUntilIsDisplayed(UIObject uiObject) {
         try {
-            IsDisplayedWait wait = new IsDisplayedWait(uiObject);
+            DisplayWaiting wait = new DisplayWaiting(uiObject);
             long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
             long pollingTime = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING));
             wait.withTimeout(timeout, TimeUnit.MILLISECONDS).pollingEvery(pollingTime, TimeUnit.MILLISECONDS);
@@ -653,7 +653,6 @@ public class Browser {
 
     public <T extends UIObject> T init(T uiObject, UIObject context, By locator) {
 
-
         if (isInitedByThisBrowser(uiObject)) {
             return uiObject;
         }
@@ -665,51 +664,63 @@ public class Browser {
                 locator = getLocatorFactory().getLocator(uiElement);
             }
 
-            if(context == null) {
+            if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {
+                Context contextAnnotation = uiObject.getClass().getAnnotation(Context.class);
+                By contextLocator;
 
-                uiObject.getClass().getAnnotation(Context.class);
+                try {
+                    contextLocator = getLocatorFactory().getLocator(contextAnnotation.findBy());
+                } catch (IllegalArgumentException ex) {
+                    contextLocator = null;
+                }
+
+                context = init(instatiate(contextAnnotation.value()), null, contextLocator);
             }
 
             uiElement.setContext(context);
             uiElement.setLocator(locator);
         }
 
-        for (Field field : getUIObjectFields(uiObject)) {
-
-            try {
+        try {           
+            for (Field field : getUIObjectFields(uiObject)) {
                 UIElement uiElement = instatiate((Class<UIElement>) field.getType());
                 uiElement.setName(NameConvertor.humanize(field));
                 field.set(uiObject, uiElement);
                 init(uiElement, uiObject, getLocatorFactory().getLocator(field));
-            } catch (IllegalArgumentException | IllegalAccessException ex) {
-                throw new RuntimeException(ex);
             }
-
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
         }
         uiObject.setBrowser(this);
         uiObject.afterInitialization();
         return uiObject;
     }
 
-    private List<Field> getUIObjectFields(UIObject uiObject) {
-        return getUIObjectFields(uiObject.getClass(), new ArrayList());
+    private List<Field> getUIObjectFields(UIObject uiObject) throws IllegalArgumentException, IllegalAccessException {
+        return getUIObjectFields(uiObject, uiObject.getClass(), new ArrayList());
     }
 
-    private List<Field> getUIObjectFields(Class<?> uiObject, List<Field> fields) {
+    private List<Field> getUIObjectFields(UIObject uiObject, Class<?> uiObjectType, List<Field> fields) throws IllegalArgumentException, IllegalAccessException {
 
-        if (!UIObject.class.isAssignableFrom(uiObject) || uiObject == Page.class  || uiObject == UIElement.class || uiObject == UIElements.class || ElementaryElement.class.isAssignableFrom(uiObject)) {
+        if (!needToInit(uiObjectType)) {
             return fields;
         }
 
-        for (Field field : uiObject.getDeclaredFields()) {
+        for (Field field : uiObjectType.getDeclaredFields()) {
 
-            if (UIElement.class.isAssignableFrom(field.getType())) {
+            if (needToInit(field.getType()) && field.get(uiObject) != null) {
                 field.setAccessible(true);
                 fields.add(field);
             }
         }
 
-        return getUIObjectFields(uiObject.getSuperclass(), fields);
+        return getUIObjectFields(uiObject, uiObjectType.getSuperclass(), fields);
+    }
+
+    private boolean needToInit(Class<?> uiObject) {
+        return UIElement.class.isAssignableFrom(uiObject)
+                && uiObject.isAnnotationPresent(Init.class)
+                && uiObject.getAnnotation(Init.class).value() == true;
     }
 
     //find

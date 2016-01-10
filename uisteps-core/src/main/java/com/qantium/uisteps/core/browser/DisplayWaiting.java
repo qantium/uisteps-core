@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements.scroll;
+package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.Init;
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.internal.WrapsElement;
+import com.qantium.uisteps.core.browser.pages.UIObject;
+import org.openqa.selenium.support.ui.FluentWait;
 
 /**
  *
  * @author A.Solyankin
  */
-@Init(false)
-public class Scroll extends UIElement {
-    
-    public Object scroll(int x, int y) {
-        inOpenedBrowser().scroll(this, x, y);
-        return null;
-    }
+public class DisplayWaiting extends FluentWait<UIObject> {
 
-    public Object scrollTo(WrapsElement target) {
-        inOpenedBrowser().scrollToTarget(this, target);
-        return null;
+    public DisplayWaiting(UIObject uiObject) {
+        super(uiObject);
     }
 }

@@ -15,14 +15,15 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 
 /**
  *
  * @author ASolyankin
  */
-public class Button extends UIElement implements ElementaryElement {
+@Init(false)
+public class Button extends UIElement {
 
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();

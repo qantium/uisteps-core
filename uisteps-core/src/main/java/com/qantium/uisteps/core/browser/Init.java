@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 A.Solyankin.
+ * Copyright 2016 ASolyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,20 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.pages.UIObject;
-import org.openqa.selenium.support.ui.FluentWait;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
- * @author A.Solyankin
+ * @author ASolyankin
  */
-public class IsDisplayedWait extends FluentWait<UIObject> {
-
-    public IsDisplayedWait(UIObject uiObject) {
-        super(uiObject);
-    }
+@Retention(value = RetentionPolicy.RUNTIME)
+@Target(value = {ElementType.FIELD, ElementType.TYPE})
+@Inherited
+public @interface Init {
+    
+    boolean value() default true;
 }

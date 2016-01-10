@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 A.Solyankin.
+ * Copyright 2016 ASolyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements.scroll;
+package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.internal.WrapsElement;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.openqa.selenium.support.FindBy;
 
 /**
  *
- * @author A.Solyankin
+ * @author ASolyankin
  */
-@Init(false)
-public class Scroll extends UIElement {
+@Retention(value = RetentionPolicy.RUNTIME)
+@Target(value = ElementType.TYPE)
+@Inherited
+public @interface Context {
     
-    public Object scroll(int x, int y) {
-        inOpenedBrowser().scroll(this, x, y);
-        return null;
-    }
-
-    public Object scrollTo(WrapsElement target) {
-        inOpenedBrowser().scrollToTarget(this, target);
-        return null;
-    }
+    Class<? extends UIElement> value();
+    
+    FindBy findBy() default @FindBy;
 }

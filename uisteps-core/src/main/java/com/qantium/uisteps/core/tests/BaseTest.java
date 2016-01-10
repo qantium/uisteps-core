@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 ASolyankin.
+ * Copyright 2016 ASolyankin.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.pages.elements;
+package com.qantium.uisteps.core.tests;
 
-import com.qantium.uisteps.core.browser.Init;
-import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.storage.Storage;
+import com.qantium.uisteps.core.verify.Assume;
+import com.qantium.uisteps.core.verify.Verify;
 
 /**
  *
  * @author ASolyankin
  */
-@Init(false)
-public class TextBlock extends UIElement {
+public class BaseTest {
+
+    public final Verify verify;
+    public final Assume assume;
+    public final Storage storage;
+
+    public BaseTest(Verify verify, Assume assume, Storage storage) {
+        this.verify = verify;
+        this.assume = assume;
+        this.storage = storage;
+    }
+
+    public BaseTest() {
+        this(new Verify(), new Assume(), new Storage());
+    }
 }

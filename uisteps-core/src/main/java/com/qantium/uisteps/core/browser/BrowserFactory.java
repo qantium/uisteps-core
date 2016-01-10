@@ -410,7 +410,7 @@ public class BrowserFactory {
      * Sets default setting to driver: timeout (in milliseconds), width and
      * height
      * <p>
-     * This method can be overrided if you whant to set additionsl properties
+     * This method can be overrided if you what to set additions properties
      *
      * @param driver {@link org.openqa.selenium.WebDriver}
      *

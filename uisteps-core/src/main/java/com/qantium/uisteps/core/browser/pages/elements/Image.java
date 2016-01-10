@@ -15,13 +15,14 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  *
  * @author A.Solyankin
  */
-public class Image extends UIElement implements ElementaryElement {
+@Init(false)
+public class Image extends UIElement {
     
     public String getSource() {
         return getWrappedElement().getAttribute("src");

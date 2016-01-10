@@ -22,12 +22,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
  *
- * Contains elemnets of one type
+ * Contains elements of one type
  *
  * @author A.Solyankin
  * @param <E> specifies the type of elements

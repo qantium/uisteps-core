@@ -15,7 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import java.util.List;
 import org.openqa.selenium.WebElement;
@@ -24,7 +24,8 @@ import org.openqa.selenium.WebElement;
  *
  * @author ASolyankin
  */
-public class Select extends UIElement implements ElementaryElement {
+@Init(false)
+public class Select extends UIElement {
 
     public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
         return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());

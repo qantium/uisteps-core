@@ -15,14 +15,15 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.pages.ElementaryElement;
+import com.qantium.uisteps.core.browser.Init;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 
 /**
  *
  * @author ASolyankin
  */
-public class TextField extends UIElement implements ElementaryElement {
+@Init(false)
+public class TextField extends UIElement {
 
     public Object sendKeys(String keys) {
         return type(keys);
