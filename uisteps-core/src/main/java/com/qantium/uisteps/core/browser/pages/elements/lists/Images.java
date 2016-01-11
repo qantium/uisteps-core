@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements.lists;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.Image;
 
@@ -22,6 +23,7 @@ import com.qantium.uisteps.core.browser.pages.elements.Image;
  *
  * @author A.Solyankin
  */
+@NotInit
 public class Images extends UIElements<Image> {
 
     public Images() {

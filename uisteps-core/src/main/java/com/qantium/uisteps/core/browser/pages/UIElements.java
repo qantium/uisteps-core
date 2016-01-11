@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import org.openqa.selenium.WebElement;
  * @author A.Solyankin
  * @param <E> specifies the type of elements
  */
+@NotInit
 public class UIElements<E extends UIElement> extends UIElement {
 
     private final Class<E> elementType;

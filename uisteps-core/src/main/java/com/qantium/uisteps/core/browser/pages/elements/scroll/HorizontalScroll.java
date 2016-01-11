@@ -15,12 +15,14 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements.scroll;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
  *
  * @author A.Solyankin
  */
+@NotInit
 public class HorizontalScroll extends Scroll {
 
     public Object scroll(int pixels) {

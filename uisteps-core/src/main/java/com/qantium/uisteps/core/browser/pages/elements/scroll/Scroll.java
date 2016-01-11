@@ -15,7 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements.scroll;
 
-import com.qantium.uisteps.core.browser.Init;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -23,7 +23,7 @@ import org.openqa.selenium.internal.WrapsElement;
  *
  * @author A.Solyankin
  */
-@Init(false)
+@NotInit
 public class Scroll extends UIElement {
     
     public Object scroll(int x, int y) {

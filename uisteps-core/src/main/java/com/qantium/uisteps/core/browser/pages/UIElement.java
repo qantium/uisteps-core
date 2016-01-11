@@ -1,6 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Init;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import org.openqa.selenium.internal.WrapsElement;
  *
  * @author ASolyankin
  */
-@Init
+@NotInit
 public class UIElement extends AbstractUIObject implements WrapsElement {
 
     private WebElement wrappedElement;
@@ -41,10 +41,14 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
         if (wrappedElement == null) {
 
-            if(getContext() == null) {
-                wrappedElement = inOpenedBrowser().getDriver().findElement(getLocator());
-            } else {
-                wrappedElement = getContext().findElement(getLocator());
+            try {
+                if (getContext() == null) {
+                    wrappedElement = inOpenedBrowser().getDriver().findElement(getLocator());
+                } else {
+                    wrappedElement = getContext().findElement(getLocator());
+                }
+            } catch (Exception ex) {
+                return null;
             }
         }
         return wrappedElement;
@@ -136,9 +140,9 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     @Override
     public boolean isDisplayed() {
 
-        try {
+        if(getWrappedElement() != null) {
             return getWrappedElement().isDisplayed();
-        } catch (Exception ex) {
+        } else {
             return false;
         }
     }

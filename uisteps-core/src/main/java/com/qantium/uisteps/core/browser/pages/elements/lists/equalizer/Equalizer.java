@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements.lists.equalizer;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.scroll.Scroll;
 
@@ -22,6 +23,7 @@ import com.qantium.uisteps.core.browser.pages.elements.scroll.Scroll;
  *
  * @author A.Solyankin
  */
+@NotInit
 public class Equalizer extends UIElements<Scroll> {
 
     public Equalizer() {

@@ -15,6 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.google.common.base.Function;
+import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.UIObjectWait;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -32,6 +35,7 @@ import org.openqa.selenium.WebElement;
  * 
  * @author ASolyankin
  */
+@NotInit
 public interface UIObject extends Named, SearchContext {
 
     boolean isDisplayed();
@@ -49,6 +53,10 @@ public interface UIObject extends Named, SearchContext {
     void waitUntilIsDisplayed(UIObject uiObject);
 
     void waitUntilIsDisplayed();
+
+    void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition);
+
+    void waitUntil(Function<UIObject, Boolean> condition);
 
     void afterInitialization();
 }

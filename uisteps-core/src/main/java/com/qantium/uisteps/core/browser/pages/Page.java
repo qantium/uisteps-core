@@ -15,17 +15,21 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
- *
  * @author ASolyankin
  */
+@NotInit
 @Root
 public class Page extends AbstractUIObject {
 
@@ -57,15 +61,18 @@ public class Page extends AbstractUIObject {
     public String toString() {
         StringBuilder pageName = new StringBuilder();
         pageName.append(getName());
+        String pageUrl = getUrl().toString();
 
-        if (getUrl() != null) {
-            pageName
-                    .append(" by url <a href='")
-                    .append(getUrl())
-                    .append("' target='blank'>")
-                    .append(getUrl())
-                    .append("</a>");
+        if (StringUtils.isEmpty(pageUrl)) {
+            pageUrl = inOpenedBrowser().getDriver().getCurrentUrl();
         }
+
+        pageName
+                .append(" by url <a href='")
+                .append(pageUrl)
+                .append("' target='blank'>")
+                .append(getUrl())
+                .append("</a>");
         return pageName.toString();
     }
 

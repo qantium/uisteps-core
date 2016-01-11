@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.Init;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import ru.yandex.qatools.htmlelements.element.Radio;
  *
  * @author ASolyankin
  */
-@Init(false)
+@NotInit
 public class RadioButtonGroup extends UIElement {
 
     protected Radio getWrappedRadio() {

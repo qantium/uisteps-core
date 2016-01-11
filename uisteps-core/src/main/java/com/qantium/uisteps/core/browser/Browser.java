@@ -175,19 +175,27 @@ public class Browser {
         return page;
     }
 
-    public void waitUntilIsDisplayed(UIObject uiObject) {
-        try {
-            DisplayWaiting wait = new DisplayWaiting(uiObject);
-            long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-            long pollingTime = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING));
-            wait.withTimeout(timeout, TimeUnit.MILLISECONDS).pollingEvery(pollingTime, TimeUnit.MILLISECONDS);
-            wait.until(new Function<UIObject, Boolean>() {
+    public void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition) {
+        UIObjectWait wait = new UIObjectWait(uiObject);
+        wait.until(condition);
+    }
 
-                @Override
-                public Boolean apply(UIObject uiObject) {
+    public void waitUntilIsDisplayed(UIObject uiObject) {
+
+        Function<UIObject, Boolean> condition = new Function<UIObject, Boolean>() {
+            @Override
+            public Boolean apply(UIObject uiObject) {
+
+                try {
                     return uiObject.isDisplayed();
+                } catch (Exception ex) {
+                    return false;
                 }
-            });
+            }
+        };
+
+        try {
+            waitUntil(uiObject, condition);
         } catch (Exception ex) {
             throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
         }
@@ -681,15 +689,41 @@ public class Browser {
             uiElement.setLocator(locator);
         }
 
-        try {           
-            for (Field field : getUIObjectFields(uiObject)) {
-                UIElement uiElement = instatiate((Class<UIElement>) field.getType());
-                uiElement.setName(NameConvertor.humanize(field));
-                field.set(uiObject, uiElement);
-                init(uiElement, uiObject, getLocatorFactory().getLocator(field));
+        if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
+
+            try {
+
+                for (Field field : getUIObjectFields(uiObject)) {
+
+                    if (field.get(uiObject) == null) {
+                        UIElement uiElement = instatiate((Class<UIElement>) field.getType());
+
+                        uiElement.setName(NameConvertor.humanize(field));
+                        field.set(uiObject, uiElement);
+
+                        UIObject fieldContext;
+
+                        if (field.isAnnotationPresent(Context.class)) {
+                            Context contextAnnotation = field.getAnnotation(Context.class);
+                            By contextLocator;
+
+                            try {
+                                contextLocator = getLocatorFactory().getLocator(contextAnnotation.findBy());
+                            } catch (IllegalArgumentException ex) {
+                                contextLocator = null;
+                            }
+
+                            fieldContext = init(instatiate(contextAnnotation.value()), null, contextLocator);
+                        } else {
+                            fieldContext = uiObject;
+                        }
+
+                        init(uiElement, fieldContext, getLocatorFactory().getLocator(field));
+                    }
+                }
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
-            throw new RuntimeException(ex);
         }
         uiObject.setBrowser(this);
         uiObject.afterInitialization();
@@ -697,30 +731,24 @@ public class Browser {
     }
 
     private List<Field> getUIObjectFields(UIObject uiObject) throws IllegalArgumentException, IllegalAccessException {
-        return getUIObjectFields(uiObject, uiObject.getClass(), new ArrayList());
+        return getUIObjectFields(uiObject.getClass(), new ArrayList());
     }
 
-    private List<Field> getUIObjectFields(UIObject uiObject, Class<?> uiObjectType, List<Field> fields) throws IllegalArgumentException, IllegalAccessException {
+    private List<Field> getUIObjectFields(Class<?> uiObjectType, List<Field> fields) throws IllegalArgumentException, IllegalAccessException {
 
-        if (!needToInit(uiObjectType)) {
+        if (uiObjectType.isAnnotationPresent(NotInit.class)) {
             return fields;
         }
 
         for (Field field : uiObjectType.getDeclaredFields()) {
 
-            if (needToInit(field.getType()) && field.get(uiObject) != null) {
+            if (UIObject.class.isAssignableFrom(field.getType())) {
                 field.setAccessible(true);
                 fields.add(field);
             }
         }
 
-        return getUIObjectFields(uiObject, uiObjectType.getSuperclass(), fields);
-    }
-
-    private boolean needToInit(Class<?> uiObject) {
-        return UIElement.class.isAssignableFrom(uiObject)
-                && uiObject.isAnnotationPresent(Init.class)
-                && uiObject.getAnnotation(Init.class).value() == true;
+        return getUIObjectFields(uiObjectType.getSuperclass(), fields);
     }
 
     //find
@@ -755,9 +783,7 @@ public class Browser {
 
     public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject, By locator) {
         UIElements<T> uiElements = new UIElements(uiObject);
-        uiElements.setLocator(locator);
-        uiElements.setContext(context);
-        return uiElements;
+        return init(uiElements, context, locator);
     }
 
     //onDisplayed

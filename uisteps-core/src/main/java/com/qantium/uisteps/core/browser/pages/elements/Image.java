@@ -15,13 +15,13 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.Init;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  *
  * @author A.Solyankin
  */
-@Init(false)
+@NotInit
 public class Image extends UIElement {
     
     public String getSource() {

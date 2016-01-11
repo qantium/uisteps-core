@@ -16,15 +16,22 @@
 package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.support.ui.FluentWait;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author A.Solyankin
  */
-public class DisplayWaiting extends FluentWait<UIObject> {
+public class UIObjectWait extends FluentWait<UIObject> {
 
-    public DisplayWaiting(UIObject uiObject) {
+    public UIObjectWait(UIObject uiObject) {
         super(uiObject);
+        long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+        long pollingTime = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING));
+        withTimeout(timeout, TimeUnit.MILLISECONDS).pollingEvery(pollingTime, TimeUnit.MILLISECONDS);
     }
 }

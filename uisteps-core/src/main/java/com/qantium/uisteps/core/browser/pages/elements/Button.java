@@ -15,14 +15,14 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.Init;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 
 /**
  *
  * @author ASolyankin
  */
-@Init(false)
+@NotInit
 public class Button extends UIElement {
 
     public boolean isEnabled() {

@@ -28,7 +28,7 @@ import org.openqa.selenium.support.FindBy;
  * @author ASolyankin
  */
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = ElementType.TYPE)
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Inherited
 public @interface Context {
     

@@ -15,7 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
@@ -25,6 +27,7 @@ import org.openqa.selenium.By;
  *
  * @author A.Solyankin
  */
+@NotInit
 public abstract class AbstractUIObject implements UIObject {
 
     private String name;
@@ -125,6 +128,14 @@ public abstract class AbstractUIObject implements UIObject {
 
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
         return inOpenedBrowser().findAll(this, uiObject, by);
+    }
+
+    public void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition) {
+        inOpenedBrowser().waitUntil(uiObject, condition);
+    }
+
+    public void waitUntil(Function<UIObject, Boolean> condition){
+        inOpenedBrowser().waitUntil(this, condition);
     }
 
     @Override

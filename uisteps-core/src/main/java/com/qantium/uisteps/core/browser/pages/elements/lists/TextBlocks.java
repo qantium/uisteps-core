@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements.lists;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.TextBlock;
 
@@ -22,6 +23,7 @@ import com.qantium.uisteps.core.browser.pages.elements.TextBlock;
  *
  * @author A.Solyankin
  */
+@NotInit
 public class TextBlocks extends UIElements<TextBlock> {
 
     public TextBlocks() {
