@@ -59,21 +59,12 @@ public class Page extends AbstractUIObject {
 
     @Override
     public String toString() {
-        StringBuilder pageName = new StringBuilder();
-        pageName.append(getName());
         String pageUrl = getUrl().toString();
 
         if (StringUtils.isEmpty(pageUrl)) {
             pageUrl = inOpenedBrowser().getDriver().getCurrentUrl();
         }
-
-        pageName
-                .append(" by url <a href='")
-                .append(pageUrl)
-                .append("' target='blank'>")
-                .append(getUrl())
-                .append("</a>");
-        return pageName.toString();
+        return getName() + " by url " + pageUrl;
     }
 
     @Override

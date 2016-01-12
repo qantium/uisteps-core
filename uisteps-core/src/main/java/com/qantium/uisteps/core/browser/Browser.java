@@ -134,7 +134,7 @@ public class Browser {
     }
 
     public <T extends UIObject> T displayed(Class<T> uiObject) {
-        return init(instatiate(uiObject), null, null);
+        return init(uiObject, null, null);
     }
 
     public Page openUrl(String url, String... params) {
@@ -659,6 +659,10 @@ public class Browser {
         return this.equals(uiObject.inOpenedBrowser());
     }
 
+    public  <T extends UIObject> T init(Class<T> uiObject, UIObject context, By locator) {
+        return init(instatiate(uiObject), context, locator);
+    }
+
     public <T extends UIObject> T init(T uiObject, UIObject context, By locator) {
 
         if (isInitedByThisBrowser(uiObject)) {
@@ -800,7 +804,7 @@ public class Browser {
         if (UIElement.class.isAssignableFrom(uiObject)) {
             return onDisplayed((T) find((Class<UIElement>) uiObject));
         } else {
-            return onDisplayed(instatiate(uiObject));
+            return onDisplayed(displayed(uiObject));
         }
     }
 
