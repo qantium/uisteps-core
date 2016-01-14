@@ -20,6 +20,7 @@ import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.storage.Save;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,8 +55,7 @@ public class Screenshot implements Save {
 
     public File save(String file) throws IOException {
         String extension = Files.getFileExtension(file);
-        File homeDir = new File(dir);
-        File screenshot = new File(homeDir, file);
+        File screenshot = new File(dir, file);
         Files.createParentDirs(screenshot);
         ImageIO.write(getImage(), extension, screenshot);
         return new File(file);
@@ -63,6 +63,13 @@ public class Screenshot implements Save {
 
     public ImageDiff getDiffFrom(Screenshot screenshot) {
         return new ImageDiffer().makeDiff(this.getImage(), screenshot.getImage());
+    }
+
+    public byte[] asByteArray()  throws IOException  {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", os);
+        os.flush();
+        return os.toByteArray();
     }
 
     @Override

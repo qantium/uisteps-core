@@ -5,11 +5,12 @@ import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.results.LogicOperation;
 import com.qantium.uisteps.core.verify.results.ExpectedResult;
 import com.qantium.uisteps.core.verify.results.LastExpectedResult;
+
 import java.util.ArrayList;
+
 import org.junit.Assert;
 
 /**
- *
  * @author ASolyankin
  */
 public class Verify {
@@ -76,20 +77,20 @@ public class Verify {
 
         ArrayList<Condition> conditions = new ArrayList();
         ArrayList<ConditionCandidate> candidates = new ArrayList();
-        
+
         ConditionCandidate conditionCandidate = null;
 
         for (Object arg : args) {
 
-            if(arg instanceof Boolean || arg instanceof Condition) {
+            if (arg instanceof Boolean || arg instanceof Condition) {
                 conditionCandidate = new ConditionCandidate();
                 candidates.add(conditionCandidate);
             }
-            
-            if(conditionCandidate == null) {
+
+            if (conditionCandidate == null) {
                 throw new RuntimeException("First parameter must be Boolean or Condition, but not " + arg.getClass() + "!");
             }
-            
+
             if (arg instanceof Boolean) {
                 conditionCandidate.setSuccessful((Boolean) arg);
             } else if (arg instanceof String) {
@@ -107,11 +108,11 @@ public class Verify {
             }
         }
 
-        for(ConditionCandidate candidate: candidates) {
+        for (ConditionCandidate candidate : candidates) {
             Condition conn = candidate.getCondition();
             conditions.add(conn);
         }
-        
+
         Condition[] conditionsArr = new Condition[conditions.size()];
         return conditions.toArray(conditionsArr);
     }
@@ -144,7 +145,7 @@ public class Verify {
     }
 
     public void result(Result result) {
-         Assert.assertTrue(result.toString(), result.isSuccessful());
+        Assert.assertTrue(result.toString(), result.isSuccessful());
     }
 
     public void result() {

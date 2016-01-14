@@ -16,10 +16,6 @@ public class NameConvertor {
         }
         return name.toLowerCase();
     }
-
-    public static String humanize(Object obj) {
-        return humanize(obj.getClass());
-    }
     
     public static String humanize(Field field) {
         return HtmlElementUtils.getElementName(field).toLowerCase();

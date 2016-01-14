@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
+
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import net.lightbody.bmp.core.har.Har;
 
 /**
@@ -47,14 +49,19 @@ public class Storage {
     private Map getMap() {
         return threadLocalMap.get();
     }
-    
-    public File save(Saved file) {
+
+    protected File save(Saved file) {
         return put(file.getFile());
     }
 
+    protected void saveFile(String dir, String path) {
+        save(new Saved(new File(dir, path)));
+    }
+
     public File save(Save file, String path) throws IOException {
-        Saved savedFile = new Saved(file.toDir(dir).save(path));
-        return save(savedFile);
+        File savedFile = file.toDir(dir).save(path);
+        saveFile(dir, path);
+        return savedFile;
     }
     
      public File save(String data, String path) throws IOException {
@@ -62,25 +69,28 @@ public class Storage {
     }
 
     public File save(Har har, String path) throws IOException {
-        File file = new File(new File(dir),path);
+        File file = new File(dir, path);
         Files.createParentDirs(file);
         har.writeTo(file);
-        return save(new Saved(new File(path)));
+        saveFile(dir, path);
+        return file;
     }
-    
+
     public File save(byte[] bytes, String path) throws IOException {
-        File file = new File(new File(dir), path);
+        File file = new File(dir, path);
         Files.createParentDirs(file);
         Files.write(bytes, file);
-        return save(new Saved(new File(path)));
+        saveFile(dir, path);
+        return file;
     }
-    
+
     public File save(RenderedImage image, String path) throws IOException {
-        File file = new File(new File(dir), path);
+        File file = new File(dir, path);
         String extension = com.google.common.io.Files.getFileExtension(path);
         Files.createParentDirs(file);
         ImageIO.write(image, extension, file);
-        return save(new Saved(new File(path)));
+        saveFile(dir, path);
+        return file;
     }
 
     public File put(File file) {
