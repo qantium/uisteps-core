@@ -26,7 +26,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
  * Contains settings that can be set before test running
  * <p>
  * Property can be overrided in "uisteps.properties" file or in another file
- * whitch path is set in "properties.path" property. Both files must be in
+ * which path is set in "properties.path" property. Both files must be in
  * working or/and home directory. Properties in working directory override
  * properties in home directory. Working directory is taken from
  * System.getProperty("user.dir"). Home directory is taken from
@@ -123,7 +123,7 @@ public class UIStepsProperties {
      * Get property by key,
      *
      * @param key specifes the key of property
-     * @return the string value if there is no property with that key.
+     * @return the string value if there is property with that key and <code>null</code> if the property is not found
      */
     public static String getProperty(String key) {
         return getProperties().getProperty(key.toLowerCase());

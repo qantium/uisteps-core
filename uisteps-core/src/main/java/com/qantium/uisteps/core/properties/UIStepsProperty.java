@@ -41,11 +41,15 @@ package com.qantium.uisteps.core.properties;
  * <li>webdriver.base.url.password</li>
  * <li>webdriver.timeouts.implicitlywait</li>
  * <li>webdriver.timeouts.polling</li>
+ * <li>steps.meta.regexp</li>
+ * <li>steps.meta.param.regexp</li>
  * <li>webdriver.proxy = localhost<li>
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
  * <li>webdriver.proxy = :7777</li>
  * <li>home.dir</li>
+ * <li>source.take</li>
+ * <li>screenshots.take</li>
  * <li>screenshots.scale.width</li>
  * <li>screenshots.scale.height</li>
  * <li>base.url.host</li>
@@ -157,10 +161,10 @@ public enum UIStepsProperty {
      * <p>
      * Examples:
      * <ul>
-     * <li>webdriver.proxy = localhost<li>
-     * <li>webdriver.proxy = localhost:7777</li>
-     * <li>webdriver.proxy = 127.0.0.1:7777</li>
-     * <li>webdriver.proxy = :7777</li>
+     * <li>localhost<li>
+     * <li>localhost:7777</li>
+     * <li>127.0.0.1:7777</li>
+     * <li>:7777</li>
      * </ul>
      *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
@@ -195,6 +199,26 @@ public enum UIStepsProperty {
                 }
             },
     /**
+     * Set "steps.meta.regexp" to specify regexp for step meta
+     */
+    STEPS_META_REGEXP {
+
+        @Override
+        public String getDefault() {
+            return "\\s?META(.*)";
+        }
+    },
+    /**
+     * Set "steps.meta.param.regexp" to specify regexp for parameters in step meta
+     */
+    STEPS_META_PARAM_REGEXP {
+
+        @Override
+        public String getDefault() {
+            return "\\[(.+?)=(.*?)\\]";
+        }
+    },
+    /**
      * Set "home.dir" to specify directory for saved file
      *
      * @see
@@ -204,11 +228,47 @@ public enum UIStepsProperty {
      */
     HOME_DIR {
 
-                @Override
-                public String getDefault() {
-                    return "target/site";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "target/site";
+        }
+    },
+    /**
+     * Set "source.take" to specify when to take screenshots
+     *
+     * Values:
+     * <ul>
+     * <li>FOR_EACH_ACTION<li>
+     * <li>BEFORE_AND_AFTER_EACH_STEP</li>
+     * <li>AFTER_EACH_STEP</li>
+     * <li>FOR_FAILURES</li>
+     * <ul/>
+     */
+    SOURCE_TAKE {
+
+        @Override
+        public String getDefault() {
+            return "FOR_FAILURES";
+        }
+    },
+    /**
+     * Set "screenshots.take" to specify when to take screenshots
+     *
+     * Values:
+     * <ul>
+     * <li>FOR_EACH_ACTION<li>
+     * <li>BEFORE_AND_AFTER_EACH_STEP</li>
+     * <li>AFTER_EACH_STEP</li>
+     * <li>FOR_FAILURES</li>
+     * <ul/>
+     */
+    SCREENSHOTS_TAKE {
+
+        @Override
+        public String getDefault() {
+            return "FOR_FAILURES";
+        }
+    },
     /**
      * Set "screenshots.scale.width" to specify scaled width of saved images
      *
