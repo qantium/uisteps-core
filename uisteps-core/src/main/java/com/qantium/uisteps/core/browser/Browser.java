@@ -29,8 +29,6 @@ import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.name.NameConvertor;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +36,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;

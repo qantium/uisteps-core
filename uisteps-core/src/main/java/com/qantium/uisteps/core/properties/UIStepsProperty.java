@@ -242,7 +242,7 @@ public enum UIStepsProperty {
      * <li>BEFORE_AND_AFTER_EACH_STEP</li>
      * <li>AFTER_EACH_STEP</li>
      * <li>FOR_FAILURES</li>
-     * <ul/>
+     * </ul>
      */
     SOURCE_TAKE {
 
@@ -260,7 +260,7 @@ public enum UIStepsProperty {
      * <li>BEFORE_AND_AFTER_EACH_STEP</li>
      * <li>AFTER_EACH_STEP</li>
      * <li>FOR_FAILURES</li>
-     * <ul/>
+     * </ul>
      */
     SCREENSHOTS_TAKE {
 
