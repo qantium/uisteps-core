@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -40,9 +42,24 @@ public class UIElements<E extends UIElement> extends UIElement {
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
         if (UIElements.class.isAssignableFrom(elementType)) {
-            throw new IllegalArgumentException("UIElements cannot contain other elemnts with type " + elementType);
+            throw new IllegalArgumentException("UIElements cannot contain other elements with type " + elementType);
         }
         this.elementType = elementType;
+    }
+
+    @Override
+    public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
+        super.setWrappedElement(wrappedElement);
+    }
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        return getSearchContext().findElements(by);
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return getSearchContext().findElement(by);
     }
 
     public Class<E> getElementType() {
@@ -63,7 +80,6 @@ public class UIElements<E extends UIElement> extends UIElement {
 
     @Override
     public boolean isDisplayed() {
-
         if (isEmpty()) {
             return false;
         }

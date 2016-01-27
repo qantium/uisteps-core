@@ -58,6 +58,7 @@ package com.qantium.uisteps.core.properties;
  * <li>base.url.param.value.regexp</li>
  * <li>browser.width</li>
  * <li>browser.height</li>
+ * <li>testrail.config</li>
  * </ul>
  *
  * @see com.qantium.uisteps.core.properties.UIStepsProperties
@@ -368,7 +369,27 @@ public enum UIStepsProperty {
                 public String getDefault() {
                     return "";
                 }
-            };
+            },
+    /**
+     * Set "testrail.config" to specify config for integration with testrail
+     *
+     * Example:
+     * {"host":"host",
+     * "user":"user",
+     * "login":"login",
+     * "action":"export",
+     * "container":"run",
+     * "id":"id"}
+     *
+     * @see com.qantium.uisteps.core.browser.BrowserFactory
+     */
+    TESTRAIL_CONFIG {
+
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    };
 
     @Override
     public String toString() {

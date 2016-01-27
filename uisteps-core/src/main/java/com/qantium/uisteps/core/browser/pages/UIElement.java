@@ -2,17 +2,14 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+
 import java.util.List;
 import java.util.Objects;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit
@@ -24,13 +21,13 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     /**
      * Internal method
-     * 
+     *
      * @param wrappedElement WebElement that will be wrapped
      * @throws IllegalStateException if wrappedElement is already set
      */
     public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
-        
-        if(this.wrappedElement != null) {
+
+        if (this.wrappedElement != null) {
             throw new IllegalStateException("WrappedElement is already set to " + this);
         }
         this.wrappedElement = wrappedElement;
@@ -40,13 +37,8 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public WebElement getWrappedElement() {
 
         if (wrappedElement == null) {
-
             try {
-                if (getContext() == null) {
-                    wrappedElement = inOpenedBrowser().getDriver().findElement(getLocator());
-                } else {
-                    wrappedElement = getContext().findElement(getLocator());
-                }
+                wrappedElement = getSearchContext().findElement(getLocator());
             } catch (Exception ex) {
                 return null;
             }
@@ -54,15 +46,24 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return wrappedElement;
     }
 
+    public SearchContext getSearchContext() {
+
+        if (getContext() == null) {
+            return inOpenedBrowser().getDriver();
+        } else {
+            return getContext();
+        }
+    }
+
     /**
      * Internal method
-     * 
+     *
      * @param context can be a page or another element
      * @throws IllegalStateException if context is already set
      */
     public void setContext(UIObject context) {
-        
-        if(this.context != null) {
+
+        if (this.context != null) {
             throw new IllegalStateException("Context is already set to " + this);
         }
         this.context = context;
@@ -75,16 +76,16 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public By getLocator() {
         return locator;
     }
-    
+
     /**
      * Internal method
-     * 
+     *
      * @param locator for element search
      * @throws IllegalStateException if locator is already set
      */
     public void setLocator(By locator) {
-        
-        if(this.locator != null) {
+
+        if (this.locator != null) {
             throw new IllegalStateException("Locator is already set to " + this);
         }
         this.locator = locator;
@@ -140,7 +141,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     @Override
     public boolean isDisplayed() {
 
-        if(getWrappedElement() != null) {
+        if (getWrappedElement() != null) {
             return getWrappedElement().isDisplayed();
         } else {
             return false;
@@ -242,7 +243,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
     public String getAttribute(String attribute) {
         return inOpenedBrowser().getAttribute(this, attribute);
     }
-    
+
     public String getCSSProperty(String cssProperty) {
         return inOpenedBrowser().getCSSPropertyOf(this, cssProperty);
     }

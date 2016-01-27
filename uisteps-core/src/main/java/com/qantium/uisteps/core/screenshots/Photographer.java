@@ -109,9 +109,15 @@ public class Photographer {
 
     //take screenshot
     public Screenshot takeScreenshot() {
-        BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
-        return new Screenshot(image);
+        try {
+            BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
+            return new Screenshot(image);
+        } catch (Exception ex) {
+            return new FakeScreenshot();
+        }
     }
+
+
     
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
