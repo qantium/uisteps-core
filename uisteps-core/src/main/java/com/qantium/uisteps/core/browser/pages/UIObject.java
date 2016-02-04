@@ -21,19 +21,21 @@ import com.qantium.uisteps.core.browser.UIObjectWait;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+
 import java.util.List;
+
+import com.qantium.uisteps.core.then.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
  * Any element (Page or UIElement) of user interface
- * 
+ *
+ * @author ASolyankin
  * @see com.qantium.uisteps.core.browser.pages.Page
  * @see com.qantium.uisteps.core.browser.pages.UIElement
  * @see com.qantium.uisteps.core.browser.pages.UIElements
- * 
- * @author ASolyankin
  */
 @NotInit
 public interface UIObject extends Named, SearchContext {
@@ -41,14 +43,12 @@ public interface UIObject extends Named, SearchContext {
     boolean isDisplayed();
 
     void setBrowser(Browser browser);
-    
+
     Browser inOpenedBrowser();
-    
-    List<WebElement> findElements(By by);
-    
-    WebElement findElement(By by);
-    
-    Screenshot takeScreenshot();
+
+     <T extends UIObject> Then<T> then(Class<T> uiObject);
+
+    <T> Then<T> then(T value);
 
     void waitUntilIsDisplayed(UIObject uiObject);
 
@@ -59,4 +59,8 @@ public interface UIObject extends Named, SearchContext {
     void waitUntil(Function<UIObject, Boolean> condition);
 
     void afterInitialization();
+
+    SearchContext getSearchContext();
+
+    Screenshot takeScreenshot();
 }

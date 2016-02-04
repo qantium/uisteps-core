@@ -17,9 +17,8 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,16 +27,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
- *
  * Contains elements of one type
  *
- * @author A.Solyankin
  * @param <E> specifies the type of elements
+ * @author A.Solyankin
  */
 @NotInit
-public class UIElements<E extends UIElement> extends UIElement {
+public class UIElements<E extends UIElement> extends UIElement implements Cloneable {
 
     private final Class<E> elementType;
+    private ArrayList<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
@@ -45,6 +44,12 @@ public class UIElements<E extends UIElement> extends UIElement {
             throw new IllegalArgumentException("UIElements cannot contain other elements with type " + elementType);
         }
         this.elementType = elementType;
+    }
+
+    protected UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
+        this(elementType);
+        this.elements = new ArrayList();
+        this.elements.addAll(elements);
     }
 
     @Override
@@ -75,7 +80,8 @@ public class UIElements<E extends UIElement> extends UIElement {
     }
 
     public UIElements<E> subList(int fromIndex, int toIndex) {
-        return uiElements(getElements().subList(fromIndex, toIndex));
+        List<E> subList = clone().getElements().subList(fromIndex, toIndex);
+        return getUIElements(subList);
     }
 
     @Override
@@ -88,7 +94,7 @@ public class UIElements<E extends UIElement> extends UIElement {
 
         while (iterator.hasNext()) {
 
-            if(!iterator.next().isDisplayed()) {
+            if (!iterator.next().isDisplayed()) {
                 return false;
             }
         }
@@ -96,33 +102,37 @@ public class UIElements<E extends UIElement> extends UIElement {
     }
 
     public E getFirst() {
-        E element = getElements().get(0);
-        return element.withName("first " + element.getName());
+        return get(0);
     }
 
     public E getLast() {
-        E element = getElements().get(size() - 1);
-        return element.withName("last " + element.getName());
+        return get(size() - 1);
     }
 
     public E[] toArray() {
         return (E[]) getElements().<E>toArray();
     }
 
-    public List<E> getElements() {
-        ArrayList<E> elements = new ArrayList();
+    public UIElements<E> reset() {
+        elements = new ArrayList();
 
         for (WebElement element : findElements(getLocator())) {
-            E uiElement = inOpenedBrowser().displayed(getContext(), getElementType(), getLocator());
+            E uiElement = inOpenedBrowser().init(getElementType(), getContext(), getLocator());
             uiElement.setWrappedElement(element);
             elements.add(uiElement);
+        }
+        return this;
+    }
+
+    public List<E> getElements() {
+        if (elements == null) {
+            reset();
         }
         return elements;
     }
 
     public E get(int index) {
-        E element = getElements().get(index);
-        return element.withName(element.getName() + " by index " + index);
+        return getElements().get(index);
     }
 
     public E getByAttributeContains(String attribute, String value) {
@@ -141,7 +151,7 @@ public class UIElements<E extends UIElement> extends UIElement {
         return get(Find.CSS, How.EQUAL, attribute, value);
     }
 
-    protected E get(Find find, How how, String... attribute) {
+    protected E get(Find find, How how, String attribute, String value) {
 
         Iterator<E> iterator = iterator();
 
@@ -156,29 +166,35 @@ public class UIElements<E extends UIElement> extends UIElement {
             if (find == Find.TEXT) {
                 attr = wrappedElement.getText();
             } else if (find == Find.ATTRIBUTE) {
-                attr = wrappedElement.getAttribute(attribute[0]);
+                attr = wrappedElement.getAttribute(value);
             } else {
-                attr = wrappedElement.getCssValue(attribute[0]);
+                attr = wrappedElement.getCssValue(value);
             }
 
-            if ((how == How.EQUAL && attr.equals(attribute[1])) || (how == How.CONTAINS && attr.contains(attribute[1]))) {
-                isFound = true;
+
+            switch (how) {
+                case CONTAINS:
+                    isFound = attr.contains(value);
+                    break;
+                case EQUAL:
+                    isFound = attr.equals(value);
+                    break;
             }
 
             if (isFound) {
-                return element.withName(element.getName() + " with " + how + " " + attr);
+                return element;
             }
         }
 
-        throw new NoSuchElementException("Cannot find element by attribute " + Arrays.toString(attribute));
+        throw new NoSuchElementException("Cannot find element by attribute " + attribute + " " + how + " " + value);
     }
 
     public E getByText(String value) {
-        return get(Find.TEXT, How.EQUAL, value);
+        return get(Find.TEXT, How.EQUAL, "", value);
     }
 
     public E getByTextContains(String value) {
-        return get(Find.TEXT, How.CONTAINS, value);
+        return get(Find.TEXT, How.CONTAINS, "", value);
     }
 
     public UIElements<E> exceptFirst() {
@@ -188,26 +204,26 @@ public class UIElements<E extends UIElement> extends UIElement {
     protected enum Find {
 
         ATTRIBUTE {
-                    private String attr;
+            private String attr;
 
-                    public String get() {
-                        return attr;
-                    }
+            public String get() {
+                return attr;
+            }
 
-                    public void set(String attr) {
-                        this.attr = attr;
-                    }
-                }, CSS {
-                    private String attr;
+            public void set(String attr) {
+                this.attr = attr;
+            }
+        }, CSS {
+            private String attr;
 
-                    public String get() {
-                        return attr;
-                    }
+            public String get() {
+                return attr;
+            }
 
-                    public void set(String attr) {
-                        this.attr = attr;
-                    }
-                }, TEXT;
+            public void set(String attr) {
+                this.attr = attr;
+            }
+        }, TEXT;
 
         @Override
         public String toString() {
@@ -235,68 +251,25 @@ public class UIElements<E extends UIElement> extends UIElement {
         return getElements().size();
     }
 
-    public UIElements<E> exceptFromIncluding(int index) {
-        return exceptInnerIncluding(index, size());
-    }
-
-    public UIElements<E> exceptFrom(int index) {
-        return exceptInnerIncluding(index + 1, size());
-    }
-
-    public UIElements<E> exceptToIncluding(int index) {
-        return exceptInnerIncluding(0, index);
-    }
-
-    public UIElements<E> exceptTo(int index) {
-        return exceptInnerIncluding(0, index - 1);
-    }
-
-    public UIElements<E> exceptInnerIncluding(int fromIndex, int toIndex) {
-        return exceptInner(fromIndex - 1, toIndex + 1);
-    }
-
-    public UIElements<E> exceptOuterIncluding(int fromIndex, int toIndex) {
-        return exceptOuter(fromIndex + 1, toIndex - 1);
-    }
-
-    public UIElements<E> exceptInner(int fromIndex, int toIndex) {
-        List<E> proxyList = getProxyElements();
-        proxyList.subList(fromIndex, toIndex).clear();
-        return uiElements(proxyList);
-    }
-
-    public UIElements<E> exceptOuter(int fromIndex, int toIndex) {
-        return uiElements(getProxyElements().subList(fromIndex, toIndex));
-    }
-
     public UIElements<E> except(Integer... indexes) {
 
-        List<E> proxyList = getProxyElements();
+        UIElements<E> clonedUIElements = clone();
+        List<E> proxyList = clonedUIElements.getElements();
 
         for (int index : indexes) {
             proxyList.remove(index);
         }
-        return uiElements(proxyList);
+        return clonedUIElements;
     }
 
-    private UIElements<E> uiElements(List<E> proxyElements) {
-        UIElements uiElements = new UIElements(elementType);
-        uiElements.addAll(proxyElements);
-        return uiElements;
+    protected UIElements<E> getUIElements(List<E> elements) {
+        return new UIElements(elementType, elements);
     }
 
-    public void addAll(Collection<E> c) {
-        getElements().addAll(c);
-    }
-
-    public void addAll(UIElements uiElements) {
-        addAll(uiElements.getProxyElements());
-    }
-
-    private List<E> getProxyElements() {
-        List<E> proxyElements = new ArrayList();
-        proxyElements.addAll(getElements());
-        return proxyElements;
+    @Override
+    public UIElements<E> clone() {
+        ArrayList<E> cloned = (ArrayList<E>) elements.clone();
+        return new UIElements(elementType, cloned);
     }
 
     //Screenshots

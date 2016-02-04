@@ -196,7 +196,7 @@ public class DisplayCondition extends ConditionBuilder {
     }
 
     protected <T extends UIObject> T uiObjectInstance(Class<T> uiObject) {
-        return browser.displayed(uiObject);
+        return browser.init(uiObject, null, null);
     }
 
     protected String partOf(String part, String of) {

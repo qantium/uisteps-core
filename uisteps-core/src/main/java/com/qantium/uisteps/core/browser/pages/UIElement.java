@@ -13,7 +13,7 @@ import org.openqa.selenium.internal.WrapsElement;
  * @author ASolyankin
  */
 @NotInit
-public class UIElement extends AbstractUIObject implements WrapsElement {
+public class UIElement extends HtmlUIObject implements WrapsElement {
 
     private WebElement wrappedElement;
     private By locator;
@@ -46,6 +46,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
         return wrappedElement;
     }
 
+    @Override
     public SearchContext getSearchContext() {
 
         if (getContext() == null) {
@@ -84,10 +85,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
      * @throws IllegalStateException if locator is already set
      */
     public void setLocator(By locator) {
-
-        if (this.locator != null) {
-            throw new IllegalStateException("Locator is already set to " + this);
-        }
         this.locator = locator;
     }
 
@@ -140,12 +137,7 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
-
-        if (getWrappedElement() != null) {
-            return getWrappedElement().isDisplayed();
-        } else {
-            return false;
-        }
+        return getWrappedElement() != null && getWrappedElement().isDisplayed();
     }
 
     @Override
@@ -276,6 +268,6 @@ public class UIElement extends AbstractUIObject implements WrapsElement {
 
     @Override
     public void afterInitialization() {
-        //do nothing
+       //
     }
 }

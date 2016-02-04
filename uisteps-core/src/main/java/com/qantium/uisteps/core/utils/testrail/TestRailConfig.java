@@ -12,7 +12,7 @@ public class TestRailConfig {
     private final JSONObject jsonConfig;
     private String host;
     private String user;
-    private String login;
+    private String password;
     private TestRailAction action;
     private TestRailContainer container;
     private String id;
@@ -24,7 +24,7 @@ public class TestRailConfig {
 
         host = getString("host");
         user = getString("user");
-        login = getString("login");
+        password = getString("passord");
         action = TestRailAction.valueOf(getString("action").toUpperCase());
         container = TestRailContainer.valueOf(getString("container").toUpperCase());
         id = getString("id");
@@ -54,8 +54,8 @@ public class TestRailConfig {
         return user;
     }
 
-    public String getLogin() {
-        return login;
+    public String getPassword() {
+        return password;
     }
 
     public TestRailAction getAction() {

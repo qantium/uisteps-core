@@ -1,31 +1,20 @@
-/*
- * Copyright 2015 A.Solyankin.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.qantium.uisteps.core.browser.pages;
 
 import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
- *
- * @author A.Solyankin
+ * Created by Solan on 02.02.2016.
  */
 @NotInit
 public abstract class AbstractUIObject implements UIObject {
@@ -60,80 +49,22 @@ public abstract class AbstractUIObject implements UIObject {
         return name;
     }
 
+    @Override
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }
 
+    @Override
     public <T> Then<T> then(T value) {
         return inOpenedBrowser().then(value);
     }
 
-    public Object executeScript(String script) {
-        return inOpenedBrowser().executeScript(script);
-    }
-
-    public void switchToNextWindow() {
-        inOpenedBrowser().switchToNextWindow();
-    }
-
-    public void switchToPreviousWindow() {
-        inOpenedBrowser().switchToPreviousWindow();
-    }
-
-    public void switchToDefaultWindow() {
-        inOpenedBrowser().switchToDefaultWindow();
-    }
-
-    public void switchToWindowByIndex(int index) {
-        inOpenedBrowser().switchToWindowByIndex(index);
-    }
-
-    //onDisplayed
-    public <T extends UIElement> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject, this);
-    }
-
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-
-        if (Page.class.isAssignableFrom(uiObject)) {
-            return inOpenedBrowser().onDisplayed(uiObject);
-        } else {
-            return (T) inOpenedBrowser().onDisplayed(this, (Class<UIElement>) uiObject);
-        }
-    }
-
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayed(this, uiObject, by);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(this, uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(this, uiObject, by);
-    }
-
-    public <T extends UIElement> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(this, uiObject);
-    }
-
-    public <T extends UIElement> T find(Class<T> uiObject, By by) {
-        return inOpenedBrowser().find(this, uiObject, by);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(this, uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().findAll(this, uiObject, by);
-    }
-
+    @Override
     public void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition) {
         inOpenedBrowser().waitUntil(uiObject, condition);
     }
 
+    @Override
     public void waitUntil(Function<UIObject, Boolean> condition){
         inOpenedBrowser().waitUntil(this, condition);
     }
@@ -148,4 +79,30 @@ public abstract class AbstractUIObject implements UIObject {
         waitUntilIsDisplayed(this);
     }
 
+    @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
+    }
+
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        return getSearchContext().findElements(by);
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return getSearchContext().findElement(by);
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        return inOpenedBrowser().getDriver();
+    }
+
+    @Override
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot();
+    }
 }
+

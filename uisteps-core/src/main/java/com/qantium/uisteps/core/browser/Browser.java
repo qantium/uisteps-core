@@ -16,7 +16,13 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
+import com.qantium.uisteps.core.browser.context.Context;
+import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
+import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
+import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
+import com.qantium.uisteps.core.browser.pages.elements.alert.ComfirmAlert;
+import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
@@ -41,8 +47,11 @@ import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.security.Credentials;
+import org.openqa.selenium.security.UserAndPassword;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
@@ -126,14 +135,6 @@ public class Browser {
         }
     }
 
-    public <T extends UIElement> T displayed(UIObject context, Class<T> uiObject, By locator) {
-        return init(instatiate(uiObject), context, locator);
-    }
-
-    public <T extends UIObject> T displayed(Class<T> uiObject) {
-        return init(uiObject, null, null);
-    }
-
     public Page openUrl(String url, String... params) {
 
         try {
@@ -194,7 +195,12 @@ public class Browser {
         try {
             waitUntil(uiObject, condition);
         } catch (Exception ex) {
-            throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
+
+            if (uiObject instanceof  UIElement) {
+                throw new RuntimeException(uiObject + "by locator " + ((UIElement) uiObject).getLocatorString() + " is not displayed!\nCause:" + ex);
+            } else {
+                throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
+            }
         }
     }
 
@@ -652,11 +658,29 @@ public class Browser {
         }
     }
 
+    //Alert
+    public void accept(Alert alert) {
+        alert.getWrappedAllert().accept();
+    }
+
+    public void dismiss(ComfirmAlert cofirm) {
+        cofirm.getWrappedAllert().dismiss();
+    }
+
+    public void enterInto(PromtAlert promt, String text) {
+        promt.getWrappedAllert().sendKeys(text);
+    }
+
+    public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
+        Credentials credentials = new UserAndPassword(login, password);
+        authenticationAlert.getWrappedAllert().authenticateUsing(credentials);
+    }
+
     private boolean isInitedByThisBrowser(UIObject uiObject) {
         return this.equals(uiObject.inOpenedBrowser());
     }
 
-    public  <T extends UIObject> T init(Class<T> uiObject, UIObject context, By locator) {
+    public <T extends UIObject> T init(Class<T> uiObject, UIObject context, By locator) {
         return init(instatiate(uiObject), context, locator);
     }
 
@@ -674,16 +698,7 @@ public class Browser {
             }
 
             if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {
-                Context contextAnnotation = uiObject.getClass().getAnnotation(Context.class);
-                By contextLocator;
-
-                try {
-                    contextLocator = getLocatorFactory().getLocator(contextAnnotation.findBy());
-                } catch (IllegalArgumentException ex) {
-                    contextLocator = null;
-                }
-
-                context = init(instatiate(contextAnnotation.value()), null, contextLocator);
+                context = getContext(uiObject.getClass().getAnnotation(Context.class));
             }
 
             uiElement.setContext(context);
@@ -701,22 +716,18 @@ public class Browser {
 
                         uiElement.setName(NameConvertor.humanize(field));
                         field.set(uiObject, uiElement);
-
-                        UIObject fieldContext;
+                        UIObject fieldContext = uiObject;
 
                         if (field.isAnnotationPresent(Context.class)) {
-                            Context contextAnnotation = field.getAnnotation(Context.class);
-                            By contextLocator;
+                            fieldContext = getContext(field.getAnnotation(Context.class));
+                        } else if (field.isAnnotationPresent(UseContext.class)) {
 
-                            try {
-                                contextLocator = getLocatorFactory().getLocator(contextAnnotation.findBy());
-                            } catch (IllegalArgumentException ex) {
-                                contextLocator = null;
+                            if (field.getClass().isAnnotationPresent(Context.class)) {
+                                fieldContext = getContext(field.getClass().getAnnotation(Context.class));
+                            } else {
+                                throw new RuntimeException("Context is not set for " + field);
                             }
 
-                            fieldContext = init(instatiate(contextAnnotation.value()), null, contextLocator);
-                        } else {
-                            fieldContext = uiObject;
                         }
 
                         init(uiElement, fieldContext, getLocatorFactory().getLocator(field));
@@ -729,6 +740,25 @@ public class Browser {
         uiObject.setBrowser(this);
         uiObject.afterInitialization();
         return uiObject;
+    }
+
+    private UIObject getContext(Context context) {
+        Class<? extends UIObject> uiObject = context.value();
+        By contextLocator = null;
+
+        if (UIElement.class.isAssignableFrom(uiObject)) {
+            contextLocator = getContextLocator(context);
+        }
+
+        return init(uiObject, null, contextLocator);
+    }
+
+    private By getContextLocator(Context context) {
+        try {
+            return getLocatorFactory().getLocator(context.findBy());
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
     private List<Field> getUIObjectFields(UIObject uiObject) throws IllegalArgumentException, IllegalAccessException {
@@ -758,7 +788,7 @@ public class Browser {
     }
 
     public <T extends UIElement> T find(Class<T> uiObject, By locator) {
-        return displayed(null, uiObject, locator);
+        return init(instatiate(uiObject), null, locator);
     }
 
     public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
@@ -766,7 +796,7 @@ public class Browser {
     }
 
     public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
-        return displayed(context, uiObject, locator);
+        return init(instatiate(uiObject), context, locator);
     }
 
     //find all
@@ -801,7 +831,7 @@ public class Browser {
         if (UIElement.class.isAssignableFrom(uiObject)) {
             return onDisplayed((T) find((Class<UIElement>) uiObject));
         } else {
-            return onDisplayed(displayed(uiObject));
+            return onDisplayed(init(uiObject, null, null));
         }
     }
 

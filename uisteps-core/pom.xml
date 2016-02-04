@@ -6,7 +6,7 @@
     <artifactId>uisteps-core</artifactId>
     <name>${project.artifactId}</name>
     <description>Framework based on Selenium</description>
-    <version>2.22</version>
+    <version>2.23</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
@@ -93,6 +93,11 @@
             <artifactId>jbehave-junit-runner</artifactId>
             <version>1.1.1</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.9</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.properties;
 
 /**
  * Contains settings that can be set before test running
- * <p>
+ * <p/>
  * Property can be overrided in "uisteps.properties" file or in another file
  * whitch path is set in "properties.path" property. Both files must be in
  * working or/and home directory. Properties in working directory override
@@ -26,10 +26,10 @@ package com.qantium.uisteps.core.properties;
  * System.getProperty("user.home") At last all properties can be oveerided in
  * "uisteps.local.properties". The rules for it are same with
  * "uisteps.properties" file
- * <p>
+ * <p/>
  * Property can be overrided by another using "AS#" construction, e.g.
  * webdriver.driver = AS#driver
- * <p>
+ * <p/>
  * List of properties:
  * <ul>
  * <li>properties.path</li>
@@ -59,11 +59,12 @@ package com.qantium.uisteps.core.properties;
  * <li>browser.width</li>
  * <li>browser.height</li>
  * <li>testrail.config</li>
+ * <li>testrail.tests.path</li>
+ * <li>testrail.tests</li>
  * </ul>
  *
- * @see com.qantium.uisteps.core.properties.UIStepsProperties
- *
  * @author A.Solyankin
+ * @see com.qantium.uisteps.core.properties.UIStepsProperties
  */
 public enum UIStepsProperty {
 
@@ -76,33 +77,31 @@ public enum UIStepsProperty {
      * set. Path can be relative or absolute
      */
     PROPERTIES_PATH {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.driver" to specify with what driver by default browser
      * will be opened
      */
     WEBDRIVER_DRIVER {
-                @Override
-                public String getDefault() {
-                    return "firefox";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "firefox";
+        }
+    },
     /**
      * Set "webdriver.remote.url" to specify url for remote driver browser will
      * be opened
      */
     WEBDRIVER_REMOTE_URL {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.base.url.host" to specify base host for pages
      *
@@ -110,12 +109,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     WEBDRIVER_BASE_URL_HOST {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.base.url.protocol" to specify base protocol for page url
      *
@@ -123,12 +121,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     WEBDRIVER_BASE_URL_PROTOCOL {
-
-                @Override
-                public String getDefault() {
-                    return "http";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "http";
+        }
+    },
     /**
      * Set "webdriver.base.url.user" to specify user for basic authorization to
      * page
@@ -137,12 +134,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     WEBDRIVER_BASE_URL_USER {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.base.url.password" to specify password for basic
      * authorization to page
@@ -151,15 +147,14 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     WEBDRIVER_BASE_URL_PASSWORD {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.proxy" to specify ip and port for proxy server
-     * <p>
+     * <p/>
      * Examples:
      * <ul>
      * <li>localhost<li>
@@ -171,39 +166,35 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     WEBDRIVER_PROXY {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait in milliseconds
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT {
-
-                @Override
-                public String getDefault() {
-                    return "3000";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "3000";
+        }
+    },
     /**
      * Set "webdriver.timeouts.polling" to specify polling time in milliseconds for implicitly wait
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_POLLING {
-
-                @Override
-                public String getDefault() {
-                    return "250";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "250";
+        }
+    },
     /**
      * Set "steps.meta.regexp" to specify regexp for step meta
      */
     STEPS_META_REGEXP {
-
         @Override
         public String getDefault() {
             return "\\s?META(.*)";
@@ -213,7 +204,6 @@ public enum UIStepsProperty {
      * Set "steps.meta.param.regexp" to specify regexp for parameters in step meta
      */
     STEPS_META_PARAM_REGEXP {
-
         @Override
         public String getDefault() {
             return "\\[(.+?)=(.*?)\\]";
@@ -222,13 +212,11 @@ public enum UIStepsProperty {
     /**
      * Set "home.dir" to specify directory for saved file
      *
-     * @see
-     * com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String)
+     * @see com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String)
      * @see com.qantium.uisteps.core.storage.Storage
      * @see com.qantium.uisteps.core.storage.Saved
      */
     HOME_DIR {
-
         @Override
         public String getDefault() {
             return "target/site";
@@ -236,7 +224,7 @@ public enum UIStepsProperty {
     },
     /**
      * Set "source.take" to specify when to take screenshots
-     *
+     * <p/>
      * Values:
      * <ul>
      * <li>FOR_EACH_ACTION<li>
@@ -246,7 +234,6 @@ public enum UIStepsProperty {
      * </ul>
      */
     SOURCE_TAKE {
-
         @Override
         public String getDefault() {
             return "FOR_FAILURES";
@@ -254,7 +241,7 @@ public enum UIStepsProperty {
     },
     /**
      * Set "screenshots.take" to specify when to take screenshots
-     *
+     * <p/>
      * Values:
      * <ul>
      * <li>FOR_EACH_ACTION<li>
@@ -264,7 +251,6 @@ public enum UIStepsProperty {
      * </ul>
      */
     SCREENSHOTS_TAKE {
-
         @Override
         public String getDefault() {
             return "FOR_FAILURES";
@@ -277,12 +263,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.storage.Saved
      */
     SCREENSHOTS_SCALE_WIDTH {
-
-                @Override
-                public String getDefault() {
-                    return "48";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "48";
+        }
+    },
     /**
      * Set "screenshots.scale.height" to specify scaled height of saved images
      *
@@ -290,12 +275,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.storage.Saved
      */
     SCREENSHOTS_SCALE_HEIGHT {
-
-                @Override
-                public String getDefault() {
-                    return "48";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "48";
+        }
+    },
     /**
      * Set "base.url.host" to specify string for host part in BaseUrl
      *
@@ -303,22 +287,20 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     BASE_URL_HOST {
-
-                @Override
-                public String getDefault() {
-                    return "#HOST";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "#HOST";
+        }
+    },
     /**
      * Set "null.value" to specify string for null values
      */
     NULL_VALUE {
-
-                @Override
-                public String getDefault() {
-                    return "#NULL";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "#NULL";
+        }
+    },
     /**
      * Set "base.url.param.regexp" to specify regexp for parameters in url
      *
@@ -326,12 +308,11 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     BASE_URL_PARAM_REGEXP {
-
-                @Override
-                public String getDefault() {
-                    return "(\\[(.*?)\\])";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "(\\[(.*?)\\])";
+        }
+    },
     /**
      * Set "base.url.param.value.regexp" to specify regexp for key-value
      * parameters in url
@@ -340,39 +321,36 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     BASE_URL_PARAM_VALUE_REGEXP {
-
-                @Override
-                public String getDefault() {
-                    return "(.+?)=(.*)";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "(.+?)=(.*)";
+        }
+    },
     /**
      * Set "browser.width" to specify width of opened browser
      *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     BROWSER_WIDTH {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "browser.height" to specify height of opened browser
      *
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     BROWSER_HEIGHT {
-
-                @Override
-                public String getDefault() {
-                    return "";
-                }
-            },
+        @Override
+        public String getDefault() {
+            return "";
+        }
+    },
     /**
      * Set "testrail.config" to specify config for integration with testrail
-     *
+     * <p/>
      * Example:
      * {"host":"host",
      * "user":"user",
@@ -384,10 +362,27 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.BrowserFactory
      */
     TESTRAIL_CONFIG {
-
         @Override
         public String getDefault() {
             return "";
+        }
+    },
+    /**
+     * Set "testrail.tests.path" to specify path to *.properties file with list of testrail tests
+     */
+    TESTRAIL_TESTS_PATH {
+        @Override
+        public String getDefault() {
+            return "uisteps.properties";
+        }
+    },
+    /**
+     * Set "testrail.tests" to specify list of testrail tests
+     */
+    TESTRAIL_TESTS {
+        @Override
+        public String getDefault() {
+            return "testrail.tests";
         }
     };
 

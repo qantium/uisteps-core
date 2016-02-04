@@ -31,7 +31,7 @@ import org.openqa.selenium.WebElement;
  */
 @NotInit
 @Root
-public class Page extends AbstractUIObject {
+public class Page extends HtmlUIObject {
 
     private Url url = new Url();
 
@@ -65,34 +65,5 @@ public class Page extends AbstractUIObject {
             pageUrl = inOpenedBrowser().getDriver().getCurrentUrl();
         }
         return getName() + " by url " + pageUrl;
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        return inOpenedBrowser().getDriver().findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return inOpenedBrowser().getDriver().findElement(by);
-    }
-
-    //Screenshots
-    @Override
-    public Screenshot takeScreenshot() {
-        return inOpenedBrowser().takeScreenshot();
-    }
-
-    public Screenshot takeScreenshot(UIElement... elements) {
-        return inOpenedBrowser().takeScreenshot(elements);
-    }
-
-    public Screenshot takeScreenshot(Ignored... elements) {
-        return inOpenedBrowser().takeScreenshot(elements);
-    }
-
-    @Override
-    public void afterInitialization() {
-        waitUntilIsDisplayed();
     }
 }

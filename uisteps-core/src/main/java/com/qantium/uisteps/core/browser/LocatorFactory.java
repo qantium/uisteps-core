@@ -16,13 +16,13 @@
 package com.qantium.uisteps.core.browser;
 
 import java.lang.reflect.Field;
+
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- *
  * @author A.Solyankin
  */
 public class LocatorFactory {
@@ -37,19 +37,31 @@ public class LocatorFactory {
             return getLocator(uiObject.getAnnotation(FindBy.class));
         }
 
-        return getLocator(uiObject.getSuperclass());
+        try {
+            return getLocator(uiObject.getSuperclass());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex + " for " + uiObject);
+        }
     }
 
+
     public By getLocator(Object uiObject) {
-        return getLocator(uiObject.getClass());
+        try {
+            return getLocator(uiObject.getClass());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex + " for " + uiObject);
+        }
     }
 
     public By getLocator(Field field) {
-
-        if (field.isAnnotationPresent(FindBy.class)) {
-            return getLocator(field.getAnnotation(FindBy.class));
-        } else {
-            return getLocator(field.getType());
+        try {
+            if (field.isAnnotationPresent(FindBy.class)) {
+                return getLocator(field.getAnnotation(FindBy.class));
+            } else {
+                return getLocator(field.getType());
+            }
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex + " for " + field);
         }
     }
 
@@ -105,7 +117,7 @@ public class LocatorFactory {
             case XPATH:
                 return By.xpath(using);
             default:
-                throw new IllegalArgumentException("Cannot get " + how + " " + using + " locator!");
+                throw new IllegalArgumentException("Cannot find " + how + " " + using + " locator");
         }
     }
 

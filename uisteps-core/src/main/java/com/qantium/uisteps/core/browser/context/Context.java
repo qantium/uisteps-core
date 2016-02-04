@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser;
+package com.qantium.uisteps.core.browser.context;
 
-import com.qantium.uisteps.core.browser.pages.UIElement;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -31,8 +32,8 @@ import org.openqa.selenium.support.FindBy;
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Inherited
 public @interface Context {
-    
-    Class<? extends UIElement> value();
-    
+
+    Class<? extends UIObject> value();
+
     FindBy findBy() default @FindBy;
 }
