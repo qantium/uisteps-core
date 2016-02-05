@@ -29,10 +29,14 @@ import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.utils.data.DataContainer;
 import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
+
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
@@ -43,21 +47,41 @@ import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
- *
  * @author ASolyankin
  */
 public class User implements Named {
 
     private BrowserManager browserManager = new BrowserManager();
-    public static final String DEFAULT_NAME = "user";
-    private String name;
-
-    public User(String name) {
-        this.name = name;
-    }
+    private String name = "user";
+    public final DataContainer DATA;
 
     public User() {
-        this(DEFAULT_NAME);
+        DATA = new DataContainer();
+    }
+
+    public User(String data) {
+        DATA = new DataContainer(data);
+    }
+
+    public User(String defaultData, String data) {
+        DATA = new DataContainer(defaultData, data);
+    }
+
+    public User(File data) {
+        DATA = new DataContainer(data);
+    }
+
+    public User(File defaultData, File data) {
+        DATA = new DataContainer(defaultData, data);
+    }
+
+    public String get(Object key) {
+        return DATA.get(key);
+    }
+
+    public <T extends User> T set(Object key, Object value) {
+        DATA.set(key, value);
+        return (T) this;
     }
 
     public BrowserManager getBrowserManager() {
@@ -337,12 +361,12 @@ public class User implements Named {
         return (T) this;
     }
 
-    public  <T extends User> T contextClick() {
+    public <T extends User> T contextClick() {
         inOpenedBrowser().contextClick();
         return (T) this;
     }
 
-    public  <T extends User> T releaseMouse() {
+    public <T extends User> T releaseMouse() {
         inOpenedBrowser().releaseMouse();
         return (T) this;
     }
@@ -536,7 +560,7 @@ public class User implements Named {
     public Screenshot takeScreenshot(Ignored... elements) {
         return inOpenedBrowser().takeScreenshot(elements);
     }
-    
+
     public <T extends User> T waitUntilIsDisplayed(UIObject uiObject) {
         inOpenedBrowser().waitUntilIsDisplayed(uiObject);
         return (T) this;
