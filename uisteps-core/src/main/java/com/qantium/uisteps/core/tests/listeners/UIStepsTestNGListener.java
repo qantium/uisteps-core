@@ -28,17 +28,9 @@ public class UIStepsTestNGListener extends TestListenerAdapter {
 
     protected void reportTestrail(ITestResult testResult) {
 
-        TestRailStatus status = TestRailStatus.PASSED;
-
-        switch (testResult.getStatus()) {
-            case 2:
-                status = TestRailStatus.FAILED;
-                break;
-        }
-
-        String[] groups = testResult.getMethod().getGroups();
-
+        TestRailStatus status = getStatus(testResult);
         TestRailAdapter testRailAdapter = new TestRailAdapter();
+        String[] groups = testResult.getMethod().getGroups();
 
         for (String group : groups) {
 
@@ -46,6 +38,14 @@ public class UIStepsTestNGListener extends TestListenerAdapter {
                 testRailAdapter.addTestResult(group.replace("#", ""), status);
             }
         }
+    }
 
+    protected TestRailStatus getStatus(ITestResult testResult) {
+        switch (testResult.getStatus()) {
+            case 2:
+                return TestRailStatus.FAILED;
+            default:
+                return TestRailStatus.PASSED;
+        }
     }
 }

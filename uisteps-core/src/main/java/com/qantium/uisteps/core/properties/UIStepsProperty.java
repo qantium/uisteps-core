@@ -354,7 +354,7 @@ public enum UIStepsProperty {
      * Example:
      * {"host":"host",
      * "user":"user",
-     * "login":"login",
+     * "password":"password",
      * "action":"export",
      * "container":"run",
      * "id":"id"}
@@ -373,7 +373,7 @@ public enum UIStepsProperty {
     TESTRAIL_TESTS_PATH {
         @Override
         public String getDefault() {
-            return "uisteps.properties";
+            return "/target/testrail/uisteps.testrail.properties";
         }
     },
     /**
@@ -382,7 +382,7 @@ public enum UIStepsProperty {
     TESTRAIL_TESTS {
         @Override
         public String getDefault() {
-            return "testrail.tests";
+            return "";
         }
     };
 

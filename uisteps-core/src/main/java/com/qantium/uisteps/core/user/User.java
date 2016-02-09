@@ -33,7 +33,6 @@ import com.qantium.uisteps.core.utils.data.DataContainer;
 import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,36 +50,34 @@ import ru.yandex.qatools.ashot.coordinates.Coords;
  */
 public class User implements Named {
 
-    private BrowserManager browserManager = new BrowserManager();
-    private String name = "user";
-    public final DataContainer DATA;
+    private BrowserManager browserManager;
+    private String name;
+    private DataContainer DATA;
 
     public User() {
-        DATA = new DataContainer();
+        setBrowserManager();
+        setData();
+        setName();
     }
 
-    public User(String data) {
-        DATA = new DataContainer(data);
+    protected void setBrowserManager() {
+        setBrowserManager(new BrowserManager());
     }
 
-    public User(String defaultData, String data) {
-        DATA = new DataContainer(defaultData, data);
+    protected void setData() {
+        setData(new DataContainer());
     }
 
-    public User(File data) {
-        DATA = new DataContainer(data);
+    protected void setName() {
+        setName("user");
     }
 
-    public User(File defaultData, File data) {
-        DATA = new DataContainer(defaultData, data);
+    public DataContainer data() {
+        return DATA;
     }
 
-    public String get(Object key) {
-        return DATA.get(key);
-    }
-
-    public <T extends User> T set(Object key, Object value) {
-        DATA.set(key, value);
+    public <T extends User> T  setData(DataContainer DATA) {
+        this.DATA = DATA;
         return (T) this;
     }
 
@@ -88,8 +85,9 @@ public class User implements Named {
         return browserManager;
     }
 
-    public void setBrowserManager(BrowserManager browserManager) {
+    public <T extends User> T setBrowserManager(BrowserManager browserManager) {
         this.browserManager = browserManager;
+        return (T) this;
     }
 
     public Browser inOpenedBrowser() {
@@ -316,7 +314,7 @@ public class User implements Named {
     }
 
     //Current page
-    public <T extends User> T refreshtPage() {
+    public <T extends User> T refreshPage() {
         inOpenedBrowser().refreshPage();
         return (T) this;
     }
@@ -565,4 +563,5 @@ public class User implements Named {
         inOpenedBrowser().waitUntilIsDisplayed(uiObject);
         return (T) this;
     }
+
 }

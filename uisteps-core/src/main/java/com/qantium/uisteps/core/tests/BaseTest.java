@@ -25,17 +25,20 @@ import com.qantium.uisteps.core.verify.Verify;
  */
 public class BaseTest {
 
-    public final Verify verify;
-    public final Assume assume;
-    public final Storage storage;
+    public final Verify verify = getAssertions();
+    public final Assume assume = getAssumtions();
+    public final Storage storage = getStorage();
 
-    public BaseTest(Verify verify, Assume assume, Storage storage) {
-        this.verify = verify;
-        this.assume = assume;
-        this.storage = storage;
+    protected Verify getAssertions() {
+        return new Verify();
     }
 
-    public BaseTest() {
-        this(new Verify(), new Assume(), new Storage());
+    protected Assume getAssumtions() {
+        return new Assume();
     }
+
+    protected Storage getStorage() {
+        return new Storage();
+    }
+
 }

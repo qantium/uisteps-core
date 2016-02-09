@@ -16,7 +16,9 @@ public class TestRailClient {
 
 
     public TestRailClient(String host, String user, String password) {;
-        api = new RestApi(host).setBase64BasicAuthorization(user, password);
+        api = new RestApi(host + "/api/v2")
+                .setBase64BasicAuthorization(user, password)
+                .setHeader("Content-Type", "application/json");
     }
 
     public String getPassword() {
@@ -38,10 +40,7 @@ public class TestRailClient {
     public Set<String> getTestsFromRun(String id) {
         try {
             Set<String> tests = new HashSet();
-
-            RestApiRequest request = api.getRequest("/api/v2/get_tests/" + id);
-            request.setHeader("Content-Type", "application/json");
-
+            RestApiRequest request = api.createRequest("/get_tests/" + id);
             JSONArray testsJSONArray = request.get().toJSONArray();
 
             for (int i = 0; i < testsJSONArray.length(); i++) {
@@ -54,8 +53,7 @@ public class TestRailClient {
     }
 
     public void addTestResult(String testId, TestRailStatus status) {
-        RestApiRequest request = api.getRequest("/api/v2/add_result/" + testId);
-        request.setHeader("Content-Type", "application/json");
+        RestApiRequest request = api.createRequest("/add_result/" + testId);
         try {
             request.post("{\"status_id\":" + status + "}");
         } catch (Exception ex) {

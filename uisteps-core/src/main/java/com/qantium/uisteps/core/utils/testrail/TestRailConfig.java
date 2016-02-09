@@ -1,7 +1,11 @@
 package com.qantium.uisteps.core.utils.testrail;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Anton Solyankin
@@ -10,12 +14,11 @@ public class TestRailConfig {
 
     private final String config;
     private final JSONObject jsonConfig;
-    private String host;
-    private String user;
-    private String password;
-    private TestRailAction action;
-    private TestRailContainer container;
-    private String id;
+    private final String host;
+    private final String user;
+    private final String password;
+    private final TestRailAction  action;
+    private final Set<TestRailEntity> containers = new HashSet();
 
 
     public TestRailConfig(String config) {
@@ -24,10 +27,9 @@ public class TestRailConfig {
 
         host = getString("host");
         user = getString("user");
-        password = getString("passord");
+        password = getString("password");
         action = TestRailAction.valueOf(getString("action").toUpperCase());
-        container = TestRailContainer.valueOf(getString("container").toUpperCase());
-        id = getString("id");
+        initContainers();
     }
 
     private JSONObject getConfigJSON(String config) {
@@ -37,6 +39,20 @@ public class TestRailConfig {
             throw new IllegalArgumentException(ex);
         }
     }
+
+    private void initContainers() {
+        try {
+            JSONArray runArray = jsonConfig.getJSONArray("run");
+
+            for(int i =0; i < runArray.length(); i++) {
+                TestRailEntity container = new TestRailEntity(runArray.getString(i));
+                containers.add(container);
+            }
+        } catch (JSONException ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
 
     protected String getString(String key) {
         try {
@@ -62,13 +78,8 @@ public class TestRailConfig {
         return action;
     }
 
-
-    public TestRailContainer getContainer() {
-        return container;
-    }
-
-    public String getId() {
-        return id;
+    public Set<TestRailEntity> getContainers() {
+        return containers;
     }
 
     @Override

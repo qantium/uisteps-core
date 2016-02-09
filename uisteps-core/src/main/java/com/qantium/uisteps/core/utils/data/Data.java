@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -17,10 +18,10 @@ import java.util.Map;
  */
 public class Data {
 
-    private JSONObject data = new JSONObject();
+    private final JSONObject data;
 
     public Data() {
-        this.data = getDefaultData();
+        this.data = new JSONObject();
     }
 
     public Data(String data) {
@@ -32,17 +33,20 @@ public class Data {
     }
 
     public Data(File file) {
-        this.data = getDefaultData(file);
+        this.data = getFrom(file);
     }
 
-    protected JSONObject getDefaultData() {
-        return new JSONObject();
-    }
 
-    protected JSONObject getDefaultData(File file) {
+    protected JSONObject getFrom(File file) {
+
+        if(!file.isAbsolute()) {
+            file = new File(System.getProperty("user.dir") + file.getPath());
+        }
+
         StringBuilder sb = new StringBuilder();
+
         try {
-            for(String line: Files.readAllLines(file.toPath(), Charset.defaultCharset())) {
+            for (String line : Files.readAllLines(file.toPath(), Charset.defaultCharset())) {
                 sb.append(line);
             }
             return new JSONObject(sb.toString());
@@ -55,16 +59,15 @@ public class Data {
     }
 
     public JSONObject toJSON() {
-
-        try {
-            return new JSONObject(data.toString());
-        } catch (JSONException ex) {
-            throw new RuntimeException(ex);
-        }
+        return data;
     }
 
-    public String get(Object key) {
-        return data.optString(key.toString());
+    public Object get(Object key) {
+        try {
+            return data.get(key.toString());
+        } catch (JSONException ex) {
+            throw new RuntimeException("Cannot get " + key + " from: " + data + "\nCause:" + ex);
+        }
     }
 
     public String getString(String key) {

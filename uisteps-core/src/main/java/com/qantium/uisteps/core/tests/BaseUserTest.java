@@ -45,9 +45,12 @@ public class BaseUserTest<U extends User> extends BaseTest {
     public final U user;
 
     public BaseUserTest(Class<U> user) {
+        this.user = instatiate(user);
+    }
 
+    protected <U extends User> U instatiate(Class<U> user) {
         try {
-            this.user = (U) ConstructorUtils.invokeConstructor(user, new Object[0]);
+            return (U) ConstructorUtils.invokeConstructor(user, new Object[0]);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
             throw new RuntimeException("Cannot instantiate " + user + ".\nCause: " + ex);
         }
@@ -230,7 +233,7 @@ public class BaseUserTest<U extends User> extends BaseTest {
     }
 
     public <T extends User> T refreshtPage() {
-        return user.refreshtPage();
+        return user.refreshPage();
     }
 
     public String getCurrentTitle() {
@@ -293,15 +296,15 @@ public class BaseUserTest<U extends User> extends BaseTest {
         return user.executeScript(script, args);
     }
 
-    public DisplayCondition not() {
+    public DisplayCondition userNot() {
         return user.not();
     }
 
-    public DisplayCondition not(boolean not) {
+    public DisplayCondition userNot(boolean not) {
         return user.not(not);
     }
 
-    public DisplayCondition not(String not) {
+    public DisplayCondition userNot(String not) {
         return user.not(not);
     }
 
