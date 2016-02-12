@@ -17,13 +17,13 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit
-public class CheckBox extends UIElement {
+public class CheckBox extends UIElement implements Fillable {
 
     public String getLabelText() {
         return getWrappedCheckBox().getLabelText();
@@ -38,16 +38,42 @@ public class CheckBox extends UIElement {
         inOpenedBrowser().deselect(this);
         return null;
     }
-    
+
     public ru.yandex.qatools.htmlelements.element.CheckBox getWrappedCheckBox() {
         return new ru.yandex.qatools.htmlelements.element.CheckBox(getWrappedElement());
     }
-    
+
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();
     }
-    
+
     public boolean isSelected() {
         return getWrappedElement().isSelected();
+    }
+
+    public Object select(boolean flag) {
+        if (flag) {
+            return select();
+        } else {
+            return deselect();
+        }
+    }
+
+    public Object select(String flag) {
+        return select(Boolean.valueOf(flag));
+    }
+
+    @Override
+    public Object setValue(Object value) {
+
+        if(value == null) {
+            throw new NullPointerException("Cannot set null value to " + this);
+        }
+
+        try {
+            return select((Boolean) value);
+        } catch (Exception ex) {
+            return select(value.toString());
+        }
     }
 }

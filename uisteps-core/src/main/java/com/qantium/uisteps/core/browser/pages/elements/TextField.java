@@ -17,13 +17,13 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-
+import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 /**
  *
  * @author ASolyankin
  */
 @NotInit
-public class TextField extends UIElement {
+public class TextField extends UIElement implements Fillable {
 
     public Object sendKeys(String keys) {
         return type(keys);
@@ -46,5 +46,21 @@ public class TextField extends UIElement {
     
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();
+    }
+
+    @Override
+    public Object setValue(Object value) {
+
+        if(value == null) {
+            return clear();
+        }
+
+        String text = value.toString();
+
+       if(text.isEmpty()) {
+           return clear();
+       } else {
+           return enter(text);
+       }
     }
 }

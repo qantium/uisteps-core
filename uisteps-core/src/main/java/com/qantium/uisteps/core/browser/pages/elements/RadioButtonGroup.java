@@ -18,17 +18,19 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 import org.openqa.selenium.WebElement;
 import ru.yandex.qatools.htmlelements.element.Radio;
 
 /**
- *
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 @NotInit
-public class RadioButtonGroup extends UIElement {
+public class RadioButtonGroup extends UIElement implements Fillable {
 
     protected Radio getWrappedRadio() {
         return new Radio(getWrappedElement());
@@ -72,7 +74,7 @@ public class RadioButtonGroup extends UIElement {
         return null;
     }
 
-    public void selectByIndex(int index) {
+    public Object selectByIndex(int index) {
         List<RadioButton> buttons = getButtons();
 
         if (index < 0 || index >= buttons.size()) {
@@ -82,6 +84,16 @@ public class RadioButtonGroup extends UIElement {
         RadioButton button = buttons.get(index);
         button.setIndex(index);
         button.select();
+        return null;
+    }
+
+    @Override
+    public Object setValue(Object value) {
+        try {
+            return selectByIndex((Integer) value);
+        } catch (Exception ex) {
+            return selectByValue(value.toString());
+        }
     }
 
     public class RadioButton extends UIElement {

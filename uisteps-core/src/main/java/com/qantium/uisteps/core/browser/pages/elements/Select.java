@@ -17,15 +17,17 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+
 import java.util.List;
+
+import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 import org.openqa.selenium.WebElement;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit
-public class Select extends UIElement {
+public class Select extends UIElement implements Fillable {
 
     public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
         return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());
@@ -98,14 +100,23 @@ public class Select extends UIElement {
         return deselect(value, By.VISIBLE_VALUE);
     }
 
-    public static enum By {
+    @Override
+    public Object setValue(Object value) {
+        try {
+            return selectByIndex((Integer) value);
+        } catch (Exception ex) {
+            return selectByVisibleText(value.toString());
+        }
+    }
+
+    public enum By {
         VALUE, VISIBLE_VALUE, INDEX;
     }
-    
+
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();
     }
-    
+
     public class Option {
 
         private String name = "option";
