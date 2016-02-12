@@ -1,6 +1,5 @@
 package com.qantium.uisteps.core.utils.data;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,9 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by Anton Solyankin
@@ -22,6 +20,10 @@ public class Data {
 
     public Data() {
         this.data = new JSONObject();
+    }
+
+    public Data(JSONObject data) {
+        this.data = data;
     }
 
     public Data(String data) {
@@ -114,9 +116,40 @@ public class Data {
         return data.length();
     }
 
-    public Data set(Object key, Object value) {
+    public Data put(Object key, Object value) {
         try {
             data.putOpt(key.toString(), value);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return this;
+    }
+
+    public Data put(Object key, Collection col) {
+        try {
+            data.put(key.toString(), col);
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return this;
+    }
+
+    public Data append(Object key, Collection col) {
+        try {
+            for(Object item: col) {
+                data.append(key.toString(), item);
+            }
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return this;
+    }
+
+    public Data append(Object key, JSONArray jsonArray) {
+        try {
+            for(int i = 0; i < jsonArray.length(); i++) {
+                data.append(key.toString(), jsonArray.get(i));
+            }
         } catch (JSONException ex) {
             throw new RuntimeException(ex);
         }

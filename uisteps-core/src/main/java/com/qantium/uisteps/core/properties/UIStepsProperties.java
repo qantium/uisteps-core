@@ -150,7 +150,7 @@ public class UIStepsProperties {
         Properties defaults = new Properties();
 
         for (UIStepsProperty property : UIStepsProperty.values()) {
-            defaults.setProperty(property.toString(), property.getDefault());
+            defaults.setProperty(property.toString(), property.defaultValue);
         }
         return defaults;
     }

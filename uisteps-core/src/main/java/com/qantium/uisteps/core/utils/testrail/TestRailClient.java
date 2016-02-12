@@ -1,6 +1,7 @@
 package com.qantium.uisteps.core.utils.testrail;
 
 import com.qantium.net.rest.RestApi;
+import com.qantium.net.rest.RestApiException;
 import com.qantium.net.rest.RestApiRequest;
 import org.json.JSONArray;
 
@@ -37,22 +38,27 @@ public class TestRailClient {
         return api.getBasicAuthorization();
     }
 
-    public Set<String> getTestsFromRun(String id) {
-        try {
-            Set<String> tests = new HashSet();
-            RestApiRequest request = api.createRequest("/get_tests/" + id);
-            JSONArray testsJSONArray = request.get().toJSONArray();
+    public JSONArray getTestsFromRun(String id) {
 
-            for (int i = 0; i < testsJSONArray.length(); i++) {
-                tests.add(testsJSONArray.getJSONObject(i).getString("id"));
-            }
-            return tests;
-        } catch (Exception ex) {
+        try {
+            RestApiRequest request = api.createRequest("/get_tests/" + id);
+            return request.get().toJSONArray();
+        } catch (RestApiException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public void addTestResult(String testId, TestRailStatus status) {
+    public JSONArray getStatuses() {
+
+        try {
+            RestApiRequest request = api.createRequest("/get_statuses");
+            return request.get().toJSONArray();
+        } catch (RestApiException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void addTestResult(String testId, int status) {
         RestApiRequest request = api.createRequest("/add_result/" + testId);
         try {
             request.post("{\"status_id\":" + status + "}");

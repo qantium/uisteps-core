@@ -145,7 +145,11 @@ public class Verify {
     }
 
     public void result(Result result) {
-        Assert.assertTrue(result.toString(), result.isSuccessful());
+        try {
+            Assert.assertTrue(result.toString(), result.isSuccessful());
+        } finally {
+            result.reset();
+        }
     }
 
     public void result() {

@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser;
 
 import java.lang.reflect.Field;
 
+import com.qantium.uisteps.core.browser.zk.ZK;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
@@ -44,15 +45,6 @@ public class LocatorFactory {
         }
     }
 
-
-    public By getLocator(Object uiObject) {
-        try {
-            return getLocator(uiObject.getClass());
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException(ex + " for " + uiObject);
-        }
-    }
-
     public By getLocator(Field field) {
         try {
             if (field.isAnnotationPresent(FindBy.class)) {
@@ -62,6 +54,14 @@ public class LocatorFactory {
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ex + " for " + field);
+        }
+    }
+
+    public By getLocator(Object uiObject) {
+        try {
+            return getLocator(uiObject.getClass());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex + " for " + uiObject);
         }
     }
 
@@ -105,7 +105,11 @@ public class LocatorFactory {
             case CSS:
                 return By.cssSelector(using);
             case ID:
-                return By.id(using);
+                if(ZK.isZkId(using)) {
+                    return ZK.byId(using);
+                } else {
+                    return By.id(using);
+                }
             case LINK_TEXT:
                 return By.linkText(using);
             case NAME:

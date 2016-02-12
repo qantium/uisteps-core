@@ -1,8 +1,11 @@
 package com.qantium.uisteps.core.utils.testrail;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.qantium.uisteps.core.properties.UIStepsProperties;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+
+import com.qantium.uisteps.core.utils.data.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,56 +13,47 @@ import java.util.Set;
 /**
  * Created by Anton Solyankin
  */
-public class TestRailConfig {
+public class TestRailConfig extends Data {
 
-    private final String config;
-    private final JSONObject jsonConfig;
     private final String host;
     private final String user;
     private final String password;
-    private final TestRailAction  action;
-    private final Set<TestRailEntity> containers = new HashSet();
+    private final Set<TestRailEntity> runs = new HashSet();
 
+    public TestRailConfig(String host, String user, String password, String runs) {
+        this.host = host;
+        this.user = user;
+        this.password = password;
 
-    public TestRailConfig(String config) {
-        this.config = config;
-        jsonConfig = getConfigJSON(config);
+        for (String id : runs.split(",")) {
+            this.runs.add(new TestRailEntity(id));
+        }
 
-        host = getString("host");
-        user = getString("user");
-        password = getString("password");
-        action = TestRailAction.valueOf(getString("action").toUpperCase());
-        initContainers();
-    }
+        put("host", host);
+        put("user", user);
+        put("password", password);
+        put("runs", runs);
 
-    private JSONObject getConfigJSON(String config) {
-        try {
-            return new JSONObject(config);
-        } catch (JSONException ex) {
-            throw new IllegalArgumentException(ex);
+        if (!isValid()) {
+            throw new TestRailException("Config " + this + " is not valid!");
         }
     }
 
-    private void initContainers() {
-        try {
-            JSONArray runArray = jsonConfig.getJSONArray("run");
+    public TestRailConfig() {
 
-            for(int i =0; i < runArray.length(); i++) {
-                TestRailEntity container = new TestRailEntity(runArray.getString(i));
-                containers.add(container);
-            }
-        } catch (JSONException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+        this(
+                UIStepsProperties.getProperty(TESTRAIL_HOST),
+                UIStepsProperties.getProperty(TESTRAIL_USER),
+                UIStepsProperties.getProperty(TESTRAIL_PASSWORD),
+                UIStepsProperties.getProperty(TESTRAIL_RUNS)
+        );
     }
 
-
-    protected String getString(String key) {
-        try {
-            return jsonConfig.getString(key);
-        } catch (JSONException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+    public boolean isValid() {
+        return !StringUtils.isEmpty(host)
+                && !StringUtils.isEmpty(user)
+                && !StringUtils.isEmpty(password)
+                && !runs.isEmpty();
     }
 
     public String getHost() {
@@ -74,16 +68,7 @@ public class TestRailConfig {
         return password;
     }
 
-    public TestRailAction getAction() {
-        return action;
-    }
-
-    public Set<TestRailEntity> getContainers() {
-        return containers;
-    }
-
-    @Override
-    public String toString() {
-        return config;
+    public Set<TestRailEntity> getRuns() {
+        return runs;
     }
 }

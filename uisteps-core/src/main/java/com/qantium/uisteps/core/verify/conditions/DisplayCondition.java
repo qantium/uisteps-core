@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.verify.conditions;
 
+import com.qantium.uisteps.core.NotDisplayException;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
@@ -29,7 +30,7 @@ import ru.yandex.qatools.ashot.comparison.ImageDiff;
 
 /**
  *
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
 public class DisplayCondition extends ConditionBuilder {
 
@@ -107,7 +108,12 @@ public class DisplayCondition extends ConditionBuilder {
     }
 
     public Condition see(String description, Class<? extends UIObject> uiObject) {
-        return see(description, uiObjectInstance(uiObject));
+        try {
+            return see(description, uiObjectInstance(uiObject));
+        } catch (NotDisplayException ex) {
+            UIObject obj = browser.instatiate(uiObject);
+            return see(description, isDisplayed(obj), quoted(obj), quoted(obj));
+        }
     }
 
     public Condition see(UIObject uiObject, String value) {

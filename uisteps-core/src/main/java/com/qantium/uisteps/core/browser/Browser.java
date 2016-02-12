@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
+import com.qantium.uisteps.core.NotDisplayException;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
@@ -23,6 +24,7 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ComfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
+import com.qantium.uisteps.core.browser.zk.ByZkId;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
@@ -197,9 +199,9 @@ public class Browser {
         } catch (Exception ex) {
 
             if (uiObject instanceof  UIElement) {
-                throw new RuntimeException(uiObject + "by locator " + ((UIElement) uiObject).getLocatorString() + " is not displayed!\nCause:" + ex);
+                throw new NotDisplayException(uiObject + "by locator " + ((UIElement) uiObject).getLocatorString() + " is not displayed!\nCause:" + ex);
             } else {
-                throw new RuntimeException(uiObject + " is not displayed!\nCause:" + ex);
+                throw new NotDisplayException(uiObject + " is not displayed!\nCause:" + ex);
             }
         }
     }
@@ -695,6 +697,10 @@ public class Browser {
 
             if (locator == null) {
                 locator = getLocatorFactory().getLocator(uiElement);
+            }
+
+            if(locator instanceof ByZkId) {
+                ((ByZkId) locator).setDriver(getDriver());
             }
 
             if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {

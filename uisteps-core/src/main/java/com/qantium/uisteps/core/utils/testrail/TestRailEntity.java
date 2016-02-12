@@ -1,26 +1,26 @@
 package com.qantium.uisteps.core.utils.testrail;
 
 /**
- * Created by SolAN on 09.02.2016.
+ * Created by Anton Solyankin
  */
 
 
 public class TestRailEntity {
 
-    private final TestRailContainerType type;
+    private final TestRailType type;
     private final String id;
 
-    public TestRailEntity(String mark) {
-        id = mark.substring(1);
-        type = TestRailContainerType.get(mark.substring(0, 1));
+    public TestRailEntity(String fullId) {
+        id = fullId.substring(1);
+        type = TestRailType.get(fullId.substring(0, 1));
     }
 
-    public TestRailEntity(TestRailContainerType type, String id) {
+    public TestRailEntity(TestRailType type, String id) {
         this.type = type;
         this.id = id;
     }
 
-    public TestRailContainerType getType() {
+    public TestRailType getType() {
         return type;
     }
 
@@ -30,7 +30,7 @@ public class TestRailEntity {
 
     @Override
     public String toString() {
-        return type.getMark() + id;
+        return type.mark + id;
     }
 
     @Override

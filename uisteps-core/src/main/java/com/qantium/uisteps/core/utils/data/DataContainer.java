@@ -88,7 +88,7 @@ public class DataContainer {
 
             while (iterator.hasNext()) {
                 Object key = iterator.next();
-                toData.set(key, data.get(key));
+                toData.put(key, data.get(key));
             }
         }
 
@@ -105,7 +105,7 @@ public class DataContainer {
     }
 
     public Data set(Object key, Object value) {
-        return data.set(key, value);
+        return data.put(key, value);
     }
 
     public int length() {
