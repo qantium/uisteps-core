@@ -24,7 +24,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
 public class LocatorFactory {
 
@@ -103,7 +103,11 @@ public class LocatorFactory {
             case CLASS_NAME:
                 return By.className(using);
             case CSS:
-                return By.cssSelector(using);
+                if(ZK.isZkId(using)) {
+                    return ZK.byId(using);
+                } else {
+                    return By.cssSelector(using);
+                }
             case ID:
                 if(ZK.isZkId(using)) {
                     return ZK.byId(using);

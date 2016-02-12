@@ -51,12 +51,12 @@ public class ByZkId extends By {
         }
     }
 
-    private String getId() {
-        return getHash() + id;
+    private String getXpath() {
+        return ".//*[@id = '" + getId() + "']";
     }
 
-    private String getXpath() {
-        return ".//*[@id = '" + getHash() + id + "']";
+    private String getId() {
+        return getHash() + id;
     }
 
     private String getHash() {
@@ -80,6 +80,6 @@ public class ByZkId extends By {
 
     @Override
     public String toString() {
-        return "By.ZK.id: " + id;
+        return "By.ZK.id: " + getId();
     }
 }
