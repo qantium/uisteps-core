@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.verify.conditions;
 
-import com.qantium.uisteps.core.NotDisplayException;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;

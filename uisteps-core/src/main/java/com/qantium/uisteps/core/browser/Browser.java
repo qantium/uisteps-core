@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
-import com.qantium.uisteps.core.NotDisplayException;
+import com.qantium.uisteps.core.verify.conditions.NotDisplayException;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
