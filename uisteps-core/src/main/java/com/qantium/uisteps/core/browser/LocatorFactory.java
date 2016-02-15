@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.browser;
 
 import java.lang.reflect.Field;
 
-import com.qantium.uisteps.core.browser.zk.ZK;
+import com.qantium.uisteps.core.utils.zk.ZK;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
