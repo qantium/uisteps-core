@@ -16,6 +16,9 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
+import com.qantium.uisteps.core.utils.zk.ZK;
+import com.qantium.uisteps.core.utils.zk.ZKException;
+import com.qantium.uisteps.core.utils.zk.ZKNumber;
 import com.qantium.uisteps.core.verify.conditions.NotDisplayException;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
@@ -44,6 +47,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
@@ -198,7 +203,7 @@ public class Browser {
             waitUntil(uiObject, condition);
         } catch (Exception ex) {
 
-            if (uiObject instanceof  UIElement) {
+            if (uiObject instanceof UIElement) {
                 throw new NotDisplayException(uiObject + "by locator " + ((UIElement) uiObject).getLocatorString() + " is not displayed!\nCause:" + ex);
             } else {
                 throw new NotDisplayException(uiObject + " is not displayed!\nCause:" + ex);
@@ -695,16 +700,49 @@ public class Browser {
         if (uiObject instanceof UIElement) {
             UIElement uiElement = (UIElement) uiObject;
 
+            if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {
+                context = getContext(uiObject.getClass().getAnnotation(Context.class));
+            }
+
             if (locator == null) {
                 locator = getLocatorFactory().getLocator(uiElement);
             }
 
-            if(locator instanceof ByZkId) {
-                ((ByZkId) locator).setDriver(getDriver());
-            }
+            if (locator instanceof ByZkId) {
+                ByZkId zkLocator = (ByZkId) locator;
+                zkLocator.setDriver(getDriver());
+                String zkID = zkLocator.getId();
 
-            if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {
-                context = getContext(uiObject.getClass().getAnnotation(Context.class));
+                Pattern pattern = Pattern.compile("(\\[(.*?)\\])");
+                Matcher matcher = pattern.matcher(zkID);
+
+                if (matcher.find()) {
+                    String shiftMark = matcher.group(1);
+                    int shift = Integer.parseInt(matcher.group(2));
+
+                    if (context == null) {
+                        throw new ZKException("Context for " + uiObject + " is not set!");
+                    }
+
+                    ByZkId contextZkLocator;
+
+                    if (context instanceof UIElement) {
+                        UIElement uiElementContext = (UIElement) context;
+                        By contextLocator = uiElementContext.getLocator();
+
+                        if (contextLocator instanceof ByZkId) {
+                            contextZkLocator = (ByZkId) contextLocator;
+                        } else {
+                            contextZkLocator = ZK.byId(uiElementContext.getAttribute("id"));
+                        }
+                        ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
+                        ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
+                        shiftedZkId.setDriver(getDriver());
+                        locator = shiftedZkId;
+                    } else {
+                        locator = ZK.byId(ZK.number(shift).toString());
+                    }
+                }
             }
 
             uiElement.setContext(context);

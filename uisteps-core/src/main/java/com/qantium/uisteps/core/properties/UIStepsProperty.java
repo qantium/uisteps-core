@@ -226,7 +226,8 @@ public enum UIStepsProperty {
     ZK_ID_MARK("ZK#"),
     ZK_HASH_XPATH("//body/div[1]"),
     ZK_HASH_ATTRIBUTE("id"),
-    ZK_HASH_REGEXP("(.*)_");
+    ZK_HASH_REGEXP("(.*)_"),
+    ZK_SHIFT_REGEXP("(\\[(.*?)\\])");
 
     public final String defaultValue;
 
