@@ -5,7 +5,12 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.qantium.uisteps.core.utils.zk.ByZkId;
+import com.qantium.uisteps.core.utils.zk.ZK;
+import com.qantium.uisteps.core.utils.zk.ZKNumber;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -75,6 +80,41 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     }
 
     public By getLocator() {
+        if (locator instanceof ByZkId) {
+            ByZkId zkLocator = (ByZkId) locator;
+            zkLocator.setDriver(inOpenedBrowser().getDriver());
+            String zkID = zkLocator.getId();
+
+            Pattern pattern = Pattern.compile("(\\[(.*?)\\])");
+            Matcher matcher = pattern.matcher(zkID);
+
+            if (matcher.find()) {
+                String shiftMark = matcher.group(1);
+                int shift = Integer.parseInt(matcher.group(2));
+
+                if (context != null && context instanceof UIElement) {
+                    ByZkId contextZkLocator;
+                    UIElement uiElementContext = (UIElement) context;
+                    By contextLocator = uiElementContext.getLocator();
+
+                    if (contextLocator instanceof ByZkId) {
+                        contextZkLocator = (ByZkId) contextLocator;
+                    } else {
+                        Pattern pattern2 = Pattern.compile(ZK.getHash(inOpenedBrowser().getDriver()) + "(.*?)($|\\W.*?)");
+                        Matcher matcher2 = pattern2.matcher(uiElementContext.getAttribute("id"));
+                        matcher2.matches();
+                        contextZkLocator = ZK.byId(matcher2.group(1));
+                    }
+                    ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
+                    ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
+                    shiftedZkId.setDriver(inOpenedBrowser().getDriver());
+                    locator = shiftedZkId;
+                } else {
+                    locator = ZK.byId(ZK.number(shift).toString());
+                }
+
+            }
+        }
         return locator;
     }
 
@@ -153,13 +193,13 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
         final UIElement other = (UIElement) obj;
 
-        return Objects.equals(this.locator, other.locator) && Objects.equals(this.context, other.context);
+        return Objects.equals(this.getLocator(), other.getLocator()) && Objects.equals(this.context, other.context);
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.locator);
+        hash = 97 * hash + Objects.hashCode(this.getLocator());
         hash = 97 * hash + Objects.hashCode(this.context);
         return hash;
     }

@@ -708,42 +708,6 @@ public class Browser {
                 locator = getLocatorFactory().getLocator(uiElement);
             }
 
-            if (locator instanceof ByZkId) {
-                ByZkId zkLocator = (ByZkId) locator;
-                zkLocator.setDriver(getDriver());
-                String zkID = zkLocator.getId();
-
-                Pattern pattern = Pattern.compile("(\\[(.*?)\\])");
-                Matcher matcher = pattern.matcher(zkID);
-
-                if (matcher.find()) {
-                    String shiftMark = matcher.group(1);
-                    int shift = Integer.parseInt(matcher.group(2));
-
-                    if (context != null && context instanceof UIElement) {
-                        ByZkId contextZkLocator;
-                        UIElement uiElementContext = (UIElement) context;
-                        By contextLocator = uiElementContext.getLocator();
-
-                        if (contextLocator instanceof ByZkId) {
-                            contextZkLocator = (ByZkId) contextLocator;
-                        } else {
-                            Pattern pattern2 = Pattern.compile(ZK.getHash(getDriver()) + "(.*?)($|\\W.*?)");
-                            Matcher matcher2 = pattern2.matcher(uiElementContext.getAttribute("id"));
-                            matcher2.matches();
-                            contextZkLocator = ZK.byId(matcher2.group(1));
-                        }
-                        ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
-                        ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
-                        shiftedZkId.setDriver(getDriver());
-                        locator = shiftedZkId;
-                    } else {
-                        locator = ZK.byId(ZK.number(shift).toString());
-                    }
-
-                }
-            }
-
             uiElement.setContext(context);
             uiElement.setLocator(locator);
         }
