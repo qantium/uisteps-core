@@ -17,7 +17,7 @@ package com.qantium.uisteps.core.browser;
 
 import java.lang.reflect.Field;
 
-import com.qantium.uisteps.core.browser.zk.ZK;
+import com.qantium.uisteps.core.utils.zk.ZK;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
@@ -103,11 +103,7 @@ public class LocatorFactory {
             case CLASS_NAME:
                 return By.className(using);
             case CSS:
-                if(ZK.isZkId(using)) {
-                    return ZK.byId(using);
-                } else {
-                    return By.cssSelector(using);
-                }
+                return By.cssSelector(using);
             case ID:
                 if(ZK.isZkId(using)) {
                     return ZK.byId(using);

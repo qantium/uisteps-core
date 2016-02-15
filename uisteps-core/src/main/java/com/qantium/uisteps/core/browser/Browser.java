@@ -24,7 +24,7 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ComfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.browser.zk.ByZkId;
+import com.qantium.uisteps.core.utils.zk.ByZkId;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
