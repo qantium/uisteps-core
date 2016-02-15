@@ -49,7 +49,7 @@ public class ByZkId extends By {
         return ".//*[@id = '" + getHashWithId() + "']";
     }
 
-    private String getHashWithId() {
+    public String getHashWithId() {
         return getHash() + id.replace(ZK.ID_MARK, "");
     }
 
