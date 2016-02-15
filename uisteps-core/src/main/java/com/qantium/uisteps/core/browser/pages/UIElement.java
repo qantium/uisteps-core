@@ -114,6 +114,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
                 }
 
             }
+            return By.cssSelector("#" + ((ByZkId) locator).getHashWithId());
         }
         return locator;
     }
