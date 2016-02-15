@@ -14,12 +14,13 @@ import java.util.List;
 /**
  * Created by Anton Solyankin
  */
-public class ByZkId extends By {
+public class ByZkId extends By.ById {
 
     private WebDriver driver;
     private final String id;
 
     public ByZkId(String id) {
+        super(id);
         this.id = id;
     }
 
