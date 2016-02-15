@@ -2,6 +2,8 @@ package com.qantium.uisteps.core.utils.zk;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,15 +39,23 @@ public class ZK {
         return number(a.toInt() - b.toInt());
     }
 
-    public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("(\\[(.*?)\\])");
-        Matcher matcher = pattern.matcher("[222][1111]");
+    public static String getHash(WebDriver driver) {
+        String ZK_HASH_XPATH = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_XPATH);
+        String ZK_HASH_ATTRIBUTE = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_ATTRIBUTE);
+        String ZK_HASH_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_REGEXP);
 
-        if(matcher.find()) {
-            System.out.println("========" + matcher.group(1));
-            System.out.println("========" + matcher.group(2));
+        String id = driver.findElement(By.xpath(ZK_HASH_XPATH)).getAttribute(ZK_HASH_ATTRIBUTE);
+
+        Pattern pattern = Pattern.compile(ZK_HASH_REGEXP);
+        Matcher matcher = pattern.matcher(id);
+
+        if (matcher.matches()) {
+            return matcher.group(1);
+        } else {
+            throw new ZKException("Cannot find zk hash by xpath " + ZK_HASH_XPATH
+                    + ", attribute " + ZK_HASH_ATTRIBUTE
+                    + " and regexp " + ZK_HASH_REGEXP);
         }
-
     }
 
 }

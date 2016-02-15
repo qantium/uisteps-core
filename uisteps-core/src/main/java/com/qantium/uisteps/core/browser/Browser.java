@@ -728,7 +728,7 @@ public class Browser {
                         if (contextLocator instanceof ByZkId) {
                             contextZkLocator = (ByZkId) contextLocator;
                         } else {
-                            contextZkLocator = ZK.byId(uiElementContext.getAttribute("id"));
+                            contextZkLocator = ZK.byId(uiElementContext.getAttribute("id").replace(ZK.getHash(getDriver()), ""));
                         }
                         ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
                         ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
@@ -737,7 +737,7 @@ public class Browser {
                     } else {
                         locator = ZK.byId(ZK.number(shift).toString());
                     }
-                    
+
                 }
             }
 
