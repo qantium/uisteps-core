@@ -108,13 +108,13 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
                     ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
                     ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
                     shiftedZkId.setDriver(inOpenedBrowser().getDriver());
-                    locator = shiftedZkId;
+                    return shiftedZkId;
                 } else {
-                    locator = ZK.byId(ZK.number(shift).toString());
+                    return ZK.byId(ZK.number(shift).toString());
                 }
 
             }
-            return By.cssSelector("#" + ((ByZkId) locator).getHashWithId());
+            return By.id(((ByZkId) locator).getHashWithId());
         }
         return locator;
     }
