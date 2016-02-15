@@ -720,13 +720,8 @@ public class Browser {
                     String shiftMark = matcher.group(1);
                     int shift = Integer.parseInt(matcher.group(2));
 
-                    if (context == null) {
-                        throw new ZKException("Context for " + uiObject + " is not set!");
-                    }
-
-                    ByZkId contextZkLocator;
-
-                    if (context instanceof UIElement) {
+                    if (context != null && context instanceof UIElement) {
+                        ByZkId contextZkLocator;
                         UIElement uiElementContext = (UIElement) context;
                         By contextLocator = uiElementContext.getLocator();
 
@@ -742,6 +737,7 @@ public class Browser {
                     } else {
                         locator = ZK.byId(ZK.number(shift).toString());
                     }
+                    
                 }
             }
 
