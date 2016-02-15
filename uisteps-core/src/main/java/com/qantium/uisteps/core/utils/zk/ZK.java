@@ -58,4 +58,13 @@ public class ZK {
         }
     }
 
+    public static void main(String[] args) {
+        Pattern pattern = Pattern.compile("AAAA(.*?)(\\W|$|_)");
+        Matcher matcher = pattern.matcher("AAAAe1q_");
+
+        if (matcher.matches()) {
+            System.out.println("=================" + matcher.group(1));
+        }
+    }
+
 }

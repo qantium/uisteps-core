@@ -728,7 +728,10 @@ public class Browser {
                         if (contextLocator instanceof ByZkId) {
                             contextZkLocator = (ByZkId) contextLocator;
                         } else {
-                            contextZkLocator = ZK.byId(uiElementContext.getAttribute("id").replace(ZK.getHash(getDriver()), ""));
+                            Pattern pattern2 = Pattern.compile(ZK.getHash(getDriver()) + "(.*?)(\\W|$|_)");
+                            Matcher matcher2 = pattern2.matcher(uiElementContext.getAttribute("id"));
+                            matcher.matches();
+                            contextZkLocator = ZK.byId(matcher2.group(1));
                         }
                         ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
                         ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
