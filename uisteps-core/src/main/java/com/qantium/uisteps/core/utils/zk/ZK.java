@@ -59,11 +59,11 @@ public class ZK {
     }
 
     public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("AAAA(.*?)(\\W|$|_)");
-        Matcher matcher = pattern.matcher("AAAAe1q_");
+        Pattern pattern = Pattern.compile("AAAA(.*?)($|\\W.*?)");
+        Matcher matcher = pattern.matcher("AAAAe1q-real");
 
-        if (matcher.matches()) {
-            System.out.println("=================" + matcher.group(1));
+        if (matcher.find()) {
+            System.out.println("================33=" + matcher.group(1));
         }
     }
 

@@ -728,7 +728,7 @@ public class Browser {
                         if (contextLocator instanceof ByZkId) {
                             contextZkLocator = (ByZkId) contextLocator;
                         } else {
-                            Pattern pattern2 = Pattern.compile(ZK.getHash(getDriver()) + "(.*?)(\\W|$|_)");
+                            Pattern pattern2 = Pattern.compile(ZK.getHash(getDriver()) + "(.*?)($|\\W.*?)");
                             Matcher matcher2 = pattern2.matcher(uiElementContext.getAttribute("id"));
                             matcher2.matches();
                             contextZkLocator = ZK.byId(matcher2.group(1));
