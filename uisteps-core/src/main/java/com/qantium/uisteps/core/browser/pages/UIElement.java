@@ -110,12 +110,14 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
                     shiftedZkId.setDriver(inOpenedBrowser().getDriver());
                     return shiftedZkId;
                 } else {
-                    return ZK.byId(ZK.number(shift).toString());
+                    ByZkId loc = ZK.byId(ZK.number(shift).toString());
+                    loc.setDriver(inOpenedBrowser().getDriver());
+                    return loc;
                 }
-
             }
             return By.id(((ByZkId) locator).getHashWithId());
         }
+
         return locator;
     }
 
