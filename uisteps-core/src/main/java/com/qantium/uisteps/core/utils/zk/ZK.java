@@ -28,7 +28,7 @@ public class ZK {
     }
 
     public boolean isZkShiftId(By.ById id) {
-        return getZkIdMatcher(id).find();
+        return getZkShiftMatcher(id).find();
     }
 
     private String getIdFrom(By.ById id) {
@@ -36,7 +36,7 @@ public class ZK {
     }
 
     public By getLocator(By.ById id) {
-        return By.id(getHash() + getIdFrom(id));
+        return By.id(getHash() + getIdFrom(id).replace(ZK_ID_MARK, ""));
     }
 
     public By getLocator(By.ById id, UIObject context) {
@@ -44,7 +44,7 @@ public class ZK {
         if (context != null && context instanceof UIElement) {
             return getLocator(ZK.sum(getContextZkNumber((UIElement) context), getZkShift(id)));
         } else {
-            return getLocator(ZK.number(getIdFromWithoutMark(id)));
+            return getLocator(getZkShift(id));
         }
     }
 
@@ -53,21 +53,17 @@ public class ZK {
     }
 
     private ZKNumber getZkShift(By.ById id) {
-        Matcher zkIdMatcher = getZkIdMatcher(id);
-        if (zkIdMatcher.find()) {
-            return ZK.number(Integer.parseInt(zkIdMatcher.group(1)));
+        Matcher zkShiftMatcher = getZkShiftMatcher(id);
+        if (zkShiftMatcher.find()) {
+            return ZK.number(Integer.parseInt(zkShiftMatcher.group(1)));
         } else {
             throw new ZKException("Cannot find shift for " + id);
         }
     }
 
-    private Matcher getZkIdMatcher(By.ById id) {
-        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-        return pattern.matcher(getIdFromWithoutMark(id));
-    }
-
-    private String getIdFromWithoutMark(By.ById id) {
-        return getIdFrom(id).replace(ZK_ID_MARK, "");
+    private Matcher getZkShiftMatcher(By.ById id) {
+        Pattern pattern = Pattern.compile("ZK_ID_MARK + \\[(.*?)\\]");
+        return pattern.matcher(getIdFrom(id));
     }
 
     private ZKNumber getContextZkNumber(UIElement context) {
