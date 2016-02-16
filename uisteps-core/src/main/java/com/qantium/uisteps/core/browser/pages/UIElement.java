@@ -5,6 +5,8 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 
 import java.util.List;
 import java.util.Objects;
+
+import com.qantium.uisteps.core.utils.zk.ZkNextLocator;
 import com.qantium.uisteps.core.utils.zk.ZK;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
@@ -71,12 +73,19 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     }
 
     public By getLocator() {
+
+        if(locator instanceof ZkNextLocator) {
+            ZK zk = new ZK(inOpenedBrowser().getDriver());
+            ZkNextLocator next = (ZkNextLocator) locator;
+            return zk.getLocator(next.getContext(), next.getShift());
+        }
+
         if (locator instanceof By.ById) {
             ZK zk = new ZK(inOpenedBrowser().getDriver());
             By.ById id = (By.ById) locator;
 
-            if(zk.isZkId(id)) {
-                if(zk.isZkShiftId(id)) {
+            if(zk.isId(id)) {
+                if(zk.isShiftId(id)) {
                     return zk.getLocator(id, getContext());
                 } else {
                     return zk.getLocator(id);

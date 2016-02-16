@@ -23,12 +23,12 @@ public class ZK {
         this.driver = driver;
     }
 
-    public boolean isZkId(By.ById id) {
+    public boolean isId(By.ById id) {
         return getIdFrom(id).contains(ZK_ID_MARK);
     }
 
-    public boolean isZkShiftId(By.ById id) {
-        return getZkShiftMatcher(id).find();
+    public boolean isShiftId(By.ById id) {
+        return getShiftMatcher(id).find();
     }
 
     private String getIdFrom(By.ById id) {
@@ -42,18 +42,29 @@ public class ZK {
     public By getLocator(By.ById id, UIObject context) {
 
         if (context != null && context instanceof UIElement) {
-            return getLocator(ZK.sum(getContextZkNumber((UIElement) context), getZkShift(id)));
+            return getLocator(ZK.sum(getContextZkNumber((UIElement) context), getShift(id)));
         } else {
-            return getLocator(getZkShift(id));
+            return getLocator(getShift(id));
         }
+    }
+
+    public static ZkNextLocator nextTo(UIElement context, int shift) {
+        return new ZkNextLocator(context, shift);
+    }
+
+    public By getLocator(UIElement context, int shift) {
+        if(context == null) {
+            throw new ZKException("Context is null for shift " + shift);
+        }
+        return getLocator(ZK.sum(getContextZkNumber(context), ZK.number(shift)));
     }
 
     private By getLocator(ZKNumber zkNumber) {
         return By.id(getHash() + zkNumber);
     }
 
-    private ZKNumber getZkShift(By.ById id) {
-        Matcher zkShiftMatcher = getZkShiftMatcher(id);
+    private ZKNumber getShift(By.ById id) {
+        Matcher zkShiftMatcher = getShiftMatcher(id);
         if (zkShiftMatcher.find()) {
             return ZK.number(Integer.parseInt(zkShiftMatcher.group(1)));
         } else {
@@ -61,7 +72,7 @@ public class ZK {
         }
     }
 
-    private Matcher getZkShiftMatcher(By.ById id) {
+    private Matcher getShiftMatcher(By.ById id) {
         Pattern pattern = Pattern.compile(ZK_ID_MARK + "\\[(.*?)\\]");
         return pattern.matcher(getIdFrom(id));
     }
