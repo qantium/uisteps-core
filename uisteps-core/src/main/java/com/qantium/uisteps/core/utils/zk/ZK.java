@@ -32,7 +32,7 @@ public class ZK {
     }
 
     private String getIdFrom(By.ById id) {
-        return id.toString().replace("By.id: ", "").replace(ZK.ZK_ID_MARK, "");
+        return id.toString().replace("By.id: ", "");
     }
 
     public By getLocator(By.ById id) {
@@ -44,7 +44,7 @@ public class ZK {
         if (context != null && context instanceof UIElement) {
             return getLocator(ZK.sum(getContextZkNumber((UIElement) context), getZkShift(id)));
         } else {
-            return getLocator(ZK.number(getIdFrom(id)));
+            return getLocator(ZK.number(getIdFromWithoutMark(id)));
         }
     }
 
@@ -62,8 +62,12 @@ public class ZK {
     }
 
     private Matcher getZkIdMatcher(By.ById id) {
-        Pattern pattern = Pattern.compile("ZK_ID_MARK + \\[(.*?)\\]");
-        return pattern.matcher(getIdFrom(id));
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        return pattern.matcher(getIdFromWithoutMark(id));
+    }
+
+    private String getIdFromWithoutMark(By.ById id) {
+        return getIdFrom(id).replace(ZK_ID_MARK, "");
     }
 
     private ZKNumber getContextZkNumber(UIElement context) {
@@ -114,14 +118,4 @@ public class ZK {
                     + " and regexp " + ZK_HASH_REGEXP);
         }
     }
-
-    public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("AAAA(.*?)($|\\W.*?)");
-        Matcher matcher = pattern.matcher("AAAAe1q-real");
-
-        if (matcher.find()) {
-            System.out.println("================33=" + matcher.group(1));
-        }
-    }
-
 }
