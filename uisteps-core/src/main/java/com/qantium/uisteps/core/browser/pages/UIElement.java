@@ -80,42 +80,17 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     }
 
     public By getLocator() {
-        if (locator instanceof ByZkId) {
-            ByZkId zkLocator = (ByZkId) locator;
-            zkLocator.setDriver(inOpenedBrowser().getDriver());
-            String zkID = zkLocator.getId();
+        if (locator instanceof By.ById) {
+            ZK zk = new ZK(inOpenedBrowser().getDriver());
+            By.ById id = (By.ById) locator;
 
-            Pattern pattern = Pattern.compile("(\\[(.*?)\\])");
-            Matcher matcher = pattern.matcher(zkID);
-
-            if (matcher.find()) {
-                String shiftMark = matcher.group(1);
-                int shift = Integer.parseInt(matcher.group(2));
-
-                if (context != null && context instanceof UIElement) {
-                    ByZkId contextZkLocator;
-                    UIElement uiElementContext = (UIElement) context;
-                    By contextLocator = uiElementContext.getLocator();
-
-                    if (contextLocator instanceof ByZkId) {
-                        contextZkLocator = (ByZkId) contextLocator;
-                    } else {
-                        Pattern pattern2 = Pattern.compile(ZK.getHash(inOpenedBrowser().getDriver()) + "(.*?)($|\\W.*?)");
-                        Matcher matcher2 = pattern2.matcher(uiElementContext.getAttribute("id"));
-                        matcher2.matches();
-                        contextZkLocator = ZK.byId(matcher2.group(1));
-                    }
-                    ZKNumber zkShift = ZK.sum(ZK.number(contextZkLocator.getId()), ZK.number(shift));
-                    ByZkId shiftedZkId = ZK.byId(zkID.replace(shiftMark, zkShift.toString()));
-                    shiftedZkId.setDriver(inOpenedBrowser().getDriver());
-                    return shiftedZkId;
-                } else {
-                    ByZkId loc = ZK.byId(ZK.number(shift).toString());
-                    loc.setDriver(inOpenedBrowser().getDriver());
-                    return loc;
-                }
+            if(zk.isZkId(id)) {
+                return zk.getLocator(id);
             }
-            return By.id(((ByZkId) locator).getHashWithId());
+
+            if(zk.isZkShiftId(id)) {
+                return zk.getLocator(id, getContext());
+            }
         }
 
         return locator;

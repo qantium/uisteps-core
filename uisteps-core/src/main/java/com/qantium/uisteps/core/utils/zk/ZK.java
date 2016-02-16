@@ -1,5 +1,7 @@
 package com.qantium.uisteps.core.utils.zk;
 
+import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.By;
@@ -13,14 +15,50 @@ import java.util.regex.Pattern;
  */
 public class ZK {
 
-    public static final String ID_MARK = UIStepsProperties.getProperty(UIStepsProperty.ZK_ID_MARK);
 
-    public static boolean isZkId(String id) {
-        return id.contains(ID_MARK);
+    public static final String ID_MARK = UIStepsProperties.getProperty(UIStepsProperty.ZK_ID_MARK);
+    private final WebDriver driver;
+
+    public ZK(WebDriver driver) {
+        this.driver = driver;
     }
 
-    public static ByZkId byId(String id) {
-        return new ByZkId(id);
+    public boolean isZkId(By.ById id) {
+        return getIdFrom(id).contains(ID_MARK);
+    }
+
+    public boolean isZkShiftId(By.ById id) {
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(getIdFrom(id));
+        return matcher.find();
+    }
+
+    private String getIdFrom(By.ById id) {
+        return id.toString().replace("By.id: ", "");
+    }
+
+    public By getLocator(By.ById id) {
+        return By.id(getHash() + getIdFrom(id));
+    }
+
+    public By getLocator(By.ById id, UIObject context) {
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(getIdFrom(id));
+
+        if (matcher.find()) {
+            int shift = Integer.parseInt(matcher.group(1));
+
+            if(context != null && context instanceof UIElement) {
+                Pattern pattern2 = Pattern.compile(getHash() + "(.*?)($|\\W.*?)");
+                Matcher matcher2 = pattern2.matcher(((UIElement) context).getAttribute("id"));
+                matcher2.matches();
+                return By.id(getHash() + ZK.sum(ZK.number(matcher2.group(1)), ZK.number(shift)));
+            } else {
+                return By.id(getHash() + ZK.number(getIdFrom(id)));
+            }
+        } else {
+            throw new ZKException("Cannot find shift fo " + id);
+        }
     }
 
     public static  ZKNumber number(String value) {
@@ -39,7 +77,7 @@ public class ZK {
         return number(a.toInt() - b.toInt());
     }
 
-    public static String getHash(WebDriver driver) {
+    public String getHash() {
         String ZK_HASH_XPATH = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_XPATH);
         String ZK_HASH_ATTRIBUTE = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_ATTRIBUTE);
         String ZK_HASH_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_REGEXP);

@@ -14,18 +14,14 @@ import java.util.List;
 /**
  * Created by Anton Solyankin
  */
-public class ByZkId extends By.ById {
+public class ByZkId extends By {
 
-    private WebDriver driver;
+    private final String hash;
     private final String id;
 
-    public ByZkId(String id) {
-        super(id);
+    public ByZkId(String id,  String hash) {
         this.id = id;
-    }
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
+        this.hash = hash;
     }
 
     @Override
@@ -55,7 +51,7 @@ public class ByZkId extends By.ById {
     }
 
     private String getHash() {
-        return ZK.getHash(driver);
+        return hash;
     }
 
     public String getId() {

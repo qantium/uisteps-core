@@ -105,11 +105,7 @@ public class LocatorFactory {
             case CSS:
                 return By.cssSelector(using);
             case ID:
-                if(ZK.isZkId(using)) {
-                    return ZK.byId(using);
-                } else {
-                    return By.id(using);
-                }
+                return By.id(using);
             case LINK_TEXT:
                 return By.linkText(using);
             case NAME:
