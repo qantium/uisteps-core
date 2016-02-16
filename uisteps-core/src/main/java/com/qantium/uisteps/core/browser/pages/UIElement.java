@@ -43,11 +43,14 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
         if (wrappedElement == null) {
             try {
+                System.out.println("FIND LOCATOR " + getLocator());
                 wrappedElement = getSearchContext().findElement(getLocator());
+                System.out.println("FIND ELEMENT " + wrappedElement);
             } catch (Exception ex) {
                 return null;
             }
         }
+        System.out.println("FOUNDED ELEMENT " + wrappedElement);
         return wrappedElement;
     }
 
