@@ -53,4 +53,5 @@ public class TestNGListener extends TestListenerAdapter {
     protected TestRail testRail() {
         return new TestRail();
     }
+    
 }
