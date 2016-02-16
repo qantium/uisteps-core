@@ -397,13 +397,9 @@ public class Browser {
     }
 
     public void click(WrapsElement element) {
-        System.out.println("BEFORE CLICK element " + element);
         WebElement webElement = element.getWrappedElement();
-        System.out.println("BEFORE CLICK webElement " + webElement);
         String attrTarget = webElement.getAttribute("target");
         webElement.click();
-        System.out.println("AFTER CLICK element " + element);
-        System.out.println("AFTER CLICK webElement " + webElement);
         if (attrTarget != null && !attrTarget.equals("") && !attrTarget.equals("_self")) {
             switchToNextWindow();
         }
