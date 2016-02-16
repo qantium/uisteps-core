@@ -38,7 +38,7 @@ public class ZK {
     }
 
     public By getLocator(By.ById id) {
-        return By.id(getHash() + getIdFrom(id));
+        return By.id(getHash() + getIdFrom(id).replace(ZK.ID_MARK, ""));
     }
 
     public By getLocator(By.ById id, UIObject context) {
