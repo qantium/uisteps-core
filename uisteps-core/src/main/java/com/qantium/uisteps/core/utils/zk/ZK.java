@@ -62,7 +62,7 @@ public class ZK {
     }
 
     private Matcher getZkShiftMatcher(By.ById id) {
-        Pattern pattern = Pattern.compile("ZK_ID_MARK + \\[(.*?)\\]");
+        Pattern pattern = Pattern.compile(ZK_ID_MARK + "\\[(.*?)\\]");
         return pattern.matcher(getIdFrom(id));
     }
 
