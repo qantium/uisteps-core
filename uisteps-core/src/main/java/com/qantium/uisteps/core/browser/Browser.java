@@ -16,9 +16,6 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
-import com.qantium.uisteps.core.utils.zk.ZK;
-import com.qantium.uisteps.core.utils.zk.ZKException;
-import com.qantium.uisteps.core.utils.zk.ZKNumber;
 import com.qantium.uisteps.core.verify.conditions.NotDisplayException;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
@@ -27,7 +24,6 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ComfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.utils.zk.ByZkId;
 import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.then.GetValueAction;
 import com.qantium.uisteps.core.then.OnDisplayedAction;
@@ -47,8 +43,6 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
