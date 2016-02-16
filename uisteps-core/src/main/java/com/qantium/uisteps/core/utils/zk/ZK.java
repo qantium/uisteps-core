@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class ZK {
 
 
-    public static final String ID_MARK = UIStepsProperties.getProperty(UIStepsProperty.ZK_ID_MARK);
+    public static final String ZK_ID_MARK = UIStepsProperties.getProperty(UIStepsProperty.ZK_ID_MARK);
     private final WebDriver driver;
 
     public ZK(WebDriver driver) {
@@ -24,13 +24,11 @@ public class ZK {
     }
 
     public boolean isZkId(By.ById id) {
-        return getIdFrom(id).contains(ID_MARK);
+        return getIdFrom(id).contains(ZK_ID_MARK);
     }
 
     public boolean isZkShiftId(By.ById id) {
-        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-        Matcher matcher = pattern.matcher(getIdFrom(id));
-        return matcher.find();
+        return getZkIdMatcher(id).find();
     }
 
     private String getIdFrom(By.ById id) {
@@ -38,34 +36,55 @@ public class ZK {
     }
 
     public By getLocator(By.ById id) {
-        return By.id(getHash() + getIdFrom(id).replace(ZK.ID_MARK, ""));
+        return By.id(getHash() + getIdFrom(id).replace(ZK.ZK_ID_MARK, ""));
     }
 
     public By getLocator(By.ById id, UIObject context) {
-        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-        Matcher matcher = pattern.matcher(getIdFrom(id));
 
-        if (matcher.find()) {
-            int shift = Integer.parseInt(matcher.group(1));
-
-            if(context != null && context instanceof UIElement) {
-                Pattern pattern2 = Pattern.compile(getHash() + "(.*?)($|\\W.*?)");
-                Matcher matcher2 = pattern2.matcher(((UIElement) context).getAttribute("id"));
-                matcher2.matches();
-                return By.id(getHash() + ZK.sum(ZK.number(matcher2.group(1)), ZK.number(shift)));
-            } else {
-                return By.id(getHash() + ZK.number(getIdFrom(id)));
-            }
+        if (context != null && context instanceof UIElement) {
+            return getLocator(ZK.sum(getContextZkNumber((UIElement) context), getZkShift(id)));
         } else {
-            throw new ZKException("Cannot find shift fo " + id);
+            return getLocator(ZK.number(getIdFrom(id)));
         }
     }
 
-    public static  ZKNumber number(String value) {
+    private By getLocator(ZKNumber zkNumber) {
+        return By.id(getHash() + zkNumber);
+    }
+
+    private ZKNumber getZkShift(By.ById id) {
+        Matcher zkIdMatcher = getZkIdMatcher(id);
+        if (zkIdMatcher.find()) {
+            return ZK.number(Integer.parseInt(zkIdMatcher.group(1)));
+        } else {
+            throw new ZKException("Cannot find shift for " + id);
+        }
+    }
+
+    private Matcher getZkIdMatcher(By.ById id) {
+        Pattern pattern = Pattern.compile("ZK_ID_MARK + \\[(.*?)\\]");
+        return pattern.matcher(getIdFrom(id));
+    }
+
+    private ZKNumber getContextZkNumber(UIElement context) {
+        Pattern pattern = Pattern.compile(getHash() + "(.*?)($|\\W.*?)");
+        Matcher matcher = pattern.matcher((context.getAttribute("id")));
+        if (matcher.matches()) {
+            return ZK.number(matcher.group(1));
+        } else {
+            throw new ZKException("Cannot find zk number for context " + context);
+        }
+    }
+
+    public static String id(String id) {
+        return ZK_ID_MARK + id;
+    }
+
+    public static ZKNumber number(String value) {
         return new ZKNumber(value);
     }
 
-    public static  ZKNumber number(int value) {
+    public static ZKNumber number(int value) {
         return new ZKNumber(value);
     }
 

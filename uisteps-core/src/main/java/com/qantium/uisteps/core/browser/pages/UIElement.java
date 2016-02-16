@@ -5,12 +5,7 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.qantium.uisteps.core.utils.zk.ByZkId;
 import com.qantium.uisteps.core.utils.zk.ZK;
-import com.qantium.uisteps.core.utils.zk.ZKNumber;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -43,14 +38,11 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
         if (wrappedElement == null) {
             try {
-                System.out.println("FIND LOCATOR " + getLocator());
                 wrappedElement = getSearchContext().findElement(getLocator());
-                System.out.println("FIND ELEMENT " + wrappedElement);
             } catch (Exception ex) {
                 return null;
             }
         }
-        System.out.println("FOUNDED ELEMENT " + wrappedElement);
         return wrappedElement;
     }
 
@@ -88,14 +80,13 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
             By.ById id = (By.ById) locator;
 
             if(zk.isZkId(id)) {
-                return zk.getLocator(id);
-            }
-
-            if(zk.isZkShiftId(id)) {
-                return zk.getLocator(id, getContext());
+                if(zk.isZkShiftId(id)) {
+                    return zk.getLocator(id, getContext());
+                } else {
+                    return zk.getLocator(id);
+                }
             }
         }
-
         return locator;
     }
 
