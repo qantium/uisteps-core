@@ -32,11 +32,11 @@ public class ZK {
     }
 
     private String getIdFrom(By.ById id) {
-        return id.toString().replace("By.id: ", "");
+        return id.toString().replace("By.id: ", "").replace(ZK.ZK_ID_MARK, "");
     }
 
     public By getLocator(By.ById id) {
-        return By.id(getHash() + getIdFrom(id).replace(ZK.ZK_ID_MARK, ""));
+        return By.id(getHash() + getIdFrom(id));
     }
 
     public By getLocator(By.ById id, UIObject context) {
