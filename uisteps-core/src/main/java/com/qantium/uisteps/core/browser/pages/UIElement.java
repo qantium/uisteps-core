@@ -40,7 +40,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
         if (wrappedElement == null) {
             try {
-                wrappedElement = getSearchContext().findElement(getLocator());
+                return getSearchContext().findElement(getLocator());
             } catch (Exception ex) {
                 return null;
             }
