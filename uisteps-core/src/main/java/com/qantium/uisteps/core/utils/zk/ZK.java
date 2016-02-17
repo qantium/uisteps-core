@@ -48,15 +48,23 @@ public class ZK {
         }
     }
 
-    public static ZkNextLocator nextTo(UIElement context, int shift) {
-        return new ZkNextLocator(context, shift);
+    public static ZKSiblingLocator before(UIElement context, int shift) {
+        return new ZKSiblingLocator(context, (-1) * shift);
+    }
+
+    public static ZKSiblingLocator nextTo(UIElement context, int shift) {
+        return new ZKSiblingLocator(context, shift);
     }
 
     public By getLocator(UIElement context, int shift) {
         if(context == null) {
             throw new ZKException("Context is null for shift " + shift);
         }
-        return getLocator(ZK.sum(getContextZkNumber(context), ZK.number(shift)));
+        if(shift < 0) {
+            return getLocator(ZK.diff(getContextZkNumber(context), ZK.number(Math.abs(shift))));
+        } else {
+            return getLocator(ZK.sum(getContextZkNumber(context), ZK.number(shift)));
+        }
     }
 
     private By getLocator(ZKNumber zkNumber) {

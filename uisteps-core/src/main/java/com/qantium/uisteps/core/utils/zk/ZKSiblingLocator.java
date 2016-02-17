@@ -8,22 +8,22 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 /**
- * Created by SolAN on 16.02.2016.
+ * Created by Anton Solyankin
  */
-public class ZkNextLocator extends By {
+public class ZKSiblingLocator extends By {
 
     private final UIElement context;
     private final int shift;
 
 
-    public ZkNextLocator(UIElement context, int shift) {
+    public ZKSiblingLocator(UIElement context, int shift) {
         this.context = context;
         this.shift = shift;
     }
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        throw new ZKException("Method findElements is not realized for ByZkNext class");
+        throw new ZKException("Method findElements is not realized for ZKSiblingLocator class");
     }
 
     public UIElement getContext() {

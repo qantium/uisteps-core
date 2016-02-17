@@ -6,7 +6,7 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import java.util.List;
 import java.util.Objects;
 
-import com.qantium.uisteps.core.utils.zk.ZkNextLocator;
+import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
 import com.qantium.uisteps.core.utils.zk.ZK;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
@@ -39,7 +39,11 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     public WebElement getWrappedElement() {
 
         if (wrappedElement == null) {
-            wrappedElement = getSearchContext().findElement(getLocator());
+            try {
+                wrappedElement = getSearchContext().findElement(getLocator());
+            } catch (Exception ex) {
+                return null;
+            }
         }
         return wrappedElement;
     }
@@ -74,10 +78,8 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
     public By getLocator() {
 
-        if(locator instanceof ZkNextLocator) {
-            ZK zk = new ZK(inOpenedBrowser().getDriver());
-            ZkNextLocator next = (ZkNextLocator) locator;
-            return zk.getLocator(next.getContext(), next.getShift());
+        if(locator instanceof ZKSiblingLocator) {
+            return getSiblingLocator();
         }
 
         if (locator instanceof By.ById) {
@@ -93,6 +95,12 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
             }
         }
         return locator;
+    }
+
+    private By getSiblingLocator() {
+        ZK zk = new ZK(inOpenedBrowser().getDriver());
+        ZKSiblingLocator siblingLocator = (ZKSiblingLocator) locator;
+        return zk.getLocator(siblingLocator.getContext(), siblingLocator.getShift());
     }
 
     /**
