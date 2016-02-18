@@ -773,7 +773,7 @@ public class Browser {
 
         for (Field field : uiObjectType.getDeclaredFields()) {
 
-            if (UIObject.class.isAssignableFrom(field.getType())) {
+            if (!field.isAnnotationPresent(NotInit.class) && UIObject.class.isAssignableFrom(field.getType())) {
                 field.setAccessible(true);
                 fields.add(field);
             }
