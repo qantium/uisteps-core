@@ -109,6 +109,11 @@ public class Select extends UIElement implements Fillable {
         }
     }
 
+    @Override
+    public List<WebElement> getValue() {
+        return getAllSelectedOptions();
+    }
+
     public enum By {
         VALUE, VISIBLE_VALUE, INDEX;
     }

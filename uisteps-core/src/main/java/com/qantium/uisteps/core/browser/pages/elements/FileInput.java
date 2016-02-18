@@ -46,4 +46,9 @@ public class FileInput extends UIElement implements Fillable {
     public Object setValue(Object value) {
         return setFileToUpload(value.toString());
     }
+
+    @Override
+    public Object getValue() {
+        return getText();
+    }
 }

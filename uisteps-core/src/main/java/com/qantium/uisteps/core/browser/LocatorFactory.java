@@ -31,7 +31,7 @@ public class LocatorFactory {
     public By getLocator(Class<?> uiObject) {
 
         if (uiObject == Object.class) {
-            throw new RuntimeException("Cannot find locator for " + uiObject);
+            throw new IllegalArgumentException("Cannot find locator for " + uiObject);
         }
 
         if (uiObject.isAnnotationPresent(FindBy.class)) {

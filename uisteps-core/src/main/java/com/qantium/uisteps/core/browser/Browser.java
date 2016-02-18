@@ -421,18 +421,18 @@ public class Browser {
         getActions().moveToElement(element.getWrappedElement()).perform();
     }
 
-    public void typeInto(WrapsElement input, String text) {
-        input.getWrappedElement().sendKeys(text);
+    public void typeInto(WrapsElement input, Object text) {
+        input.getWrappedElement().sendKeys(text.toString());
     }
 
     public void clear(WrapsElement input) {
         input.getWrappedElement().clear();
     }
 
-    public void enterInto(WrapsElement input, String text) {
+    public void enterInto(WrapsElement input, Object text) {
         WebElement webElement = input.getWrappedElement();
         webElement.clear();
-        webElement.sendKeys(text);
+        webElement.sendKeys(text.toString());
     }
 
     //Tags
@@ -698,7 +698,7 @@ public class Browser {
             }
 
             if (locator == null) {
-                locator = getLocatorFactory().getLocator(uiElement);
+                locator = getLocator(uiElement);
             }
 
             uiElement.setContext(context);
@@ -740,6 +740,14 @@ public class Browser {
         uiObject.setBrowser(this);
         uiObject.afterInitialization();
         return uiObject;
+    }
+
+    private By getLocator(UIElement uiElement) {
+        try {
+            return getLocatorFactory().getLocator(uiElement);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
     private UIObject getContext(Context context) {
@@ -784,7 +792,7 @@ public class Browser {
 
     //find
     public <T extends UIElement> T find(Class<T> uiObject) {
-        return find(uiObject, getLocatorFactory().getLocator(uiObject));
+        return find(uiObject, null);
     }
 
     public <T extends UIElement> T find(Class<T> uiObject, By locator) {

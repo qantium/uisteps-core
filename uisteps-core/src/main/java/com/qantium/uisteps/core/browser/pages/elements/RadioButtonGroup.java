@@ -96,6 +96,11 @@ public class RadioButtonGroup extends UIElement implements Fillable {
         }
     }
 
+    @Override
+    public RadioButton getValue() {
+        return getSelectedButton();
+    }
+
     public class RadioButton extends UIElement {
 
         private Integer index = null;

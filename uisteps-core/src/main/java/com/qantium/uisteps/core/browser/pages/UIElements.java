@@ -53,11 +53,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
-        super.setWrappedElement(wrappedElement);
-    }
-
-    @Override
     public List<WebElement> findElements(By by) {
         return getSearchContext().findElements(by);
     }

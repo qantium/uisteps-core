@@ -27,25 +27,31 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
      * @param wrappedElement WebElement that will be wrapped
      * @throws IllegalStateException if wrappedElement is already set
      */
-    public void setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
+    public <T extends UIElement> T setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
 
         if (this.wrappedElement != null) {
             throw new IllegalStateException("WrappedElement is already set to " + this);
         }
         this.wrappedElement = wrappedElement;
+        return (T) this;
     }
 
     @Override
     public WebElement getWrappedElement() {
 
         if (wrappedElement == null) {
-            try {
-                return getSearchContext().findElement(getLocator());
-            } catch (Exception ex) {
-                return null;
-            }
+            return getIfWrappedElementIsNull();
+        } else {
+            return wrappedElement;
         }
-        return wrappedElement;
+    }
+
+    private WebElement getIfWrappedElementIsNull() {
+        if(getLocator() != null) {
+            return getSearchContext().findElement(getLocator());
+        } else {
+            throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
+        }
     }
 
     @Override
@@ -78,23 +84,28 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
     public By getLocator() {
 
-        if(locator instanceof ZKSiblingLocator) {
-            return getSiblingLocator();
-        }
+        if(locator == null) {
+            return null;
+        } else {
 
-        if (locator instanceof By.ById) {
-            ZK zk = new ZK(inOpenedBrowser().getDriver());
-            By.ById id = (By.ById) locator;
+            if (locator instanceof ZKSiblingLocator) {
+                return getSiblingLocator();
+            }
 
-            if(zk.isId(id)) {
-                if(zk.isShiftId(id)) {
-                    return zk.getLocator(id, getContext());
-                } else {
-                    return zk.getLocator(id);
+            if (locator instanceof By.ById) {
+                ZK zk = new ZK(inOpenedBrowser().getDriver());
+                By.ById id = (By.ById) locator;
+
+                if (zk.isId(id)) {
+                    if (zk.isShiftId(id)) {
+                        return zk.getLocator(id, getContext());
+                    } else {
+                        return zk.getLocator(id);
+                    }
                 }
             }
+            return locator;
         }
-        return locator;
     }
 
     private By getSiblingLocator() {
@@ -162,7 +173,11 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
     @Override
     public boolean isDisplayed() {
-        return getWrappedElement() != null && getWrappedElement().isDisplayed();
+        try {
+            return getWrappedElement().isDisplayed();
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     @Override

@@ -76,4 +76,9 @@ public class CheckBox extends UIElement implements Fillable {
             return select(value.toString());
         }
     }
+
+    @Override
+    public Boolean getValue() {
+        return isSelected();
+    }
 }

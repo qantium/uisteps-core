@@ -63,4 +63,9 @@ public class TextField extends UIElement implements Fillable {
            return enter(text);
        }
     }
+
+    @Override
+    public Object getValue() {
+        return getText();
+    }
 }
