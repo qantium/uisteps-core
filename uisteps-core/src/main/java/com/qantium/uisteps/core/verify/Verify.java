@@ -144,16 +144,18 @@ public class Verify {
         return conditions(getConditions(args));
     }
 
-    public void result(Result result) {
+    public void check(Result result) {
         try {
             Assert.assertTrue(result.toString(), result.isSuccessful());
+        } catch (Exception ex) {
+            throw ex;
         } finally {
             result.reset();
         }
     }
 
     public void result() {
-        result(result);
+        check(result);
     }
 
     public boolean isSuccessful() {

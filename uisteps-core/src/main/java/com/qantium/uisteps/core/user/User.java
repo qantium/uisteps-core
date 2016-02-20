@@ -29,6 +29,7 @@ import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.utils.data.Data;
 import com.qantium.uisteps.core.utils.data.DataContainer;
 import com.qantium.uisteps.core.verify.conditions.Condition;
 import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
@@ -65,7 +66,7 @@ public class User implements Named {
     }
 
     protected void setData() {
-        setData(new DataContainer());
+        setData(new DataContainer(new Data()));
     }
 
     protected void setName() {

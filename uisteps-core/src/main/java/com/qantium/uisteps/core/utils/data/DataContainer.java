@@ -12,8 +12,11 @@ import java.util.Iterator;
 public class DataContainer {
 
     private Data defaultData;
-    private Data data;
+    private Data data = new Data();
 
+    public DataContainer(Data defaultData) {
+        this.defaultData = defaultData;
+    }
 
     public Data getDefault() {
         return defaultData;

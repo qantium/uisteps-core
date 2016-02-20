@@ -30,7 +30,7 @@ public class LastActualResult extends ActualResult {
 
     @Override
     public Then ifElse(String actualResult) {
-        Then then = super.ifElse( actualResult);
+        Then then = super.ifElse(actualResult);
         verify().result();
         return then;
     }
