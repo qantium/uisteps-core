@@ -14,14 +14,12 @@ import java.util.List;
 @NotInit
 public class Alert extends AbstractUIObject {
 
-    private org.openqa.selenium.Alert wrappedAllert;
+    private org.openqa.selenium.Alert wrappedAlert;
 
     @Override
     public boolean isDisplayed() {
-
         try {
-            wrappedAllert = inOpenedBrowser().getDriver().switchTo().alert();
-            wrappedAllert.getText();
+            getText();
             return true;
         } catch (NoAlertPresentException e) {
             return false;
@@ -30,6 +28,10 @@ public class Alert extends AbstractUIObject {
 
     public void accept() {
         inOpenedBrowser().accept(this);
+    }
+
+    public String getText() {
+        return getWrappedAlert().getText();
     }
 
     @Override
@@ -42,7 +44,10 @@ public class Alert extends AbstractUIObject {
         return inOpenedBrowser().getDriver().findElement(by);
     }
 
-    public org.openqa.selenium.Alert getWrappedAllert() {
-        return wrappedAllert;
+    public org.openqa.selenium.Alert getWrappedAlert() {
+        if(wrappedAlert == null) {
+            wrappedAlert = inOpenedBrowser().getDriver().switchTo().alert();
+        }
+        return wrappedAlert;
     }
 }

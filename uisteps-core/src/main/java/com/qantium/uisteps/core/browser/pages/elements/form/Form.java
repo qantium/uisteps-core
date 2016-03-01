@@ -15,6 +15,7 @@ public class Form extends UIElement {
     private final Map<Object, Fillable> fields = new HashMap();
 
     protected Form add(Object key, Fillable field) {
+        field.setName(key.toString());
         fields.put(key, field);
         return this;
     }

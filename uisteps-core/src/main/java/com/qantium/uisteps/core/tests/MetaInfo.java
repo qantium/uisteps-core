@@ -12,21 +12,21 @@ import java.util.regex.Pattern;
 /**
  * Created by Anton Solyankin
  */
-public class StepMeta {
+public class MetaInfo {
 
-    private final String META_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.STEPS_META_REGEXP);
-    private final String META_PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.STEPS_META_PARAM_REGEXP);
-    private final String stepTitle;
-    private String stepTitleWithoutMeta;
+    private final String META_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.META_INFO_REGEXP);
+    private final String META_PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.META_PARAM_REGEXP);
+    private final String title;
+    private String titleWithoutMeta;
     private String meta = "";
     private String metaData = "";
     private Map<String, String> metaParams = new HashMap();
 
-    public StepMeta(String stepTitle) {
-        this.stepTitle = stepTitle;
+    public MetaInfo(String title) {
+        this.title = title;
 
         Pattern pattern = Pattern.compile(META_REGEXP);
-        Matcher matcher = pattern.matcher(stepTitle);
+        Matcher matcher = pattern.matcher(title);
 
         if (matcher.find()) {
             meta = matcher.group();
@@ -35,9 +35,9 @@ public class StepMeta {
         }
 
         if(StringUtils.isEmpty(meta)) {
-            stepTitleWithoutMeta = stepTitle;
+            titleWithoutMeta = title;
         } else {
-            stepTitleWithoutMeta = stepTitle.replace(meta, "");
+            titleWithoutMeta = title.replace(meta, "");
         }
     }
 
@@ -54,12 +54,12 @@ public class StepMeta {
         }
     }
 
-    public String getStepTitle() {
-        return stepTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public String getStepTitleWithoutMeta() {
-        return stepTitleWithoutMeta;
+    public String getTitleWithoutMeta() {
+        return titleWithoutMeta;
     }
 
     public String getMeta() {
@@ -72,5 +72,18 @@ public class StepMeta {
 
     public Map<String, String> getMetaParams() {
         return metaParams;
+    }
+
+    public String get(String key) {
+
+        if(StringUtils.isEmpty(key)) {
+            return null;
+        }
+
+        if(!metaParams.containsKey(key)) {
+            return null;
+        }
+
+        return metaParams.get(key);
     }
 }

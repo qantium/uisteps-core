@@ -16,7 +16,6 @@
 package com.qantium.uisteps.core.browser;
 
 import com.google.common.base.Function;
-import com.qantium.uisteps.core.verify.conditions.NotDisplayException;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
@@ -660,20 +659,20 @@ public class Browser {
 
     //Alert
     public void accept(Alert alert) {
-        alert.getWrappedAllert().accept();
+        alert.getWrappedAlert().accept();
     }
 
     public void dismiss(ComfirmAlert cofirm) {
-        cofirm.getWrappedAllert().dismiss();
+        cofirm.getWrappedAlert().dismiss();
     }
 
     public void enterInto(PromtAlert promt, String text) {
-        promt.getWrappedAllert().sendKeys(text);
+        promt.getWrappedAlert().sendKeys(text);
     }
 
     public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
         Credentials credentials = new UserAndPassword(login, password);
-        authenticationAlert.getWrappedAllert().authenticateUsing(credentials);
+        authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
     }
 
     private boolean isInitedByThisBrowser(UIObject uiObject) {

@@ -5,8 +5,6 @@ import com.qantium.net.rest.RestApiException;
 import com.qantium.net.rest.RestApiRequest;
 import org.json.JSONArray;
 
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Anton Solyankin
@@ -16,7 +14,7 @@ public class TestRailClient {
     private final RestApi api;
 
 
-    public TestRailClient(String host, String user, String password) {;
+    public TestRailClient(String host, String user, String password) {
         api = new RestApi(host + "/api/v2")
                 .setBase64BasicAuthorization(user, password)
                 .setHeader("Content-Type", "application/json");
@@ -38,7 +36,7 @@ public class TestRailClient {
         return api.getBasicAuthorization();
     }
 
-    public JSONArray getTestsFromRun(String id) {
+    public JSONArray getTestsFromRun(int id) {
 
         try {
             RestApiRequest request = api.createRequest("/get_tests/" + id);
@@ -58,7 +56,7 @@ public class TestRailClient {
         }
     }
 
-    public void addTestResult(String testId, int status) {
+    public void addTestResult(int testId, int status) {
         RestApiRequest request = api.createRequest("/add_result/" + testId);
         try {
             request.post("{\"status_id\":" + status + "}");

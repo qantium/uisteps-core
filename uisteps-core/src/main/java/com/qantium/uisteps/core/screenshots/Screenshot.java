@@ -19,17 +19,18 @@ import com.google.common.io.Files;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.storage.Save;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
 /**
- *
  * @author A.Solyankin
  */
 public class Screenshot implements Save {
@@ -41,35 +42,51 @@ public class Screenshot implements Save {
         this.image = image;
     }
 
-    public static Screenshot getFrom(InputStream inputStream) throws IOException {
-        return new Screenshot(ImageIO.read(inputStream));
+    public static Screenshot getFrom(InputStream inputStream) {
+        try {
+            return new Screenshot(ImageIO.read(inputStream));
+        } catch (Exception ex) {
+            throw new ScreenshotException("Cannot get screenshot from  inputStream: " + inputStream, ex);
+        }
     }
-    
-    public static Screenshot getFrom(File file) throws IOException {
-        return new Screenshot(ImageIO.read(file));
+
+    public static Screenshot getFrom(File file) {
+        try {
+            return new Screenshot(ImageIO.read(file));
+        } catch (Exception ex) {
+            throw new ScreenshotException("Cannot get screenshot from file: " + file, ex);
+        }
     }
 
     public BufferedImage getImage() {
         return image;
     }
 
-    public File save(String file) throws IOException {
-        String extension = Files.getFileExtension(file);
-        File screenshot = new File(dir, file);
-        Files.createParentDirs(screenshot);
-        ImageIO.write(getImage(), extension, screenshot);
-        return new File(file);
+    public File save(String file) {
+        try {
+            String extension = Files.getFileExtension(file);
+            File screenshot = new File(dir, file);
+            Files.createParentDirs(screenshot);
+            ImageIO.write(getImage(), extension, screenshot);
+            return new File(file);
+        } catch (Exception ex) {
+            throw new ScreenshotException("Cannot save screenshot to file: " + file, ex);
+        }
     }
 
     public ImageDiff getDiffFrom(Screenshot screenshot) {
         return new ImageDiffer().makeDiff(this.getImage(), screenshot.getImage());
     }
 
-    public byte[] asByteArray()  throws IOException  {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", os);
-        os.flush();
-        return os.toByteArray();
+    public byte[] asByteArray() {
+        try {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", os);
+            os.flush();
+            return os.toByteArray();
+        } catch (Exception ex) {
+            throw new ScreenshotException("Cannot get bytes from screenshot: ", ex);
+        }
     }
 
     @Override

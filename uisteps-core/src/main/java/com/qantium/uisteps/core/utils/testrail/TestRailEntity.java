@@ -8,14 +8,14 @@ package com.qantium.uisteps.core.utils.testrail;
 public class TestRailEntity {
 
     private final TestRailType type;
-    private final String id;
+    private final int id;
 
     public TestRailEntity(String fullId) {
-        id = fullId.substring(1);
+        id = Integer.parseInt(fullId.substring(1));
         type = TestRailType.get(fullId.substring(0, 1));
     }
 
-    public TestRailEntity(TestRailType type, String id) {
+    public TestRailEntity(TestRailType type, int id) {
         this.type = type;
         this.id = id;
     }
@@ -24,7 +24,7 @@ public class TestRailEntity {
         return type;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -40,15 +40,15 @@ public class TestRailEntity {
 
         TestRailEntity that = (TestRailEntity) o;
 
-        if (getType() != that.getType()) return false;
-        return getId().equals(that.getId());
+        if (getId() != that.getId()) return false;
+        return getType() == that.getType();
 
     }
 
     @Override
     public int hashCode() {
-        int result = getType().hashCode();
-        result = 31 * result + getId().hashCode();
+        int result = getType() != null ? getType().hashCode() : 0;
+        result = 31 * result + getId();
         return result;
     }
 }

@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.properties;
 
 import com.qantium.uisteps.core.tests.listeners.Execute;
-import com.qantium.uisteps.core.utils.testrail.TestRail;
+import com.qantium.uisteps.core.utils.testrail.Action;
 
 /**
  * Contains settings that can be set before test running
@@ -44,8 +44,8 @@ import com.qantium.uisteps.core.utils.testrail.TestRail;
  * <li>webdriver.base.url.password</li>
  * <li>webdriver.timeouts.implicitlywait</li>
  * <li>webdriver.timeouts.polling</li>
- * <li>steps.meta.regexp</li>
- * <li>steps.meta.param.regexp</li>
+ * <li>meta.info.regexp</li>
+ * <li>meta.info.param.regexp</li>
  * <li>webdriver.proxy = localhost<li>
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
@@ -66,6 +66,7 @@ import com.qantium.uisteps.core.utils.testrail.TestRail;
  * <li>testrail.user</li>
  * <li>testrail.password</li>
  * <li>testrail.runs</li>
+ * <li>testrail.status.codes</li>
  * <li>testrail.outcome.file</li>
  * <li>run.groups</li>
  * </ul>
@@ -144,13 +145,13 @@ public enum UIStepsProperty {
      */
     WEBDRIVER_TIMEOUTS_POLLING("250"),
     /**
-     * Set "steps.meta.regexp" to specify regexp for step meta
+     * Set "meta.info.regexp" to specify regexp for step meta
      */
-    STEPS_META_REGEXP("\\s?META(.*)"),
+    META_INFO_REGEXP("\\s?META(.*)"),
     /**
-     * Set "steps.meta.param.regexp" to specify regexp for parameters in step meta
+     * Set "meta.info.param.regexp" to specify regexp for parameters in step meta
      */
-    STEPS_META_PARAM_REGEXP("\\[(.+?)=(.*?)\\]"),
+    META_PARAM_REGEXP("\\[(.+?)=(.*?)\\]"),
     /**
      * Set "home.dir" to specify directory for saved file
      *
@@ -212,15 +213,19 @@ public enum UIStepsProperty {
     BROWSER_WIDTH,
     BROWSER_HEIGHT,
 
-    TESTRAIL_ACTION(TestRail.Action.UNDEFINED.name()),
+    /**
+     * @see com.qantium.uisteps.core.utils.testrail.Action
+     */
+    TESTRAIL_ACTION(Action.UNDEFINED.name().toLowerCase()),
     TESTRAIL_HOST,
     TESTRAIL_USER,
     TESTRAIL_PASSWORD,
     TESTRAIL_RUNS,
+    TESTRAIL_STATUS_CODES,
     /**
      * Set "testrail.outcome.file" to specify path to *.properties file with list of runed testrail cases
      */
-    TESTRAIL_OUTCOME_FILE("/target/testrail/tests.properties"),
+    TESTRAIL_OUTCOME_FILE(System.getProperty("user.dir") + "/target/testrail/tests.properties"),
     RUN_GROUPS,
 
     ZK_ID_MARK("ZK#"),

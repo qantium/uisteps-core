@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.utils.testrail;
 
 import com.google.common.io.Files;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.utils.data.Data;
 import org.json.JSONArray;
@@ -14,40 +13,75 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_ACTION;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_OUTCOME_FILE;
+
 /**
  * Created by Anton Solyankin
  */
-public class TestRailAdapter implements TestRail.Adapter {
+public class TestRailAdapter {
 
+    private static volatile TestRailAdapter instance;
     private TestRailConfig config;
     private File outcomeFile;
     private TestRailClient client;
     private Data data;
     private HashMap<String, HashSet<JSONObject>> cases = new HashMap();
 
-    public TestRailAdapter(TestRailConfig config) {
+    public static TestRailAdapter getInstance() {
+        if (instance == null) {
+            synchronized (TestRailAdapter.class) {
+                if (instance == null && TestRailAdapter.actionIsDefined()) {
+                    TestRailConfig config = new TestRailConfig();
+                    instance = new TestRailAdapter(config);
+                }
+            }
+        }
+        return instance;
+    }
+
+    private TestRailAdapter(TestRailConfig config) {
         this.config = config;
-        outcomeFile = new File(UIStepsProperties.getProperty(UIStepsProperty.TESTRAIL_OUTCOME_FILE));
+        outcomeFile = new File(getProperty(TESTRAIL_OUTCOME_FILE));
         data = new Data(config.toJSON());
         client = new TestRailClient(config.getHost(), config.getUser(), config.getPassword());
+
+//        if(!outcomeFileExists()) {
+//            initOutcomeFile();
+//        }
+    }
+
+    private boolean outcomeFileExists() {
+        return new File(getProperty(TESTRAIL_OUTCOME_FILE)).exists();
+    }
+
+    private void initOutcomeFile() {
         JSONArray tests = getTests();
         data.append("tests", tests);
         setCasesFrom(tests);
-        writeOutcome();
+        writeOutcomeFile();
     }
 
-    @Override
-    public void addTestResult(String caseID, int status) {
+    public static boolean actionIsDefined() {
+        return !getProperty(TESTRAIL_ACTION).toLowerCase().equals(Action.UNDEFINED.name().toLowerCase());
+    }
 
-        if (caseID.startsWith(TestRailType.CASE.mark)) {
-            caseID = new TestRailEntity(caseID).getId();
-        }
-
+    public void addTestResult(int caseID, int status) {
         client.addTestResult(caseID, status);
     }
 
-    private JSONArray getStatuses() {
+    public Integer getStatusCode(String status) {
+        return config.getStatusCode(status);
+    }
+
+    public JSONArray getStatuses() {
         return client.getStatuses();
+    }
+
+    public JSONArray getTestsFromRun(int runId) {
+        return client.getTestsFromRun(runId);
     }
 
     private JSONArray getTests() {
@@ -57,7 +91,7 @@ public class TestRailAdapter implements TestRail.Adapter {
 
             switch (entity.getType()) {
                 case RUN:
-                    tests = client.getTestsFromRun(entity.getId());
+                    tests = getTestsFromRun(entity.getId());
                     break;
                 default:
                     throw new IllegalArgumentException("Functionality for " + entity.getType() + " has not realized yet!");
@@ -71,7 +105,7 @@ public class TestRailAdapter implements TestRail.Adapter {
         try {
             for (int i = 0; i < tests.length(); i++) {
                 JSONObject test = tests.getJSONObject(i);
-                String caseID = test.getString("case_id");
+                String caseID = TestRailType.CASE.mark + test.getString("case_id");
                 HashSet<JSONObject> caseTests;
 
                 if (cases.containsKey(caseID)) {
@@ -87,13 +121,13 @@ public class TestRailAdapter implements TestRail.Adapter {
         }
     }
 
-    private void writeOutcome() {
+    private void writeOutcomeFile() {
 
         try {
             Charset UTF_8 = Charset.forName("UTF-8");
 
             if (!outcomeFile.isAbsolute()) {
-                outcomeFile = new File(System.getProperty("user.dir") + outcomeFile.getPath());
+                outcomeFile = new File(outcomeFile.getPath());
             }
 
             if (outcomeFile.exists()) {
@@ -119,5 +153,9 @@ public class TestRailAdapter implements TestRail.Adapter {
         String casesString = Arrays.toString(cases.keySet().toArray());
         return casesString.substring(1, casesString.length() - 1).replace(" ", "");
 
+    }
+
+    public Data getData() {
+        return data;
     }
 }
