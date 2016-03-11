@@ -44,7 +44,6 @@
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-container-default:1.0-alpha-30" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.doxia:doxia-core:1.6" level="project" />
     <orderEntry type="library" name="Maven: xerces:xercesImpl:2.9.1" level="project" />
-    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.3.04" level="project" />
     <orderEntry type="library" name="Maven: xmlunit:xmlunit:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.doxia:doxia-module-xhtml:1.6" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.maven.doxia:doxia-module-apt:1.6" level="project" />
@@ -66,7 +65,6 @@
     <orderEntry type="library" name="Maven: commons-digester:commons-digester:1.8" level="project" />
     <orderEntry type="library" name="Maven: commons-chain:commons-chain:1.1" level="project" />
     <orderEntry type="library" name="Maven: commons-validator:commons-validator:1.3.1" level="project" />
-    <orderEntry type="library" name="Maven: dom4j:dom4j:1.1" level="project" />
     <orderEntry type="library" name="Maven: sslext:sslext:1.2-0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.struts:struts-core:1.3.8" level="project" />
     <orderEntry type="library" name="Maven: antlr:antlr:2.7.2" level="project" />
@@ -108,17 +106,15 @@
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.15" level="project" />
     <orderEntry type="library" name="Maven: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20080701" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-support:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-api:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-exec:1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-support:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-api:2.52.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.1.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna-platform:4.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-htmlunit-driver:2.49.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.htmlunit:htmlunit:2.18" level="project" />
     <orderEntry type="library" name="Maven: xalan:xalan:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: xalan:serializer:2.7.2" level="project" />
@@ -129,16 +125,15 @@
     <orderEntry type="library" name="Maven: org.w3c.css:sac:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.2.12.v20150709" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.2.12.v20150709" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.2.12.v20150709" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.12.v20150709" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.2.12.v20150709" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:2.49.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:2.52.0" level="project" />
     <orderEntry type="library" name="Maven: org.webbitserver:webbit:0.4.14" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty:3.5.2.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-leg-rc:2.49.0" level="project" />
-    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-server:2.49.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-leg-rc:2.52.0" level="project" />
+    <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-server:2.52.0" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.48" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.48" level="project" />
     <orderEntry type="library" name="Maven: mx4j:mx4j-tools:3.0.1" level="project" />
@@ -146,9 +141,33 @@
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:jetty-rc-repacked:5" level="project" />
     <orderEntry type="library" name="Maven: net.jcip:jcip-annotations:1.0" level="project" />
-    <orderEntry type="library" name="Maven: ru.stqa.selenium:webdriver-factory:1.1.47" level="project" />
-    <orderEntry type="library" name="Maven: com.codeborne:phantomjsdriver:1.2.1" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.7" level="project" />
+    <orderEntry type="library" name="Maven: com.github.detro:phantomjsdriver:1.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.opera:operadriver:1.5" level="project" />
+    <orderEntry type="library" name="Maven: com.opera:operalaunchers:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:14.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-jxpath:commons-jxpath:1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-exec:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.ini4j:ini4j:0.5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.uiautomation:ios-grid:0.6.5" level="project" />
+    <orderEntry type="library" name="Maven: org.uiautomation:ios-common:0.6.5" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.uiautomation:ios-server:0.6.5" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-continuation:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:7.2.0.v20101020" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.19" level="project" />
+    <orderEntry type="library" name="Maven: org.uiautomation:ios-client:0.6.5" level="project" />
+    <orderEntry type="library" name="Maven: jaxen:jaxen:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: net.sf.saxon:Saxon-HE:9.4.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.uiautomation:libimobiledevice-wrapper:1.0" level="project" />
+    <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.plist:dd-plist:1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: ru.yandex.qatools.ashot:ashot:1.4.12" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: net.lightbody.bmp:browsermob-core-littleproxy:2.1.0-beta-3" level="project" />

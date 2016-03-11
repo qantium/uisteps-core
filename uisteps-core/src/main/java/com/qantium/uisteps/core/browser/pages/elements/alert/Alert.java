@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 /**
- * Created by Solan on 01.02.2016.
+ * Created by Anton Solyankin
  */
 @NotInit
 public class Alert extends AbstractUIObject {

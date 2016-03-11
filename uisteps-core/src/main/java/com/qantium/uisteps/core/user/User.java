@@ -15,12 +15,9 @@
  */
 package com.qantium.uisteps.core.user;
 
+import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.Then;
-import com.qantium.uisteps.core.browser.BrowserManager;
-import com.qantium.uisteps.core.browser.NoBrowserException;
-import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.Driver;
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
@@ -47,7 +44,7 @@ import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 public class User implements Named {
 
@@ -118,38 +115,18 @@ public class User implements Named {
         return (T) this;
     }
 
-    public <T extends User> T openNewBrowser(Driver driver, Map<String, Object> capabilities) {
-        getBrowserManager().openNewBrowser(driver, capabilities);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(Map<String, Object> capabilities) {
-        getBrowserManager().openNewBrowser(capabilities);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(String hub) {
-        getBrowserManager().openNewBrowser(hub);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(String hub, Map<String, Object> capabilities) {
-        getBrowserManager().openNewBrowser(hub, capabilities);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(String hub, Driver driver) {
-        getBrowserManager().openNewBrowser(hub, driver);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
-        getBrowserManager().openNewBrowser(hub, driver, capabilities);
-        return (T) this;
-    }
-
     public <T extends User> T openNewBrowser(WebDriver driver) {
         getBrowserManager().openNewBrowser(driver);
+        return (T) this;
+    }
+
+    public <T extends User> T openNewBrowser(String driver) {
+        getBrowserManager().openNewBrowser(driver);
+        return (T) this;
+    }
+
+    public <T extends User> T openNewBrowser(DriverBuilder driverBuilder) {
+        getBrowserManager().openNewBrowser(driverBuilder);
         return (T) this;
     }
 

@@ -17,17 +17,26 @@ package com.qantium.uisteps.core.browser;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 
 /**
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 public class BrowserManager {
 
-    private final static ThreadLocal<Integer> currentIndex = new ThreadLocal();
-    private final static ThreadLocal<ArrayList<Browser>> browsers = new ThreadLocal();
+    private Integer currentIndex = -1;
+    private ArrayList<Browser> browsers = new ArrayList();
     private BrowserFactory browserFactory = new BrowserFactory();
-    private final static ThreadLocal<Browser> currentBrowser = new ThreadLocal();
+    private Browser currentBrowser;
+
+    public BrowserManager() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                reset();
+            }
+        });
+    }
 
     public BrowserFactory getBrowserFactory() {
         return browserFactory;
@@ -38,11 +47,7 @@ public class BrowserManager {
     }
 
     public ArrayList<Browser> getBrowsers() {
-
-        if (browsers.get() == null) {
-            reset();
-        }
-        return browsers.get();
+        return browsers;
     }
 
     private Integer decrementCurrentIndex() {
@@ -54,16 +59,16 @@ public class BrowserManager {
     }
 
     private Integer getCurrentIndex() {
-        return currentIndex.get();
+        return currentIndex;
     }
 
     private Integer setCurrentIndex(int index) {
-        currentIndex.set(index);
+        currentIndex = index;
 
         if (index > -1) {
-            currentBrowser.set(getBrowsers().get(index));
+            currentBrowser = getBrowsers().get(index);
         } else {
-            currentBrowser.set(null);
+            currentBrowser = null;
         }
 
         return getCurrentIndex();
@@ -80,29 +85,24 @@ public class BrowserManager {
         switchToNextBrowser();
     }
 
-    public static void reset() {
+    public void reset() {
 
-        if (browsers.get() != null) {
-
-            for (Browser browser : browsers.get()) {
-                browser.getDriver().quit();
+        if (browsers != null) {
+            for (Browser browser : browsers) {
+                browser.close();
             }
         }
 
-        browsers.set(new ArrayList());
-        currentIndex.set(-1);
+        browsers = new ArrayList();
+        currentIndex = -1;
     }
 
     public Browser getCurrentBrowser() {
-        return currentBrowser.get();
+        return browsers.get(currentIndex);
     }
 
     public Browser openNewBrowser() {
         return open(getBrowserFactory().getBrowser());
-    }
-
-    public Browser openNewBrowser(Map<String, Object> capabilities) {
-        return open(getBrowserFactory().getBrowser(capabilities));
     }
 
     public Browser openNewBrowser(WebDriver driver) {
@@ -110,27 +110,17 @@ public class BrowserManager {
     }
 
     public Browser openNewBrowser(Driver driver) {
-        return open(getBrowserFactory().getBrowser(driver));
+        DriverBuilder driverBuilder = new DriverBuilder().setDriver(driver);
+        return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
-    public Browser openNewBrowser(Driver driver, Map<String, Object> capabilities) {
-        return open(getBrowserFactory().getBrowser(driver, capabilities));
+    public Browser openNewBrowser(String driver) {
+        DriverBuilder driverBuilder = new DriverBuilder().setDriver(driver);
+        return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
-    public Browser openNewBrowser(String hub) {
-        return open(getBrowserFactory().getBrowser(hub));
-    }
-
-    public Browser openNewBrowser(String hub, Map<String, Object> capabilities) {
-        return open(getBrowserFactory().getBrowser(hub, capabilities));
-    }
-
-    public Browser openNewBrowser(String hub, Driver driver) {
-        return open(getBrowserFactory().getBrowser(hub, driver));
-    }
-
-    public Browser openNewBrowser(String hub, Driver driver, Map<String, Object> capabilities) {
-        return open(getBrowserFactory().getBrowser(hub, driver, capabilities));
+    public Browser openNewBrowser(DriverBuilder driverBuilder) {
+        return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
     public Browser open(Browser browser) {

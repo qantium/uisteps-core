@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.uiautomation:ios-server:0.6.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uiautomation/ios-server/0.6.5/ios-server-0.6.5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uiautomation/ios-server/0.6.5/ios-server-0.6.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uiautomation/ios-server/0.6.5/ios-server-0.6.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -59,6 +59,10 @@ public class TestRailConfig extends Data {
         }
     }
 
+    public boolean actionIsDefined() {
+        return !action.toLowerCase().equals(Action.UNDEFINED.name().toLowerCase());
+    }
+
     private void putStatus(String status) {
         try {
 

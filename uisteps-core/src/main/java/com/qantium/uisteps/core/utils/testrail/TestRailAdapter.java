@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_ACTION;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_OUTCOME_FILE;
 
 /**
@@ -23,17 +22,28 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_OUTCO
  */
 public class TestRailAdapter {
 
-    private static volatile TestRailAdapter instance;
+    public static TestRailAdapter instance;
     private TestRailConfig config;
     private File outcomeFile;
     private TestRailClient client;
     private Data data;
     private HashMap<String, HashSet<JSONObject>> cases = new HashMap();
 
+    public static TestRailAdapter getInstance(TestRailConfig config) {
+        if (instance == null) {
+            synchronized (TestRailAdapter.class) {
+                if (instance == null) {
+                    instance = new TestRailAdapter(config);
+                }
+            }
+        }
+        return instance;
+    }
+
     public static TestRailAdapter getInstance() {
         if (instance == null) {
             synchronized (TestRailAdapter.class) {
-                if (instance == null && TestRailAdapter.actionIsDefined()) {
+                if (instance == null) {
                     TestRailConfig config = new TestRailConfig();
                     instance = new TestRailAdapter(config);
                 }
@@ -42,15 +52,20 @@ public class TestRailAdapter {
         return instance;
     }
 
+
     private TestRailAdapter(TestRailConfig config) {
         this.config = config;
         outcomeFile = new File(getProperty(TESTRAIL_OUTCOME_FILE));
         data = new Data(config.toJSON());
         client = new TestRailClient(config.getHost(), config.getUser(), config.getPassword());
 
-//        if(!outcomeFileExists()) {
-//            initOutcomeFile();
-//        }
+        if(isDefined() && !outcomeFileExists()) {
+            initOutcomeFile();
+        }
+    }
+
+    public boolean isDefined() {
+        return config.isValid() && config.actionIsDefined();
     }
 
     private boolean outcomeFileExists() {
@@ -62,10 +77,6 @@ public class TestRailAdapter {
         data.append("tests", tests);
         setCasesFrom(tests);
         writeOutcomeFile();
-    }
-
-    public static boolean actionIsDefined() {
-        return !getProperty(TESTRAIL_ACTION).toLowerCase().equals(Action.UNDEFINED.name().toLowerCase());
     }
 
     public void addTestResult(int caseID, int status) {
