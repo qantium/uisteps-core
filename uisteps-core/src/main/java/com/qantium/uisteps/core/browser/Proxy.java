@@ -15,10 +15,11 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  *

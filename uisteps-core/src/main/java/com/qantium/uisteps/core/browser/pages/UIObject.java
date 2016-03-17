@@ -15,19 +15,13 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.google.common.base.Function;
+import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.UIObjectWait;
 import com.qantium.uisteps.core.name.Named;
-import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.screenshots.Screenshot;
-
-import java.util.List;
-
 import com.qantium.uisteps.core.then.Then;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
 /**
  * Any element (Page or UIElement) of user interface
@@ -50,13 +44,15 @@ public interface UIObject extends Named, SearchContext {
 
     <T> Then<T> then(T value);
 
+    UIObjectWait wait(UIObject uiObject);
+
     void waitUntilIsDisplayed(UIObject uiObject);
+
+    void waitUntilIsNotDisplayed(UIObject uiObject);
 
     void waitUntilIsDisplayed();
 
-    void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition);
-
-    void waitUntil(Function<UIObject, Boolean> condition);
+    void waitUntilIsNotDisplayed();
 
     void afterInitialization();
 

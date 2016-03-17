@@ -15,12 +15,14 @@
  */
 package com.qantium.uisteps.core.properties;
 
+import org.codehaus.plexus.util.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Properties;
-import org.codehaus.plexus.util.StringUtils;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.PROPERTIES_PATH;
 
 /**
  * Contains settings that can be set before test running
@@ -44,7 +46,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 public class UIStepsProperties {
 
     private static volatile Properties properties;
-    private static final String WORKIND_DIR = System.getProperty("user.dir");
+    private static final String WORKING_DIR = System.getProperty("user.dir");
     private static final String HOME_DIR = System.getProperty("user.home");
     private static final String PROPERTIES_FILE_NAME = "uisteps.properties";
     private static final String PROPERTIES_LOCAL_FILE_NAME = "uisteps.local.properties";
@@ -58,35 +60,37 @@ public class UIStepsProperties {
     public static Properties getProperties() {
 
         if (properties == null) {
-            properties = new Properties(getDefaults());
-            load(PROPERTIES_FILE_NAME, properties);
-            String path = getProperty(PROPERTIES_PATH);
+            synchronized (Properties.class) {
+                if (properties == null) {
+                    properties = new Properties(getDefaults());
+                    load(PROPERTIES_FILE_NAME, properties);
+                    String path = getProperty(PROPERTIES_PATH);
 
-            if (!StringUtils.isEmpty(path)) {
-                load(path, properties);
-            }
-            load(PROPERTIES_LOCAL_FILE_NAME, properties);
-
-            Properties sysProperties = System.getProperties();
-            
-            for (String sysProperty : sysProperties.stringPropertyNames()) {
-                properties.setProperty(sysProperty, sysProperties.getProperty(sysProperty));
-            }
-
-            for (String propertyName : properties.stringPropertyNames()) {
-                String property = properties.getProperty(propertyName);
-
-                if (property.startsWith(AS)) {
-                    String fromProperty = properties.getProperty(property.replace(AS, ""));
-                    
-                    if(fromProperty == null) {
-                        throw new RuntimeException("Cannot find property " + property + " for setting to " + propertyName + "!");
+                    if (!StringUtils.isEmpty(path)) {
+                        load(path, properties);
                     }
-                    properties.setProperty(propertyName, fromProperty);
+                    load(PROPERTIES_LOCAL_FILE_NAME, properties);
+
+                    Properties sysProperties = System.getProperties();
+
+                    for (String sysProperty : sysProperties.stringPropertyNames()) {
+                        properties.setProperty(sysProperty, sysProperties.getProperty(sysProperty));
+                    }
+
+                    for (String propertyName : properties.stringPropertyNames()) {
+                        String property = properties.getProperty(propertyName);
+
+                        if (property.startsWith(AS)) {
+                            String fromProperty = properties.getProperty(property.replace(AS, ""));
+
+                            if (fromProperty == null) {
+                                throw new RuntimeException("Cannot find property " + property + " for setting to " + propertyName + "!");
+                            }
+                            properties.setProperty(propertyName, fromProperty);
+                        }
+                    }
                 }
             }
-            
-            
         }
         return properties;
     }
@@ -101,7 +105,7 @@ public class UIStepsProperties {
                 load(fileFromHomeDir, properties);
             }
 
-            File fileFromWorkingDir = new File(WORKIND_DIR, propertiesFileName);
+            File fileFromWorkingDir = new File(WORKING_DIR, propertiesFileName);
 
             if (fileFromWorkingDir.exists()) {
                 load(fileFromWorkingDir, properties);

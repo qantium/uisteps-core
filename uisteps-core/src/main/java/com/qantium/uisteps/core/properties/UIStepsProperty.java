@@ -15,7 +15,8 @@
  */
 package com.qantium.uisteps.core.properties;
 
-import com.qantium.uisteps.core.tests.listeners.Execute;
+import com.qantium.uisteps.core.browser.factory.BrowserFactory;
+import com.qantium.uisteps.core.lifecycle.Execute;
 import com.qantium.uisteps.core.utils.testrail.Action;
 
 /**
@@ -50,6 +51,7 @@ import com.qantium.uisteps.core.utils.testrail.Action;
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
  * <li>webdriver.proxy = :7777</li>
+ * <li>webdriver.unexpected.alert.behaviour/li>
  * <li>home.dir</li>
  * <li>source.take</li>
  * <li>screenshots.take</li>
@@ -131,7 +133,7 @@ public enum UIStepsProperty {
      * <li>:7777</li>
      * </ul>
      *
-     * @see com.qantium.uisteps.core.browser.BrowserFactory
+     * @see BrowserFactory
      */
     WEBDRIVER_PROXY,
     /**
@@ -144,6 +146,16 @@ public enum UIStepsProperty {
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_POLLING("250"),
+
+    /**
+     * Examples:
+     * <ul>
+     * <li><li>
+     * <li>dismiss</li>
+     * <li>ignore</li>
+     * </ul>
+     */
+    WEBDRIVER_UNEXPECTED_ALERT_BEHAVIOUR("accept"),
     /**
      * Set "meta.info.regexp" to specify regexp for step meta
      */
@@ -163,7 +175,7 @@ public enum UIStepsProperty {
     /**
      * Set "source.take" to specify when to take screenshots
      *
-     * @see com.qantium.uisteps.core.tests.listeners.Execute
+     * @see Execute
      */
     SOURCE_TAKE(Execute.FOR_FAILURES.name()),
     /**
@@ -210,8 +222,8 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     BASE_URL_PARAM_VALUE_REGEXP("(.+?)=(.*)"),
-    BROWSER_WIDTH,
-    BROWSER_HEIGHT,
+    BROWSER_WIDTH("max"),
+    BROWSER_HEIGHT("max"),
 
     /**
      * @see com.qantium.uisteps.core.utils.testrail.Action

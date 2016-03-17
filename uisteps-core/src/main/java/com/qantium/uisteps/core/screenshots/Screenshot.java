@@ -16,27 +16,25 @@
 package com.qantium.uisteps.core.screenshots;
 
 import com.google.common.io.Files;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
-import com.qantium.uisteps.core.storage.Save;
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
-
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
-/**
- * @author A.Solyankin
- */
-public class Screenshot implements Save {
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
 
-    private final BufferedImage image;
-    private String dir = UIStepsProperties.getProperty(UIStepsProperty.HOME_DIR);
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.HOME_DIR;
+
+/**
+ * @author Anton Solyankin
+ */
+public class Screenshot {
+
+    private BufferedImage image;
+    private String dir = getProperty(HOME_DIR);
 
     public Screenshot(BufferedImage image) {
         this.image = image;
@@ -52,7 +50,9 @@ public class Screenshot implements Save {
 
     public static Screenshot getFrom(File file) {
         try {
-            return new Screenshot(ImageIO.read(file));
+            BufferedImage in = ImageIO.read(new File(System.getProperty("user.dir") + "\\" + file));
+            Screenshot sc = new Screenshot(in);
+            return sc;
         } catch (Exception ex) {
             throw new ScreenshotException("Cannot get screenshot from file: " + file, ex);
         }
@@ -89,7 +89,6 @@ public class Screenshot implements Save {
         }
     }
 
-    @Override
     public Screenshot toDir(String dir) {
         this.dir = dir;
         return this;

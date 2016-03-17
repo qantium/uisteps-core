@@ -18,13 +18,12 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 import org.openqa.selenium.WebElement;
 import ru.yandex.qatools.htmlelements.element.Radio;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Anton Solyankin

@@ -18,27 +18,27 @@ package com.qantium.uisteps.core.storage;
 import com.google.common.io.Files;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
+import com.qantium.uisteps.core.screenshots.Screenshot;
+import net.lightbody.bmp.core.har.Har;
+
+import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.imageio.ImageIO;
-
-import com.qantium.uisteps.core.screenshots.Screenshot;
-import net.lightbody.bmp.core.har.Har;
 
 /**
  *
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 public class Storage {
 
-    private final static ThreadLocal<Map> threadLocalMap = new ThreadLocal();
+    private final static ThreadLocal<Map> storage = new ThreadLocal();
     private String dir = UIStepsProperties.getProperty(UIStepsProperty.HOME_DIR);
 
     public Storage() {
-        threadLocalMap.set(new ConcurrentHashMap());
+        storage.set(new ConcurrentHashMap());
     }
 
     public Storage toDir(String dir) {
@@ -47,23 +47,8 @@ public class Storage {
     }
 
     private Map getMap() {
-        return threadLocalMap.get();
+        return storage.get();
     }
-
-    protected File save(Saved file) {
-        return put(file.getFile());
-    }
-
-    protected void saveFile(String dir, String path) {
-        save(new Saved(new File(dir, path)));
-    }
-
-    public File save(Save file, String path) throws IOException {
-        File savedFile = file.toDir(dir).save(path);
-        saveFile(dir, path);
-        return savedFile;
-    }
-    
      public File save(String data, String path) throws IOException {
         return save(data.getBytes(), path);
     }
@@ -72,7 +57,6 @@ public class Storage {
         File file = new File(dir, path);
         Files.createParentDirs(file);
         har.writeTo(file);
-        saveFile(dir, path);
         return file;
     }
 
@@ -80,8 +64,11 @@ public class Storage {
         File file = new File(dir, path);
         Files.createParentDirs(file);
         Files.write(bytes, file);
-        saveFile(dir, path);
         return file;
+    }
+
+    public File save(Screenshot screenshot, String path) throws IOException {
+        return save(screenshot.getImage(), path);
     }
 
     public File save(RenderedImage image, String path) throws IOException {
@@ -89,7 +76,6 @@ public class Storage {
         String extension = com.google.common.io.Files.getFileExtension(path);
         Files.createParentDirs(file);
         ImageIO.write(image, extension, file);
-        saveFile(dir, path);
         return file;
     }
 

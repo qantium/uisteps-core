@@ -26,6 +26,11 @@ public class Alert extends AbstractUIObject {
         }
     }
 
+    @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
+    }
+
     public void accept() {
         inOpenedBrowser().accept(this);
     }

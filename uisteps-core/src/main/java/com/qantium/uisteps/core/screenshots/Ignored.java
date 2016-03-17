@@ -18,11 +18,12 @@ package com.qantium.uisteps.core.screenshots;
 import com.google.common.collect.Lists;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
+import org.openqa.selenium.By;
+import ru.yandex.qatools.ashot.coordinates.Coords;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.openqa.selenium.By;
-import ru.yandex.qatools.ashot.coordinates.Coords;
 
 /**
  *

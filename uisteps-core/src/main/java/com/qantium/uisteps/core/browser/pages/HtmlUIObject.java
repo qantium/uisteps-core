@@ -15,11 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * @author A.Solyankin

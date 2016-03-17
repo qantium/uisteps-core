@@ -1,7 +1,8 @@
 package com.qantium.uisteps.core.name;
 
-import java.lang.reflect.Field;
 import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
+
+import java.lang.reflect.Field;
 /**
  *
  * @author ASolyankin

@@ -16,15 +16,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.screenshots.Ignored;
-import com.qantium.uisteps.core.screenshots.Screenshot;
-
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
 /**
  * @author ASolyankin
@@ -50,6 +42,11 @@ public class Page extends HtmlUIObject {
     @Override
     public boolean isDisplayed() {
         return executeScript("return document.readyState").equals("complete");
+    }
+
+    @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
     }
 
     public <T extends Page> T setUrl(Url url) {

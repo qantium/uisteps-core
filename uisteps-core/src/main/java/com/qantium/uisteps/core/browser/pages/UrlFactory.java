@@ -16,13 +16,15 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  *

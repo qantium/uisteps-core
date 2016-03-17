@@ -2,14 +2,13 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.utils.zk.ZK;
+import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
+import org.openqa.selenium.*;
+import org.openqa.selenium.internal.WrapsElement;
 
 import java.util.List;
 import java.util.Objects;
-
-import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
-import com.qantium.uisteps.core.utils.zk.ZK;
-import org.openqa.selenium.*;
-import org.openqa.selenium.internal.WrapsElement;
 
 /**
  * @author ASolyankin

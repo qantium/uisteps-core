@@ -15,10 +15,13 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import java.util.ArrayList;
-import java.util.Map;
-
+import com.qantium.uisteps.core.browser.factory.BrowserFactory;
+import com.qantium.uisteps.core.browser.factory.Driver;
+import com.qantium.uisteps.core.browser.factory.DriverBuilder;
 import org.openqa.selenium.WebDriver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Anton Solyankin
@@ -26,27 +29,18 @@ import org.openqa.selenium.WebDriver;
 public class BrowserManager {
 
     private Integer currentIndex = -1;
-    private ArrayList<Browser> browsers = new ArrayList();
+    private List<Browser> browsers = new ArrayList();
     private BrowserFactory browserFactory = new BrowserFactory();
-    private Browser currentBrowser;
 
-    public BrowserManager() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                reset();
-            }
-        });
-    }
-
-    public BrowserFactory getBrowserFactory() {
+    private BrowserFactory getBrowserFactory() {
         return browserFactory;
     }
 
-    public void setBrowserFactory(BrowserFactory browserFactory) {
+    protected void setBrowserFactory(BrowserFactory browserFactory) {
         this.browserFactory = browserFactory;
     }
 
-    public ArrayList<Browser> getBrowsers() {
+    public List<Browser> getBrowsers() {
         return browsers;
     }
 
@@ -64,41 +58,42 @@ public class BrowserManager {
 
     private Integer setCurrentIndex(int index) {
         currentIndex = index;
-
-        if (index > -1) {
-            currentBrowser = getBrowsers().get(index);
-        } else {
-            currentBrowser = null;
-        }
-
-        return getCurrentIndex();
+        return currentIndex;
     }
 
     public void closeAllBrowsers() {
-        reset();
+        for (Browser browser : getBrowsers()) {
+            browser.close();
+        }
+        browsers = new ArrayList();
+        resetCurrentIndex();
+    }
+
+    private Integer resetCurrentIndex() {
+        return setCurrentIndex(-1);
     }
 
     public void closeCurrentBrowser() {
         Browser browser = getCurrentBrowser();
-        browser.close();
-        getBrowsers().remove(browser);
-        switchToNextBrowser();
-    }
-
-    public void reset() {
-
-        if (browsers != null) {
-            for (Browser browser : browsers) {
-                browser.close();
+        if (browser != null) {
+            browser.close();
+            getBrowsers().remove(browser);
+            try {
+                switchToNextBrowser();
+            } catch (NoBrowserException ex) {
             }
         }
-
-        browsers = new ArrayList();
-        currentIndex = -1;
     }
 
     public Browser getCurrentBrowser() {
-        return browsers.get(currentIndex);
+        Browser browser;
+
+        if (currentIndex > -1) {
+            browser = browsers.get(currentIndex);
+        } else {
+            browser = null;
+        }
+        return browser;
     }
 
     public Browser openNewBrowser() {
@@ -133,8 +128,10 @@ public class BrowserManager {
 
         if (hasNext()) {
             return switchToBrowserByIndex(incrementCurrentIndex());
-        } else {
+        } else if (hasAny()) {
             return switchToFirstBrowser();
+        } else {
+            return null;
         }
     }
 
@@ -142,8 +139,11 @@ public class BrowserManager {
 
         if (hasPrevious()) {
             return switchToBrowserByIndex(decrementCurrentIndex());
-        } else {
+        } else if (hasAny()) {
             return switchToLastBrowser();
+        } else {
+            resetCurrentIndex();
+            return null;
         }
     }
 
@@ -156,17 +156,16 @@ public class BrowserManager {
     }
 
     public Browser switchToBrowserByIndex(int index) {
-
-        if (!hasAny()) {
-            showNoBrowserException("List of browsers is empty!");
-        }
-
         if (index < 0) {
             showNoBrowserException("Index of browser must not be negative! Index: " + index);
         }
 
         if (index >= getBrowsers().size()) {
             showNoBrowserException("Index of browser is out of bounds! Index: " + index);
+        }
+
+        if (!hasAny()) {
+            showNoBrowserException("The list of browsers is empty!");
         }
         setCurrentIndex(index);
         return getCurrentBrowser();
@@ -178,14 +177,14 @@ public class BrowserManager {
     }
 
     public boolean hasNext() {
-        return getCurrentIndex() < getBrowsers().size() - 1;
+        return !getBrowsers().isEmpty() && getCurrentIndex() < getBrowsers().size() - 1;
     }
 
     public boolean hasPrevious() {
-        return getCurrentIndex() > 0;
+        return !getBrowsers().isEmpty() && getCurrentIndex() > 0;
     }
 
     public boolean hasAny() {
-        return !getBrowsers().isEmpty();
+        return !getBrowsers().isEmpty() && !getBrowsers().isEmpty();
     }
 }

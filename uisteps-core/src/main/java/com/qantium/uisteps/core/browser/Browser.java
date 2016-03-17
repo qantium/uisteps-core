@@ -19,22 +19,31 @@ import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
+import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
+import com.qantium.uisteps.core.browser.pages.elements.FileInput;
+import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
+import com.qantium.uisteps.core.browser.pages.elements.Select;
+import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ComfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.then.Then;
-import com.qantium.uisteps.core.then.GetValueAction;
-import com.qantium.uisteps.core.then.OnDisplayedAction;
-import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
-import com.qantium.uisteps.core.browser.pages.elements.FileInput;
-import com.qantium.uisteps.core.browser.pages.elements.Select;
-import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
-import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
+import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
-import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.then.GetValueAction;
+import com.qantium.uisteps.core.then.OnDisplayedAction;
+import com.qantium.uisteps.core.then.Then;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.security.Credentials;
+import org.openqa.selenium.security.UserAndPassword;
+import ru.yandex.qatools.ashot.coordinates.Coords;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -43,19 +52,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.lightbody.bmp.BrowserMobProxyServer;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.ConstructorUtils;
-import org.openqa.selenium.*;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.security.Credentials;
-import org.openqa.selenium.security.UserAndPassword;
-import ru.yandex.qatools.ashot.coordinates.Coords;
-
 /**
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 public class Browser {
 
@@ -67,12 +65,22 @@ public class Browser {
     private BrowserMobProxyServer proxy;
     private Photographer photographer;
 
-    protected void setDriver(WebDriver driver) {
+
+    public Browser() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                close();
+            }
+        });
+    }
+
+    public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager = new WindowManager(driver);
     }
 
-    protected WindowManager getWindowManager() {
+    public WindowManager getWindowManager() {
 
         if (driver == null) {
             throw new NullPointerException("Driver must be set to get windowManager");
@@ -84,7 +92,7 @@ public class Browser {
         return driver;
     }
 
-    protected void setUrlFactory(UrlFactory urlFactory) {
+    public void setUrlFactory(UrlFactory urlFactory) {
         this.urlFactory = urlFactory;
     }
 
@@ -92,7 +100,7 @@ public class Browser {
         return urlFactory;
     }
 
-    protected void setPhotographer(Photographer photographer) {
+    public void setPhotographer(Photographer photographer) {
         this.photographer = photographer;
     }
 
@@ -113,7 +121,7 @@ public class Browser {
         return locatorFactory;
     }
 
-    protected void setLocatorFactory(LocatorFactory locatorFactory) {
+    public void setLocatorFactory(LocatorFactory locatorFactory) {
         this.locatorFactory = locatorFactory;
     }
 
@@ -121,7 +129,7 @@ public class Browser {
         return proxy;
     }
 
-    protected void setProxy(BrowserMobProxyServer proxy) {
+    public void setProxy(BrowserMobProxyServer proxy) {
         this.proxy = proxy;
     }
 
@@ -136,11 +144,10 @@ public class Browser {
     }
 
     public Page openUrl(String url, String... params) {
-
         try {
             return open(new Url(url), params);
         } catch (MalformedURLException ex) {
-            throw new IllegalArgumentException("Cannot open url " + url + "\nCause:" + ex);
+            throw new IllegalArgumentException("Cannot open url " + url , ex);
         }
     }
 
@@ -167,15 +174,14 @@ public class Browser {
         return openPage(page);
     }
 
-    protected <T extends Page> T openPage(T page) {
+    public  <T extends Page> T openPage(T page) {
         getDriver().get(page.getUrl().toString());
         init(page, null, null);
         return page;
     }
 
-    public void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition) {
-        UIObjectWait wait = new UIObjectWait(uiObject);
-        wait.until(condition);
+    public UIObjectWait wait(UIObject uiObject) {
+        return new UIObjectWait(uiObject);
     }
 
     public void waitUntilIsDisplayed(UIObject uiObject) {
@@ -193,13 +199,41 @@ public class Browser {
         };
 
         try {
-            waitUntil(uiObject, condition);
+            wait(uiObject).until(condition);
         } catch (Exception ex) {
 
             if (uiObject instanceof UIElement) {
-                throw new NotDisplayException(uiObject + "by locator " + ((UIElement) uiObject).getLocatorString() + " is not displayed!\nCause:" + ex);
+                String locator = ((UIElement) uiObject).getLocatorString();
+                throw new NotDisplayException(uiObject + "by locator " + locator + " is not displayed!", ex);
             } else {
-                throw new NotDisplayException(uiObject + " is not displayed!\nCause:" + ex);
+                throw new NotDisplayException(uiObject + " is not displayed!", ex);
+            }
+        }
+    }
+
+    public void waitUntilIsNotDisplayed(UIObject uiObject) {
+
+        Function<UIObject, Boolean> condition = new Function<UIObject, Boolean>() {
+            @Override
+            public Boolean apply(UIObject uiObject) {
+
+                try {
+                    return !uiObject.isDisplayed();
+                } catch (Exception ex) {
+                    return true;
+                }
+            }
+        };
+
+        try {
+            new UIObjectWait(uiObject).until(condition);
+        } catch (Exception ex) {
+
+            if (uiObject instanceof UIElement) {
+                String locator = ((UIElement) uiObject).getLocatorString();
+                throw new RuntimeException(uiObject + "by locator " + locator + " is still displayed!", ex);
+            } else {
+                throw new RuntimeException(uiObject + " is still displayed!", ex);
             }
         }
     }
@@ -653,7 +687,7 @@ public class Browser {
         try {
             return ConstructorUtils.invokeConstructor(uiObject);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
-            throw new RuntimeException("Cannot instantiate " + uiObject + ".\nCause: " + ex);
+            throw new RuntimeException("Cannot instantiate " + uiObject , ex);
         }
     }
 

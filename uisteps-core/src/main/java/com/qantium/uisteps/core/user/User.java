@@ -15,59 +15,42 @@
  */
 package com.qantium.uisteps.core.user;
 
-import com.qantium.uisteps.core.browser.*;
-import com.qantium.uisteps.core.name.Named;
-import com.qantium.uisteps.core.then.Then;
-import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIElements;
-import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.BrowserManager;
+import com.qantium.uisteps.core.browser.NoBrowserException;
+import com.qantium.uisteps.core.browser.factory.Driver;
+import com.qantium.uisteps.core.browser.factory.DriverBuilder;
+import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.storage.Storage;
+import com.qantium.uisteps.core.then.Then;
 import com.qantium.uisteps.core.utils.data.Data;
 import com.qantium.uisteps.core.utils.data.DataContainer;
-import com.qantium.uisteps.core.verify.conditions.Condition;
-import com.qantium.uisteps.core.verify.conditions.DisplayCondition;
-
-import java.util.Map;
-import java.util.Set;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
+import net.lightbody.bmp.core.har.Har;
+import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
+
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
 
 /**
  * @author Anton Solyankin
  */
-public class User implements Named {
+public class User  {
 
     private BrowserManager browserManager;
-    private String name;
     private DataContainer DATA;
+    public Storage storage;
 
     public User() {
-        setBrowserManager();
-        setData();
-        setName();
-    }
-
-    protected void setBrowserManager() {
         setBrowserManager(new BrowserManager());
-    }
-
-    protected void setData() {
         setData(new DataContainer(new Data()));
-    }
-
-    protected void setName() {
-        setName("user");
+        setStorage(new Storage());
     }
 
     public DataContainer data() {
@@ -77,6 +60,10 @@ public class User implements Named {
     public <T extends User> T  setData(DataContainer DATA) {
         this.DATA = DATA;
         return (T) this;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 
     public BrowserManager getBrowserManager() {
@@ -155,7 +142,7 @@ public class User implements Named {
         return (T) this;
     }
 
-    public void closeAllBrowsers() {
+    public synchronized void closeAllBrowsers() {
         getBrowserManager().closeAllBrowsers();
     }
 
@@ -370,111 +357,6 @@ public class User implements Named {
         return inOpenedBrowser().executeScript(script, args);
     }
 
-    //see
-    private DisplayCondition displayCondition() {
-        return new DisplayCondition(inOpenedBrowser());
-    }
-
-    public DisplayCondition not(String not) {
-        return displayCondition().not(not);
-    }
-
-    public DisplayCondition not(boolean not) {
-        return displayCondition().not(not);
-    }
-
-    public DisplayCondition not() {
-        return not(true);
-    }
-
-    public Condition seeEqual(Screenshot screenshot1, Screenshot screenshot2) {
-        return displayCondition().seeEqual(screenshot1, screenshot2);
-    }
-
-    public Condition seeEqual(String description, Screenshot screenshot1, Screenshot screenshot2) {
-        return displayCondition().seeEqual(description, screenshot1, screenshot2);
-    }
-
-    public Condition see(UIObject uiObject) {
-        return displayCondition().see(uiObject);
-    }
-
-    public Condition see(Class<? extends UIObject> uiObject) {
-        return displayCondition().see(uiObject);
-    }
-
-    public Condition see(String description, UIObject obj) {
-        return displayCondition().see(description, obj);
-    }
-
-    public Condition see(String description, String obj) {
-        return displayCondition().see(description, obj);
-    }
-
-    public Condition see(String description, Class<? extends UIObject> uiObject) {
-        return displayCondition().see(description, uiObject);
-    }
-
-    public Condition see(UIObject uiObject, String value) {
-        return displayCondition().see(uiObject, value);
-    }
-
-    public Condition see(Class<? extends UIObject> uiObject, String value) {
-        return displayCondition().see(uiObject, value);
-    }
-
-    public Condition see(String description, String obj, String value) {
-        return displayCondition().see(description, obj, value);
-    }
-
-    public Condition see(String description, UIObject obj, String value) {
-        return displayCondition().see(description, obj, value);
-    }
-
-    public Condition see(String description, Class<? extends UIObject> uiObject, String value) {
-        return displayCondition().see(description, uiObject, value);
-    }
-
-    public Condition seePartOf(UIElement obj, String value) {
-        return displayCondition().seePartOf(obj, value);
-    }
-
-    public Condition seePartOf(String obj, String value) {
-        return displayCondition().seePartOf(obj, value);
-    }
-
-    public Condition seePartOf(Class<? extends UIElement> uiObject, String value) {
-        return displayCondition().seePartOf(uiObject, value);
-    }
-
-    public Condition seePartOf(String description, UIElement obj, String value) {
-        return displayCondition().seePartOf(description, obj, value);
-    }
-
-    public Condition seePartOf(String description, String obj, String value) {
-        return displayCondition().seePartOf(description, obj, value);
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return getName();
-    }
-
-    public <T extends User> T withName(String name) {
-        setName(name);
-        return (T) this;
-    }
-
     //onDisplayed
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
@@ -538,8 +420,75 @@ public class User implements Named {
     }
 
     public <T extends User> T waitUntilIsDisplayed(UIObject uiObject) {
-        inOpenedBrowser().waitUntilIsDisplayed(uiObject);
+        inOpenedBrowser().wait(uiObject).untilIsDisplayed();
         return (T) this;
     }
 
+    public <T extends User> T waitUntilIsNotDisplayed(UIObject uiObject) {
+        inOpenedBrowser().wait(uiObject).untilIsNotDisplayed();
+        return (T) this;
+    }
+
+    public boolean see(UIObject uiObject) {
+        try {
+            waitUntilIsDisplayed(uiObject);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public boolean isOnDisplayed(UIObject uiObject) {
+        try {
+            waitUntilIsNotDisplayed(uiObject);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    //Storage
+    public Storage toDir(String dir) {
+        return storage.toDir(dir);
+    }
+
+    public File put(File file) {
+        return storage.put(file);
+    }
+
+    public File save(byte[] bytes, String path) throws IOException {
+        return storage.save(bytes, path);
+    }
+
+    public <T> T put(String key, T value) {
+        return storage.put(key, value);
+    }
+
+    public File save(RenderedImage image, String path) throws IOException {
+        return storage.save(image, path);
+    }
+
+    public File save(Har har, String path) throws IOException {
+        return storage.save(har, path);
+    }
+
+    public <T> T get(Class<T> key) {
+        return storage.get(key);
+    }
+
+    public <T> T put(T value) {
+        return storage.put(value);
+    }
+
+    public File save(String data, String path) throws IOException {
+        return storage.save(data, path);
+    }
+
+    public File save(Screenshot screenshot, String path) throws IOException {
+        return storage.save(screenshot, path);
+    }
+
+    public <T> T get(String key) {
+        return storage.get(key);
+    }
 }

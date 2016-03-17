@@ -17,11 +17,10 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-
-import java.util.List;
-
 import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
  * @author ASolyankin

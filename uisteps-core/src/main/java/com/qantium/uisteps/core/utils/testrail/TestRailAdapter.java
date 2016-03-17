@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_OUTCOME_FILE;
 
 /**

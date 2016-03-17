@@ -15,23 +15,83 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.google.common.base.Function;
+import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+
 /**
- *
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
 public class UIObjectWait extends FluentWait<UIObject> {
 
+    private final UIObject uiObject;
+
     public UIObjectWait(UIObject uiObject) {
         super(uiObject);
-        long timeout = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-        long pollingTime = Integer.parseInt(UIStepsProperties.getProperty(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING));
+        this.uiObject = uiObject;
+        long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+        long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
         withTimeout(timeout, TimeUnit.MILLISECONDS).pollingEvery(pollingTime, TimeUnit.MILLISECONDS);
+    }
+
+    public void untilIsDisplayed() {
+
+        Function<UIObject, Boolean> condition = new Function<UIObject, Boolean>() {
+            @Override
+            public Boolean apply(UIObject uiObject) {
+
+                try {
+                    return uiObject != null && uiObject.isDisplayed();
+                } catch (Exception ex) {
+                    return false;
+                }
+            }
+        };
+
+        try {
+            until(condition);
+        } catch (Exception ex) {
+
+            if (uiObject instanceof UIElement) {
+                String locator = ((UIElement) uiObject).getLocatorString();
+                throw new RuntimeException(uiObject + "by locator " + locator + " is not displayed!", ex);
+            } else {
+                throw new RuntimeException(uiObject + " is not displayed!", ex);
+            }
+        }
+    }
+
+    public void untilIsNotDisplayed() {
+
+        Function<UIObject, Boolean> condition = new Function<UIObject, Boolean>() {
+            @Override
+            public Boolean apply(UIObject uiObject) {
+
+                try {
+                    return uiObject != null && !uiObject.isDisplayed();
+                } catch (Exception ex) {
+                    return true;
+                }
+            }
+        };
+
+        try {
+            until(condition);
+        } catch (Exception ex) {
+
+            if (uiObject instanceof UIElement) {
+                String locator = ((UIElement) uiObject).getLocatorString();
+                throw new RuntimeException(uiObject + "by locator " + locator + " is still displayed!", ex);
+            } else {
+                throw new RuntimeException(uiObject + " is still displayed!", ex);
+            }
+        }
     }
 }

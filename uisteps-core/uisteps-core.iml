@@ -5,6 +5,7 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -168,7 +169,7 @@
     <orderEntry type="library" name="Maven: com.googlecode.plist:dd-plist:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.6.4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
-    <orderEntry type="library" name="Maven: ru.yandex.qatools.ashot:ashot:1.4.12" level="project" />
+    <orderEntry type="library" name="Maven: ru.yandex.qatools.ashot:ashot:1.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: net.lightbody.bmp:browsermob-core-littleproxy:2.1.0-beta-3" level="project" />
     <orderEntry type="library" name="Maven: net.lightbody.bmp:browsermob-core:2.1.0-beta-3" level="project" />

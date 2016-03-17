@@ -1,7 +1,8 @@
 package com.qantium.uisteps.core.browser;
 
-import java.util.Set;
 import org.openqa.selenium.WebDriver;
+
+import java.util.Set;
 
 /**
  * Provides switching between browser windows

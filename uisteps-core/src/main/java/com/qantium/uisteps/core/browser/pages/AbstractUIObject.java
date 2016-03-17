@@ -1,8 +1,8 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.UIObjectWait;
 import com.qantium.uisteps.core.name.NameConvertor;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
@@ -60,18 +60,18 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     @Override
-    public void waitUntil(UIObject uiObject, Function<UIObject, Boolean> condition) {
-        inOpenedBrowser().waitUntil(uiObject, condition);
-    }
-
-    @Override
-    public void waitUntil(Function<UIObject, Boolean> condition){
-        inOpenedBrowser().waitUntil(this, condition);
+    public UIObjectWait wait(UIObject uiObject) {
+        return inOpenedBrowser().wait(uiObject);
     }
 
     @Override
     public void waitUntilIsDisplayed(UIObject uiObject) {
-        inOpenedBrowser().waitUntilIsDisplayed(uiObject);
+        inOpenedBrowser().wait(uiObject).untilIsDisplayed();
+    }
+
+    @Override
+    public void waitUntilIsNotDisplayed(UIObject uiObject) {
+        inOpenedBrowser().wait(uiObject).untilIsNotDisplayed();
     }
 
     @Override
@@ -80,10 +80,9 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     @Override
-    public void afterInitialization() {
-        waitUntilIsDisplayed();
+    public void waitUntilIsNotDisplayed() {
+        waitUntilIsNotDisplayed(this);
     }
-
 
     @Override
     public List<WebElement> findElements(By by) {

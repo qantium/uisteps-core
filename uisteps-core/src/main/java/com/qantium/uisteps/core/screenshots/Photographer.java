@@ -17,23 +17,16 @@ package com.qantium.uisteps.core.screenshots;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 import ru.yandex.qatools.ashot.coordinates.CoordsProvider;
 import ru.yandex.qatools.ashot.cropper.ImageCropper;
-import ru.yandex.qatools.ashot.screentaker.ShootingStrategy;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.*;
 
 /**
  *
@@ -110,10 +103,10 @@ public class Photographer {
     //take screenshot
     public Screenshot takeScreenshot() {
         try {
-            BufferedImage image = getAShot().takeScreenshot(getDriver()).getImage();
+            BufferedImage image = getAShot().shootingStrategy(new ScreenshotStrategy()).takeScreenshot(getDriver()).getImage();
             return new Screenshot(image);
         } catch (Exception ex) {
-            return new FakeScreenshot();
+            return Screenshot.getFrom(new File("fake screenshot.png"));
         }
     }
 
