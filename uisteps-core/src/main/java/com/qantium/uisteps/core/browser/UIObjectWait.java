@@ -75,7 +75,11 @@ public class UIObjectWait extends FluentWait<UIObject> {
             public Boolean apply(UIObject uiObject) {
 
                 try {
-                    return uiObject != null && !uiObject.isDisplayed();
+                    if(uiObject == null || uiObject.isDisplayed()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } catch (Exception ex) {
                     return true;
                 }

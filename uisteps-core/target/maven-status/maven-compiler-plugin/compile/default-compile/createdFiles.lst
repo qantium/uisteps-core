@@ -47,8 +47,8 @@ com\qantium\uisteps\core\then\GetValueAction.class
 com\qantium\uisteps\core\utils\testrail\TestRailClient.class
 com\qantium\uisteps\core\properties\UIStepsProperties.class
 com\qantium\uisteps\core\browser\Browser$2.class
-com\qantium\uisteps\core\storage\Storage.class
 com\qantium\uisteps\core\utils\testrail\TestRailAdapter$1.class
+com\qantium\uisteps\core\storage\Storage.class
 com\qantium\uisteps\core\browser\pages\elements\form\Form.class
 com\qantium\uisteps\core\properties\UIStepsProperty.class
 com\qantium\uisteps\core\browser\pages\elements\alert\Alert.class
@@ -103,4 +103,5 @@ com\qantium\uisteps\core\browser\pages\elements\lists\Selects.class
 com\qantium\uisteps\core\browser\UIObjectWait$2.class
 com\qantium\uisteps\core\browser\Browser$1.class
 com\qantium\uisteps\core\browser\pages\elements\TextBlock.class
+com\qantium\uisteps\core\browser\AlertException.class
 com\qantium\uisteps\core\screenshots\ScreenshotStrategy.class

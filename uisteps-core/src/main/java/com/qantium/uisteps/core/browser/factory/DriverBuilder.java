@@ -3,9 +3,11 @@ package com.qantium.uisteps.core.browser.factory;
 import com.qantium.uisteps.core.browser.Proxy;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.ExtensionConnection;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -36,8 +38,6 @@ public class DriverBuilder {
     private Map<String, Object> capabilities = new HashMap();
     private String hub;
     private Proxy proxy;
-
-    private boolean changeDimension;
 
     public DriverBuilder() {
         setDriver(getProperty(WEBDRIVER_DRIVER));
@@ -165,6 +165,10 @@ public class DriverBuilder {
 
     private WebDriver getWebDriver(DesiredCapabilities capabilities) {
 
+
+        ExtensionConnection ex = null;
+        ex.
+
         switch (driver) {
             case FIREFOX:
                 return new FirefoxDriver(capabilities);
@@ -208,7 +212,6 @@ public class DriverBuilder {
     }
 
     private void setSettings(WebDriver driver) {
-
         WebDriver.Options manage = driver.manage();
         long timeout = Long.parseLong(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
         manage.timeouts().setScriptTimeout(timeout, TimeUnit.MILLISECONDS);
@@ -216,17 +219,16 @@ public class DriverBuilder {
         String widthProperty = getProperty(BROWSER_WIDTH).toLowerCase().trim();
         String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase().trim();
         WebDriver.Window window = manage.window();
-        Dimension size = window.getSize();
-
 
         if("max".equals(widthProperty) || "max".equals(heightProperty)) {
             window.maximize();
         }
 
+        Dimension size = window.getSize();
         int width = getSizeFrom(widthProperty, size.width);
-        int height = getSizeFrom(heightProperty, size.width);
+        int height = getSizeFrom(heightProperty, size.height);
 
-        if(changeDimension) {
+        if(width != size.width || height != size.height) {
             Dimension dimension = new Dimension(width, height);
             manage.window().setSize(dimension);
         }
@@ -235,7 +237,6 @@ public class DriverBuilder {
     private int getSizeFrom(String property, int defaultSize) {
 
         if (!StringUtils.isEmpty(property) && !"max".equals(property)) {
-            changeDimension = true;
             return Integer.parseInt(property);
         } else {
             return defaultSize;

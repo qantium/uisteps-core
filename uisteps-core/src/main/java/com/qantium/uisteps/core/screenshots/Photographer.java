@@ -17,6 +17,10 @@ package com.qantium.uisteps.core.screenshots;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+
 import org.openqa.selenium.*;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.coordinates.Coords;
@@ -25,11 +29,10 @@ import ru.yandex.qatools.ashot.cropper.ImageCropper;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 /**
- *
  * @author A.Solyankin
  */
 public class Photographer {
@@ -106,12 +109,16 @@ public class Photographer {
             BufferedImage image = getAShot().shootingStrategy(new ScreenshotStrategy()).takeScreenshot(getDriver()).getImage();
             return new Screenshot(image);
         } catch (Exception ex) {
-            return Screenshot.getFrom(new File("fake screenshot.png"));
+            if ("true".equals(getProperty(SCREENSHOTS_TAKE_FAKE).toLowerCase())) {
+                InputStream resource = getClass().getResourceAsStream("/fake_screenshot.png");
+                return Screenshot.getFrom(resource);
+            } else {
+                throw ex;
+            }
+
         }
     }
 
-
-    
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
 

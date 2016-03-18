@@ -50,11 +50,11 @@ public class Screenshot {
 
     public static Screenshot getFrom(File file) {
         try {
-            BufferedImage in = ImageIO.read(new File(System.getProperty("user.dir") + "\\" + file));
+            BufferedImage in = ImageIO.read(file);
             Screenshot sc = new Screenshot(in);
             return sc;
         } catch (Exception ex) {
-            throw new ScreenshotException("Cannot get screenshot from file: " + file, ex);
+            throw new ScreenshotException("Cannot get screenshot from: " + file, ex);
         }
     }
 
@@ -74,8 +74,17 @@ public class Screenshot {
         }
     }
 
+    public boolean hasDiffFrom(Screenshot screenshot) {
+        return getDiffFrom(screenshot).hasDiff();
+    }
+
     public ImageDiff getDiffFrom(Screenshot screenshot) {
         return new ImageDiffer().makeDiff(this.getImage(), screenshot.getImage());
+    }
+
+    public Screenshot getDiffImageFrom(Screenshot screenshot) {
+        BufferedImage diffImage = getDiffFrom(screenshot).getDiffImage();
+        return new Screenshot(diffImage);
     }
 
     public byte[] asByteArray() {

@@ -89,7 +89,28 @@ public class Browser {
     }
 
     public WebDriver getDriver() {
+        isAlive();
+        try {
+            driver.getWindowHandles().size();
+        } catch (UnhandledAlertException ex) {
+            close();
+            throw new AlertException(ex);
+        } catch (WebDriverException ex) {
+            close();
+        } catch (NullPointerException ex) {
+            close();
+            throw new WebDriverException("Driver is null!");
+        }
         return driver;
+    }
+
+    public boolean isAlive() {
+        try {
+            driver.getWindowHandles().size();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public void setUrlFactory(UrlFactory urlFactory) {
@@ -135,7 +156,9 @@ public class Browser {
 
     public void close() {
         if (driver != null) {
-            driver.quit();
+            try {
+                driver.quit();
+            }catch (Exception ex) {}
         }
 
         if (proxy != null) {
@@ -147,7 +170,7 @@ public class Browser {
         try {
             return open(new Url(url), params);
         } catch (MalformedURLException ex) {
-            throw new IllegalArgumentException("Cannot open url " + url , ex);
+            throw new IllegalArgumentException("Cannot open url " + url, ex);
         }
     }
 
@@ -174,7 +197,7 @@ public class Browser {
         return openPage(page);
     }
 
-    public  <T extends Page> T openPage(T page) {
+    public <T extends Page> T openPage(T page) {
         getDriver().get(page.getUrl().toString());
         init(page, null, null);
         return page;
@@ -687,11 +710,15 @@ public class Browser {
         try {
             return ConstructorUtils.invokeConstructor(uiObject);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
-            throw new RuntimeException("Cannot instantiate " + uiObject , ex);
+            throw new RuntimeException("Cannot instantiate " + uiObject, ex);
         }
     }
 
     //Alert
+    public Alert getDisplayedAlert() {
+        return init(Alert.class, null, null);
+    }
+
     public void accept(Alert alert) {
         alert.getWrappedAlert().accept();
     }
@@ -824,6 +851,11 @@ public class Browser {
     }
 
     //find
+
+    public UIElement find(By locator) {
+        return find(UIElement.class, locator);
+    }
+
     public <T extends UIElement> T find(Class<T> uiObject) {
         return find(uiObject, null);
     }
@@ -841,6 +873,10 @@ public class Browser {
     }
 
     //find all
+    public UIElements findAll(By locator) {
+        return findAll(UIElement.class, locator);
+    }
+
     public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
         return findAll(uiObject, getLocatorFactory().getLocator(uiObject));
     }
@@ -927,5 +963,10 @@ public class Browser {
 
     public Screenshot takeScreenshot(Ignored... elements) {
         return getPhotographer().takeScreenshot(elements);
+    }
+
+    //Page source
+    public String getPageSource() {
+        return getDriver().getPageSource();
     }
 }

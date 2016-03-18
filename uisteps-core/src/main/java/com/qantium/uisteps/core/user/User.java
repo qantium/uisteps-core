@@ -21,6 +21,8 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.factory.Driver;
 import com.qantium.uisteps.core.browser.factory.DriverBuilder;
 import com.qantium.uisteps.core.browser.pages.*;
+import com.qantium.uisteps.core.browser.pages.elements.alert.*;
+import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -64,6 +66,10 @@ public class User  {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    public Storage getStorage() {
+        return storage;
     }
 
     public BrowserManager getBrowserManager() {
@@ -394,6 +400,50 @@ public class User  {
         return inOpenedBrowser().onDisplayedAll(context, uiObject, by);
     }
 
+    //find
+
+    public UIElement find(By locator) {
+        return inOpenedBrowser().find(locator);
+    }
+
+    public <T extends UIElement> T find(Class<T> uiObject) {
+        return inOpenedBrowser().find(uiObject);
+    }
+
+    public <T extends UIElement> T find(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().find(uiObject, locator);
+    }
+
+    public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
+        return inOpenedBrowser().find(context, uiObject);
+    }
+
+    public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
+        return inOpenedBrowser().find(context, uiObject, locator);
+    }
+
+    //find all
+    public UIElements findAll(By locator) {
+        return inOpenedBrowser().findAll(locator);
+    }
+
+    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
+        return inOpenedBrowser().findAll(uiObject);
+    }
+
+    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().findAll(uiObject, locator);
+    }
+
+    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject) {
+        return inOpenedBrowser().findAll(context, uiObject);
+    }
+
+    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject, By locator) {
+        return inOpenedBrowser().findAll(context, uiObject, locator);
+    }
+
+
     //take screenshot
     public Photographer inScreenshotIgnoring(By... locators) {
         return inOpenedBrowser().inScreenshotIgnoring(locators);
@@ -419,6 +469,10 @@ public class User  {
         return inOpenedBrowser().takeScreenshot(elements);
     }
 
+    public String getPageSource() {
+        return inOpenedBrowser().getPageSource();
+    }
+
     public <T extends User> T waitUntilIsDisplayed(UIObject uiObject) {
         inOpenedBrowser().wait(uiObject).untilIsDisplayed();
         return (T) this;
@@ -429,7 +483,7 @@ public class User  {
         return (T) this;
     }
 
-    public boolean see(UIObject uiObject) {
+    public boolean isDisplayed(UIObject uiObject) {
         try {
             waitUntilIsDisplayed(uiObject);
             return true;
@@ -438,7 +492,7 @@ public class User  {
         }
     }
 
-    public boolean isOnDisplayed(UIObject uiObject) {
+    public boolean isNotDisplayed(UIObject uiObject) {
         try {
             waitUntilIsNotDisplayed(uiObject);
             return true;
@@ -449,46 +503,51 @@ public class User  {
 
     //Storage
     public Storage toDir(String dir) {
-        return storage.toDir(dir);
+        return getStorage().toDir(dir);
     }
 
     public File put(File file) {
-        return storage.put(file);
+        return getStorage().put(file);
     }
 
     public File save(byte[] bytes, String path) throws IOException {
-        return storage.save(bytes, path);
+        return getStorage().save(bytes, path);
     }
 
     public <T> T put(String key, T value) {
-        return storage.put(key, value);
+        return getStorage().put(key, value);
     }
 
     public File save(RenderedImage image, String path) throws IOException {
-        return storage.save(image, path);
+        return getStorage().save(image, path);
     }
 
     public File save(Har har, String path) throws IOException {
-        return storage.save(har, path);
+        return getStorage().save(har, path);
     }
 
     public <T> T get(Class<T> key) {
-        return storage.get(key);
+        return getStorage().get(key);
     }
 
     public <T> T put(T value) {
-        return storage.put(value);
+        return getStorage().put(value);
     }
 
     public File save(String data, String path) throws IOException {
-        return storage.save(data, path);
+        return getStorage().save(data, path);
     }
 
     public File save(Screenshot screenshot, String path) throws IOException {
-        return storage.save(screenshot, path);
+        return getStorage().save(screenshot, path);
     }
 
     public <T> T get(String key) {
-        return storage.get(key);
+        return getStorage().get(key);
+    }
+
+    //Alert
+    public Alert getDisplayedAlert() {
+        return inOpenedBrowser().getDisplayedAlert();
     }
 }

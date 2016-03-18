@@ -55,6 +55,7 @@ import com.qantium.uisteps.core.utils.testrail.Action;
  * <li>home.dir</li>
  * <li>source.take</li>
  * <li>screenshots.take</li>
+ * <li>screenshots.take.fake</li>
  * <li>screenshots.scale.width</li>
  * <li>screenshots.scale.height</li>
  * <li>base.url.host</li>
@@ -169,7 +170,6 @@ public enum UIStepsProperty {
      *
      * @see com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String)
      * @see com.qantium.uisteps.core.storage.Storage
-     * @see com.qantium.uisteps.core.storage.Saved
      */
     HOME_DIR("target/site"),
     /**
@@ -182,18 +182,21 @@ public enum UIStepsProperty {
      * Set "screenshots.take" to specify when to take screenshots
      */
     SCREENSHOTS_TAKE(Execute.FOR_FAILURES.name()),
+
+    /**
+     * Set "screenshots.take.fake" to true, to get fake screenshot if driver is died
+     */
+    SCREENSHOTS_TAKE_FAKE("true"),
     /**
      * Set "screenshots.scale.width" to specify scaled width of saved images
      *
      * @see com.qantium.uisteps.core.storage.Storage
-     * @see com.qantium.uisteps.core.storage.Saved
      */
     SCREENSHOTS_SCALE_WIDTH("48"),
     /**
      * Set "screenshots.scale.height" to specify scaled height of saved images
      *
      * @see com.qantium.uisteps.core.storage.Storage
-     * @see com.qantium.uisteps.core.storage.Saved
      */
     SCREENSHOTS_SCALE_HEIGHT("48"),
     /**
