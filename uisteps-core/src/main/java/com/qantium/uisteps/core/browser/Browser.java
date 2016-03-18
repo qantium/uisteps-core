@@ -89,7 +89,6 @@ public class Browser {
     }
 
     public WebDriver getDriver() {
-        isAlive();
         try {
             driver.getWindowHandles().size();
         } catch (UnhandledAlertException ex) {
@@ -97,9 +96,10 @@ public class Browser {
             throw new AlertException(ex);
         } catch (WebDriverException ex) {
             close();
+            throw new WebDriverException("Driver is died!", ex);
         } catch (NullPointerException ex) {
             close();
-            throw new WebDriverException("Driver is null!");
+            throw new WebDriverException("Driver is null!", ex);
         }
         return driver;
     }

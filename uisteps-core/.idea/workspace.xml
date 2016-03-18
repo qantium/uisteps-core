@@ -2,334 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29419889-366c-4bd1-9613-4d499d82a61e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/AlertException.java" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\allclasses-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\allclasses-noframe.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\Browser.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\BrowserManager.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\LocatorFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\NoBrowserException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\NoWindowException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\NotDisplayException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\NotInit.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\Proxy.ProxyBuilder.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\Proxy.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\UIObjectWait.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\WindowManager.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\Browser.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\BrowserManager.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\LocatorFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\NoBrowserException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\NoWindowException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\NotDisplayException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\NotInit.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\Proxy.ProxyBuilder.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\Proxy.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\UIObjectWait.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\class-use\WindowManager.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\Context.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\UseContext.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\class-use\Context.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\class-use\UseContext.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\context\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\BrowserFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\Driver.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\DriverBuilder.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\class-use\BrowserFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\class-use\Driver.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\class-use\DriverBuilder.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\factory\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\AbstractUIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\BaseUrl.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\HtmlUIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\Page.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\Root.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UIElement.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UIElements.Find.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UIElements.How.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UIElements.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\Url.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\UrlFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\AbstractUIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\BaseUrl.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\HtmlUIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\Page.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\Root.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UIElement.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UIElements.Find.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UIElements.How.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UIElements.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UIObject.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\Url.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\class-use\UrlFactory.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Button.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\CheckBox.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\FileInput.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Image.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Link.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup.RadioButton.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Select.By.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Select.Option.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\Select.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\TextBlock.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\TextField.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\Alert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\AuthenticationAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\ComfirmAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\PromtAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\class-use\Alert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\class-use\AuthenticationAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\class-use\ComfirmAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\class-use\PromtAlert.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\alert\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Button.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\CheckBox.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\FileInput.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Image.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Link.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\RadioButtonGroup.RadioButton.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\RadioButtonGroup.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Select.By.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Select.Option.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\Select.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\TextBlock.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\class-use\TextField.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\Fillable.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\Form.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\class-use\Fillable.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\class-use\Form.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\form\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\Buttons.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\CheckBoxes.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\FileInputs.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\Images.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\Links.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\RadioButtonGroups.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\Selects.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\TextBlocks.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\TextFields.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\Buttons.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\CheckBoxes.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\FileInputs.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\Images.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\Links.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\RadioButtonGroups.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\Selects.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\TextBlocks.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\class-use\TextFields.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\Equalizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\HorizontalEqualizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\VerticalEqualizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\class-use\Equalizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\class-use\HorizontalEqualizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\class-use\VerticalEqualizer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\lists\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\HorizontalScroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\Scroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\VerticalScroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\class-use\HorizontalScroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\class-use\Scroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\class-use\VerticalScroll.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\elements\scroll\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\browser\pages\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\Execute.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\MetaInfo.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\class-use\Execute.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\class-use\MetaInfo.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\lifecycle\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\NameConvertor.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\Named.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\class-use\NameConvertor.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\class-use\Named.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\name\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\UIStepsProperties.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\UIStepsProperty.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\class-use\UIStepsProperties.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\class-use\UIStepsProperty.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\properties\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\Ignore.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\Ignored.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\Photographer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\Screenshot.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\ScreenshotException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\ScreenshotStrategy.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\Ignore.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\Ignored.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\Photographer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\Screenshot.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\ScreenshotException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\class-use\ScreenshotStrategy.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\screenshots\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\Storage.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\class-use\Storage.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\storage\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\Action.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\GetValueAction.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\OnDisplayedAction.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\Then.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\class-use\Action.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\class-use\GetValueAction.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\class-use\OnDisplayedAction.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\class-use\Then.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\then\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\User.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\class-use\User.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\user\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\Data.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\DataContainer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\class-use\Data.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\class-use\DataContainer.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\data\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\Action.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailAdapter.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailClient.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailConfig.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailEntity.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\TestRailType.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\Action.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailAdapter.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailClient.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailConfig.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailEntity.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\class-use\TestRailType.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\testrail\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\ZK.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\ZKException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\ZKNumber.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\ZKSiblingLocator.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\class-use\ZK.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\class-use\ZKException.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\class-use\ZKNumber.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\class-use\ZKSiblingLocator.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\package-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\package-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\package-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\com\qantium\uisteps\core\utils\zk\package-use.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\constant-values.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\deprecated-list.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\help-doc.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\index-all.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\overview-frame.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\overview-summary.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\overview-tree.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\package-list" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\resources\background.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\resources\tab.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\resources\titlebar.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\resources\titlebar_end.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\serialized-form.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\apidocs\stylesheet.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\fake screenshot.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\javadoc-bundle-options\javadoc-options-javadoc-resources.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\javadoc-bundle-options\package-list" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26-sources.jar.md5" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26-sources.jar.sha1" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.jar.md5" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.jar.sha1" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.pom" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.pom.md5" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\2.26\uisteps-core-2.26.pom.sha1" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\maven-metadata.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\maven-metadata.xml.md5" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\com\qantium\uisteps-core\maven-metadata.xml.sha1" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\uisteps-core-2.26-javadoc.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\uisteps-core-2.26-sources.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\uisteps-core-2.26.pom" afterPath="" />
-      <change type="MOVED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\resources\fake screenshot.png" afterPath="$PROJECT_DIR$/src/main/resources/fake_screenshot.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser$2.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser$3.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/Browser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/factory/DriverBuilder$1.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/factory/DriverBuilder$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/factory/DriverBuilder.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/factory/DriverBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Photographer$1.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Photographer$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Photographer.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Photographer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Screenshot.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/screenshots/Screenshot.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/UIObjectWait$2.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/UIObjectWait$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/UIObjectWait.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/browser/UIObjectWait.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/properties/UIStepsProperty.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/properties/UIStepsProperty.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/user/User.class" afterPath="$PROJECT_DIR$/target/classes/com/qantium/uisteps/core/user/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/uisteps-core-2.26.jar" afterPath="$PROJECT_DIR$/target/uisteps-core-2.26.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Screenshot.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Screenshot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/UIObjectWait.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/UIObjectWait.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/user/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/user/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="uisteps-core.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -356,10 +30,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="173" column="31" selection-start-line="173" selection-start-column="31" selection-end-line="173" selection-end-column="31" />
+              <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
               <folding>
-                <element signature="e#2279#2280#0" expanded="true" />
-                <element signature="e#2308#2309#0" expanded="true" />
+                <element signature="e#2168#2169#0" expanded="true" />
+                <element signature="e#2197#2198#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -385,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirefoxDriver.class" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FirefoxDriver.class" pinned="false" current-in-tab="false">
         <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-firefox-driver/2.52.0/selenium-firefox-driver-2.52.0.jar!/org/openqa/selenium/firefox/FirefoxDriver.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36923078">
+            <state vertical-scroll-proportion="-9.72">
               <caret line="190" column="38" selection-start-line="190" selection-start-column="28" selection-end-line="190" selection-end-column="38" />
               <folding>
                 <element signature="e#7245#7246#0" expanded="true" />
@@ -398,13 +72,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Browser.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Browser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.51926607">
+              <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
               <folding>
-                <element signature="e#0#30406#0" expanded="true" />
+                <element signature="e#0#30456#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -533,8 +207,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Screenshot.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
       </list>
     </option>
   </component>
@@ -1418,16 +1092,16 @@
       <workItem from="1457689356283" duration="74199000" />
       <workItem from="1458124162619" duration="344000" />
       <workItem from="1458128185713" duration="49341000" />
-      <workItem from="1458317925965" duration="4400000" />
+      <workItem from="1458317925965" duration="4709000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="615969000" />
+    <option name="totallyTimeSpent" value="616278000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1815" height="1096" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1445,7 +1119,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1897436" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23988605" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914894" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914894" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47284344" sideWeight="0.45682302" order="1" side_tool="false" content_ui="tabs" />
@@ -1978,17 +1652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#30406#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2005,24 +1668,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="31" selection-start-line="173" selection-start-column="31" selection-end-line="173" selection-end-column="31" />
-          <folding>
-            <element signature="e#2279#2280#0" expanded="true" />
-            <element signature="e#2308#2309#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-firefox-driver/2.52.0/selenium-firefox-driver-2.52.0.jar!/org/openqa/selenium/firefox/FirefoxDriver.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36923078">
+        <state vertical-scroll-proportion="-9.72">
           <caret line="190" column="38" selection-start-line="190" selection-start-column="28" selection-end-line="190" selection-end-column="38" />
           <folding>
             <element signature="e#7245#7246#0" expanded="true" />
             <element signature="e#7279#7280#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+          <folding>
+            <element signature="e#2168#2169#0" expanded="true" />
+            <element signature="e#2197#2198#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51926607">
+          <caret line="101" column="62" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#30456#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

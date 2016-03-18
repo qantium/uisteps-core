@@ -3,11 +3,9 @@ package com.qantium.uisteps.core.browser.factory;
 import com.qantium.uisteps.core.browser.Proxy;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.ExtensionConnection;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -96,7 +94,7 @@ public class DriverBuilder {
         WebDriver driver;
 
         if (StringUtils.isEmpty(hub)) {
-            driver =  getWebDriver(desiredCapabilities);
+            driver = getWebDriver(desiredCapabilities);
         } else {
             driver = getRemoteDriver(desiredCapabilities);
         }
@@ -165,10 +163,6 @@ public class DriverBuilder {
 
     private WebDriver getWebDriver(DesiredCapabilities capabilities) {
 
-
-        ExtensionConnection ex = null;
-        ex.
-
         switch (driver) {
             case FIREFOX:
                 return new FirefoxDriver(capabilities);
@@ -220,7 +214,7 @@ public class DriverBuilder {
         String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase().trim();
         WebDriver.Window window = manage.window();
 
-        if("max".equals(widthProperty) || "max".equals(heightProperty)) {
+        if ("max".equals(widthProperty) || "max".equals(heightProperty)) {
             window.maximize();
         }
 
@@ -228,7 +222,7 @@ public class DriverBuilder {
         int width = getSizeFrom(widthProperty, size.width);
         int height = getSizeFrom(heightProperty, size.height);
 
-        if(width != size.width || height != size.height) {
+        if (width != size.width || height != size.height) {
             Dimension dimension = new Dimension(width, height);
             manage.window().setSize(dimension);
         }
