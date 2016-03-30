@@ -13,7 +13,7 @@ import java.util.Set;
 public class Form extends UIElement {
 
     private final Map<Object, Fillable> fields = new HashMap();
-    private boolean inited;
+    private boolean inited = false;
 
     protected void init() {
     }
@@ -26,14 +26,30 @@ public class Form extends UIElement {
     }
 
     public <T extends Fillable> T get(Object key) {
+        if (key == null) {
+            throw new NullPointerException("Cannot get field by null key on the form " + this);
+        }
+
+        if(!inited) {
+            init();
+            inited =  true;
+        }
         return (T) fields.get(key);
     }
 
     public Set<Object> getFieldKeys() {
+        if(!inited) {
+            init();
+            inited =  true;
+        }
         return fields.keySet();
     }
 
     public Collection<Fillable> getFields() {
+        if(!inited) {
+            init();
+            inited =  true;
+        }
         return fields.values();
     }
 
