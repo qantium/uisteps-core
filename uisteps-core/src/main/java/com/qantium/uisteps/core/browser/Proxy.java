@@ -98,4 +98,22 @@ public class Proxy {
         return port;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Proxy proxy = (Proxy) o;
+
+        if (!getIp().equals(proxy.getIp())) return false;
+        return getPort().equals(proxy.getPort());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getIp().hashCode();
+        result = 31 * result + getPort().hashCode();
+        return result;
+    }
 }

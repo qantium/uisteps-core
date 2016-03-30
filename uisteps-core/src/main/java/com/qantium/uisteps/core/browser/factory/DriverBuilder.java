@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.*;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
@@ -207,8 +207,7 @@ public class DriverBuilder {
 
     private void setSettings(WebDriver driver) {
         WebDriver.Options manage = driver.manage();
-        long timeout = Long.parseLong(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-        manage.timeouts().setScriptTimeout(timeout, TimeUnit.MILLISECONDS);
+        manage.timeouts().implicitlyWait(0, MILLISECONDS);
 
         String widthProperty = getProperty(BROWSER_WIDTH).toLowerCase().trim();
         String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase().trim();
@@ -235,5 +234,28 @@ public class DriverBuilder {
         } else {
             return defaultSize;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DriverBuilder that = (DriverBuilder) o;
+
+        if (getDriver() != that.getDriver()) return false;
+        if (!getCapabilities().equals(that.getCapabilities())) return false;
+        if (!getHub().equals(that.getHub())) return false;
+        return getProxy().equals(that.getProxy());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDriver().hashCode();
+        result = 31 * result + getCapabilities().hashCode();
+        result = 31 * result + getHub().hashCode();
+        result = 31 * result + getProxy().hashCode();
+        return result;
     }
 }

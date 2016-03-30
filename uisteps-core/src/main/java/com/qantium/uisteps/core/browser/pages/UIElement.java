@@ -6,12 +6,18 @@ import com.qantium.uisteps.core.utils.zk.ZK;
 import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 @NotInit
 public class UIElement extends HtmlUIObject implements WrapsElement {
@@ -38,15 +44,11 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     @Override
     public WebElement getWrappedElement() {
 
-        if (wrappedElement == null) {
-            return getIfWrappedElementIsNull();
-        } else {
+        if (wrappedElement != null) {
             return wrappedElement;
         }
-    }
 
-    private WebElement getIfWrappedElementIsNull() {
-        if(getLocator() != null) {
+        if (getLocator() != null) {
             return getSearchContext().findElement(getLocator());
         } else {
             throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
@@ -72,7 +74,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     public void setContext(UIObject context) {
 
         if (this.context != null) {
-            throw new IllegalStateException("Context is already set to " + this);
+            throw new IllegalStateException("Context " + this.context + " is already set to " + this + "! Cannot set " + context + " context");
         }
         this.context = context;
     }
@@ -83,10 +85,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
     public By getLocator() {
 
-        if(locator == null) {
-            return null;
-        } else {
-
+        if (locator != null) {
             if (locator instanceof ZKSiblingLocator) {
                 return getSiblingLocator();
             }
@@ -97,14 +96,14 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
 
                 if (zk.isId(id)) {
                     if (zk.isShiftId(id)) {
-                        return zk.getLocator(id, getContext());
+                        locator = zk.getLocator(id, getContext());
                     } else {
-                        return zk.getLocator(id);
+                        locator = zk.getLocator(id);
                     }
                 }
             }
-            return locator;
         }
+        return locator;
     }
 
     private By getSiblingLocator() {
@@ -236,7 +235,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
         inOpenedBrowser().releaseMouse(this);
     }
 
-    public Object dragAndDrop(WrapsElement target) {
+    public Object dragAndDrop(UIElement target) {
         inOpenedBrowser().dragAndDrop(this, target);
         return null;
     }
@@ -287,11 +286,11 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
         return inOpenedBrowser().getMiddlePositionOf(this);
     }
 
-    public Point getRelativePositionOf(WrapsElement target) {
+    public Point getRelativePositionOf(UIElement target) {
         return inOpenedBrowser().getRelativePositionOf(this, target);
     }
 
-    public Point getRelativeMiddlePositionOf(WrapsElement element, WrapsElement target) {
+    public Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
         return inOpenedBrowser().getRelativeMiddlePositionOf(this, target);
     }
 
@@ -303,10 +302,5 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot(this);
-    }
-
-    @Override
-    public void afterInitialization() {
-       //
     }
 }

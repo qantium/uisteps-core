@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.browser.pages.elements.scroll;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import org.openqa.selenium.internal.WrapsElement;
+import com.qantium.uisteps.core.browser.pages.UIElement;
 
 
 /**
@@ -32,7 +32,7 @@ public class VerticalScroll extends Scroll {
     }
     
     @Override
-    public Object scrollTo(WrapsElement target) {
+    public Object scrollTo(UIElement target) {
         inOpenedBrowser().verticalScrollToTarget(this, target);
         return null;
     }

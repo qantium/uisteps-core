@@ -2,7 +2,8 @@ package com.qantium.uisteps.core.utils.testrail;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.utils.data.Data;
-import org.apache.commons.lang3.StringUtils;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,8 +40,10 @@ public class TestRailConfig extends Data {
         this.user = user;
         this.password = password;
 
-        for (String id : runs.split(",")) {
-            this.runs.add(new TestRailEntity(id.trim()));
+        if (!isEmpty(runs.trim())) {
+            for (String id : runs.split(",")) {
+                this.runs.add(new TestRailEntity(id.trim()));
+            }
         }
 
         put("host", host);
@@ -48,7 +51,7 @@ public class TestRailConfig extends Data {
         put("password", password);
         put("runs", runs);
 
-        for(String status: statusCodes.split(",")) {
+        for (String status : statusCodes.split(",")) {
             putStatus(status);
         }
         this.action = action;
@@ -56,6 +59,14 @@ public class TestRailConfig extends Data {
         if (!isValid()) {
             throw new TestRailException("Config " + this + " is not valid!");
         }
+    }
+
+    @Override
+    public Data put(Object key, Object value) {
+        if (!isEmpty(value.toString().trim())) {
+            return super.put(key, value);
+        }
+        return this;
     }
 
     public boolean actionIsDefined() {
@@ -75,9 +86,9 @@ public class TestRailConfig extends Data {
     }
 
     public boolean isValid() {
-        return !StringUtils.isEmpty(host)
-                && !StringUtils.isEmpty(user)
-                && !StringUtils.isEmpty(password)
+        return !isEmpty(host)
+                && !isEmpty(user)
+                && !isEmpty(password)
                 && !runs.isEmpty()
                 && !statusCodes.isEmpty();
     }
@@ -105,7 +116,7 @@ public class TestRailConfig extends Data {
     public Integer getStatusCode(String status) {
         String key = status.toLowerCase();
 
-        if(!statusCodes.containsKey(key)) {
+        if (!statusCodes.containsKey(key)) {
             throw new TestRailException("Cannot find code for status \"" + status + "\"!");
         }
         return statusCodes.get(key);

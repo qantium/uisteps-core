@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
+import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;

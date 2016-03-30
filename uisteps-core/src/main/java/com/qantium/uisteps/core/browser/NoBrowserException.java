@@ -19,7 +19,7 @@ package com.qantium.uisteps.core.browser;
  *
  * @author ASolyankin
  */
-public class NoBrowserException  extends RuntimeException{
+public class NoBrowserException  extends RuntimeException {
 
     public NoBrowserException() {
         super("No browser to switch!");

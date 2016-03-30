@@ -19,7 +19,6 @@ public class MetaInfo {
     private final String title;
     private String titleWithoutMeta;
     private String meta = "";
-    private String metaData = "";
     private Map<String, String> metaParams = new HashMap();
 
     public MetaInfo(String title) {
@@ -30,7 +29,6 @@ public class MetaInfo {
 
         if (matcher.find()) {
             meta = matcher.group();
-            metaData = matcher.group();
             parceMetaData();
         }
 
@@ -44,7 +42,7 @@ public class MetaInfo {
     private void parceMetaData() {
 
         Pattern pattern = Pattern.compile(META_PARAM_REGEXP);
-        Matcher matcher = pattern.matcher(metaData);
+        Matcher matcher = pattern.matcher(meta);
 
 
         while (matcher.find()) {
@@ -64,10 +62,6 @@ public class MetaInfo {
 
     public String getMeta() {
         return meta;
-    }
-
-    public String getMetaData() {
-        return metaData;
     }
 
     public Map<String, String> getMetaParams() {

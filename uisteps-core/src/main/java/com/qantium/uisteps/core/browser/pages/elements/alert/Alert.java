@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.pages.elements.alert;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
+import com.qantium.uisteps.core.then.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
@@ -24,11 +25,6 @@ public class Alert extends AbstractUIObject {
         } catch (NoAlertPresentException e) {
             return false;
         }
-    }
-
-    @Override
-    public void afterInitialization() {
-        waitUntilIsDisplayed();
     }
 
     public void accept() {
@@ -54,5 +50,10 @@ public class Alert extends AbstractUIObject {
             wrappedAlert = inOpenedBrowser().getDriver().switchTo().alert();
         }
         return wrappedAlert;
+    }
+
+    @Override
+    public String toString() {
+        return getWrappedAlert().getText();
     }
 }

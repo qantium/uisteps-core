@@ -61,16 +61,16 @@ public class BrowserManager {
         return currentIndex;
     }
 
+    private Integer resetCurrentIndex() {
+        return setCurrentIndex(-1);
+    }
+
     public void closeAllBrowsers() {
         for (Browser browser : getBrowsers()) {
             browser.close();
         }
         browsers = new ArrayList();
         resetCurrentIndex();
-    }
-
-    private Integer resetCurrentIndex() {
-        return setCurrentIndex(-1);
     }
 
     public void closeCurrentBrowser() {
@@ -84,6 +84,7 @@ public class BrowserManager {
             }
         }
     }
+
 
     public Browser getCurrentBrowser() {
         Browser browser;

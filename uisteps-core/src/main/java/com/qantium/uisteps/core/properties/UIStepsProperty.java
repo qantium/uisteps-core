@@ -54,6 +54,7 @@ import com.qantium.uisteps.core.utils.testrail.Action;
  * <li>webdriver.unexpected.alert.behaviour/li>
  * <li>home.dir</li>
  * <li>source.take</li>
+ * <li>source.take.fake</li>
  * <li>screenshots.take</li>
  * <li>screenshots.take.fake</li>
  * <li>screenshots.scale.width</li>
@@ -178,6 +179,7 @@ public enum UIStepsProperty {
      * @see Execute
      */
     SOURCE_TAKE(Execute.FOR_FAILURES.name()),
+    SOURCE_TAKE_FAKE("true"),
     /**
      * Set "screenshots.take" to specify when to take screenshots
      */

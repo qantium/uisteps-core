@@ -21,5 +21,5 @@ package com.qantium.uisteps.core.screenshots;
  */
 public enum Ignore {
     
-    LOCATORS, ELEMENTS, AREAS;
+    LOCATORS, ELEMENTS, AREAS
 }

@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.UIObjectWait;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
@@ -43,12 +42,6 @@ public interface UIObject extends Named, SearchContext {
      <T extends UIObject> Then<T> then(Class<T> uiObject);
 
     <T> Then<T> then(T value);
-
-    UIObjectWait wait(UIObject uiObject);
-
-    void waitUntilIsDisplayed(UIObject uiObject);
-
-    void waitUntilIsNotDisplayed(UIObject uiObject);
 
     void waitUntilIsDisplayed();
 

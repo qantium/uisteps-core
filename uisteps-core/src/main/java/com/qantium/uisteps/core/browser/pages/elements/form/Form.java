@@ -13,6 +13,11 @@ import java.util.Set;
 public class Form extends UIElement {
 
     private final Map<Object, Fillable> fields = new HashMap();
+    private boolean inited;
+
+    protected void init() {
+    }
+
 
     protected Form add(Object key, Fillable field) {
         field.setName(key.toString());
@@ -36,6 +41,12 @@ public class Form extends UIElement {
         if (key == null) {
             throw new NullPointerException("Cannot find field by null key on the form " + this);
         }
+
+        if(!inited) {
+            init();
+            inited =  true;
+        }
+
         fields.get(key).setValue(value);
         return this;
     }

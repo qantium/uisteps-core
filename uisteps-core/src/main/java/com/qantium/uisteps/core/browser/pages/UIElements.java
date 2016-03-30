@@ -21,9 +21,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
  * Contains elements of one type
@@ -65,34 +68,18 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return elementType;
     }
 
-    public boolean isEmpty() {
-        return getElements().isEmpty();
-    }
-
-    public Iterator<E> iterator() {
-        return getElements().iterator();
-    }
-
     public UIElements<E> subList(int fromIndex, int toIndex) {
         List<E> subList = clone().getElements().subList(fromIndex, toIndex);
         return getUIElements(subList);
     }
 
+    public boolean isEmpty() {
+        return getElements().isEmpty();
+    }
+
     @Override
     public boolean isDisplayed() {
-        if (isEmpty()) {
-            return false;
-        }
-
-        Iterator<E> iterator = iterator();
-
-        while (iterator.hasNext()) {
-
-            if (!iterator.next().isDisplayed()) {
-                return false;
-            }
-        }
-        return true;
+        return !isEmpty();
     }
 
     public E getFirst() {
@@ -107,38 +94,92 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return (E[]) getElements().<E>toArray();
     }
 
-    public UIElements<E> reset() {
-        elements = new ArrayList();
-
-        for (WebElement element : findElements(getLocator())) {
-            E uiElement = inOpenedBrowser().init(getElementType(), getContext(), getLocator());
-            uiElement.setWrappedElement(element);
-            elements.add(uiElement);
-        }
-        return this;
-    }
-
     public List<E> getElements() {
-        if (elements == null) {
-            reset();
+        if (elements != null) {
+            return elements;
+        } else {
+            ArrayList<E> list = new ArrayList();
+            for (WebElement element : findElements(getLocator())) {
+                E uiElement = inOpenedBrowser().initWithoutAfterInitialization(getElementType(), getContext(), getLocator());
+                uiElement.setWrappedElement(element);
+                list.add(uiElement);
+            }
+            return list;
         }
-        return elements;
     }
 
     public E get(int index) {
-        return getElements().get(index);
+
+        long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+        long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+        long counter = 0;
+        long breakCounter = 0;
+        int elementsSize = 0;
+
+        while (counter <= timeout) {
+            List<E> list = getElements();
+
+            if (elementsSize == list.size() && breakCounter >= 4 * pollingTime) {
+                break;
+            }
+
+            try {
+                return list.get(index);
+            } catch (Exception ex) {
+                sleep(pollingTime);
+                counter += pollingTime;
+                breakCounter += pollingTime;
+            }
+        }
+        throw new NoSuchElementException("Cannot find element by index " + index);
+    }
+
+    public boolean containsByAttributeContains(String attribute, String value) {
+        try {
+            getByAttributeContains(attribute, value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public E getByAttributeContains(String attribute, String value) {
         return get(Find.ATTRIBUTE, How.CONTAINS, attribute, value);
     }
 
+    public boolean containsByAttrite(String attribute, String value) {
+        try {
+            getByAttribute(attribute, value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
     public E getByAttribute(String attribute, String value) {
         return get(Find.ATTRIBUTE, How.EQUAL, attribute, value);
     }
 
+    public boolean containsByCSSPropertyContains(String attribute, String value) {
+        try {
+            getByCSSPropertyContains(attribute, value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
     public E getByCSSPropertyContains(String attribute, String value) {
         return get(Find.CSS, How.CONTAINS, attribute, value);
+    }
+
+    public boolean containsByCSSProperty(String attribute, String value) {
+        try {
+            getByCSSProperty(attribute, value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public E getByCSSProperty(String attribute, String value) {
@@ -147,44 +188,81 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     protected E get(Find find, How how, String attribute, String value) {
 
-        Iterator<E> iterator = iterator();
+        long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+        long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+        long counter = 0;
+        long breakCounter = 0;
+        int elementsSize = 0;
 
-        while (iterator.hasNext()) {
-
-            E element = iterator.next();
+        while (counter <= timeout) {
             boolean isFound = false;
+            List<E> list = getElements();
 
-            WebElement wrappedElement = element.getWrappedElement();
-            String attr;
-
-            if (find == Find.TEXT) {
-                attr = wrappedElement.getText();
-            } else if (find == Find.ATTRIBUTE) {
-                attr = wrappedElement.getAttribute(value);
-            } else {
-                attr = wrappedElement.getCssValue(value);
+            if (elementsSize == list.size() && breakCounter >= 4 * pollingTime) {
+                break;
             }
+            elementsSize = list.size();
+            for (E element : list) {
 
+                WebElement wrappedElement = element.getWrappedElement();
+                String attr;
 
-            switch (how) {
-                case CONTAINS:
-                    isFound = attr.contains(value);
-                    break;
-                case EQUAL:
-                    isFound = attr.equals(value);
-                    break;
+                if (find == Find.TEXT) {
+                    attr = wrappedElement.getText();
+                } else if (find == Find.ATTRIBUTE) {
+                    attr = wrappedElement.getAttribute(value);
+                } else {
+                    attr = wrappedElement.getCssValue(value);
+                }
+
+                switch (how) {
+                    case CONTAINS:
+                        isFound = attr.contains(value);
+                        break;
+                    case EQUAL:
+                        isFound = attr.equals(value);
+                        break;
+                }
+
+                if (isFound) {
+                    return element;
+                }
             }
-
-            if (isFound) {
-                return element;
-            }
+            sleep(pollingTime);
+            counter += pollingTime;
+            breakCounter += pollingTime;
         }
+        throw new NoSuchElementException("Cannot find element by " + find + " " + attribute + " " + how + " " + value);
+    }
 
-        throw new NoSuchElementException("Cannot find element by attribute " + attribute + " " + how + " " + value);
+    private void sleep(long pollingTime) {
+        try {
+            Thread.sleep(pollingTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean containsByText(String value) {
+        try {
+            getByText(value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public E getByText(String value) {
         return get(Find.TEXT, How.EQUAL, "", value);
+    }
+
+    public boolean containsByTextContains(String value) {
+        try {
+            getByTextContains(value);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public E getByTextContains(String value) {

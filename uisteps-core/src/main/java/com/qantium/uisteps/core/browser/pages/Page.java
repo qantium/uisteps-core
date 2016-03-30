@@ -44,11 +44,6 @@ public class Page extends HtmlUIObject {
         return executeScript("return document.readyState").equals("complete");
     }
 
-    @Override
-    public void afterInitialization() {
-        waitUntilIsDisplayed();
-    }
-
     public <T extends Page> T setUrl(Url url) {
         this.url = url;
         return (T) this;

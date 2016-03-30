@@ -24,9 +24,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class BrowserFactory {
 
-    public BrowserFactory() {
-
-    }
+    private ThreadLocal<Browser> tlBrowser = new ThreadLocal();
 
     public Browser getBrowser() {
         DriverBuilder driverBuilder = new DriverBuilder();

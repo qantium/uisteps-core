@@ -1,14 +1,18 @@
 package com.qantium.uisteps.core.browser.pages;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.UIObjectWait;
-import com.qantium.uisteps.core.name.NameConvertor;
+import com.qantium.uisteps.core.browser.wait.UIElementWait;
+import com.qantium.uisteps.core.browser.wait.UIObjectWait;
+import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -44,7 +48,7 @@ public abstract class AbstractUIObject implements UIObject {
     @Override
     public String getName() {
         if (StringUtils.isEmpty(name)) {
-            setName(NameConvertor.humanize(getClass()));
+            setName(NameConverter.humanize(getClass()));
         }
         return name;
     }
@@ -59,29 +63,46 @@ public abstract class AbstractUIObject implements UIObject {
         return inOpenedBrowser().then(value);
     }
 
-    @Override
+    public <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
+        return inOpenedBrowser().waitUntil(isTrue);
+    }
+
+    public void waitUntil(Predicate<WebDriver> isTrue) {
+        inOpenedBrowser().waitUntil(isTrue);
+    }
+
     public UIObjectWait wait(UIObject uiObject) {
         return inOpenedBrowser().wait(uiObject);
     }
 
-    @Override
-    public void waitUntilIsDisplayed(UIObject uiObject) {
-        inOpenedBrowser().wait(uiObject).untilIsDisplayed();
+    public UIElementWait wait(UIElement uiElement) {
+        return inOpenedBrowser().wait(uiElement);
     }
 
-    @Override
-    public void waitUntilIsNotDisplayed(UIObject uiObject) {
-        inOpenedBrowser().wait(uiObject).untilIsNotDisplayed();
+    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().wait(context, uiObject, by);
+    }
+
+    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().wait(context, uiObject);
+    }
+
+    public UIObjectWait wait(Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().wait(uiObject, by);
+    }
+
+    public UIObjectWait wait(Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().wait(uiObject);
     }
 
     @Override
     public void waitUntilIsDisplayed() {
-        waitUntilIsDisplayed(this);
+        wait(this).untilIsDisplayed();
     }
 
     @Override
     public void waitUntilIsNotDisplayed() {
-        waitUntilIsNotDisplayed(this);
+        wait(this).untilIsNotDisplayed();
     }
 
     @Override
@@ -102,6 +123,11 @@ public abstract class AbstractUIObject implements UIObject {
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot();
+    }
+
+    @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
     }
 }
 

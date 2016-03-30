@@ -15,22 +15,27 @@
  */
 package com.qantium.uisteps.core.screenshots;
 
+import com.qantium.uisteps.core.browser.AlertException;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
-
-import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-
 import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 import ru.yandex.qatools.ashot.coordinates.CoordsProvider;
 import ru.yandex.qatools.ashot.cropper.ImageCropper;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.SCREENSHOTS_TAKE_FAKE;
 
 /**
  * @author A.Solyankin
@@ -103,19 +108,23 @@ public class Photographer {
         return ignore(new Coords(x, y, width, height));
     }
 
+
     //take screenshot
     public Screenshot takeScreenshot() {
         try {
-            BufferedImage image = getAShot().shootingStrategy(new ScreenshotStrategy()).takeScreenshot(getDriver()).getImage();
-            return new Screenshot(image);
+            try {
+                BufferedImage image = getAShot().shootingStrategy(new ScreenshotStrategy()).takeScreenshot(getDriver()).getImage();
+                return new Screenshot(image);
+            } catch (UnhandledAlertException ex) {
+                return new Screenshot(new Robot().createScreenCapture(new java.awt.Rectangle(Toolkit.getDefaultToolkit().getScreenSize())));
+            }
         } catch (Exception ex) {
             if ("true".equals(getProperty(SCREENSHOTS_TAKE_FAKE).toLowerCase())) {
                 InputStream resource = getClass().getResourceAsStream("/fake_screenshot.png");
                 return Screenshot.getFrom(resource);
             } else {
-                throw ex;
+                throw new ScreenshotException(ex.getMessage());
             }
-
         }
     }
 

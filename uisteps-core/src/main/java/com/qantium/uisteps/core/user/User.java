@@ -15,14 +15,19 @@
  */
 package com.qantium.uisteps.core.user;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.BrowserManager;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.factory.Driver;
 import com.qantium.uisteps.core.browser.factory.DriverBuilder;
 import com.qantium.uisteps.core.browser.pages.*;
-import com.qantium.uisteps.core.browser.pages.elements.alert.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
+import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
+import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
+import com.qantium.uisteps.core.browser.wait.UIElementWait;
+import com.qantium.uisteps.core.browser.wait.UIObjectWait;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -32,7 +37,6 @@ import com.qantium.uisteps.core.utils.data.Data;
 import com.qantium.uisteps.core.utils.data.DataContainer;
 import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.*;
-import org.openqa.selenium.internal.WrapsElement;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 import java.awt.image.RenderedImage;
@@ -43,7 +47,7 @@ import java.util.Set;
 /**
  * @author Anton Solyankin
  */
-public class User  {
+public class User {
 
     private BrowserManager browserManager;
     private DataContainer DATA;
@@ -59,7 +63,7 @@ public class User  {
         return DATA;
     }
 
-    public <T extends User> T  setData(DataContainer DATA) {
+    public <T extends User> T setData(DataContainer DATA) {
         this.DATA = DATA;
         return (T) this;
     }
@@ -274,12 +278,12 @@ public class User  {
         return (T) this;
     }
 
-    public <T extends User> T scrollWindowToTarget(WrapsElement element) {
+    public <T extends User> T scrollWindowToTarget(UIElement element) {
         inOpenedBrowser().scrollWindowToTarget(element);
         return (T) this;
     }
 
-    public <T extends User> T scrollWindowToTargetByOffset(WrapsElement element, int x, int y) {
+    public <T extends User> T scrollWindowToTargetByOffset(UIElement element, int x, int y) {
         inOpenedBrowser().scrollWindowToTargetByOffset(element, x, y);
         return (T) this;
     }
@@ -368,20 +372,56 @@ public class User  {
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
+    public boolean isDisplayed(Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().isDisplayed(uiObject);
+    }
+
+    public boolean isNotDisplayed(Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().isNotDisplayed(uiObject);
+    }
+
     public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(uiObject, by);
+    }
+
+    public boolean isDisplayed(Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().isDisplayed(uiObject);
+    }
+
+    public boolean isNotDisplayed(Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().isNotDisplayed(uiObject, by);
     }
 
     public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
         return inOpenedBrowser().onDisplayed(context, uiObject);
     }
 
+    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().isDisplayed(context, uiObject);
+    }
+
+    public boolean isNotDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().isNotDisplayed(context, uiObject, by);
+    }
+
     public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By by) {
         return inOpenedBrowser().onDisplayed(context, uiObject, by);
     }
 
+    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().isDisplayed(context, uiObject, by);
+    }
+
     public <T extends UIObject> T onDisplayed(T uiObject) {
         return inOpenedBrowser().onDisplayed(uiObject);
+    }
+
+    public boolean isDisplayed(UIObject uiObject) {
+        return inOpenedBrowser().isDisplayed(uiObject);
+    }
+
+    public boolean isNotDisplayed(UIObject uiObject) {
+        return inOpenedBrowser().isNotDisplayed(uiObject);
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
@@ -473,32 +513,38 @@ public class User  {
         return inOpenedBrowser().getPageSource();
     }
 
-    public <T extends User> T waitUntilIsDisplayed(UIObject uiObject) {
-        inOpenedBrowser().wait(uiObject).untilIsDisplayed();
-        return (T) this;
+
+    //wait
+    public <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
+        return inOpenedBrowser().waitUntil(isTrue);
     }
 
-    public <T extends User> T waitUntilIsNotDisplayed(UIObject uiObject) {
-        inOpenedBrowser().wait(uiObject).untilIsNotDisplayed();
-        return (T) this;
+    public void waitUntil(Predicate<WebDriver> isTrue) {
+        inOpenedBrowser().waitUntil(isTrue);
     }
 
-    public boolean isDisplayed(UIObject uiObject) {
-        try {
-            waitUntilIsDisplayed(uiObject);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public UIObjectWait wait(UIObject uiObject) {
+        return inOpenedBrowser().wait(uiObject);
     }
 
-    public boolean isNotDisplayed(UIObject uiObject) {
-        try {
-            waitUntilIsNotDisplayed(uiObject);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public UIElementWait wait(UIElement uiElement) {
+        return inOpenedBrowser().wait(uiElement);
+    }
+
+    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().wait(context, uiObject, by);
+    }
+
+    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().wait(context, uiObject);
+    }
+
+    public UIObjectWait wait(Class<? extends UIObject> uiObject, By by) {
+        return inOpenedBrowser().wait(uiObject, by);
+    }
+
+    public UIObjectWait wait(Class<? extends UIObject> uiObject) {
+        return inOpenedBrowser().wait(uiObject);
     }
 
     //Storage
@@ -550,4 +596,13 @@ public class User  {
     public Alert getDisplayedAlert() {
         return inOpenedBrowser().getDisplayedAlert();
     }
+
+    public ConfirmAlert getDisplayedComfirmAlert() {
+        return inOpenedBrowser().getDisplayedConfirmAlert();
+    }
+
+    public PromtAlert getDisplayedPromtAlert() {
+        return inOpenedBrowser().getDisplayedPromtAlert();
+    }
+
 }
