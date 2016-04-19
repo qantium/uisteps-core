@@ -16,8 +16,8 @@
 package com.qantium.uisteps.core.storage;
 
 import com.google.common.io.Files;
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import net.lightbody.bmp.core.har.Har;
 
@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Storage {
 
     private final static ThreadLocal<Map> storage = new ThreadLocal();
-    private String dir = UIStepsProperties.getProperty(UIStepsProperty.HOME_DIR);
+    private String dir = getProperty(USER_DIR) + getProperty(STORAGE_DIR);
 
     public Storage() {
         storage.set(new ConcurrentHashMap());

@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.properties;
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.lifecycle.Execute;
 import com.qantium.uisteps.core.utils.testrail.Action;
+import static org.apache.commons.lang3.StringUtils.*;
 
 /**
  * Contains settings that can be set before test running
@@ -46,17 +47,20 @@ import com.qantium.uisteps.core.utils.testrail.Action;
  * <li>webdriver.timeouts.implicitlywait</li>
  * <li>webdriver.timeouts.polling</li>
  * <li>meta.info.regexp</li>
- * <li>meta.info.param.regexp</li>
+ * <li>meta.param.regexp</li>
  * <li>webdriver.proxy = localhost<li>
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
  * <li>webdriver.proxy = :7777</li>
  * <li>webdriver.unexpected.alert.behaviour/li>
+ * <li>user.dir</li>
  * <li>home.dir</li>
  * <li>source.take</li>
  * <li>source.take.fake</li>
+ * <li>source.take.dir</li>
  * <li>screenshots.take</li>
  * <li>screenshots.take.fake</li>
+ * <li>screenshots.dir</li>
  * <li>screenshots.scale.width</li>
  * <li>screenshots.scale.height</li>
  * <li>base.url.host</li>
@@ -73,12 +77,15 @@ import com.qantium.uisteps.core.utils.testrail.Action;
  * <li>testrail.status.codes</li>
  * <li>testrail.outcome.file</li>
  * <li>run.groups</li>
+ * <li>storage.dir</li>
+ * <li>retry.attempts</li>
+ * <li>retry.delay</li>
  * </ul>
  *
  * @author Anton Solyankin
  * @see com.qantium.uisteps.core.properties.UIStepsProperties
  */
-public enum UIStepsProperty {
+public enum UIStepsProperty implements IUIStepsProperty {
 
     /**
      * Set "properties.path" to specify in what file alternative properties are
@@ -163,7 +170,7 @@ public enum UIStepsProperty {
      */
     META_INFO_REGEXP("\\s?META(.*)"),
     /**
-     * Set "meta.info.param.regexp" to specify regexp for parameters in step meta
+     * Set "meta.param.regexp" to specify regexp for parameters in step meta
      */
     META_PARAM_REGEXP("\\[(.+?)=(.*?)\\]"),
     /**
@@ -172,7 +179,8 @@ public enum UIStepsProperty {
      * @see com.qantium.uisteps.core.screenshots.Screenshot#save(java.lang.String)
      * @see com.qantium.uisteps.core.storage.Storage
      */
-    HOME_DIR("target/site"),
+    HOME_DIR("/target/site"),
+    USER_DIR(System.getProperty("user.dir")),
     /**
      * Set "source.take" to specify when to take screenshots
      *
@@ -180,15 +188,18 @@ public enum UIStepsProperty {
      */
     SOURCE_TAKE(Execute.FOR_FAILURES.name()),
     SOURCE_TAKE_FAKE("true"),
+    SOURCE_DIR(HOME_DIR.getDefaultValue()),
     /**
      * Set "screenshots.take" to specify when to take screenshots
      */
     SCREENSHOTS_TAKE(Execute.FOR_FAILURES.name()),
 
     /**
-     * Set "screenshots.take.fake" to true, to get fake screenshot if driver is died
+     * Set "screenshots.fake" to true, to get fake screenshot if driver is died
      */
+
     SCREENSHOTS_TAKE_FAKE("true"),
+    SCREENSHOTS_DIR (HOME_DIR.getDefaultValue()),
     /**
      * Set "screenshots.scale.width" to specify scaled width of saved images
      *
@@ -230,6 +241,8 @@ public enum UIStepsProperty {
     BROWSER_WIDTH("max"),
     BROWSER_HEIGHT("max"),
 
+    STORAGE_DIR(HOME_DIR.getDefaultValue()),
+
     /**
      * @see com.qantium.uisteps.core.utils.testrail.Action
      */
@@ -242,23 +255,40 @@ public enum UIStepsProperty {
     /**
      * Set "testrail.outcome.file" to specify path to *.properties file with list of runed testrail cases
      */
-    TESTRAIL_OUTCOME_FILE(System.getProperty("user.dir") + "/target/testrail/tests.properties"),
+    TESTRAIL_OUTCOME_FILE("/target/testrail/tests.properties"),
     RUN_GROUPS,
 
     ZK_ID_MARK("ZK#"),
     ZK_HASH_XPATH("//body/div[1]"),
     ZK_HASH_ATTRIBUTE("id"),
     ZK_HASH_REGEXP("(.*)_"),
-    ZK_SHIFT_REGEXP("(\\[(.*?)\\])");
+    ZK_SHIFT_REGEXP("(\\[(.*?)\\])"),
 
-    public final String defaultValue;
+    /**
+     * Set "retry.attempts" to specify number of retries after failed test
+     */
+    RETRY_ATTEMPTS("0"),
+    /**
+     * Set "retry.delay" to specify delay time before retry test in milliseconds
+     */
+    RETRY_DELAY("0");
+
+    private String defaultValue = null;
 
     UIStepsProperty(String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
     UIStepsProperty() {
-        this("");
+    }
+
+    @Override
+    public String getDefaultValue() {
+        if(isEmpty(defaultValue)) {
+            return System.getProperty(this.toString());
+        } else {
+            return defaultValue;
+        }
     }
 
     @Override

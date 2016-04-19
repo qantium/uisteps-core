@@ -58,6 +58,7 @@ public class BrowserManager {
 
     private Integer setCurrentIndex(int index) {
         currentIndex = index;
+        currentBrowser.set(getCurrentBrowser());
         return currentIndex;
     }
 
@@ -85,6 +86,7 @@ public class BrowserManager {
         }
     }
 
+    public static final ThreadLocal<Browser> currentBrowser = new ThreadLocal();
 
     public Browser getCurrentBrowser() {
         Browser browser;

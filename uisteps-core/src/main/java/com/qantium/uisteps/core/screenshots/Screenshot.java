@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.InputStream;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.HOME_DIR;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  * @author Anton Solyankin
@@ -34,7 +34,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.HOME_DIR;
 public class Screenshot {
 
     private BufferedImage image;
-    private String dir = getProperty(HOME_DIR);
+    private String dir = getProperty(USER_DIR) + getProperty(SCREENSHOTS_DIR);
 
     public Screenshot(BufferedImage image) {
         this.image = image;
@@ -68,7 +68,7 @@ public class Screenshot {
             File screenshot = new File(dir, file);
             Files.createParentDirs(screenshot);
             ImageIO.write(getImage(), extension, screenshot);
-            return new File(file);
+            return screenshot;
         } catch (Exception ex) {
             throw new ScreenshotException("Cannot save screenshot to file: " + file, ex);
         }

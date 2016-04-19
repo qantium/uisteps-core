@@ -16,6 +16,7 @@ import java.util.HashSet;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_OUTCOME_FILE;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 
 /**
  * Created by Anton Solyankin
@@ -55,7 +56,7 @@ public class TestRailAdapter {
 
     private TestRailAdapter(TestRailConfig config) {
         this.config = config;
-        outcomeFile = new File(getProperty(TESTRAIL_OUTCOME_FILE));
+        outcomeFile = new File(getProperty(USER_DIR) + getProperty(TESTRAIL_OUTCOME_FILE));
         data = new Data(config.toJSON());
         client = new TestRailClient(config.getHost(), config.getUser(), config.getPassword());
 

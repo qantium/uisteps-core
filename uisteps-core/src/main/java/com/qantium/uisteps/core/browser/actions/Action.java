@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.actions;
 
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NoBrowserException;
+import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
@@ -65,7 +66,7 @@ public abstract class Action {
                 toExecute();
                 exception = null;
                 break;
-            } catch (NoBrowserException ex) {
+            } catch (NoBrowserException | UnhandledAlertException ex) {
                 exception = new ActionException(this, ex);
                 break;
             } catch (Exception ex) {

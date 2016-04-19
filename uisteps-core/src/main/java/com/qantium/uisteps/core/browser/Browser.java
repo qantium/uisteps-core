@@ -267,7 +267,7 @@ public class Browser implements SearchContext {
         try {
             wait(init(uiObject, context, by)).untilIsNotDisplayed();
             return true;
-        } catch (NotDisplayException ex) {
+        } catch (Exception ex) {
             return false;
         }
     }
@@ -278,6 +278,8 @@ public class Browser implements SearchContext {
             return true;
         } catch (NotDisplayException ex) {
             return false;
+        } catch (Exception ex ) {
+            return true;
         }
     }
 
@@ -487,7 +489,6 @@ public class Browser implements SearchContext {
     public void click(UIElement element) {
         new Click(this, element).execute();
     }
-
 
 
     private void sleep(long pollingTime) {

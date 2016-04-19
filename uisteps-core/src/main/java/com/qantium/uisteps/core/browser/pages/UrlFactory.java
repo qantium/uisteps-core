@@ -72,7 +72,7 @@ public class UrlFactory {
 
         if (!ArrayUtils.isEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
-            parceParams(params, paramsMap);
+            parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
         } else {
             return getUrlOf(page);
@@ -87,7 +87,7 @@ public class UrlFactory {
 
         if (!ArrayUtils.isEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
-            parceParams(params, paramsMap);
+            parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
         } else {
             return getUrlOf(page);
@@ -117,7 +117,7 @@ public class UrlFactory {
         return page.isAnnotationPresent(Root.class);
     }
 
-    protected void parceParams(String[] urlParams, Map<String, String> params) {
+    protected void parseParams(String[] urlParams, Map<String, String> params) {
         for (String param : urlParams) {
             Pattern pattern = Pattern.compile(PARAM_VALUE_REGEXP);
             Matcher matcher = pattern.matcher(param);
@@ -171,7 +171,7 @@ public class UrlFactory {
             }
 
             if (!ArrayUtils.isEmpty(urlParams)) {
-                parceParams(urlParams, params);
+                parseParams(urlParams, params);
             }
 
             if (!StringUtils.isEmpty(urlValue)) {

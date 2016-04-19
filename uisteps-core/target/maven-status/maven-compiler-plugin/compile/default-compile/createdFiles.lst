@@ -12,14 +12,15 @@ com\qantium\uisteps\core\browser\pages\elements\lists\RadioButtonGroups.class
 com\qantium\uisteps\core\browser\pages\elements\FileInput.class
 com\qantium\uisteps\core\browser\pages\elements\Select$By.class
 com\qantium\uisteps\core\lifecycle\Execute.class
-com\qantium\uisteps\core\browser\factory\DriverBuilder.class
 com\qantium\uisteps\core\then\OnDisplayedAction.class
+com\qantium\uisteps\core\browser\factory\DriverBuilder.class
 com\qantium\uisteps\core\utils\data\Data.class
 com\qantium\uisteps\core\then\Action.class
 com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup$RadioButton.class
 com\qantium\uisteps\core\screenshots\Photographer$1.class
 com\qantium\uisteps\core\browser\actions\ActionException.class
 com\qantium\uisteps\core\browser\pages\elements\alert\PromtAlert.class
+com\qantium\uisteps\core\properties\IUIStepsProperty.class
 com\qantium\uisteps\core\browser\WindowManager.class
 com\qantium\uisteps\core\browser\LocatorFactory.class
 com\qantium\uisteps\core\browser\pages\elements\Select.class

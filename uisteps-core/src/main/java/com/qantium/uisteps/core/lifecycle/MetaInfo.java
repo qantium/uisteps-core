@@ -1,8 +1,8 @@
 package com.qantium.uisteps.core.lifecycle;
 
-import com.qantium.uisteps.core.properties.UIStepsProperties;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
-import org.apache.commons.lang3.StringUtils;
+import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static org.apache.commons.lang3.StringUtils.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
  */
 public class MetaInfo {
 
-    private final String META_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.META_INFO_REGEXP);
-    private final String META_PARAM_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.META_PARAM_REGEXP);
     private final String title;
     private String titleWithoutMeta;
     private String meta = "";
@@ -23,31 +21,24 @@ public class MetaInfo {
 
     public MetaInfo(String title) {
         this.title = title;
-
-        Pattern pattern = Pattern.compile(META_REGEXP);
+        titleWithoutMeta = title;
+        Pattern pattern = Pattern.compile(getProperty(META_INFO_REGEXP));
         Matcher matcher = pattern.matcher(title);
 
         if (matcher.find()) {
-            meta = matcher.group();
-            parceMetaData();
-        }
-
-        if(StringUtils.isEmpty(meta)) {
-            titleWithoutMeta = title;
-        } else {
-            titleWithoutMeta = title.replace(meta, "");
+            meta = matcher.group(1);
+            titleWithoutMeta = title.replace(matcher.group(), "");
+            parseMetaData();
         }
     }
 
-    private void parceMetaData() {
+    private void parseMetaData() {
 
-        Pattern pattern = Pattern.compile(META_PARAM_REGEXP);
+        Pattern pattern = Pattern.compile(getProperty(META_PARAM_REGEXP));
         Matcher matcher = pattern.matcher(meta);
-
-
         while (matcher.find()) {
-            String key = matcher.group(1);
-            String value = matcher.group(2);
+            String key = matcher.group(1).trim();
+            String value = matcher.group(2).trim();
             metaParams.put(key, value);
         }
     }
@@ -70,11 +61,11 @@ public class MetaInfo {
 
     public String get(String key) {
 
-        if(StringUtils.isEmpty(key)) {
+        if (isEmpty(key)) {
             return null;
         }
 
-        if(!metaParams.containsKey(key)) {
+        if (!metaParams.containsKey(key)) {
             return null;
         }
 

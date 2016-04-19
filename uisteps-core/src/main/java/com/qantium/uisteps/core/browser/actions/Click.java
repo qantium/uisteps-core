@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 /**
- * Created by Solan on 28.03.2016.
+ * Created by Anton Solyankin
  */
 public class Click extends Action {
 

@@ -209,8 +209,8 @@ public class DriverBuilder {
         WebDriver.Options manage = driver.manage();
         manage.timeouts().implicitlyWait(0, MILLISECONDS);
 
-        String widthProperty = getProperty(BROWSER_WIDTH).toLowerCase().trim();
-        String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase().trim();
+        String widthProperty = getProperty(BROWSER_WIDTH).toLowerCase();
+        String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase();
         WebDriver.Window window = manage.window();
 
         if ("max".equals(widthProperty) || "max".equals(heightProperty)) {

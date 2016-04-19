@@ -339,6 +339,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
+    public void afterInitialization() {
+        waitUntilIsDisplayed();
+    }
+
+    @Override
     public UIElements<E> clone() {
         ArrayList<E> cloned = (ArrayList<E>) elements.clone();
         return new UIElements(elementType, cloned);
