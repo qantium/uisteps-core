@@ -95,7 +95,9 @@ public class UIStepsProperties {
                     }
 
                     for (String property : properties.stringPropertyNames()) {
-                        if(!System.getProperties().containsKey(property)) {
+                        String propertyValue = properties.getProperty(property);
+
+                        if(!isEmpty(propertyValue)) {
                             System.setProperty(property, properties.getProperty(property));
                         }
                     }
