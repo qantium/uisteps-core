@@ -142,17 +142,7 @@ public class UIStepsProperties {
      * @return the string value if there is property with that key and <code>null</code> if the property is not found
      */
     public static String getProperty(String key) {
-        key = key.toLowerCase().trim();
-        String value = getProperties().getProperty(key);
-        if (isEmpty(value)) {
-            value = System.getProperty(key);
-        }
-
-        if (value != null) {
-            return value.trim();
-        } else {
-            return value;
-        }
+        return System.getProperty(key);
     }
 
     /**
@@ -163,16 +153,7 @@ public class UIStepsProperties {
      * with that key.
      */
     public static String getProperty(IUIStepsProperty property) {
-        String value = getProperty(property.toString());
-        if (isEmpty(value)) {
-            value = property.getDefaultValue();
-        }
-
-        if (value != null) {
-            return value.trim();
-        } else {
-            return value;
-        }
+        return getProperty(property.toString());
     }
 
     /**
