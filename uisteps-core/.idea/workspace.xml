@@ -2,240 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29419889-366c-4bd1-9613-4d499d82a61e" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\Browser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\Browser.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\BrowserManager.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\LocatorFactory$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\LocatorFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\NoBrowserException.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\NoWindowException.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\Proxy$ProxyBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\Proxy.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\WindowManager.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\context\Context.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\context\UseContext.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\factory\BrowserFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\factory\Driver.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\factory\DriverBuilder$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\factory\DriverBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\BaseUrl.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\HtmlUIObject.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\Page.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\Root.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElement.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements$Find$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements$Find$2.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements$Find.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements$How.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIElements.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\Url.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UrlFactory.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Button.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\CheckBox.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\FileInput.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Image.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Link.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Select$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Select$By.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Select$Option.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\Select.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\TextBlock.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\TextField.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\alert\AuthenticationAlert.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\form\Fillable.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\form\Form.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\Buttons.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\CheckBoxes.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\FileInputs.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\Images.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\Links.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\RadioButtonGroups.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\Selects.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\TextBlocks.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\TextFields.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\Equalizer.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\HorizontalEqualizer.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\VerticalEqualizer.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\scroll\HorizontalScroll.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\scroll\Scroll.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\scroll\VerticalScroll.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\lifecycle\Execute.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\lifecycle\MetaInfo.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\properties\UIStepsProperties.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Ignore.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Ignored$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Ignored.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Photographer$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Photographer.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\Screenshot.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\ScreenshotException.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\screenshots\ScreenshotStrategy.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\storage\Storage.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\then\Action.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\then\GetValueAction.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\then\OnDisplayedAction.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\then\Then.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\user\User.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\data\Data.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\data\DataContainer.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\Action.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailAdapter$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailClient.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailEntity.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailException.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\testrail\TestRailType.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\zk\ZK.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\zk\ZKException.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\zk\ZKNumber.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\utils\zk\ZKSiblingLocator.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\maven-archiver\pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\Saxon-HE-9.4.0.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\aether-api-1.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\aether-impl-1.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\aether-spi-1.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\aether-util-0.9.0.M2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\aether-util-1.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ant-1.7.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ant-launcher-1.7.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\antlr-2.7.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ashot-1.5.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\bcpkix-jdk15on-1.48.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\bcprov-jdk15on-1.48.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\browsermob-core-2.1.0-beta-3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\browsermob-core-littleproxy-2.1.0-beta-3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\bsh-2.0b4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\cglib-nodep-2.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-beanutils-1.7.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-chain-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-cli-1.3.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-codec-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-compress-1.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-digester-1.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-exec-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-io-1.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-jxpath-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-lang-2.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-lang3-3.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-logging-1.1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\commons-validator-1.3.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\dd-plist-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\dnsjava-2.1.7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\dom4j-1.6.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-core-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-decoration-model-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-integration-tools-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-logging-api-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-module-fml-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-module-xdoc-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-module-xhtml-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-sink-api-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\doxia-site-renderer-1.6.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\freemarker-2.3.19.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\gson-2.2.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\guava-14.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\hamcrest-all-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\hamcrest-core-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\htmlelements-java-1.14.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\htmlunit-core-js-2.17.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\httpclient-4.3.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\httpcore-4.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ini4j-0.5.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ios-client-0.6.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ios-common-0.6.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ios-grid-0.6.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\ios-server-0.6.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jackson-annotations-2.4.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jackson-core-2.4.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jackson-databind-2.4.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\javax.servlet-api-3.1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jaxen-1.1.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jbehave-junit-runner-1.1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jcip-annotations-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jcl-over-slf4j-1.7.12.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jcommander-1.48.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-6.1.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-continuation-7.2.0.v20101020.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-http-7.2.0.v20101020.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-rc-repacked-5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-repacked-9.2.13.v20150730.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-security-7.2.0.v20101020.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-server-7.2.0.v20101020.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-servlet-7.2.0.v20101020.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jetty-util-6.1.25.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jna-4.1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jna-platform-4.1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\json-20080701.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jsr250-api-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jsr305-2.0.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\junit-4.11.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\jzlib-1.1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\lambdaj-2.3.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\libimobiledevice-wrapper-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\littleproxy-1.1.0-beta-bmp-9.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-archiver-2.4.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-artifact-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-clean-plugin-2.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-core-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-model-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-model-builder-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-plugin-api-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-reporting-api-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-reporting-exec-1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-repository-metadata-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-settings-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-settings-builder-3.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-shared-utils-0.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\maven-site-plugin-3.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\mx4j-tools-3.0.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\nekohtml-1.9.22.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\net-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\netty-all-4.0.31.Final.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\objenesis-1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\operadriver-1.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\operalaunchers-1.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\org.apache.httpcomponents.httpcore-4.1.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\oro-2.0.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\phantomjsdriver-1.2.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-archiver-2.4.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-cipher-1.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-classworlds-2.2.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-component-annotations-1.5.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-container-default-1.0-alpha-30.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-i18n-1.0-beta-7.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-interpolation-1.14.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-io-2.0.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-sec-dispatcher-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-utils-3.0.15.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\plexus-velocity-1.1.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\protobuf-java-2.4.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\quality-check-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\sac-1.3.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\serializer-2.7.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\servlet-api-2.5-20081211.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\servlet-api-2.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\sisu-guice-2.1.7-noaop.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\sisu-inject-bean-1.4.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\sisu-inject-plexus-1.4.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\snakeyaml-1.15.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\sslext-1.2-0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\struts-core-1.3.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\struts-taglib-1.3.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\struts-tiles-1.3.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\testng-6.9.9.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\uadetector-core-0.9.22.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\uadetector-resources-2014.10.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\velocity-1.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\velocity-tools-2.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\wagon-provider-api-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\webbit-0.4.14.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\xalan-2.7.2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\xercesImpl-2.9.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\xml-apis-1.0.b2.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\xmlunit-1.5.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\releases\lib\xz-1.2.jar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
@@ -262,6 +28,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="MetaInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+              <folding>
+                <element signature="e#1431#1432#0" expanded="true" />
+                <element signature="e#1470#1471#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="UIStepsProperty.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -295,6 +74,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="RemoteWebDriver.java" pinned="false" current-in-tab="false">
         <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-remote-driver/2.53.0/selenium-remote-driver-2.53.0-sources.jar!/org/openqa/selenium/remote/RemoteWebDriver.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -323,8 +112,8 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5601318">
-              <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.17662337">
+              <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -340,240 +129,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BrowserManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/BrowserManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="123" column="11" selection-start-line="123" selection-start-column="11" selection-end-line="123" selection-end-column="11" />
-              <folding>
-                <element signature="e#0#5524#0" expanded="false" />
-                <element signature="e#1186#1187#0" expanded="false" />
-                <element signature="e#1223#1224#0" expanded="false" />
-                <element signature="e#1294#1295#0" expanded="false" />
-                <element signature="e#1346#1347#0" expanded="false" />
-                <element signature="e#1388#1389#0" expanded="false" />
-                <element signature="e#1419#1420#0" expanded="false" />
-                <element signature="e#1466#1467#0" expanded="false" />
-                <element signature="e#1527#1528#0" expanded="false" />
-                <element signature="e#1574#1575#0" expanded="false" />
-                <element signature="e#1635#1636#0" expanded="false" />
-                <element signature="e#1676#1677#0" expanded="false" />
-                <element signature="e#1711#1712#0" expanded="false" />
-                <element signature="e#1918#1919#0" expanded="false" />
-                <element signature="e#1960#1961#0" expanded="false" />
-                <element signature="e#2837#2838#0" expanded="false" />
-                <element signature="e#2898#2899#0" expanded="false" />
-                <element signature="e#2953#2954#0" expanded="false" />
-                <element signature="e#3020#3021#0" expanded="false" />
-                <element signature="e#4364#4365#0" expanded="false" />
-                <element signature="e#4412#4413#0" expanded="false" />
-                <element signature="e#4456#4457#0" expanded="false" />
-                <element signature="e#4527#4528#0" expanded="false" />
-                <element signature="e#5211#5212#0" expanded="false" />
-                <element signature="e#5306#5307#0" expanded="false" />
-                <element signature="e#5342#5343#0" expanded="false" />
-                <element signature="e#5414#5415#0" expanded="false" />
-                <element signature="e#5445#5446#0" expanded="false" />
-                <element signature="e#5520#5521#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Browser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="491" column="0" selection-start-line="491" selection-start-column="0" selection-end-line="491" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#32515#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#3248#3365#0" expanded="false" />
-                <element signature="e#3364#3365#0" expanded="false" />
-                <element signature="e#3908#3909#0" expanded="false" />
-                <element signature="e#3937#3938#0" expanded="false" />
-                <element signature="e#4185#4186#0" expanded="false" />
-                <element signature="e#4229#4230#0" expanded="false" />
-                <element signature="e#4270#4271#0" expanded="false" />
-                <element signature="e#4303#4304#0" expanded="false" />
-                <element signature="e#4365#4366#0" expanded="false" />
-                <element signature="e#4413#4414#0" expanded="false" />
-                <element signature="e#4770#4771#0" expanded="false" />
-                <element signature="e#4807#4808#0" expanded="false" />
-                <element signature="e#4875#4876#0" expanded="false" />
-                <element signature="e#4927#4928#0" expanded="false" />
-                <element signature="e#4974#4975#0" expanded="false" />
-                <element signature="e#5002#5003#0" expanded="false" />
-                <element signature="e#5059#5060#0" expanded="false" />
-                <element signature="e#5093#5094#0" expanded="false" />
-                <element signature="e#5567#5568#0" expanded="false" />
-                <element signature="e#5619#5620#0" expanded="false" />
-                <element signature="e#5968#5969#0" expanded="false" />
-                <element signature="e#6021#6022#0" expanded="false" />
-                <element signature="e#6446#6447#0" expanded="false" />
-                <element signature="e#6504#6505#0" expanded="false" />
-                <element signature="e#6562#6563#0" expanded="false" />
-                <element signature="e#6613#6614#0" expanded="false" />
-                <element signature="e#6664#6665#0" expanded="false" />
-                <element signature="e#6713#6714#0" expanded="false" />
-                <element signature="e#6767#6768#0" expanded="false" />
-                <element signature="e#6818#6819#0" expanded="false" />
-                <element signature="e#7186#7187#0" expanded="false" />
-                <element signature="e#7239#7240#0" expanded="false" />
-                <element signature="e#7307#7308#0" expanded="false" />
-                <element signature="e#7362#7363#0" expanded="false" />
-                <element signature="e#8081#8082#0" expanded="false" />
-                <element signature="e#8135#8136#0" expanded="false" />
-                <element signature="e#8205#8206#0" expanded="false" />
-                <element signature="e#8261#8262#0" expanded="false" />
-                <element signature="e#9194#9195#0" expanded="false" />
-                <element signature="e#9253#9254#0" expanded="false" />
-                <element signature="e#9290#9291#0" expanded="false" />
-                <element signature="e#9340#9341#0" expanded="false" />
-                <element signature="e#9379#9380#0" expanded="false" />
-                <element signature="e#9424#9425#0" expanded="false" />
-                <element signature="e#9507#9513#0" expanded="false" />
-                <element signature="e#9850#9851#0" expanded="false" />
-                <element signature="e#9905#9906#0" expanded="false" />
-                <element signature="e#9949#9950#0" expanded="false" />
-                <element signature="e#10008#10009#0" expanded="false" />
-                <element signature="e#10051#10052#0" expanded="false" />
-                <element signature="e#10109#10110#0" expanded="false" />
-                <element signature="e#10161#10162#0" expanded="false" />
-                <element signature="e#10224#10225#0" expanded="false" />
-                <element signature="e#10286#10287#0" expanded="false" />
-                <element signature="e#10352#10353#0" expanded="false" />
-                <element signature="e#10684#10685#0" expanded="false" />
-                <element signature="e#10762#10763#0" expanded="false" />
-                <element signature="e#10798#10799#0" expanded="false" />
-                <element signature="e#10854#10855#0" expanded="false" />
-                <element signature="e#10899#10900#0" expanded="false" />
-                <element signature="e#10944#10945#0" expanded="false" />
-                <element signature="e#10975#10976#0" expanded="false" />
-                <element signature="e#11023#11024#0" expanded="false" />
-                <element signature="e#11081#11082#0" expanded="false" />
-                <element signature="e#11143#11144#0" expanded="false" />
-                <element signature="e#11327#11328#0" expanded="false" />
-                <element signature="e#11392#11393#0" expanded="false" />
-                <element signature="e#12084#12085#0" expanded="false" />
-                <element signature="e#12132#12133#0" expanded="false" />
-                <element signature="e#12170#12171#0" expanded="false" />
-                <element signature="e#12225#12226#0" expanded="false" />
-                <element signature="e#12375#12376#0" expanded="false" />
-                <element signature="e#12431#12432#0" expanded="false" />
-                <element signature="e#12466#12467#0" expanded="false" />
-                <element signature="e#12513#12514#0" expanded="false" />
-                <element signature="e#12555#12556#0" expanded="false" />
-                <element signature="e#12601#12602#0" expanded="false" />
-                <element signature="e#12635#12636#0" expanded="false" />
-                <element signature="e#12688#12689#0" expanded="false" />
-                <element signature="e#12739#12740#0" expanded="false" />
-                <element signature="e#12818#12819#0" expanded="false" />
-                <element signature="e#12851#12852#0" expanded="false" />
-                <element signature="e#12903#12904#0" expanded="false" />
-                <element signature="e#12953#12954#0" expanded="false" />
-                <element signature="e#13031#13032#0" expanded="false" />
-                <element signature="e#13065#13066#0" expanded="false" />
-                <element signature="e#13118#13119#0" expanded="false" />
-                <element signature="e#13169#13170#0" expanded="false" />
-                <element signature="e#13248#13249#0" expanded="false" />
-                <element signature="e#13282#13283#0" expanded="false" />
-                <element signature="e#13330#13331#0" expanded="false" />
-                <element signature="e#13381#13382#0" expanded="false" />
-                <element signature="e#13455#13456#0" expanded="false" />
-                <element signature="e#13840#13841#0" expanded="false" />
-                <element signature="e#13894#13895#0" expanded="false" />
-                <element signature="e#14073#14074#0" expanded="false" />
-                <element signature="e#14125#14126#0" expanded="false" />
-                <element signature="e#14306#14307#0" expanded="false" />
-                <element signature="e#14356#14357#0" expanded="false" />
-                <element signature="e#14776#14777#0" expanded="false" />
-                <element signature="e#14845#14846#0" expanded="false" />
-                <element signature="e#15073#15074#0" expanded="false" />
-                <element signature="e#15153#15154#0" expanded="false" />
-                <element signature="e#15211#15212#0" expanded="false" />
-                <element signature="e#15277#15278#0" expanded="false" />
-                <element signature="e#15319#15320#0" expanded="false" />
-                <element signature="e#15367#15368#0" expanded="false" />
-                <element signature="e#15426#15427#0" expanded="false" />
-                <element signature="e#15484#15485#0" expanded="false" />
-                <element signature="e#15548#15549#0" expanded="false" />
-                <element signature="e#15610#15611#0" expanded="false" />
-                <element signature="e#15958#15959#0" expanded="false" />
-                <element signature="e#16021#16022#0" expanded="false" />
-                <element signature="e#17050#17051#0" expanded="false" />
-                <element signature="e#17109#17110#0" expanded="false" />
-                <element signature="e#17772#17773#0" expanded="false" />
-                <element signature="e#17832#17833#0" expanded="false" />
-                <element signature="e#18175#18176#0" expanded="false" />
-                <element signature="e#18202#18203#0" expanded="false" />
-                <element signature="e#18242#18243#0" expanded="false" />
-                <element signature="e#18274#18275#0" expanded="false" />
-                <element signature="e#19170#19171#0" expanded="false" />
-                <element signature="e#19201#19202#0" expanded="false" />
-                <element signature="e#19257#19258#0" expanded="false" />
-                <element signature="e#19312#19313#0" expanded="false" />
-                <element signature="e#19355#19356#0" expanded="false" />
-                <element signature="e#19388#19389#0" expanded="false" />
-                <element signature="e#19612#19613#0" expanded="false" />
-                <element signature="e#19666#19667#0" expanded="false" />
-                <element signature="e#19713#19714#0" expanded="false" />
-                <element signature="e#19769#19770#0" expanded="false" />
-                <element signature="e#19844#19845#0" expanded="false" />
-                <element signature="e#19914#19915#0" expanded="false" />
-                <element signature="e#22696#22697#0" expanded="false" />
-                <element signature="e#22748#22749#0" expanded="false" />
-                <element signature="e#22802#22803#0" expanded="false" />
-                <element signature="e#22861#22862#0" expanded="false" />
-                <element signature="e#22911#22912#0" expanded="false" />
-                <element signature="e#22968#22969#0" expanded="false" />
-                <element signature="e#23007#23008#0" expanded="false" />
-                <element signature="e#23055#23056#0" expanded="false" />
-                <element signature="e#23103#23104#0" expanded="false" />
-                <element signature="e#23153#23154#0" expanded="false" />
-                <element signature="e#28244#28245#0" expanded="false" />
-                <element signature="e#28297#28298#0" expanded="false" />
-                <element signature="e#28359#28360#0" expanded="false" />
-                <element signature="e#28402#28403#0" expanded="false" />
-                <element signature="e#28620#28621#0" expanded="false" />
-                <element signature="e#28672#28673#0" expanded="false" />
-                <element signature="e#28891#28892#0" expanded="false" />
-                <element signature="e#28947#28948#0" expanded="false" />
-                <element signature="e#30059#30060#0" expanded="false" />
-                <element signature="e#30121#30122#0" expanded="false" />
-                <element signature="e#31272#31273#0" expanded="false" />
-                <element signature="e#31329#31330#0" expanded="false" />
-                <element signature="e#31400#31401#0" expanded="false" />
-                <element signature="e#31457#31458#0" expanded="false" />
-                <element signature="e#31522#31523#0" expanded="false" />
-                <element signature="e#31576#31577#0" expanded="false" />
-                <element signature="e#31618#31619#0" expanded="false" />
-                <element signature="e#31675#31676#0" expanded="false" />
-                <element signature="e#31738#31739#0" expanded="false" />
-                <element signature="e#31803#31804#0" expanded="false" />
-                <element signature="e#31864#31865#0" expanded="false" />
-                <element signature="e#31929#31930#0" expanded="false" />
-                <element signature="e#32352#32353#0" expanded="false" />
-                <element signature="e#32403#32404#0" expanded="false" />
-                <element signature="e#32461#32462#0" expanded="false" />
-                <element signature="e#32511#32512#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UIStepsProperties.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="155" column="48" selection-start-line="155" selection-start-column="48" selection-end-line="155" selection-end-column="48" />
+              <caret line="59" column="42" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="42" />
               <folding>
-                <element signature="e#0#6429#0" expanded="true" />
+                <element signature="e#0#6447#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#5461#5462#0" expanded="true" />
-                <element signature="e#5507#5508#0" expanded="true" />
-                <element signature="e#5766#5767#0" expanded="true" />
-                <element signature="e#5821#5822#0" expanded="true" />
+                <element signature="e#5479#5480#0" expanded="true" />
+                <element signature="e#5525#5526#0" expanded="true" />
+                <element signature="e#5784#5785#0" expanded="true" />
+                <element signature="e#5839#5840#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1544,12 +1111,12 @@
       <workItem from="1460101327403" duration="19615000" />
       <workItem from="1460711243066" duration="1738000" />
       <workItem from="1460962545586" duration="32818000" />
-      <workItem from="1461242697350" duration="8143000" />
+      <workItem from="1461242697350" duration="10908000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="844113000" />
+    <option name="totallyTimeSpent" value="846878000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1819" height="1096" extended-state="6" />
@@ -1571,7 +1138,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15122229" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23081297" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2715655" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09797657" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21192758" sideWeight="0.45682302" order="1" side_tool="false" content_ui="tabs" />
@@ -1911,17 +1478,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <element signature="e#1431#1432#0" expanded="false" />
-            <element signature="e#1470#1471#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nb-configuration.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1942,14 +1498,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -2228,25 +1776,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+          <folding>
+            <element signature="e#1431#1432#0" expanded="true" />
+            <element signature="e#1470#1471#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="48" selection-start-line="155" selection-start-column="48" selection-end-line="155" selection-end-column="48" />
+          <caret line="59" column="42" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="42" />
           <folding>
-            <element signature="e#0#6429#0" expanded="true" />
+            <element signature="e#0#6447#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#5461#5462#0" expanded="true" />
-            <element signature="e#5507#5508#0" expanded="true" />
-            <element signature="e#5766#5767#0" expanded="true" />
-            <element signature="e#5821#5822#0" expanded="true" />
+            <element signature="e#5479#5480#0" expanded="true" />
+            <element signature="e#5525#5526#0" expanded="true" />
+            <element signature="e#5784#5785#0" expanded="true" />
+            <element signature="e#5839#5840#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5601318">
-          <caret line="20" column="14" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.17662337">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
           <folding />
         </state>
       </provider>

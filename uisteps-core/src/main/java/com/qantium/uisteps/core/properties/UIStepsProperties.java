@@ -46,7 +46,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.PROPERTIES_PAT
  */
 public class UIStepsProperties {
 
-    private static Properties properties;
+    private static Properties properties = getProperties();
     private static final String WORKING_DIR = System.getProperty("user.dir");
     private static final String HOME_DIR = System.getProperty("user.home");
     private static final String PROPERTIES_FILE_NAME = "uisteps.properties";
