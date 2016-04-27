@@ -15,6 +15,8 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
+
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,13 +43,13 @@ public class UrlFactory {
     private final String BASE_PASSWORD;
 
     public UrlFactory() {
-        HOST = UIStepsProperties.getProperty(BASE_URL_HOST);
-        PARAM_REGEXP = UIStepsProperties.getProperty(BASE_URL_PARAM_REGEXP);
-        PARAM_VALUE_REGEXP = UIStepsProperties.getProperty(BASE_URL_PARAM_VALUE_REGEXP);
-        BASE_HOST = UIStepsProperties.getProperty(WEBDRIVER_BASE_URL_HOST);
-        BASE_PROTOCOL = UIStepsProperties.getProperty(WEBDRIVER_BASE_URL_PROTOCOL);
-        BASE_USER = UIStepsProperties.getProperty(WEBDRIVER_BASE_URL_USER);
-        BASE_PASSWORD = UIStepsProperties.getProperty(WEBDRIVER_BASE_URL_PASSWORD);
+        HOST = getProperty(BASE_URL_HOST);
+        PARAM_REGEXP = getProperty(BASE_URL_PARAM_REGEXP);
+        PARAM_VALUE_REGEXP = getProperty(BASE_URL_PARAM_VALUE_REGEXP);
+        BASE_HOST = getProperty(WEBDRIVER_BASE_URL_HOST);
+        BASE_PROTOCOL = getProperty(WEBDRIVER_BASE_URL_PROTOCOL);
+        BASE_USER = getProperty(WEBDRIVER_BASE_URL_USER);
+        BASE_PASSWORD = getProperty(WEBDRIVER_BASE_URL_PASSWORD);
     }
 
     public Url getUrlOf(Page page) {

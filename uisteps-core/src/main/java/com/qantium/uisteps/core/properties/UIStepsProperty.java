@@ -180,7 +180,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * @see com.qantium.uisteps.core.storage.Storage
      */
     HOME_DIR("/target/site"),
-    USER_DIR(System.getProperty("user.dir")),
+    USER_DIR,
     /**
      * Set "source.take" to specify when to take screenshots
      *
@@ -273,22 +273,25 @@ public enum UIStepsProperty implements IUIStepsProperty {
      */
     RETRY_DELAY("0");
 
-    private String defaultValue = null;
+    private final String defaultValue;
 
     UIStepsProperty(String defaultValue) {
+        String key = this.toString();
+
+        if(isEmpty(System.getProperty(key)) && !isEmpty(defaultValue)) {
+            System.setProperty(key, defaultValue);
+        }
+
         this.defaultValue = defaultValue;
     }
 
     UIStepsProperty() {
+        this("");
     }
 
     @Override
     public String getDefaultValue() {
-        if(isEmpty(defaultValue)) {
-            return System.getProperty(this.toString());
-        } else {
-            return defaultValue;
-        }
+        return defaultValue;
     }
 
     @Override

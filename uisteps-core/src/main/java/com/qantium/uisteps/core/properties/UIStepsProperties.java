@@ -46,11 +46,29 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.PROPERTIES_PAT
  */
 public class UIStepsProperties {
 
-    private static Properties properties = getProperties();
+    private static final Properties properties;
     private static final String WORKING_DIR = System.getProperty("user.dir");
     private static final String HOME_DIR = System.getProperty("user.home");
     private static final String PROPERTIES_FILE_NAME = "uisteps.properties";
     private static final String PROPERTIES_LOCAL_FILE_NAME = "uisteps.local.properties";
+
+    static {
+        properties = new Properties(getDefaults());
+        load(PROPERTIES_FILE_NAME, properties);
+        String path = getProperty(PROPERTIES_PATH);
+
+        if (!isEmpty(path)) {
+            load(path, properties);
+        }
+        load(PROPERTIES_LOCAL_FILE_NAME, properties);
+
+        for (Object key : System.getProperties().keySet()) {
+
+            if (properties.get(key) == null || isEmpty(properties.get(key).toString())) {
+                properties.setProperty(key.toString(), System.getProperties().getProperty(key.toString()));
+            }
+        }
+    }
 
     /**
      * Load default properties
@@ -58,66 +76,21 @@ public class UIStepsProperties {
      * @return Properties
      */
     public static Properties getProperties() {
-
-        if (properties == null) {
-            synchronized (Properties.class) {
-                if (properties == null) {
-                    properties = new Properties(getDefaults());
-                    load(PROPERTIES_FILE_NAME, properties);
-                    String path = getProperty(PROPERTIES_PATH);
-
-                    if (!isEmpty(path)) {
-                        load(path, properties);
-                    }
-                    load(PROPERTIES_LOCAL_FILE_NAME, properties);
-
-                    for (String propertyName : properties.stringPropertyNames()) {
-                        String property = properties.getProperty(propertyName);
-
-                        Pattern pattern = Pattern.compile("%(.+?)%");
-                        Matcher matcher = pattern.matcher(property);
-                        String propertyValue = property;
-                        while (matcher.find()) {
-
-                            String aliasProperty = matcher.group(1);
-                            String fromProperty = properties.getProperty(aliasProperty);
-
-                            if (isEmpty(fromProperty)) {
-
-                                fromProperty = System.getProperty(aliasProperty);
-                                if (isEmpty(fromProperty)) {
-                                    throw new RuntimeException("Cannot find property " + property + " for setting to " + propertyName + "!");
-                                }
-                            }
-                            propertyValue = propertyValue.replace(matcher.group(0), fromProperty);
-                            properties.setProperty(propertyName, propertyValue);
-                        }
-                    }
-
-                    for (String property : properties.stringPropertyNames()) {
-                        String propertyValue = properties.getProperty(property);
-
-                        if(!isEmpty(propertyValue)) {
-                            System.setProperty(property, properties.getProperty(property));
-                        }
-                    }
-                }
-            }
-        }
         return properties;
+
     }
 
-    private static void load(String propertiesFileName, Properties properties) {
+    private static void load(String fileName, Properties properties) {
 
-        if (!load(new File(propertiesFileName), properties)) {
+        if (!load(new File(fileName), properties)) {
 
-            File fileFromHomeDir = new File(HOME_DIR, propertiesFileName);
+            File fileFromHomeDir = new File(HOME_DIR, fileName);
 
             if (fileFromHomeDir.exists()) {
                 load(fileFromHomeDir, properties);
             }
 
-            File fileFromWorkingDir = new File(WORKING_DIR, propertiesFileName);
+            File fileFromWorkingDir = new File(WORKING_DIR, fileName);
 
             if (fileFromWorkingDir.exists()) {
                 load(fileFromWorkingDir, properties);
@@ -141,8 +114,28 @@ public class UIStepsProperties {
      * @param key specifies the key of property
      * @return the string value if there is property with that key and <code>null</code> if the property is not found
      */
-    public static String getProperty(String key) {
-        return System.getProperty(key);
+    private static String getProperty(String key, String defaultValue) {
+        String value = getProperties().getProperty(key);
+
+        if (isEmpty(value)) {
+            value = defaultValue;
+        }
+
+        Pattern pattern = Pattern.compile("%(.+?)%");
+        Matcher matcher = pattern.matcher(value);
+
+        while (matcher.find()) {
+
+            String aliasPropertyKey = matcher.group(1);
+            String aliasPropertyValue = System.getProperty(aliasPropertyKey);
+
+            if (isEmpty(aliasPropertyValue)) {
+                throw new RuntimeException("Cannot find property " + aliasPropertyKey + " for setting to " + key + " property!");
+            }
+
+            value = value.replace(matcher.group(0), aliasPropertyValue);
+        }
+        return value;
     }
 
     /**
@@ -153,7 +146,8 @@ public class UIStepsProperties {
      * with that key.
      */
     public static String getProperty(IUIStepsProperty property) {
-        return getProperty(property.toString());
+        String key = property.toString();
+        return getProperty(key, property.getDefaultValue());
     }
 
     /**
@@ -166,7 +160,7 @@ public class UIStepsProperties {
         Properties defaults = new Properties();
         for (UIStepsProperty property : UIStepsProperty.values()) {
 
-            if(isEmpty(property.getDefaultValue())) {
+            if (isEmpty(property.getDefaultValue())) {
                 defaults.setProperty(property.toString(), "");
             } else {
                 defaults.setProperty(property.toString(), property.getDefaultValue());
