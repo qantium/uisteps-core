@@ -15,8 +15,6 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
-
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +24,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**

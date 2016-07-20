@@ -15,8 +15,6 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.actions.Click;
 import com.qantium.uisteps.core.browser.actions.EnterInto;
 import com.qantium.uisteps.core.browser.context.Context;
@@ -56,7 +54,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 
 /**
  * @author Anton Solyankin
@@ -201,52 +199,25 @@ public class Browser implements SearchContext {
     }
 
     //Wait
-    public <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
-        return new BrowserWait(this).until(isTrue);
-    }
-
-    public void waitUntil(Predicate<WebDriver> isTrue) {
-        new BrowserWait(this).until(isTrue);
-    }
 
     public UIObjectWait wait(UIObject uiObject) {
         return new UIObjectWait(uiObject);
-    }
-
-    public UIElementWait wait(UIElement uiElement) {
-        return new UIElementWait(uiElement);
-    }
-
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        return wait(init(uiObject, context, by));
-    }
-
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject) {
-        return wait(init(uiObject, context, null));
-    }
-
-    public UIObjectWait wait(Class<? extends UIObject> uiObject, By by) {
-        return wait(init(uiObject, null, by));
-    }
-
-    public UIObjectWait wait(Class<? extends UIObject> uiObject) {
-        return wait(init(uiObject, null, null));
     }
 
     public boolean isDisplayed(UIObject uiObject) {
         try {
             wait(uiObject).untilIsDisplayed();
             return true;
-        } catch (DisplayException e) {
+        } catch (IsNotDisplayException e) {
             return false;
         }
     }
 
     public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
         try {
-            wait(context, uiObject, by).untilIsDisplayed();
+            wait(init(uiObject, context, by)).untilIsDisplayed();
             return true;
-        } catch (DisplayException e) {
+        } catch (IsNotDisplayException e) {
             return false;
         }
     }
@@ -276,10 +247,8 @@ public class Browser implements SearchContext {
         try {
             wait(uiObject).untilIsNotDisplayed();
             return true;
-        } catch (NotDisplayException ex) {
+        } catch (IsDisplayException ex) {
             return false;
-        } catch (Exception ex ) {
-            return true;
         }
     }
 
@@ -488,15 +457,6 @@ public class Browser implements SearchContext {
 
     public void click(UIElement element) {
         new Click(this, element).execute();
-    }
-
-
-    private void sleep(long pollingTime) {
-        try {
-            Thread.sleep(pollingTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void clickOnPoint(UIElement element, int x, int y) {
@@ -950,7 +910,7 @@ public class Browser implements SearchContext {
 
     //onDisplayed
     public <T extends UIObject> T onDisplayed(T uiObject) {
-        if(this.equals(uiObject.inOpenedBrowser())) {
+        if (this.equals(uiObject.inOpenedBrowser())) {
             return uiObject;
         }
         return init(uiObject, null, null);
@@ -1022,14 +982,13 @@ public class Browser implements SearchContext {
         try {
             return getDriver().getPageSource();
         } catch (Exception ex) {
+
             if ("true".equals(getProperty(SOURCE_TAKE_FAKE).toLowerCase())) {
                 return "CANNOT TAKE PAGE SOURCE!";
             } else {
                 throw ex;
             }
-
         }
-
     }
 
     @Override

@@ -1,3 +1,4 @@
+C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\IsDisplayException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\actions\Action.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\lifecycle\MetaInfo.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\Select.java
@@ -22,7 +23,6 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\brow
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\lists\Links.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\zk\ZKSiblingLocator.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\then\Then.java
-C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\BrowserWait.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\TestRailAdapter.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\NotInit.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\name\Named.java
@@ -33,11 +33,9 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\brow
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\Root.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\scroll\Scroll.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\TestRailException.java
-C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\UIElementWait.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\zk\ZKException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\lists\RadioButtonGroups.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\UIElements.java
-C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\DisplayException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\context\Context.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\Browser.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\TestRailType.java
@@ -47,6 +45,7 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\util
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\TextBlock.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\Action.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\properties\IUIStepsProperty.java
+C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\WaitingException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\then\GetValueAction.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\TestRailClient.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\UrlFactory.java
@@ -75,7 +74,7 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\brow
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\screenshots\Photographer.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\form\Fillable.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\user\User.java
-C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\NotDisplayException.java
+C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\Waiting.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\form\Form.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\LocatorFactory.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\scroll\VerticalScroll.java
@@ -83,6 +82,7 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\brow
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\HtmlUIObject.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\data\Data.java
+C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\IsNotDisplayException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\screenshots\Ignore.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\then\Action.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\HorizontalEqualizer.java

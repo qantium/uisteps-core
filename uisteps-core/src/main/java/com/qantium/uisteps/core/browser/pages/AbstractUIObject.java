@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.UIElementWait;
 import com.qantium.uisteps.core.browser.wait.UIObjectWait;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -63,19 +62,12 @@ public abstract class AbstractUIObject implements UIObject {
         return inOpenedBrowser().then(value);
     }
 
-    public <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
-        return inOpenedBrowser().waitUntil(isTrue);
-    }
-
-    public void waitUntil(Predicate<WebDriver> isTrue) {
-        inOpenedBrowser().waitUntil(isTrue);
-    }
 
     public UIObjectWait wait(UIObject uiObject) {
         return inOpenedBrowser().wait(uiObject);
     }
 
-    public UIElementWait wait(UIElement uiElement) {
+    public UIObjectWait wait(UIElement uiElement) {
         return inOpenedBrowser().wait(uiElement);
     }
 

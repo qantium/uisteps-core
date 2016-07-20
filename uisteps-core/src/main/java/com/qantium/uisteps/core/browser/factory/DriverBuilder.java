@@ -22,10 +22,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import static java.util.concurrent.TimeUnit.*;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Created by Anton Solyankin

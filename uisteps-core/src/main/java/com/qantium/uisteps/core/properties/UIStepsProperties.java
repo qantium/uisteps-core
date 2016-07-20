@@ -15,8 +15,6 @@
  */
 package com.qantium.uisteps.core.properties;
 
-import static org.apache.commons.lang3.StringUtils.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.PROPERTIES_PATH;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Contains settings that can be set before test running

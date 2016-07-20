@@ -1,6 +1,5 @@
 package com.qantium.uisteps.core.name;
 
-import org.apache.commons.lang.WordUtils;
 import ru.yandex.qatools.htmlelements.utils.HtmlElementUtils;
 
 import java.lang.reflect.Field;

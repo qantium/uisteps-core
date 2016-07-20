@@ -15,13 +15,11 @@
  */
 package com.qantium.uisteps.core.screenshots;
 
-import com.qantium.uisteps.core.browser.AlertException;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 import ru.yandex.qatools.ashot.coordinates.CoordsProvider;

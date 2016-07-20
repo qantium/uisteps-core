@@ -1,13 +1,14 @@
 package com.qantium.uisteps.core.lifecycle;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-import static org.apache.commons.lang3.StringUtils.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.META_INFO_REGEXP;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.META_PARAM_REGEXP;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Created by Anton Solyankin

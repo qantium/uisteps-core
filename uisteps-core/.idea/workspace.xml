@@ -2,11 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29419889-366c-4bd1-9613-4d499d82a61e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\properties\UIStepsProperty.class" afterPath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\properties\UIStepsProperty.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsDisplayException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsNotDisplayException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/Waiting.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/WaitingException.java" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\BrowserWait.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\DisplayException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\NotDisplayException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\UIElementWait.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\storage\Storage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\user\User.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\NotInit.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\AbstractUIObject.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\UIObject.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup$RadioButton.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\RadioButtonGroup.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\alert\Alert.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\browser\pages\elements\alert\PromtAlert.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\name\Named.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\qantium\uisteps-core\uisteps-core\target\classes\com\qantium\uisteps\core\properties\UIStepsProperty.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/alert/Alert.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/alert/Alert.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/DriverBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/name/NameConverter.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/name/NameConverter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Screenshot.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Screenshot.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/utils/testrail/TestRailConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/utils/testrail/TestRailConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/TextField.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/TextField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UrlFactory.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UrlFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/uisteps-core.iml" afterPath="$PROJECT_DIR$/uisteps-core.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="uisteps-core.iws" />
@@ -34,124 +67,155 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+              <caret line="24" column="33" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Execute.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/Execute.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UIObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="51" column="22" selection-start-line="51" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Then.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/Then.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1360#1361#0" expanded="false" />
-                <element signature="e#1388#1389#0" expanded="false" />
-                <element signature="e#1501#1502#0" expanded="false" />
-                <element signature="e#1528#1529#0" expanded="false" />
-                <element signature="e#1578#1579#0" expanded="false" />
-                <element signature="e#1611#1612#0" expanded="false" />
+                <element signature="e#815#816#0" expanded="true" />
+                <element signature="e#851#852#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UIStepsProperty.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
+      <file leaf-file-name="GetValueAction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/GetValueAction.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="293" column="27" selection-start-line="293" selection-start-column="15" selection-end-line="293" selection-end-column="27" />
+              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractUIObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="82" column="36" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="37" />
               <folding>
-                <element signature="e#0#9263#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#9040#9041#0" expanded="true" />
-                <element signature="e#9064#9065#0" expanded="true" />
-                <element signature="e#9117#9118#0" expanded="true" />
-                <element signature="e#9152#9153#0" expanded="true" />
-                <element signature="e#9198#9199#0" expanded="true" />
-                <element signature="e#9259#9260#0" expanded="true" />
+                <element signature="e#2224#2225#0" expanded="true" />
+                <element signature="e#2283#2284#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Storage.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/storage/Storage.java">
+      <file leaf-file-name="Browser.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+            <state vertical-scroll-proportion="-1.4571428">
+              <caret line="905" column="47" selection-start-line="905" selection-start-column="47" selection-end-line="905" selection-end-column="47" />
               <folding>
+                <element signature="e#0#31331#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#1326#1327#0" expanded="true" />
-                <element signature="e#1378#1379#0" expanded="true" />
+                <element signature="e#4119#4120#0" expanded="true" />
+                <element signature="e#4163#4164#0" expanded="true" />
+                <element signature="e#4204#4205#0" expanded="true" />
+                <element signature="e#4237#4238#0" expanded="true" />
+                <element signature="e#4299#4300#0" expanded="true" />
+                <element signature="e#4347#4348#0" expanded="true" />
+                <element signature="e#4704#4705#0" expanded="true" />
+                <element signature="e#4741#4742#0" expanded="true" />
+                <element signature="e#4809#4810#0" expanded="true" />
+                <element signature="e#4861#4862#0" expanded="true" />
+                <element signature="e#4908#4909#0" expanded="true" />
+                <element signature="e#4936#4937#0" expanded="true" />
+                <element signature="e#4993#4994#0" expanded="true" />
+                <element signature="e#5027#5028#0" expanded="true" />
+                <element signature="e#5501#5502#0" expanded="true" />
+                <element signature="e#5553#5554#0" expanded="true" />
+                <element signature="e#5902#5903#0" expanded="true" />
+                <element signature="e#5955#5956#0" expanded="true" />
+                <element signature="e#6363#6364#0" expanded="true" />
+                <element signature="e#6412#6413#0" expanded="true" />
+                <element signature="e#7271#7272#0" expanded="true" />
+                <element signature="e#7327#7328#0" expanded="true" />
+                <element signature="e#8385#8386#0" expanded="true" />
+                <element signature="e#8430#8431#0" expanded="true" />
+                <element signature="e#8513#8519#0" expanded="true" />
+                <element signature="e#9292#9293#0" expanded="true" />
+                <element signature="e#9358#9359#0" expanded="true" />
+                <element signature="e#10087#10088#0" expanded="true" />
+                <element signature="e#10149#10150#0" expanded="true" />
+                <element signature="e#10333#10334#0" expanded="true" />
+                <element signature="e#10398#10399#0" expanded="true" />
+                <element signature="e#11176#11177#0" expanded="true" />
+                <element signature="e#11231#11232#0" expanded="true" />
+                <element signature="e#12387#12388#0" expanded="true" />
+                <element signature="e#12461#12462#0" expanded="true" />
+                <element signature="e#12846#12847#0" expanded="true" />
+                <element signature="e#12900#12901#0" expanded="true" />
+                <element signature="e#13079#13080#0" expanded="true" />
+                <element signature="e#13131#13132#0" expanded="true" />
+                <element signature="e#13312#13313#0" expanded="true" />
+                <element signature="e#13362#13363#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UrlFactory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UrlFactory.java">
+      <file leaf-file-name="UIElement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1724138">
-              <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+            <state vertical-scroll-proportion="-15.827586">
+              <caret line="298" column="5" selection-start-line="298" selection-start-column="5" selection-end-line="298" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Page.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Page.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1099#1100#0" expanded="true" />
+                <element signature="e#1184#1185#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="HtmlUIObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlUIObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.66775775">
-              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IUIStepsProperty.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/IUIStepsProperty.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UIStepsProperties.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state vertical-scroll-proportion="-5.965517">
+              <caret line="47" column="41" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
               <folding>
-                <element signature="e#0#5632#0" expanded="true" />
-                <element signature="imports" expanded="true" />
+                <element signature="e#1372#1373#0" expanded="true" />
+                <element signature="e#1440#1441#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Properties.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.7.0_80/src.zip!/java/util/Properties.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="116" column="6" selection-start-line="116" selection-start-column="6" selection-end-line="116" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileInput.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/FileInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="22" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="22" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -163,8 +227,8 @@
       <list>
         <option value="Enum" />
         <option value="AnnotationType" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -179,25 +243,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/scroll/VerticalScroll.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/NotDisplayException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/DisplayException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/UIObjectWait.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Proxy.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/factory/BrowserFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Ignore.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/DisplayException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/NotDisplayException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/user/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/BrowserWait.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/TextField.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIElementWait.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Page.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/alert/Alert.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlUIObject.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/screenshots/Photographer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/name/NameConvertor.java" />
@@ -212,7 +264,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/name/NameConverter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/form/Form.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/Click.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElements.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/Action.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java" />
@@ -230,6 +281,19 @@
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIElementWait.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/BrowserWait.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/WaitingException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/DisplayException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsDisplayException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/NotDisplayException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsNotDisplayException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/Waiting.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/user/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java" />
       </list>
     </option>
   </component>
@@ -345,10 +409,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -487,6 +547,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -593,18 +654,293 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="then" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="properties" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lifecycle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wait" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WaitingException" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wait" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Waiting" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wait" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UIObjectWait" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wait" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uisteps-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="browser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="C:/javarush/JavaRushHomeWork" />
+    <property name="last_opened_file_path" value="C:/bssys/tests/corrects-box-3.3-tests" />
     <property name="dynamic.classpath" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -1029,14 +1365,24 @@
       <workItem from="1460962545586" duration="32818000" />
       <workItem from="1461242697350" duration="13571000" />
       <workItem from="1461686298858" duration="13630000" />
+      <workItem from="1468912363637" duration="11613000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="863171000" />
+    <option name="totallyTimeSpent" value="874784000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1799" height="1096" extended-state="6" />
+    <frame x="1912" y="-8" width="1799" height="1096" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1044,25 +1390,25 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31522897" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28434506" sideWeight="0.45682302" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18636848" sideWeight="0.54317695" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1627372" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16446233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2334675" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29818955" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2823462" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25239617" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21192758" sideWeight="0.45682302" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36634716" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1076,18 +1422,18 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18636848" sideWeight="0.54317695" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20255864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20255864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1977612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24068157" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24068157" sideWeight="0.61034113" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1105,12 +1451,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/Then.java</url>
-          <line>27</line>
-          <properties />
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-remote-driver/2.52.0/selenium-remote-driver-2.52.0.jar!/org/openqa/selenium/remote/BaseAugmenter.class</url>
           <line>7</line>
           <properties />
@@ -1123,7 +1463,7 @@
           <option name="timeStamp" value="106" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="122" />
+      <option name="time" value="124" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1132,55 +1472,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/context/Context.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="34" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="9" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/utils/testrail/TestRailClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/utils/data/Data.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="12" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-support/2.53.0/selenium-support-2.53.0-sources.jar!/org/openqa/selenium/support/ui/FluentWait.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIElementWait.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/EnterInto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/utils/testrail/TestRailConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1230,45 +1521,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Page.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/form/Form.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="49" column="19" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/BrowserWait.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/NotDisplayException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/DisplayException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="21" selection-start-line="69" selection-start-column="21" selection-end-line="69" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1286,47 +1542,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6896553">
-          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlUIObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="127" column="4" selection-start-line="127" selection-start-column="4" selection-end-line="130" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElements.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="342" column="31" selection-start-line="341" selection-start-column="37" selection-end-line="342" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/Click.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="66" selection-start-line="68" selection-start-column="66" selection-end-line="68" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -1342,13 +1561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="70" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/user/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="28" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -1379,186 +1591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="491" column="0" selection-start-line="491" selection-start-column="0" selection-end-line="491" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#32515#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#3248#3365#0" expanded="false" />
-            <element signature="e#3364#3365#0" expanded="false" />
-            <element signature="e#3908#3909#0" expanded="false" />
-            <element signature="e#3937#3938#0" expanded="false" />
-            <element signature="e#4185#4186#0" expanded="false" />
-            <element signature="e#4229#4230#0" expanded="false" />
-            <element signature="e#4270#4271#0" expanded="false" />
-            <element signature="e#4303#4304#0" expanded="false" />
-            <element signature="e#4365#4366#0" expanded="false" />
-            <element signature="e#4413#4414#0" expanded="false" />
-            <element signature="e#4770#4771#0" expanded="false" />
-            <element signature="e#4807#4808#0" expanded="false" />
-            <element signature="e#4875#4876#0" expanded="false" />
-            <element signature="e#4927#4928#0" expanded="false" />
-            <element signature="e#4974#4975#0" expanded="false" />
-            <element signature="e#5002#5003#0" expanded="false" />
-            <element signature="e#5059#5060#0" expanded="false" />
-            <element signature="e#5093#5094#0" expanded="false" />
-            <element signature="e#5567#5568#0" expanded="false" />
-            <element signature="e#5619#5620#0" expanded="false" />
-            <element signature="e#5968#5969#0" expanded="false" />
-            <element signature="e#6021#6022#0" expanded="false" />
-            <element signature="e#6446#6447#0" expanded="false" />
-            <element signature="e#6504#6505#0" expanded="false" />
-            <element signature="e#6562#6563#0" expanded="false" />
-            <element signature="e#6613#6614#0" expanded="false" />
-            <element signature="e#6664#6665#0" expanded="false" />
-            <element signature="e#6713#6714#0" expanded="false" />
-            <element signature="e#6767#6768#0" expanded="false" />
-            <element signature="e#6818#6819#0" expanded="false" />
-            <element signature="e#7186#7187#0" expanded="false" />
-            <element signature="e#7239#7240#0" expanded="false" />
-            <element signature="e#7307#7308#0" expanded="false" />
-            <element signature="e#7362#7363#0" expanded="false" />
-            <element signature="e#8081#8082#0" expanded="false" />
-            <element signature="e#8135#8136#0" expanded="false" />
-            <element signature="e#8205#8206#0" expanded="false" />
-            <element signature="e#8261#8262#0" expanded="false" />
-            <element signature="e#9194#9195#0" expanded="false" />
-            <element signature="e#9253#9254#0" expanded="false" />
-            <element signature="e#9290#9291#0" expanded="false" />
-            <element signature="e#9340#9341#0" expanded="false" />
-            <element signature="e#9379#9380#0" expanded="false" />
-            <element signature="e#9424#9425#0" expanded="false" />
-            <element signature="e#9507#9513#0" expanded="false" />
-            <element signature="e#9850#9851#0" expanded="false" />
-            <element signature="e#9905#9906#0" expanded="false" />
-            <element signature="e#9949#9950#0" expanded="false" />
-            <element signature="e#10008#10009#0" expanded="false" />
-            <element signature="e#10051#10052#0" expanded="false" />
-            <element signature="e#10109#10110#0" expanded="false" />
-            <element signature="e#10161#10162#0" expanded="false" />
-            <element signature="e#10224#10225#0" expanded="false" />
-            <element signature="e#10286#10287#0" expanded="false" />
-            <element signature="e#10352#10353#0" expanded="false" />
-            <element signature="e#10684#10685#0" expanded="false" />
-            <element signature="e#10762#10763#0" expanded="false" />
-            <element signature="e#10798#10799#0" expanded="false" />
-            <element signature="e#10854#10855#0" expanded="false" />
-            <element signature="e#10899#10900#0" expanded="false" />
-            <element signature="e#10944#10945#0" expanded="false" />
-            <element signature="e#10975#10976#0" expanded="false" />
-            <element signature="e#11023#11024#0" expanded="false" />
-            <element signature="e#11081#11082#0" expanded="false" />
-            <element signature="e#11143#11144#0" expanded="false" />
-            <element signature="e#11327#11328#0" expanded="false" />
-            <element signature="e#11392#11393#0" expanded="false" />
-            <element signature="e#12084#12085#0" expanded="false" />
-            <element signature="e#12132#12133#0" expanded="false" />
-            <element signature="e#12170#12171#0" expanded="false" />
-            <element signature="e#12225#12226#0" expanded="false" />
-            <element signature="e#12375#12376#0" expanded="false" />
-            <element signature="e#12431#12432#0" expanded="false" />
-            <element signature="e#12466#12467#0" expanded="false" />
-            <element signature="e#12513#12514#0" expanded="false" />
-            <element signature="e#12555#12556#0" expanded="false" />
-            <element signature="e#12601#12602#0" expanded="false" />
-            <element signature="e#12635#12636#0" expanded="false" />
-            <element signature="e#12688#12689#0" expanded="false" />
-            <element signature="e#12739#12740#0" expanded="false" />
-            <element signature="e#12818#12819#0" expanded="false" />
-            <element signature="e#12851#12852#0" expanded="false" />
-            <element signature="e#12903#12904#0" expanded="false" />
-            <element signature="e#12953#12954#0" expanded="false" />
-            <element signature="e#13031#13032#0" expanded="false" />
-            <element signature="e#13065#13066#0" expanded="false" />
-            <element signature="e#13118#13119#0" expanded="false" />
-            <element signature="e#13169#13170#0" expanded="false" />
-            <element signature="e#13248#13249#0" expanded="false" />
-            <element signature="e#13282#13283#0" expanded="false" />
-            <element signature="e#13330#13331#0" expanded="false" />
-            <element signature="e#13381#13382#0" expanded="false" />
-            <element signature="e#13455#13456#0" expanded="false" />
-            <element signature="e#13840#13841#0" expanded="false" />
-            <element signature="e#13894#13895#0" expanded="false" />
-            <element signature="e#14073#14074#0" expanded="false" />
-            <element signature="e#14125#14126#0" expanded="false" />
-            <element signature="e#14306#14307#0" expanded="false" />
-            <element signature="e#14356#14357#0" expanded="false" />
-            <element signature="e#14776#14777#0" expanded="false" />
-            <element signature="e#14845#14846#0" expanded="false" />
-            <element signature="e#15073#15074#0" expanded="false" />
-            <element signature="e#15153#15154#0" expanded="false" />
-            <element signature="e#15211#15212#0" expanded="false" />
-            <element signature="e#15277#15278#0" expanded="false" />
-            <element signature="e#15319#15320#0" expanded="false" />
-            <element signature="e#15367#15368#0" expanded="false" />
-            <element signature="e#15426#15427#0" expanded="false" />
-            <element signature="e#15484#15485#0" expanded="false" />
-            <element signature="e#15548#15549#0" expanded="false" />
-            <element signature="e#15610#15611#0" expanded="false" />
-            <element signature="e#15958#15959#0" expanded="false" />
-            <element signature="e#16021#16022#0" expanded="false" />
-            <element signature="e#17050#17051#0" expanded="false" />
-            <element signature="e#17109#17110#0" expanded="false" />
-            <element signature="e#17772#17773#0" expanded="false" />
-            <element signature="e#17832#17833#0" expanded="false" />
-            <element signature="e#18175#18176#0" expanded="false" />
-            <element signature="e#18202#18203#0" expanded="false" />
-            <element signature="e#18242#18243#0" expanded="false" />
-            <element signature="e#18274#18275#0" expanded="false" />
-            <element signature="e#19170#19171#0" expanded="false" />
-            <element signature="e#19201#19202#0" expanded="false" />
-            <element signature="e#19257#19258#0" expanded="false" />
-            <element signature="e#19312#19313#0" expanded="false" />
-            <element signature="e#19355#19356#0" expanded="false" />
-            <element signature="e#19388#19389#0" expanded="false" />
-            <element signature="e#19612#19613#0" expanded="false" />
-            <element signature="e#19666#19667#0" expanded="false" />
-            <element signature="e#19713#19714#0" expanded="false" />
-            <element signature="e#19769#19770#0" expanded="false" />
-            <element signature="e#19844#19845#0" expanded="false" />
-            <element signature="e#19914#19915#0" expanded="false" />
-            <element signature="e#22696#22697#0" expanded="false" />
-            <element signature="e#22748#22749#0" expanded="false" />
-            <element signature="e#22802#22803#0" expanded="false" />
-            <element signature="e#22861#22862#0" expanded="false" />
-            <element signature="e#22911#22912#0" expanded="false" />
-            <element signature="e#22968#22969#0" expanded="false" />
-            <element signature="e#23007#23008#0" expanded="false" />
-            <element signature="e#23055#23056#0" expanded="false" />
-            <element signature="e#23103#23104#0" expanded="false" />
-            <element signature="e#23153#23154#0" expanded="false" />
-            <element signature="e#28244#28245#0" expanded="false" />
-            <element signature="e#28297#28298#0" expanded="false" />
-            <element signature="e#28359#28360#0" expanded="false" />
-            <element signature="e#28402#28403#0" expanded="false" />
-            <element signature="e#28620#28621#0" expanded="false" />
-            <element signature="e#28672#28673#0" expanded="false" />
-            <element signature="e#28891#28892#0" expanded="false" />
-            <element signature="e#28947#28948#0" expanded="false" />
-            <element signature="e#30059#30060#0" expanded="false" />
-            <element signature="e#30121#30122#0" expanded="false" />
-            <element signature="e#31272#31273#0" expanded="false" />
-            <element signature="e#31329#31330#0" expanded="false" />
-            <element signature="e#31400#31401#0" expanded="false" />
-            <element signature="e#31457#31458#0" expanded="false" />
-            <element signature="e#31522#31523#0" expanded="false" />
-            <element signature="e#31576#31577#0" expanded="false" />
-            <element signature="e#31618#31619#0" expanded="false" />
-            <element signature="e#31675#31676#0" expanded="false" />
-            <element signature="e#31738#31739#0" expanded="false" />
-            <element signature="e#31803#31804#0" expanded="false" />
-            <element signature="e#31864#31865#0" expanded="false" />
-            <element signature="e#31929#31930#0" expanded="false" />
-            <element signature="e#32352#32353#0" expanded="false" />
-            <element signature="e#32403#32404#0" expanded="false" />
-            <element signature="e#32461#32462#0" expanded="false" />
-            <element signature="e#32511#32512#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1613,16 +1645,6 @@
           <caret line="197" column="30" selection-start-line="197" selection-start-column="30" selection-end-line="197" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#1811#1812#0" expanded="false" />
-            <element signature="e#1881#1882#0" expanded="false" />
-            <element signature="e#2177#2178#0" expanded="false" />
-            <element signature="e#2206#2207#0" expanded="false" />
-            <element signature="e#2237#2238#0" expanded="false" />
-            <element signature="e#2265#2266#0" expanded="false" />
-            <element signature="e#2295#2296#0" expanded="false" />
-            <element signature="e#2321#2322#0" expanded="false" />
-            <element signature="e#2373#2374#0" expanded="false" />
-            <element signature="e#2408#2409#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1631,112 +1653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="137" column="0" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37391#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5729#5730#0" expanded="false" />
-            <element signature="e#5764#5765#0" expanded="false" />
-            <element signature="e#6178#6186#0" expanded="false" />
-            <element signature="e#8292#8293#0" expanded="false" />
-            <element signature="e#8318#8319#0" expanded="false" />
-            <element signature="e#8369#8370#0" expanded="false" />
-            <element signature="e#8415#8416#0" expanded="false" />
-            <element signature="e#8482#8483#0" expanded="false" />
-            <element signature="e#8531#8532#0" expanded="false" />
-            <element signature="e#8771#8793#0" expanded="false" />
-            <element signature="e#10711#10712#0" expanded="false" />
-            <element signature="e#10740#10741#0" expanded="false" />
-            <element signature="e#10795#10796#0" expanded="false" />
-            <element signature="e#10832#10833#0" expanded="false" />
-            <element signature="e#10881#10882#0" expanded="false" />
-            <element signature="e#10906#10907#0" expanded="false" />
-            <element signature="e#10971#10972#0" expanded="false" />
-            <element signature="e#11005#11006#0" expanded="false" />
-            <element signature="e#11048#11049#0" expanded="false" />
-            <element signature="e#11077#11078#0" expanded="false" />
-            <element signature="e#11110#11111#0" expanded="false" />
-            <element signature="e#11175#11176#0" expanded="false" />
-            <element signature="e#12449#12450#0" expanded="false" />
-            <element signature="e#12487#12488#0" expanded="false" />
-            <element signature="e#12529#12530#0" expanded="false" />
-            <element signature="e#12566#12567#0" expanded="false" />
-            <element signature="e#15028#15029#0" expanded="false" />
-            <element signature="e#15076#15077#0" expanded="false" />
-            <element signature="e#15142#15143#0" expanded="false" />
-            <element signature="e#15191#15192#0" expanded="false" />
-            <element signature="e#15257#15258#0" expanded="false" />
-            <element signature="e#15313#15314#0" expanded="false" />
-            <element signature="e#16920#16921#0" expanded="false" />
-            <element signature="e#16971#16972#0" expanded="false" />
-            <element signature="e#17040#17041#0" expanded="false" />
-            <element signature="e#17092#17093#0" expanded="false" />
-            <element signature="e#17148#17149#0" expanded="false" />
-            <element signature="e#17192#17193#0" expanded="false" />
-            <element signature="e#17255#17256#0" expanded="false" />
-            <element signature="e#17300#17301#0" expanded="false" />
-            <element signature="e#17781#17782#0" expanded="false" />
-            <element signature="e#17819#17820#0" expanded="false" />
-            <element signature="e#20487#20488#0" expanded="false" />
-            <element signature="e#20538#20539#0" expanded="false" />
-            <element signature="e#20575#20576#0" expanded="false" />
-            <element signature="e#20617#20618#0" expanded="false" />
-            <element signature="e#20651#20652#0" expanded="false" />
-            <element signature="e#20690#20691#0" expanded="false" />
-            <element signature="e#20719#20720#0" expanded="false" />
-            <element signature="e#20764#20765#0" expanded="false" />
-            <element signature="e#20841#20842#0" expanded="false" />
-            <element signature="e#20877#20878#0" expanded="false" />
-            <element signature="e#20940#20941#0" expanded="false" />
-            <element signature="e#20966#20967#0" expanded="false" />
-            <element signature="e#21115#21116#0" expanded="false" />
-            <element signature="e#21143#21144#0" expanded="false" />
-            <element signature="e#23787#23788#0" expanded="false" />
-            <element signature="e#23855#23856#0" expanded="false" />
-            <element signature="e#23903#23904#0" expanded="false" />
-            <element signature="e#23933#23934#0" expanded="false" />
-            <element signature="e#23968#23969#0" expanded="false" />
-            <element signature="e#23993#23994#0" expanded="false" />
-            <element signature="e#24022#24023#0" expanded="false" />
-            <element signature="e#24044#24045#0" expanded="false" />
-            <element signature="e#25174#25175#0" expanded="false" />
-            <element signature="e#25203#25204#0" expanded="false" />
-            <element signature="e#25302#25303#0" expanded="false" />
-            <element signature="e#25333#25334#0" expanded="false" />
-            <element signature="e#25534#25535#0" expanded="false" />
-            <element signature="e#25615#25616#0" expanded="false" />
-            <element signature="e#25662#25663#0" expanded="false" />
-            <element signature="e#25711#25712#0" expanded="false" />
-            <element signature="e#25749#25750#0" expanded="false" />
-            <element signature="e#25804#25805#0" expanded="false" />
-            <element signature="e#27375#27376#0" expanded="false" />
-            <element signature="e#27416#27417#0" expanded="false" />
-            <element signature="e#27447#27448#0" expanded="false" />
-            <element signature="e#27498#27499#0" expanded="false" />
-            <element signature="e#27538#27539#0" expanded="false" />
-            <element signature="e#27577#27578#0" expanded="false" />
-            <element signature="e#28245#28246#0" expanded="false" />
-            <element signature="e#28300#28301#0" expanded="false" />
-            <element signature="e#31925#31926#0" expanded="false" />
-            <element signature="e#31991#31992#0" expanded="false" />
-            <element signature="e#32085#32086#0" expanded="false" />
-            <element signature="e#32129#32130#0" expanded="false" />
-            <element signature="e#32158#32159#0" expanded="false" />
-            <element signature="e#32205#32206#0" expanded="false" />
-            <element signature="e#32239#32240#0" expanded="false" />
-            <element signature="e#32261#32262#0" expanded="false" />
-            <element signature="e#32292#32293#0" expanded="false" />
-            <element signature="e#32330#32331#0" expanded="false" />
-            <element signature="e#32359#32360#0" expanded="false" />
-            <element signature="e#32403#32404#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/Execute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="79" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1748,36 +1664,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1360#1361#0" expanded="false" />
-            <element signature="e#1388#1389#0" expanded="false" />
-            <element signature="e#1501#1502#0" expanded="false" />
-            <element signature="e#1528#1529#0" expanded="false" />
-            <element signature="e#1578#1579#0" expanded="false" />
-            <element signature="e#1611#1612#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/elements/FileInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="22" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#0#1669#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1419#1420#0" expanded="false" />
+            <element signature="e#1473#1474#0" expanded="false" />
+            <element signature="e#1531#1532#0" expanded="false" />
+            <element signature="e#1587#1588#0" expanded="false" />
+            <element signature="e#1633#1634#0" expanded="false" />
+            <element signature="e#1665#1666#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UrlFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1724138">
+        <state vertical-scroll-proportion="0.0">
           <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#7685#0" expanded="false" />
+            <element signature="e#2731#2732#0" expanded="false" />
+            <element signature="e#2783#2784#0" expanded="false" />
+            <element signature="e#3727#3728#0" expanded="false" />
+            <element signature="e#3786#3787#0" expanded="false" />
+            <marker date="1469002860685" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1785,29 +1699,8 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="293" column="27" selection-start-line="293" selection-start-column="15" selection-end-line="293" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#9263#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#9040#9041#0" expanded="true" />
-            <element signature="e#9064#9065#0" expanded="true" />
-            <element signature="e#9117#9118#0" expanded="true" />
-            <element signature="e#9152#9153#0" expanded="true" />
-            <element signature="e#9198#9199#0" expanded="true" />
-            <element signature="e#9259#9260#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/storage/Storage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1326#1327#0" expanded="true" />
-            <element signature="e#1378#1379#0" expanded="true" />
-          </folding>
+          <caret line="294" column="27" selection-start-line="294" selection-start-column="15" selection-end-line="294" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1815,7 +1708,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="116" column="6" selection-start-line="116" selection-start-column="6" selection-end-line="116" selection-end-column="6" />
-          <folding />
+          <folding>
+            <element signature="e#0#44301#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4658#4659#0" expanded="false" />
+            <element signature="e#4684#4685#0" expanded="false" />
+            <element signature="e#4861#4862#0" expanded="false" />
+            <element signature="e#4901#4902#0" expanded="false" />
+            <element signature="e#5597#5598#0" expanded="false" />
+            <element signature="e#5635#5636#0" expanded="false" />
+            <element signature="e#44092#44093#0" expanded="false" />
+            <element signature="e#44139#44140#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1830,19 +1734,284 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5632#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.66775775">
-          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-support/2.53.0/selenium-support-2.53.0-sources.jar!/org/openqa/selenium/support/ui/Sleeper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+          <folding>
+            <element signature="e#1197#1198#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/actions/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+          <folding>
+            <element signature="e#2572#2573#0" expanded="true" />
+            <element signature="e#2650#2651#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-support/2.53.0/selenium-support-2.53.0-sources.jar!/org/openqa/selenium/support/ui/FluentWait.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="232" column="15" selection-start-line="232" selection-start-column="15" selection-end-line="232" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-support/2.53.0/selenium-support-2.53.0-sources.jar!/org/openqa/selenium/support/ui/ExpectedConditions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="677" column="46" selection-start-line="677" selection-start-column="46" selection-end-line="677" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElements.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1034483">
+          <caret line="230" column="12" selection-start-line="230" selection-start-column="12" selection-end-line="231" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#10130#0" expanded="true" />
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2578#2579#0" expanded="true" />
+            <element signature="e#2628#2629#0" expanded="true" />
+            <element signature="e#2661#2662#0" expanded="true" />
+            <element signature="e#9662#9663#0" expanded="true" />
+            <element signature="e#9722#9723#0" expanded="true" />
+            <element signature="e#9777#9778#0" expanded="true" />
+            <element signature="e#9815#9816#0" expanded="true" />
+            <element signature="e#10060#10061#0" expanded="true" />
+            <element signature="e#10126#10127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/WaitingException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <folding>
+            <element signature="e#186#187#0" expanded="true" />
+            <element signature="e#216#217#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsDisplayException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/Waiting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1444#1445#0" expanded="true" />
+            <element signature="e#1474#1475#0" expanded="true" />
+            <element signature="e#1510#1511#0" expanded="true" />
+            <element signature="e#1544#1545#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/IsNotDisplayException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+          <folding>
+            <element signature="e#463#464#0" expanded="true" />
+            <element signature="e#524#525#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_80/src.zip!/java/lang/RuntimeException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_80/src.zip!/java/lang/Exception.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIObjectWait.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1178#1443#0" expanded="true" />
+            <element signature="e#1442#1443#0" expanded="true" />
+            <element signature="e#2224#2488#0" expanded="true" />
+            <element signature="e#2487#2488#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Page.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+          <folding>
+            <element signature="e#1099#1100#0" expanded="true" />
+            <element signature="e#1184#1185#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.827586">
+          <caret line="298" column="5" selection-start-line="298" selection-start-column="5" selection-end-line="298" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/MetaInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="33" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/lifecycle/Execute.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/Then.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="e#815#816#0" expanded="true" />
+            <element signature="e#851#852#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/GetValueAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/AbstractUIObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="36" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2224#2225#0" expanded="true" />
+            <element signature="e#2283#2284#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="22" selection-start-line="51" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlUIObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.965517">
+          <caret line="47" column="41" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
+          <folding>
+            <element signature="e#1372#1373#0" expanded="true" />
+            <element signature="e#1440#1441#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/Browser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.4571428">
+          <caret line="905" column="47" selection-start-line="905" selection-start-column="47" selection-end-line="905" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#31331#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#4119#4120#0" expanded="true" />
+            <element signature="e#4163#4164#0" expanded="true" />
+            <element signature="e#4204#4205#0" expanded="true" />
+            <element signature="e#4237#4238#0" expanded="true" />
+            <element signature="e#4299#4300#0" expanded="true" />
+            <element signature="e#4347#4348#0" expanded="true" />
+            <element signature="e#4704#4705#0" expanded="true" />
+            <element signature="e#4741#4742#0" expanded="true" />
+            <element signature="e#4809#4810#0" expanded="true" />
+            <element signature="e#4861#4862#0" expanded="true" />
+            <element signature="e#4908#4909#0" expanded="true" />
+            <element signature="e#4936#4937#0" expanded="true" />
+            <element signature="e#4993#4994#0" expanded="true" />
+            <element signature="e#5027#5028#0" expanded="true" />
+            <element signature="e#5501#5502#0" expanded="true" />
+            <element signature="e#5553#5554#0" expanded="true" />
+            <element signature="e#5902#5903#0" expanded="true" />
+            <element signature="e#5955#5956#0" expanded="true" />
+            <element signature="e#6363#6364#0" expanded="true" />
+            <element signature="e#6412#6413#0" expanded="true" />
+            <element signature="e#7271#7272#0" expanded="true" />
+            <element signature="e#7327#7328#0" expanded="true" />
+            <element signature="e#8385#8386#0" expanded="true" />
+            <element signature="e#8430#8431#0" expanded="true" />
+            <element signature="e#8513#8519#0" expanded="true" />
+            <element signature="e#9292#9293#0" expanded="true" />
+            <element signature="e#9358#9359#0" expanded="true" />
+            <element signature="e#10087#10088#0" expanded="true" />
+            <element signature="e#10149#10150#0" expanded="true" />
+            <element signature="e#10333#10334#0" expanded="true" />
+            <element signature="e#10398#10399#0" expanded="true" />
+            <element signature="e#11176#11177#0" expanded="true" />
+            <element signature="e#11231#11232#0" expanded="true" />
+            <element signature="e#12387#12388#0" expanded="true" />
+            <element signature="e#12461#12462#0" expanded="true" />
+            <element signature="e#12846#12847#0" expanded="true" />
+            <element signature="e#12900#12901#0" expanded="true" />
+            <element signature="e#13079#13080#0" expanded="true" />
+            <element signature="e#13131#13132#0" expanded="true" />
+            <element signature="e#13312#13313#0" expanded="true" />
+            <element signature="e#13362#13363#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

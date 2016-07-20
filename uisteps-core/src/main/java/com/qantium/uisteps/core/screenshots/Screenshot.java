@@ -26,7 +26,8 @@ import java.io.File;
 import java.io.InputStream;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.SCREENSHOTS_DIR;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 
 /**
  * @author Anton Solyankin

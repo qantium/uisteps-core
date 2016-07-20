@@ -18,7 +18,8 @@ package com.qantium.uisteps.core.properties;
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.lifecycle.Execute;
 import com.qantium.uisteps.core.utils.testrail.Action;
-import static org.apache.commons.lang3.StringUtils.*;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Contains settings that can be set before test running

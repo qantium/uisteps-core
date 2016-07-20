@@ -15,64 +15,95 @@
  */
 package com.qantium.uisteps.core.browser.wait;
 
-import com.google.common.base.Function;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 import javax.annotation.Nullable;
 
 /**
  * @author Anton Solyankin
  */
-public class UIObjectWait extends BrowserWait {
+public class UIObjectWait {//extends Waiting {
 
     private final UIObject uiObject;
 
     public UIObjectWait(UIObject uiObject) {
-        super(uiObject.inOpenedBrowser());
+       // super(uiObject.inOpenedBrowser());
         this.uiObject = uiObject;
     }
 
 
-    public void untilIsDisplayed() throws DisplayException {
+    public void untilIsDisplayed() throws IsNotDisplayException {
+
+        Waiting waiting = new Waiting() {
+            @Override
+            public boolean until() {
+                try {
+                    return uiObject.isDisplayed();
+                } catch (Exception ex) {
+                     return false;
+                }
+            }
+        };
 
         try {
-            until(new ExpectedCondition<Boolean>() {
-                @Nullable
-                @Override
-                public Boolean apply(WebDriver driver) {
-                    try {
-                        return uiObject.isDisplayed();
-                    } catch (Exception ex) {
-                        return false;
-                    }
-                }
-            });
-
-        } catch (Exception ex) {
-            throw new DisplayException(uiObject, ex);
+            waiting.applay();
+        } catch (WaitingException ex) {
+            throw new IsNotDisplayException(uiObject, ex);
         }
+
+//        try {
+//            until(new ExpectedCondition<Boolean>() {
+//                @Nullable
+//                @Override
+//                public Boolean apply(WebDriver driver) {
+//                    try {
+//                        return uiObject.isDisplayed();
+//                    } catch (Exception ex) {
+//                        return false;
+//                    }
+//                }
+//            });
+
+//        } catch (Exception ex) {
+//            throw new DisplayException(uiObject, ex);
+//        }
     }
 
-    public void untilIsNotDisplayed() throws DisplayException {
+    public void untilIsNotDisplayed() throws IsDisplayException {
+
+        Waiting waiting = new Waiting() {
+            @Override
+            public boolean until() {
+                try {
+                    return !uiObject.isDisplayed();
+                } catch (Exception ex) {
+                    return true;
+                }
+            }
+        };
+
         try {
-            until(new ExpectedCondition<Boolean>() {
-                @Nullable
-                @Override
-                public Boolean apply(WebDriver driver) {
-                    try {
-                        return !uiObject.isDisplayed();
-                    } catch (Exception ex) {
-                        return true;
-                    }
-                }
-            });
-        } catch (Exception ex) {
-            throw new NotDisplayException(uiObject, ex);
+            waiting.applay();
+        } catch (WaitingException ex) {
+            throw new IsDisplayException(uiObject, ex);
         }
-    }
 
+////        try {
+//            until(new ExpectedCondition<Boolean>() {
+//                @Nullable
+//                @Override
+//                public Boolean apply(WebDriver driver) {
+//                    try {
+//                        return !uiObject.isDisplayed();
+//                    } catch (Exception ex) {
+//                        return true;
+//                    }
+//                }
+//            });
+//        } catch (Exception ex) {
+//            throw new NotDisplayException(uiObject, ex);
+//        }
+    }
 }

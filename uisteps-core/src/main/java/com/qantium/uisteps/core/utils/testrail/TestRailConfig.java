@@ -3,14 +3,13 @@ package com.qantium.uisteps.core.utils.testrail;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.utils.data.Data;
 
-import static org.apache.commons.lang3.StringUtils.*;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Created by Anton Solyankin

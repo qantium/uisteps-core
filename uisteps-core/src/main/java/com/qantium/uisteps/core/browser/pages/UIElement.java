@@ -6,15 +6,9 @@ import com.qantium.uisteps.core.utils.zk.ZK;
 import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
  * @author Anton Solyankin

@@ -39,9 +39,7 @@ public interface UIObject extends Named, SearchContext {
 
     Browser inOpenedBrowser();
 
-     <T extends UIObject> Then<T> then(Class<T> uiObject);
-
-    <T> Then<T> then(T value);
+    <T extends UIObject> Then<T> then(Class<T> uiObject);
 
     void waitUntilIsDisplayed();
 
