@@ -16,20 +16,15 @@
 package com.qantium.uisteps.core.browser.wait;
 
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
-import javax.annotation.Nullable;
 
 /**
  * @author Anton Solyankin
  */
-public class UIObjectWait {//extends Waiting {
+public class Wait {
 
     private final UIObject uiObject;
 
-    public UIObjectWait(UIObject uiObject) {
-       // super(uiObject.inOpenedBrowser());
+    public Wait(UIObject uiObject) {
         this.uiObject = uiObject;
     }
 
@@ -48,27 +43,10 @@ public class UIObjectWait {//extends Waiting {
         };
 
         try {
-            waiting.applay();
+            waiting.apply();
         } catch (WaitingException ex) {
             throw new IsNotDisplayException(uiObject, ex);
         }
-
-//        try {
-//            until(new ExpectedCondition<Boolean>() {
-//                @Nullable
-//                @Override
-//                public Boolean apply(WebDriver driver) {
-//                    try {
-//                        return uiObject.isDisplayed();
-//                    } catch (Exception ex) {
-//                        return false;
-//                    }
-//                }
-//            });
-
-//        } catch (Exception ex) {
-//            throw new DisplayException(uiObject, ex);
-//        }
     }
 
     public void untilIsNotDisplayed() throws IsDisplayException {
@@ -85,25 +63,9 @@ public class UIObjectWait {//extends Waiting {
         };
 
         try {
-            waiting.applay();
+            waiting.apply();
         } catch (WaitingException ex) {
             throw new IsDisplayException(uiObject, ex);
         }
-
-////        try {
-//            until(new ExpectedCondition<Boolean>() {
-//                @Nullable
-//                @Override
-//                public Boolean apply(WebDriver driver) {
-//                    try {
-//                        return !uiObject.isDisplayed();
-//                    } catch (Exception ex) {
-//                        return true;
-//                    }
-//                }
-//            });
-//        } catch (Exception ex) {
-//            throw new NotDisplayException(uiObject, ex);
-//        }
     }
 }
