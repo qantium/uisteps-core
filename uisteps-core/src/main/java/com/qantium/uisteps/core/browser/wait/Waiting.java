@@ -1,15 +1,13 @@
 package com.qantium.uisteps.core.browser.wait;
 
-import com.qantium.uisteps.core.browser.Browser;
-
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
- * Created by Solan on 23.03.2016.
+ * Created by Anton Solyankin
  */
-public abstract class Waiting {// extends FluentWait<WebDriver> {
+public abstract class Waiting {
 
     private long timeout;
     private long pollingTime;
@@ -24,10 +22,6 @@ public abstract class Waiting {// extends FluentWait<WebDriver> {
                 Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)),
                 Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING))
         );
-        //super(browser.getDriver());
-//        long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-//        long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
-//        withTimeout(timeout, MILLISECONDS).pollingEvery(pollingTime, MILLISECONDS);
     }
 
     public Waiting withTimeout(long timeout) {
@@ -48,7 +42,7 @@ public abstract class Waiting {// extends FluentWait<WebDriver> {
         return pollingTime;
     }
 
-    public void applay() throws WaitingException {
+    public void apply() throws WaitingException {
         long counter = 0;
         while (counter <= getTimeout()) {
             if (until()) return;

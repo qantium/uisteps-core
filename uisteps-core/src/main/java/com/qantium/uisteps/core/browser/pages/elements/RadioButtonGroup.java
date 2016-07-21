@@ -102,10 +102,16 @@ public class RadioButtonGroup extends UIElement implements Fillable {
 
     public class RadioButton extends UIElement {
 
+        private final WebElement wrappedElement;
         private Integer index = null;
 
         public RadioButton(WebElement wrappedElement) {
-            setWrappedElement(wrappedElement);
+            this.wrappedElement = wrappedElement;
+        }
+
+        @Override
+        public WebElement getWrappedElement() {
+            return wrappedElement;
         }
 
         public void setIndex(Integer index) {

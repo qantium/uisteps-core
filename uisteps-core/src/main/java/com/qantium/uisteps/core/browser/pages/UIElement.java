@@ -16,31 +16,11 @@ import java.util.Objects;
 @NotInit
 public class UIElement extends HtmlUIObject implements WrapsElement {
 
-    private WebElement wrappedElement;
     private By locator;
     private UIObject context;
 
-    /**
-     * Internal method
-     *
-     * @param wrappedElement WebElement that will be wrapped
-     * @throws IllegalStateException if wrappedElement is already set
-     */
-    public <T extends UIElement> T setWrappedElement(WebElement wrappedElement) throws IllegalStateException {
-
-        if (this.wrappedElement != null) {
-            throw new IllegalStateException("WrappedElement is already set to " + this);
-        }
-        this.wrappedElement = wrappedElement;
-        return (T) this;
-    }
-
     @Override
     public WebElement getWrappedElement() {
-
-        if (wrappedElement != null) {
-            return wrappedElement;
-        }
 
         if (getLocator() != null) {
             return getSearchContext().findElement(getLocator());
@@ -280,12 +260,12 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
         return inOpenedBrowser().getMiddlePositionOf(this);
     }
 
-    public Point getRelativePositionOf(UIElement target) {
-        return inOpenedBrowser().getRelativePositionOf(this, target);
+    public Point getRelativePositionOf(UIElement element) {
+        return inOpenedBrowser().getRelativePositionOf(this, element);
     }
 
-    public Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
-        return inOpenedBrowser().getRelativeMiddlePositionOf(this, target);
+    public Point getRelativeMiddlePositionOf(UIElement element) {
+        return inOpenedBrowser().getRelativeMiddlePositionOf(this, element);
     }
 
     public Dimension getSize() {

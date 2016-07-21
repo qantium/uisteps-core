@@ -17,8 +17,6 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.actions.Click;
 import com.qantium.uisteps.core.browser.actions.EnterInto;
-import com.qantium.uisteps.core.browser.context.Context;
-import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
 import com.qantium.uisteps.core.browser.pages.elements.FileInput;
@@ -30,6 +28,7 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
 import com.qantium.uisteps.core.browser.wait.*;
+import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
@@ -39,22 +38,19 @@ import com.qantium.uisteps.core.then.OnDisplayedAction;
 import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.security.UserAndPassword;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
+import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 
 /**
  * @author Anton Solyankin
@@ -64,11 +60,10 @@ public class Browser implements SearchContext {
     private WebDriver driver;
     private String name;
     private WindowManager windowManager;
-    private LocatorFactory locatorFactory = new LocatorFactory();
     private UrlFactory urlFactory = new UrlFactory();
+    private UIObjectFactory uiObjectFactory = new UIObjectFactory(this);
     private BrowserMobProxyServer proxy;
     private Photographer photographer;
-
 
     public Browser() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -135,14 +130,6 @@ public class Browser implements SearchContext {
         return photographer;
     }
 
-    public LocatorFactory getLocatorFactory() {
-        return locatorFactory;
-    }
-
-    public void setLocatorFactory(LocatorFactory locatorFactory) {
-        this.locatorFactory = locatorFactory;
-    }
-
     public BrowserMobProxyServer getProxy() {
         return proxy;
     }
@@ -161,7 +148,12 @@ public class Browser implements SearchContext {
         }
     }
 
-    public Page openUrl(String url, String... params) {
+    //Open
+    public Page openUrl(String url) {
+        return openUrl(url, null);
+    }
+
+    public Page openUrl(String url, String[] params) {
         try {
             return open(new Url(url), params);
         } catch (MalformedURLException ex) {
@@ -169,39 +161,53 @@ public class Browser implements SearchContext {
         }
     }
 
-    public Page open(Url url, String... params) {
-        return open(new Page(), url, params);
+    public Page open(Url url) {
+        return open(url, null);
     }
 
-    public <T extends Page> T open(Class<T> page, Url url, String... params) {
-        return open(instatiate(page), url, params);
+    public Page open(Url url, String[] params) {
+        return open(Page.class, url, params);
     }
 
-    public <T extends Page> T open(T page, Url url, String... params) {
-        page.setUrl(url);
-        return open(page, params);
+    public <T extends Page> T open(Class<T> page, Url url) {
+        return open(page, url, null);
     }
 
-    public <T extends Page> T open(Class<T> page, String... params) {
-        return open(instatiate(page), params);
+    public <T extends Page> T open(Class<T> page, String[] params) {
+        return open(page, null, params);
     }
 
-    public <T extends Page> T open(T page, String... params) {
-        Url url = getUrlFactory().getUrlOf(page, params);
-        page.setUrl(url);
-        return openPage(page);
+    public <T extends Page> T open(Class<T> page, Url url, String[] params) {
+        T pageInstance = uiObjectFactory.get(page);
+
+        if(url != null) {
+            pageInstance.setUrl(url);
+        }
+
+        if(!isEmpty(params)) {
+            Url withParams = getUrlFactory().getUrlOf(page, params);
+            pageInstance.setUrl(withParams);
+        }
+
+        return open(page);
     }
 
-    public <T extends Page> T openPage(T page) {
-        getDriver().get(page.getUrl().toString());
-        init(page, null, null);
+    public <T extends Page> T open(Class<T> page) {
+        T pageInstance = uiObjectFactory.get(page);
+        return open(pageInstance);
+    }
+
+    public  <T extends Page> T open(T page) {
+        Url url = page.getUrl();
+        getDriver().get(url.toString());
+        page.afterInitialization();
         return page;
     }
 
     //Wait
 
-    public UIObjectWait wait(UIObject uiObject) {
-        return new UIObjectWait(uiObject);
+    public Wait wait(UIObject uiObject) {
+        return new Wait(uiObject);
     }
 
     public boolean isDisplayed(UIObject uiObject) {
@@ -701,34 +707,25 @@ public class Browser implements SearchContext {
         fileInput.getWrappedFileInput().setFileToUpload(filePath);
     }
 
-    public <T extends UIObject> T instatiate(Class<T> uiObject) {
-
-        try {
-            return ConstructorUtils.invokeConstructor(uiObject);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
-            throw new RuntimeException("Cannot instantiate " + uiObject, ex);
-        }
-    }
-
     //Alert
     public Alert getDisplayedAlert() {
-        return init(Alert.class, null, null);
+        return uiObjectFactory.get(Alert.class);
     }
 
     public ConfirmAlert getDisplayedConfirmAlert() {
-        return init(ConfirmAlert.class, null, null);
+        return uiObjectFactory.get(ConfirmAlert.class);
     }
 
     public PromtAlert getDisplayedPromtAlert() {
-        return init(PromtAlert.class, null, null);
+        return uiObjectFactory.get(PromtAlert.class);
     }
 
     public void accept(Alert alert) {
         alert.getWrappedAlert().accept();
     }
 
-    public void dismiss(ConfirmAlert cofirm) {
-        cofirm.getWrappedAlert().dismiss();
+    public void dismiss(ConfirmAlert confirm) {
+        confirm.getWrappedAlert().dismiss();
     }
 
     public PromtAlert enterInto(PromtAlert promt, String text) {
@@ -741,130 +738,6 @@ public class Browser implements SearchContext {
         authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
     }
 
-    public <T extends UIObject> T init(Class<T> uiObject, UIObject context, By locator) {
-        return init(uiObject, context, locator, true);
-    }
-
-    public <T extends UIObject> T initWithoutAfterInitialization(Class<T> uiObject, UIObject context, By locator) {
-        return init(uiObject, context, locator, false);
-    }
-
-    private <T extends UIObject> T init(Class<T> uiObject, UIObject context, By locator, boolean afterInitialization) {
-        return init(instatiate(uiObject), context, locator, afterInitialization);
-    }
-
-    public <T extends UIObject> T init(T uiObject, UIObject context, By locator) {
-        return init(uiObject, context, locator, true);
-    }
-
-    public <T extends UIObject> T initWithoutAfterInitialization(T uiObject, UIObject context, By locator) {
-        return init(uiObject, context, locator, false);
-    }
-
-    private <T extends UIObject> T init(T uiObject, UIObject context, By locator, boolean afterInitialization) {
-
-        uiObject.setBrowser(this);
-
-        if (uiObject instanceof UIElement) {
-            UIElement uiElement = (UIElement) uiObject;
-
-            if (context == null && uiObject.getClass().isAnnotationPresent(Context.class)) {
-                context = getContext(uiObject.getClass().getAnnotation(Context.class));
-            }
-
-            if (locator == null) {
-                locator = getLocator(uiElement);
-            }
-
-            uiElement.setContext(context);
-            uiElement.setLocator(locator);
-        }
-
-        if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
-
-            try {
-
-                for (Field field : getUIObjectFields(uiObject)) {
-
-                    if (field.get(uiObject) == null) {
-                        UIElement uiElement = instatiate((Class<UIElement>) field.getType());
-
-                        uiElement.setName(NameConverter.humanize(field));
-                        field.set(uiObject, uiElement);
-                        UIObject fieldContext = uiObject;
-
-                        if (field.isAnnotationPresent(Context.class)) {
-                            fieldContext = getContext(field.getAnnotation(Context.class));
-                        } else if (field.isAnnotationPresent(UseContext.class)) {
-
-                            if (field.getClass().isAnnotationPresent(Context.class)) {
-                                fieldContext = getContext(field.getClass().getAnnotation(Context.class));
-                            } else {
-                                throw new RuntimeException("Context is not set for " + field);
-                            }
-                        }
-
-                        initWithoutAfterInitialization(uiElement, fieldContext, getLocatorFactory().getLocator(field));
-                    }
-                }
-            } catch (IllegalArgumentException | IllegalAccessException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-        if (afterInitialization) {
-            uiObject.afterInitialization();
-        }
-        return uiObject;
-    }
-
-    private By getLocator(UIElement uiElement) {
-        try {
-            return getLocatorFactory().getLocator(uiElement);
-        } catch (IllegalArgumentException ex) {
-            return null;
-        }
-    }
-
-    private UIObject getContext(Context context) {
-        Class<? extends UIObject> uiObject = context.value();
-        By contextLocator = null;
-
-        if (UIElement.class.isAssignableFrom(uiObject)) {
-            contextLocator = getContextLocator(context);
-        }
-
-        return init(uiObject, null, contextLocator);
-    }
-
-    private By getContextLocator(Context context) {
-        try {
-            return getLocatorFactory().getLocator(context.findBy());
-        } catch (IllegalArgumentException ex) {
-            return null;
-        }
-    }
-
-    private List<Field> getUIObjectFields(UIObject uiObject) throws IllegalArgumentException, IllegalAccessException {
-        return getUIObjectFields(uiObject.getClass(), new ArrayList());
-    }
-
-    private List<Field> getUIObjectFields(Class<?> uiObjectType, List<Field> fields) throws IllegalArgumentException, IllegalAccessException {
-
-        if (uiObjectType.isAnnotationPresent(NotInit.class)) {
-            return fields;
-        }
-
-        for (Field field : uiObjectType.getDeclaredFields()) {
-
-            if (!field.isAnnotationPresent(NotInit.class) && UIObject.class.isAssignableFrom(field.getType())) {
-                field.setAccessible(true);
-                fields.add(field);
-            }
-        }
-
-        return getUIObjectFields(uiObjectType.getSuperclass(), fields);
-    }
-
     //find
     public UIElement find(By locator) {
         return find(UIElement.class, locator);
@@ -875,7 +748,7 @@ public class Browser implements SearchContext {
     }
 
     public <T extends UIElement> T find(Class<T> uiObject, By locator) {
-        return init(instatiate(uiObject), null, locator);
+        return init(getInstanceOf(uiObject), null, locator);
     }
 
     public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
@@ -883,7 +756,7 @@ public class Browser implements SearchContext {
     }
 
     public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
-        return init(instatiate(uiObject), context, locator);
+        return init(getInstanceOf(uiObject), context, locator);
     }
 
     //find all
@@ -910,18 +783,20 @@ public class Browser implements SearchContext {
 
     //onDisplayed
     public <T extends UIObject> T onDisplayed(T uiObject) {
-        if (this.equals(uiObject.inOpenedBrowser())) {
-            return uiObject;
-        }
-        return init(uiObject, null, null);
-    }
+        T uiObjectInstance;
 
-    public <T extends UIElement> T onDisplayed(T uiObject, UIObject context) {
-        return onDisplayed(init(uiObject, context, null));
+        if(this.equals(uiObject.inOpenedBrowser())) {
+            uiObjectInstance = uiObject;
+        } else {
+            uiObjectInstance = uiObjectFactory.get((Class<T>) uiObject.getClass());
+        }
+        uiObjectInstance.afterInitialization();
+        return uiObjectInstance;
     }
 
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return onDisplayed(init(uiObject, null, null));
+        T uiObjectInstance = uiObjectFactory.get(uiObject);
+        return onDisplayed(uiObjectInstance);
     }
 
     public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {

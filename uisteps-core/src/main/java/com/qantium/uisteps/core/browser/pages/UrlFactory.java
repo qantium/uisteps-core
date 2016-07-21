@@ -16,8 +16,8 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.properties.UIStepsProperties;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.ArrayUtils.*;
+import static org.apache.commons.lang3.StringUtils.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +71,7 @@ public class UrlFactory {
 
     public Url getUrlOf(Page page, String[] params) {
 
-        if (!ArrayUtils.isEmpty(params)) {
+        if (!isEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
             parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
@@ -86,7 +86,7 @@ public class UrlFactory {
 
     public Url getUrlOf(Class<? extends Page> page, String[] params) {
 
-        if (!ArrayUtils.isEmpty(params)) {
+        if (!isEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
             parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
@@ -155,27 +155,27 @@ public class UrlFactory {
             String password = baseUrlAnnotation.password();
             String urlValue = baseUrlAnnotation.value();
             String[] urlParams = baseUrlAnnotation.params();
-            if (!StringUtils.isEmpty(protocol)) {
+            if (!isEmpty(protocol)) {
                 url.setProtocol(protocol);
             }
 
-            if (!StringUtils.isEmpty(host)) {
+            if (!isEmpty(host)) {
                 url.setHost(host);
             }
 
-            if (!StringUtils.isEmpty(user)) {
+            if (!isEmpty(user)) {
                 url.setUser(user);
             }
 
-            if (!StringUtils.isEmpty(password)) {
+            if (!isEmpty(password)) {
                 url.setPassword(password);
             }
 
-            if (!ArrayUtils.isEmpty(urlParams)) {
+            if (!isEmpty(urlParams)) {
                 parseParams(urlParams, params);
             }
 
-            if (!StringUtils.isEmpty(urlValue)) {
+            if (!isEmpty(urlValue)) {
                 if (urlValue.contains(HOST)) {
                     Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
                     Matcher matcher = pattern.matcher(urlValue);
@@ -185,11 +185,11 @@ public class UrlFactory {
                         
                         String postfix = matcher.group(2);
                         
-                        if (!StringUtils.isEmpty(prefix)) {
+                        if (!isEmpty(prefix)) {
                             url.prependPrefix(prefix);
                         }
 
-                        if (!StringUtils.isEmpty(postfix)) {
+                        if (!isEmpty(postfix)) {
                             url.appendPostfix(postfix);
                         }
                     }
@@ -199,19 +199,19 @@ public class UrlFactory {
             }
         }
 
-        if (StringUtils.isEmpty(url.getHost())) {
+        if (isEmpty(url.getHost())) {
             url.setHost(BASE_HOST);
         }
 
-        if (StringUtils.isEmpty(url.getProtocol())) {
+        if (isEmpty(url.getProtocol())) {
             url.setProtocol(BASE_PROTOCOL);
         }
 
-        if (StringUtils.isEmpty(url.getUser())) {
+        if (isEmpty(url.getUser())) {
             url.setUser(BASE_USER);
         }
 
-        if (StringUtils.isEmpty(url.getPassword())) {
+        if (isEmpty(url.getPassword())) {
             url.setPassword(BASE_PASSWORD);
         }
     }

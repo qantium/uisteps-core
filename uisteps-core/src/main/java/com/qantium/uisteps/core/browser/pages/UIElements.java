@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -38,6 +39,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable {
 
     private final Class<E> elementType;
+    private UIObjectFactory uiObjectFactory = new UIObjectFactory();
     private ArrayList<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
@@ -99,11 +101,9 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             return elements;
         } else {
             ArrayList<E> list = new ArrayList();
-            for (WebElement element : findElements(getLocator())) {
-                E uiElement = inOpenedBrowser().initWithoutAfterInitialization(getElementType(), getContext(), getLocator());
-                uiElement.setWrappedElement(element);
-                list.add(uiElement);
-            }
+            E uiElement = uiObjectFactory.get(getElementType(), getContext(), getLocator());
+            uiElement.setBrowser(inOpenedBrowser());
+            list.add(uiElement);
             return list;
         }
     }

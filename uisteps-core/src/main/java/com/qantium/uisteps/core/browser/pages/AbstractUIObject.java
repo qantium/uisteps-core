@@ -1,17 +1,14 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.UIObjectWait;
+import com.qantium.uisteps.core.browser.wait.Wait;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -57,33 +54,27 @@ public abstract class AbstractUIObject implements UIObject {
         return inOpenedBrowser().then(uiObject);
     }
 
-    @Override
-    public <T> Then<T> then(T value) {
-        return inOpenedBrowser().then(value);
-    }
-
-
-    public UIObjectWait wait(UIObject uiObject) {
+    public Wait wait(UIObject uiObject) {
         return inOpenedBrowser().wait(uiObject);
     }
 
-    public UIObjectWait wait(UIElement uiElement) {
+    public Wait wait(UIElement uiElement) {
         return inOpenedBrowser().wait(uiElement);
     }
 
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
+    public Wait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
         return inOpenedBrowser().wait(context, uiObject, by);
     }
 
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject) {
+    public Wait wait(UIObject context, Class<? extends UIObject> uiObject) {
         return inOpenedBrowser().wait(context, uiObject);
     }
 
-    public UIObjectWait wait(Class<? extends UIObject> uiObject, By by) {
+    public Wait wait(Class<? extends UIObject> uiObject, By by) {
         return inOpenedBrowser().wait(uiObject, by);
     }
 
-    public UIObjectWait wait(Class<? extends UIObject> uiObject) {
+    public Wait wait(Class<? extends UIObject> uiObject) {
         return inOpenedBrowser().wait(uiObject);
     }
 
