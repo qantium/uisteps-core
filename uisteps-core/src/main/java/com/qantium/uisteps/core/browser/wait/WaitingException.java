@@ -1,9 +1,9 @@
-package com.qantium.uisteps.core.browser.visibility;
+package com.qantium.uisteps.core.browser.wait;
 
 /**
  * Created by Anton Solyankin
  */
-public class WaitingException extends Exception {
+public class WaitingException extends RuntimeException {
 
     public WaitingException(String message) {
         super(message);

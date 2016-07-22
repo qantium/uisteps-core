@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.visibility;
+package com.qantium.uisteps.core.browser.wait;
 
-import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.Visible;
 
 /**
@@ -23,12 +22,17 @@ import com.qantium.uisteps.core.browser.pages.Visible;
  */
 public class Wait {
 
-    private final Visible uiObject;
+    private final Waiting waiting;
 
-    public Wait(Visible uiObject) {
-        this.uiObject = uiObject;
+
+
+    public Wait(Waiting waiting) {
+        this.waiting = waiting;
     }
 
+    public void applay() {
+        waiting.apply();
+    }
 
     public void untilIsDisplayed() throws IsNotDisplayException {
 

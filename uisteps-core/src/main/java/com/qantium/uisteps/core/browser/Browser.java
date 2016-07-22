@@ -27,7 +27,7 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.browser.visibility.*;
+import com.qantium.uisteps.core.browser.wait.*;
 import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Ignored;

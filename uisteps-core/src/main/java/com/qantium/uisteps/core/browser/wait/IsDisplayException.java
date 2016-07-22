@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.browser.visibility;
+package com.qantium.uisteps.core.browser.wait;
 
 import com.qantium.uisteps.core.browser.pages.Visible;
 
