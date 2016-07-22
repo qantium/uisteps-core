@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
+import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -26,8 +27,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  * Contains elements of one type
@@ -39,7 +39,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable {
 
     private final Class<E> elementType;
-    private UIObjectFactory uiObjectFactory = new UIObjectFactory();
+    private UIObjectFactory uiObjectFactory;
     private ArrayList<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
@@ -54,6 +54,12 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this(elementType);
         this.elements = new ArrayList();
         this.elements.addAll(elements);
+    }
+
+    @Override
+    public void setBrowser(Browser browser) {
+        super.setBrowser(browser);
+        this.uiObjectFactory = new UIObjectFactory(browser);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         } else {
             ArrayList<E> list = new ArrayList();
             E uiElement = uiObjectFactory.get(getElementType(), getContext(), getLocator());
-            uiElement.setBrowser(inOpenedBrowser());
+            uiElement.afterInitialization();
             list.add(uiElement);
             return list;
         }

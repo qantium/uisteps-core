@@ -147,12 +147,12 @@ public enum UIStepsProperty implements IUIStepsProperty {
      */
     WEBDRIVER_PROXY,
     /**
-     * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait in milliseconds
+     * Set "webdriver.timeouts.implicitlywait" to specify implicitly visibility in milliseconds
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT("3000"),
     /**
-     * Set "webdriver.timeouts.polling" to specify polling time in milliseconds for implicitly wait
+     * Set "webdriver.timeouts.polling" to specify polling time in milliseconds for implicitly visibility
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_POLLING("250"),

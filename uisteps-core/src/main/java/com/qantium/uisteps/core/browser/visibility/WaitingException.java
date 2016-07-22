@@ -1,7 +1,7 @@
-package com.qantium.uisteps.core.browser.wait;
+package com.qantium.uisteps.core.browser.visibility;
 
 /**
- * Created by Solan on 20.07.2016.
+ * Created by Anton Solyankin
  */
 public class WaitingException extends Exception {
 

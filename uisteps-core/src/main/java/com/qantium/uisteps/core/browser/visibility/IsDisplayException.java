@@ -1,9 +1,9 @@
-package com.qantium.uisteps.core.browser.wait;
+package com.qantium.uisteps.core.browser.visibility;
 
-import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.pages.Visible;
 
 /**
- * Created by SolAN on 22.03.2016.
+ * Created by Anton Solyankin
  */
 public class IsDisplayException extends RuntimeException {
 
@@ -15,7 +15,7 @@ public class IsDisplayException extends RuntimeException {
         super(message, cause);
     }
 
-    public IsDisplayException(UIObject uiObject, Throwable cause) {
+    public IsDisplayException(Visible uiObject, Throwable cause) {
         super(uiObject + " is displayed!", cause);
     }
 }

@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.TYPE})

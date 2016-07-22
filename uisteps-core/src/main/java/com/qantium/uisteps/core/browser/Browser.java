@@ -27,7 +27,7 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.browser.wait.*;
+import com.qantium.uisteps.core.browser.visibility.*;
 import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Ignored;
@@ -72,6 +72,10 @@ public class Browser implements SearchContext {
                 close();
             }
         });
+    }
+
+    public UIObjectFactory getUiObjectFactory() {
+        return uiObjectFactory;
     }
 
     public void setDriver(WebDriver driver) {
@@ -180,11 +184,11 @@ public class Browser implements SearchContext {
     public <T extends Page> T open(Class<T> page, Url url, String[] params) {
         T pageInstance = uiObjectFactory.get(page);
 
-        if(url != null) {
+        if (url != null) {
             pageInstance.setUrl(url);
         }
 
-        if(!isEmpty(params)) {
+        if (!isEmpty(params)) {
             Url withParams = getUrlFactory().getUrlOf(page, params);
             pageInstance.setUrl(withParams);
         }
@@ -197,7 +201,7 @@ public class Browser implements SearchContext {
         return open(pageInstance);
     }
 
-    public  <T extends Page> T open(T page) {
+    public <T extends Page> T open(T page) {
         Url url = page.getUrl();
         getDriver().get(url.toString());
         page.afterInitialization();
@@ -738,54 +742,11 @@ public class Browser implements SearchContext {
         authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
     }
 
-    //find
-    public UIElement find(By locator) {
-        return find(UIElement.class, locator);
-    }
-
-    public <T extends UIElement> T find(Class<T> uiObject) {
-        return find(uiObject, null);
-    }
-
-    public <T extends UIElement> T find(Class<T> uiObject, By locator) {
-        return init(getInstanceOf(uiObject), null, locator);
-    }
-
-    public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
-        return find(context, uiObject, null);
-    }
-
-    public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
-        return init(getInstanceOf(uiObject), context, locator);
-    }
-
-    //find all
-    public UIElements findAll(By locator) {
-        return findAll(UIElement.class, locator);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
-        return findAll(uiObject, getLocatorFactory().getLocator(uiObject));
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By locator) {
-        return findAll(null, uiObject, locator);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject) {
-        return findAll(context, uiObject, null);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject, By locator) {
-        UIElements<T> uiElements = new UIElements(uiObject);
-        return init(uiElements, context, locator);
-    }
-
     //onDisplayed
     public <T extends UIObject> T onDisplayed(T uiObject) {
         T uiObjectInstance;
 
-        if(this.equals(uiObject.inOpenedBrowser())) {
+        if (this.equals(uiObject.inOpenedBrowser())) {
             uiObjectInstance = uiObject;
         } else {
             uiObjectInstance = uiObjectFactory.get((Class<T>) uiObject.getClass());
@@ -794,37 +755,54 @@ public class Browser implements SearchContext {
         return uiObjectInstance;
     }
 
+    public UIElement onDisplayed(By locator) {
+        UIElement uiObjectInstance = uiObjectFactory.get(locator);
+        return onDisplayed(uiObjectInstance);
+    }
+
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
         T uiObjectInstance = uiObjectFactory.get(uiObject);
         return onDisplayed(uiObjectInstance);
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
-        return onDisplayed(init(uiObject, null, by));
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
+        T uiObjectInstance = uiObjectFactory.get(uiObject, locator);
+        return onDisplayed(uiObjectInstance);
     }
 
     public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
-        return onDisplayed(init(uiObject, context, null));
+        T uiObjectInstance = uiObjectFactory.get(uiObject, context);
+        return onDisplayed(uiObjectInstance);
     }
 
-    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By by) {
-        return onDisplayed(init(uiObject, context, by));
+    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By locator) {
+        T uiObjectInstance = uiObjectFactory.get(uiObject, context, locator);
+        return onDisplayed(uiObjectInstance);
+    }
+
+    public UIElements onDisplayedAll(By locator) {
+        UIElements uiElements = uiObjectFactory.getAll(locator);
+        return onDisplayed(uiElements);
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return onDisplayed(findAll(uiObject));
+        UIElements uiElements = uiObjectFactory.getAll(uiObject);
+        return onDisplayed(uiElements);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return onDisplayed(findAll(uiObject, by));
+    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By locator) {
+        UIElements uiElements = uiObjectFactory.getAll(uiObject, locator);
+        return onDisplayed(uiElements);
     }
 
     public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject) {
-        return onDisplayed(findAll(context, uiObject));
+        UIElements uiElements = uiObjectFactory.getAll(uiObject, context);
+        return onDisplayed(uiElements);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By by) {
-        return onDisplayed(findAll(context, uiObject, by));
+    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By locator) {
+        UIElements uiElements = uiObjectFactory.getAll(uiObject, context, locator);
+        return onDisplayed(uiElements);
     }
 
     //Screenshots

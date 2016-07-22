@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.qantium.uisteps.core.browser.wait;
+package com.qantium.uisteps.core.browser.visibility;
 
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.pages.Visible;
 
 /**
  * @author Anton Solyankin
  */
 public class Wait {
 
-    private final UIObject uiObject;
+    private final Visible uiObject;
 
-    public Wait(UIObject uiObject) {
+    public Wait(Visible uiObject) {
         this.uiObject = uiObject;
     }
 

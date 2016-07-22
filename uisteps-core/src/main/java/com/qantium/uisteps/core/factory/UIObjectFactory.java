@@ -6,6 +6,7 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.name.NameConverter;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -28,6 +29,32 @@ public class UIObjectFactory {
     public UIObjectFactory(Browser browser) {
         this.browser = browser;
         locatorFactory = new LocatorFactory();
+    }
+
+    public UIElements getAll(By locator) {
+        return getAll(UIElement.class, locator);
+    }
+
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
+        return getAll(uiObject, locatorFactory.getLocator(uiObject));
+    }
+
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
+        return getAll(uiObject, null, locator);
+    }
+
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, UIObject context) {
+        UIElements<T> uiElements = new UIElements(uiObject);
+        return get(uiElements, context, null);
+    }
+
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, UIObject context, By locator) {
+        UIElements<T> uiElements = new UIElements(uiObject);
+        return get(uiElements, context, locator);
+    }
+
+    public UIElement get(By locator) {
+        return get(UIElement.class, locator);
     }
 
     public <T extends UIObject> T get(Class<T> uiObject) {

@@ -23,27 +23,21 @@ import com.qantium.uisteps.core.then.Then;
 import org.openqa.selenium.SearchContext;
 
 /**
- * Any element (Page or UIElement) of user interface
+ * Any element (Page, UIElement or Alert) of user interface
  *
- * @author ASolyankin
+ * @author Anton Solyankin
  * @see com.qantium.uisteps.core.browser.pages.Page
  * @see com.qantium.uisteps.core.browser.pages.UIElement
  * @see com.qantium.uisteps.core.browser.pages.UIElements
  */
 @NotInit
-public interface UIObject extends Named, SearchContext {
-
-    boolean isDisplayed();
+public interface UIObject extends Named, SearchContext, Visible {
 
     void setBrowser(Browser browser);
 
     Browser inOpenedBrowser();
 
     <T extends UIObject> Then<T> then(Class<T> uiObject);
-
-    void waitUntilIsDisplayed();
-
-    void waitUntilIsNotDisplayed();
 
     void afterInitialization();
 

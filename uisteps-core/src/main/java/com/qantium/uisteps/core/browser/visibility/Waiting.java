@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.browser.wait;
+package com.qantium.uisteps.core.browser.visibility;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
