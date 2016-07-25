@@ -23,7 +23,7 @@ public abstract class Action<T> {
 
     private Object[] args;
 
-    public abstract <T> T execute();
+    public abstract <T> T apply();
 
     public Action<T> setArgs(Object... args) {
         this.args = args;

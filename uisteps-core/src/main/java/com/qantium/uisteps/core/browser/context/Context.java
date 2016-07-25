@@ -15,7 +15,7 @@
  */
 package com.qantium.uisteps.core.browser.context;
 
-import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.annotation.*;
@@ -29,7 +29,7 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Context {
 
-    Class<? extends UIObject> value();
+    Class<? extends HtmlObject> value();
 
     FindBy findBy() default @FindBy;
 }

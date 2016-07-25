@@ -1,16 +1,16 @@
 package com.qantium.uisteps.core.browser.actions;
 
-
-import com.qantium.uisteps.core.browser.pages.UIElement;
-
 /**
  * Created by Anton Solyankin
  */
-public class Click extends Action {
+
+import com.qantium.uisteps.core.browser.pages.UIElement;
+
+public class Clear extends Action {
 
     private final UIElement uiElement;
 
-    public Click(UIElement uiElement) {
+    public Clear(UIElement uiElement) {
         this.uiElement = uiElement;
     }
 

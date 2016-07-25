@@ -2,11 +2,8 @@ package com.qantium.uisteps.core.browser.pages.elements.alert;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
+import com.qantium.uisteps.core.browser.wait.AlertDisplayWaiting;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 
 /**
  * Created by Anton Solyankin
@@ -16,14 +13,10 @@ public class Alert extends AbstractUIObject {
 
     private org.openqa.selenium.Alert wrappedAlert;
 
+
     @Override
-    public boolean isDisplayed() {
-        try {
-            getText();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
+    protected Waiting getDisplayWaiting() {
+        return new AlertDisplayWaiting(this);
     }
 
     public void accept() {
@@ -32,16 +25,6 @@ public class Alert extends AbstractUIObject {
 
     public String getText() {
         return getWrappedAlert().getText();
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        return inOpenedBrowser().getDriver().findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return inOpenedBrowser().getDriver().findElement(by);
     }
 
     public org.openqa.selenium.Alert getWrappedAlert() {

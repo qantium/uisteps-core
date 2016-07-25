@@ -31,7 +31,7 @@ import org.openqa.selenium.SearchContext;
  * @see com.qantium.uisteps.core.browser.pages.UIElements
  */
 @NotInit
-public interface UIObject extends Named, SearchContext, Visible {
+public interface UIObject extends Named, Visible {
 
     void setBrowser(Browser browser);
 
@@ -40,8 +40,4 @@ public interface UIObject extends Named, SearchContext, Visible {
     <T extends UIObject> Then<T> then(Class<T> uiObject);
 
     void afterInitialization();
-
-    SearchContext getSearchContext();
-
-    Screenshot takeScreenshot();
 }

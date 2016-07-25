@@ -78,7 +78,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>testrail.status.codes</li>
  * <li>testrail.outcome.file</li>
  * <li>run.groups</li>
- * <li>storage.dir</li>
+ * <li>com.qantium.uisteps.core.storage.dir</li>
  * <li>retry.attempts</li>
  * <li>retry.delay</li>
  * </ul>

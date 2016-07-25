@@ -16,14 +16,22 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.PageDisplayWaiting;
+import com.qantium.uisteps.core.browser.wait.Waiting;
+import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
  * @author ASolyankin
  */
 @NotInit
 @Root
-public class Page extends HtmlUIObject {
+public class Page extends HtmlObject {
 
     private Url url = new Url();
 
@@ -40,8 +48,8 @@ public class Page extends HtmlUIObject {
     }
 
     @Override
-    public boolean isDisplayed() {
-        return executeScript("return document.readyState").equals("complete");
+    protected Waiting getDisplayWaiting() {
+        return new PageDisplayWaiting(this);
     }
 
     public <T extends Page> T setUrl(Url url) {
@@ -57,5 +65,25 @@ public class Page extends HtmlUIObject {
             pageUrl = inOpenedBrowser().getDriver().getCurrentUrl();
         }
         return getName() + " by url " + pageUrl;
+    }
+
+    @Override
+    public Screenshot takeScreenshot() {
+        return inOpenedBrowser().takeScreenshot();
+    }
+
+    @Override
+    public List<WebElement> findElements(By locator) {
+        return inOpenedBrowser().findElements(locator);
+    }
+
+    @Override
+    public WebElement findElement(By locator) {
+        return inOpenedBrowser().findElement(locator);
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        return inOpenedBrowser().getDriver();
     }
 }

@@ -2,19 +2,13 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.Wait;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.name.NameConverter;
-import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
- * Created by Solan on 02.02.2016.
+ * Created by Anton Solyankin
  */
 @NotInit
 public abstract class AbstractUIObject implements UIObject {
@@ -51,66 +45,45 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        new Then(uiObject);
         return inOpenedBrowser().then(uiObject);
-    }
-
-    public Wait wait(UIObject uiObject) {
-        return inOpenedBrowser().wait(uiObject);
-    }
-
-    public Wait wait(UIElement uiElement) {
-        return inOpenedBrowser().wait(uiElement);
-    }
-
-    public Wait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().wait(context, uiObject, by);
-    }
-
-    public Wait wait(UIObject context, Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().wait(context, uiObject);
-    }
-
-    public Wait wait(Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().wait(uiObject, by);
-    }
-
-    public Wait wait(Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().wait(uiObject);
-    }
-
-    @Override
-    public void waitUntilIsDisplayed() {
-        wait(this).untilIsDisplayed();
-    }
-
-    @Override
-    public void waitUntilIsNotDisplayed() {
-        wait(this).untilIsNotDisplayed();
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        return getSearchContext().findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return getSearchContext().findElement(by);
-    }
-
-    @Override
-    public SearchContext getSearchContext() {
-        return inOpenedBrowser().getDriver();
-    }
-
-    @Override
-    public Screenshot takeScreenshot() {
-        return inOpenedBrowser().takeScreenshot();
     }
 
     @Override
     public void afterInitialization() {
-        waitUntilIsDisplayed();
+        isDisplayed();
     }
+
+    @Override
+    public boolean isDisplayed() {
+        return getDisplayWaiting().perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed() {
+        return getDisplayWaiting().not().perform();
+    }
+
+    @Override
+    public boolean isDisplayed(long timeout) {
+        return getDisplayWaiting().withTimeout(timeout).perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed(long timeout) {
+        return getDisplayWaiting().withTimeout(timeout).not().perform();
+    }
+
+    @Override
+    public boolean isDisplayed(long timeout, long pollingTime) {
+        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed(long timeout, long pollingTime) {
+        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).not().perform();
+    }
+
+    protected abstract Waiting getDisplayWaiting();
 }
 

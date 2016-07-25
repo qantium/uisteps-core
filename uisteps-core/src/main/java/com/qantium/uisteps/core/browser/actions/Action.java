@@ -1,6 +1,5 @@
 package com.qantium.uisteps.core.browser.actions;
 
-import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import org.openqa.selenium.UnhandledAlertException;
 
@@ -9,26 +8,20 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
- * Created by Solan on 28.03.2016.
+ * Created by Anton Solyankin
  */
 public abstract class Action {
 
-    private final Browser browser;
     private int timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private int pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
     private int counter = 0;
     private int attempts = timeout / pollingTime;
 
-
-    public Action(Browser browser) {
-        this.browser = browser;
-    }
-
     public int getTimeout() {
         return timeout;
     }
 
-    public void setTimeout(int timeout) {
+    public void withTimeout(int timeout) {
         this.timeout = timeout;
     }
 
@@ -36,7 +29,7 @@ public abstract class Action {
         return pollingTime;
     }
 
-    public void setPollingTime(int pollingTime) {
+    public void pollingEvery(int pollingTime) {
         this.pollingTime = pollingTime;
     }
 
@@ -56,14 +49,14 @@ public abstract class Action {
         this.attempts = attempts;
     }
 
-    public void execute() throws ActionException {
+    public void perform() throws ActionException {
 
         ActionException exception = null;
 
         while (condition()) {
 
             try {
-                toExecute();
+                apply();
                 exception = null;
                 break;
             } catch (NoBrowserException | UnhandledAlertException ex) {
@@ -91,11 +84,7 @@ public abstract class Action {
         }
     }
 
-    public abstract void toExecute();
-
-    public Browser getBrowser() {
-        return browser;
-    }
+    protected abstract void apply();
 
     protected boolean condition() {
         return counter <= timeout && counter <= attempts * pollingTime;

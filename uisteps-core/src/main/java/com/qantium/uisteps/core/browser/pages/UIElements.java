@@ -42,6 +42,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     private UIObjectFactory uiObjectFactory;
     private ArrayList<E> elements;
 
+
+
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
         if (UIElements.class.isAssignableFrom(elementType)) {
@@ -342,11 +344,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     protected UIElements<E> getUIElements(List<E> elements) {
         return new UIElements(elementType, elements);
-    }
-
-    @Override
-    public void afterInitialization() {
-        waitUntilIsDisplayed();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class GetValueAction<T> extends Action<T> {
     }
     
     @Override
-    public T execute() {
+    public T apply() {
         return value;
     }
 }

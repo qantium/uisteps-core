@@ -1,7 +1,7 @@
 package com.qantium.uisteps.core.browser.actions;
 
 /**
- * Created by Solan on 28.03.2016.
+ * Created by Anton Solyankin
  */
 public class ActionException extends RuntimeException {
 

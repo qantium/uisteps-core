@@ -15,6 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.actions.Clear;
 import com.qantium.uisteps.core.browser.actions.Click;
 import com.qantium.uisteps.core.browser.actions.EnterInto;
 import com.qantium.uisteps.core.browser.pages.*;
@@ -27,15 +28,12 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.browser.wait.*;
+import com.qantium.uisteps.core.factory.IUIObjectFactory;
 import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
-import com.qantium.uisteps.core.then.GetValueAction;
-import com.qantium.uisteps.core.then.OnDisplayedAction;
-import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -55,7 +53,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 /**
  * @author Anton Solyankin
  */
-public class Browser implements SearchContext {
+public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory, SearchContext, WithSearchContext {
 
     private WebDriver driver;
     private String name;
@@ -74,18 +72,13 @@ public class Browser implements SearchContext {
         });
     }
 
-    public UIObjectFactory getUiObjectFactory() {
+    public UIObjectFactory getUIObjectFactory() {
         return uiObjectFactory;
     }
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager = new WindowManager(driver);
-    }
-
-    public WebElement getWrappedElement(UIElement element) {
-        wait(element).untilIsDisplayed();
-        return element.getWrappedElement();
     }
 
     public WindowManager getWindowManager() {
@@ -152,6 +145,16 @@ public class Browser implements SearchContext {
         }
     }
 
+    @Override
+    public List<WebElement> findElements(By locator) {
+        return getDriver().findElements(locator);
+    }
+
+    @Override
+    public WebElement findElement(By locator) {
+        return getDriver().findElement(locator);
+    }
+
     //Open
     public Page openUrl(String url) {
         return openUrl(url, null);
@@ -208,87 +211,12 @@ public class Browser implements SearchContext {
         return page;
     }
 
-    //Wait
-
-    public Wait wait(UIObject uiObject) {
-        return new Wait(uiObject);
-    }
-
-    public boolean isDisplayed(UIObject uiObject) {
-        try {
-            wait(uiObject).untilIsDisplayed();
-            return true;
-        } catch (IsNotDisplayException e) {
-            return false;
-        }
-    }
-
-    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        try {
-            wait(init(uiObject, context, by)).untilIsDisplayed();
-            return true;
-        } catch (IsNotDisplayException e) {
-            return false;
-        }
-    }
-
-    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject) {
-        return isDisplayed(context, uiObject, null);
-    }
-
-    public boolean isDisplayed(Class<? extends UIObject> uiObject, By by) {
-        return isDisplayed(null, uiObject, by);
-    }
-
-    public boolean isDisplayed(Class<? extends UIObject> uiObject) {
-        return isDisplayed(null, uiObject, null);
-    }
-
-    public boolean isNotDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        try {
-            wait(init(uiObject, context, by)).untilIsNotDisplayed();
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    public boolean isNotDisplayed(UIObject uiObject) {
-        try {
-            wait(uiObject).untilIsNotDisplayed();
-            return true;
-        } catch (IsDisplayException ex) {
-            return false;
-        }
-    }
-
-    public boolean isNotDisplayed(UIObject context, Class<? extends UIObject> uiObject) {
-        return isNotDisplayed(context, uiObject, null);
-    }
-
-    public boolean isNotDisplayed(Class<? extends UIObject> uiObject, By by) {
-        return isNotDisplayed(null, uiObject, by);
-    }
-
-    public boolean isNotDisplayed(Class<? extends UIObject> uiObject) {
-        return isNotDisplayed(null, uiObject, null);
-    }
-
     public String getCurrentUrl() {
         return getDriver().getCurrentUrl();
     }
 
     public String getCurrentTitle() {
         return getDriver().getTitle();
-    }
-
-    public Page getCurrentPage() {
-
-        try {
-            return new Page().<Page>withName("page").setUrl(new Url(getCurrentUrl()));
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     //Window
@@ -414,7 +342,7 @@ public class Browser implements SearchContext {
     }
 
     public void clickAndHold(UIElement element) {
-        getActions().clickAndHold(getWrappedElement(element)).perform();
+        getActions().clickAndHold(element.getWrappedElement()).perform();
     }
 
     public void doubleClick() {
@@ -422,7 +350,7 @@ public class Browser implements SearchContext {
     }
 
     public void doubleClick(UIElement element) {
-        getActions().doubleClick(getWrappedElement(element)).perform();
+        getActions().doubleClick(element.getWrappedElement()).perform();
     }
 
     public void contextClick() {
@@ -430,7 +358,7 @@ public class Browser implements SearchContext {
     }
 
     public void contextClick(UIElement element) {
-        getActions().contextClick(getWrappedElement(element)).perform();
+        getActions().contextClick(element.getWrappedElement()).perform();
     }
 
     public void releaseMouse() {
@@ -438,15 +366,15 @@ public class Browser implements SearchContext {
     }
 
     public void releaseMouse(UIElement element) {
-        getActions().release(getWrappedElement(element)).perform();
+        getActions().release(element.getWrappedElement()).perform();
     }
 
     public void dragAndDrop(UIElement source, UIElement target) {
-        getActions().dragAndDrop(getWrappedElement(source), getWrappedElement(target)).perform();
+        getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
     }
 
     public void dragAndDrop(UIElement element, int xOffset, int yOffset) {
-        getActions().dragAndDropBy(getWrappedElement(element), xOffset, yOffset).perform();
+        getActions().dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform();
     }
 
     public void keyDown(Keys theKey) {
@@ -454,7 +382,7 @@ public class Browser implements SearchContext {
     }
 
     public void keyDown(UIElement element, Keys theKey) {
-        getActions().keyDown(getWrappedElement(element), theKey).perform();
+        getActions().keyDown(element.getWrappedElement(), theKey).perform();
     }
 
     public void keyUp(Keys theKey) {
@@ -462,15 +390,15 @@ public class Browser implements SearchContext {
     }
 
     public void keyUp(UIElement element, Keys theKey) {
-        getActions().keyUp(getWrappedElement(element), theKey).perform();
+        getActions().keyUp(element.getWrappedElement(), theKey).perform();
     }
 
     public void click(UIElement element) {
-        new Click(this, element).execute();
+        new Click(element).perform();
     }
 
     public void clickOnPoint(UIElement element, int x, int y) {
-        getActions().moveToElement(getWrappedElement(element), x, y).click().build().perform();
+        getActions().moveToElement(element.getWrappedElement(), x, y).click().build().perform();
     }
 
     public void moveMouseByOffset(int xOffset, int yOffset) {
@@ -478,40 +406,40 @@ public class Browser implements SearchContext {
     }
 
     public void moveToElement(UIElement element, int xOffset, int yOffset) {
-        getActions().moveToElement(getWrappedElement(element), xOffset, yOffset).perform();
+        getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
     }
 
     public void moveMouseOver(UIElement element) {
-        getActions().moveToElement(getWrappedElement(element)).perform();
+        getActions().moveToElement(element.getWrappedElement()).perform();
     }
 
     public void typeInto(UIElement input, Object text) {
-        getWrappedElement(input).sendKeys(text.toString());
+        input.getWrappedElement().sendKeys(text.toString());
     }
 
     public void clear(UIElement input) {
-        getWrappedElement(input).clear();
+        new Clear(input).perform();
     }
 
     public void enterInto(UIElement input, Object text) {
-        new EnterInto(this, input, text).execute();
+        new EnterInto(input, text).perform();
     }
 
     //Tags
     public String getTagNameOf(UIElement element) {
-        return getWrappedElement(element).getTagName();
+        return element.getWrappedElement().getTagName();
     }
 
     public String getAttribute(UIElement element, String attribute) {
-        return getWrappedElement(element).getAttribute(attribute);
+        return element.getWrappedElement().getAttribute(attribute);
     }
 
     public String getCSSPropertyOf(UIElement element, String cssProperty) {
-        return getWrappedElement(element).getCssValue(cssProperty);
+        return element.getWrappedElement().getCssValue(cssProperty);
     }
 
     public Point getPositionOf(UIElement element) {
-        return getWrappedElement(element).getLocation();
+        return element.getWrappedElement().getLocation();
     }
 
     public Point getMiddlePositionOf(UIElement element) {
@@ -545,13 +473,13 @@ public class Browser implements SearchContext {
     }
 
     public Dimension getSizeOf(UIElement element) {
-        return getWrappedElement(element).getSize();
+        return element.getWrappedElement().getSize();
     }
 
     public String getTextFrom(UIElement input) {
-        WebElement inputWrappedElement = getWrappedElement(input);
+        WebElement inputWrappedElement = input.getWrappedElement();
 
-        if ("input".equals(getWrappedElement(input).getTagName())) {
+        if ("input".equals(input.getWrappedElement().getTagName())) {
             String enteredText = inputWrappedElement.getAttribute("value");
 
             if (enteredText != null) {
@@ -564,18 +492,12 @@ public class Browser implements SearchContext {
         }
     }
 
-    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
-        return new Then(new OnDisplayedAction<>(this, uiObject));
-    }
-
-    public <T> Then<T> then(T value) {
-        return new Then(new GetValueAction<>(value));
-    }
-
+    @Override
     public Object executeAsyncScript(String script, Object... args) {
         return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
     }
 
+    @Override
     public Object executeScript(String script, Object... args) {
         return ((JavascriptExecutor) getDriver()).executeScript(script, args);
     }
@@ -628,7 +550,7 @@ public class Browser implements SearchContext {
     //Radio button
     public void select(RadioButton button) {
         if (!button.isSelected()) {
-            getWrappedElement(button).click();
+            new Click(button).perform();
         }
     }
 
@@ -647,11 +569,11 @@ public class Browser implements SearchContext {
     }
 
     public void scrollWindowToTarget(UIElement element) {
-        executeScript("arguments[0].scrollIntoView();", getWrappedElement(element));
+        executeScript("arguments[0].scrollIntoView();", element.getWrappedElement());
     }
 
     public void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
-        WebElement target = getWrappedElement(element);
+        WebElement target = element.getWrappedElement();
         Point location = target.getLocation();
 
         int xLocation = location.x + x;
@@ -692,7 +614,7 @@ public class Browser implements SearchContext {
 
     public void scroll(UIElement scroll, int x, int y) {
         getActions()
-                .clickAndHold(getWrappedElement(scroll))
+                .clickAndHold(scroll.getWrappedElement())
                 .moveByOffset(x, y)
                 .release()
                 .perform();
@@ -700,7 +622,7 @@ public class Browser implements SearchContext {
 
     protected void scroll(UIElement scroll, Point point) {
         getActions()
-                .clickAndHold(getWrappedElement(scroll))
+                .clickAndHold(scroll.getWrappedElement())
                 .moveByOffset(point.x, point.y)
                 .release()
                 .perform();
@@ -712,17 +634,6 @@ public class Browser implements SearchContext {
     }
 
     //Alert
-    public Alert getDisplayedAlert() {
-        return uiObjectFactory.get(Alert.class);
-    }
-
-    public ConfirmAlert getDisplayedConfirmAlert() {
-        return uiObjectFactory.get(ConfirmAlert.class);
-    }
-
-    public PromtAlert getDisplayedPromtAlert() {
-        return uiObjectFactory.get(PromtAlert.class);
-    }
 
     public void accept(Alert alert) {
         alert.getWrappedAlert().accept();
@@ -743,67 +654,44 @@ public class Browser implements SearchContext {
     }
 
     //onDisplayed
+    @Override
     public <T extends UIObject> T onDisplayed(T uiObject) {
         T uiObjectInstance;
 
         if (this.equals(uiObject.inOpenedBrowser())) {
             uiObjectInstance = uiObject;
         } else {
-            uiObjectInstance = uiObjectFactory.get((Class<T>) uiObject.getClass());
+            uiObjectInstance = get((Class<T>) uiObject.getClass());
         }
         uiObjectInstance.afterInitialization();
         return uiObjectInstance;
     }
 
+    @Override
     public UIElement onDisplayed(By locator) {
-        UIElement uiObjectInstance = uiObjectFactory.get(locator);
-        return onDisplayed(uiObjectInstance);
+        return onDisplayed(get(locator));
     }
 
+    @Override
     public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        T uiObjectInstance = uiObjectFactory.get(uiObject);
-        return onDisplayed(uiObjectInstance);
+        return onDisplayed(get(uiObject));
     }
 
+    @Override
     public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
-        T uiObjectInstance = uiObjectFactory.get(uiObject, locator);
-        return onDisplayed(uiObjectInstance);
+        return onDisplayed(get(uiObject, locator));
     }
 
-    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
-        T uiObjectInstance = uiObjectFactory.get(uiObject, context);
-        return onDisplayed(uiObjectInstance);
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject) {
+        return onDisplayed(getAll(uiObject));
     }
 
-    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By locator) {
-        T uiObjectInstance = uiObjectFactory.get(uiObject, context, locator);
-        return onDisplayed(uiObjectInstance);
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator) {
+        return onDisplayed(getAll(uiObject, locator));
     }
 
-    public UIElements onDisplayedAll(By locator) {
-        UIElements uiElements = uiObjectFactory.getAll(locator);
-        return onDisplayed(uiElements);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        UIElements uiElements = uiObjectFactory.getAll(uiObject);
-        return onDisplayed(uiElements);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By locator) {
-        UIElements uiElements = uiObjectFactory.getAll(uiObject, locator);
-        return onDisplayed(uiElements);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject) {
-        UIElements uiElements = uiObjectFactory.getAll(uiObject, context);
-        return onDisplayed(uiElements);
-    }
-
-    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By locator) {
-        UIElements uiElements = uiObjectFactory.getAll(uiObject, context, locator);
-        return onDisplayed(uiElements);
-    }
 
     //Screenshots
     public Photographer inScreenshotIgnoring(By... locators) {
@@ -845,12 +733,34 @@ public class Browser implements SearchContext {
     }
 
     @Override
-    public List<WebElement> findElements(By by) {
-        return getDriver().findElements(by);
+    public SearchContext getSearchContext() {
+        return getDriver();
     }
 
     @Override
-    public WebElement findElement(By by) {
-        return getDriver().findElement(by);
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
+        return getUIObjectFactory().getAll(uiObject);
     }
+
+    @Override
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
+        return getUIObjectFactory().getAll(uiObject, locator);
+    }
+
+    @Override
+    public UIElement get(By locator) {
+        return getUIObjectFactory().get(locator);
+    }
+
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject) {
+        return getUIObjectFactory().get(uiObject);
+    }
+
+    @Override
+    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
+        return getUIObjectFactory().get(uiObject, locator);
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.UIElementDisplayWaiting;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.utils.zk.ZK;
 import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
@@ -14,10 +16,10 @@ import java.util.Objects;
  * @author Anton Solyankin
  */
 @NotInit
-public class UIElement extends HtmlUIObject implements WrapsElement {
+public class UIElement extends HtmlObject implements WrapsElement {
 
     private By locator;
-    private UIObject context;
+    private HtmlObject context;
 
     @Override
     public WebElement getWrappedElement() {
@@ -45,7 +47,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
      * @param context can be a page or another element
      * @throws IllegalStateException if context is already set
      */
-    public void setContext(UIObject context) {
+    public void setContext(HtmlObject context) {
 
         if (this.context != null) {
             throw new IllegalStateException("Context " + this.context + " is already set to " + this + "! Cannot set " + context + " context");
@@ -53,7 +55,7 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
         this.context = context;
     }
 
-    public UIObject getContext() {
+    public HtmlObject getContext() {
         return context;
     }
 
@@ -141,15 +143,6 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     @Override
     public WebElement findElement(By by) {
         return getWrappedElement().findElement(by);
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        try {
-            return getWrappedElement().isDisplayed();
-        } catch (Exception ex) {
-            return false;
-        }
     }
 
     @Override
@@ -276,5 +269,39 @@ public class UIElement extends HtmlUIObject implements WrapsElement {
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot(this);
+    }
+
+    @Override
+    public boolean isDisplayed() {
+        return getDisplayWaiting().perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed() {
+        return getDisplayWaiting().not().perform();
+    }
+
+    @Override
+    public boolean isDisplayed(long timeout) {
+        return getDisplayWaiting().withTimeout(timeout).perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed(long timeout) {
+        return getDisplayWaiting().withTimeout(timeout).not().perform();
+    }
+
+    @Override
+    public boolean isDisplayed(long timeout, long pollingTime) {
+        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).perform();
+    }
+
+    @Override
+    public boolean isNotDisplayed(long timeout, long pollingTime) {
+        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).not().perform();
+    }
+
+    protected Waiting getDisplayWaiting() {
+        return new UIElementDisplayWaiting(this);
     }
 }

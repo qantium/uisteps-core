@@ -5,6 +5,7 @@ import com.qantium.uisteps.core.browser.LocatorFactory;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
+import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * Created by Anton Solyankin
  */
-public class UIObjectFactory {
+public class UIObjectFactory implements IUIObjectFactory {
 
     private final Browser browser;
     private final LocatorFactory locatorFactory ;
@@ -31,55 +32,56 @@ public class UIObjectFactory {
         locatorFactory = new LocatorFactory();
     }
 
-    public UIElements getAll(By locator) {
-        return getAll(UIElement.class, locator);
-    }
-
+    @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
         return getAll(uiObject, locatorFactory.getLocator(uiObject));
     }
 
+    @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
         return getAll(uiObject, null, locator);
     }
 
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, UIObject context) {
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context) {
         UIElements<T> uiElements = new UIElements(uiObject);
         return get(uiElements, context, null);
     }
 
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, UIObject context, By locator) {
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context, By locator) {
         UIElements<T> uiElements = new UIElements(uiObject);
         return get(uiElements, context, locator);
     }
 
+    @Override
     public UIElement get(By locator) {
         return get(UIElement.class, locator);
     }
 
+    @Override
     public <T extends UIObject> T get(Class<T> uiObject) {
         return get(uiObject, null, null);
     }
 
-    public <T extends UIObject> T get(Class<T> uiObject, By locator) {
+    @Override
+    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
         return get(uiObject, null, locator);
     }
 
-    public <T extends UIObject> T get(Class<T> uiObject, UIObject context) {
+    public <T extends HtmlObject> T get(Class<T> uiObject, HtmlObject context) {
         return get(uiObject, context, null);
     }
 
-    public <T extends UIObject> T get(Class<T> uiObject, UIObject context, By locator) {
+    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By locator) {
         T uiObjectInstance = getInstanceOf(uiObject);
         return get(uiObjectInstance, context, locator);
     }
 
-    private  <T extends UIObject> T get(T uiObject, UIObject context, By locator) {
+    private  <T extends UIObject> T get(T uiObject, HtmlObject context, By locator) {
 
         uiObject.setBrowser(browser);
 
         if (uiObject instanceof UIElement) {
-            initAsUIElement(uiObject, context, locator);
+            initAsUIElement((UIElement) uiObject, context, locator);
         }
 
         if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
@@ -92,7 +94,7 @@ public class UIObjectFactory {
 
                         uiElement.setName(NameConverter.humanize(field));
                         field.set(uiObject, uiElement);
-                        UIObject fieldContext = uiObject;
+                        HtmlObject fieldContext = (HtmlObject) uiObject;
 
                         if (contextPresentsIn(field)) {
                             fieldContext = getContextOf(field);
@@ -115,7 +117,7 @@ public class UIObjectFactory {
         return uiObject;
     }
 
-    private <T extends UIObject> void initAsUIElement(T uiObject, UIObject context, By locator) {
+    private <T extends HtmlObject> void initAsUIElement(T uiObject, HtmlObject context, By locator) {
         UIElement uiElement = (UIElement) uiObject;
 
         if (context == null && contextPresentsIn(uiObject.getClass())) {
@@ -153,13 +155,14 @@ public class UIObjectFactory {
         return uiObject.isAnnotationPresent(Context.class);
     }
 
-    private UIObject getContextOf(AnnotatedElement uiObject) {
+    private HtmlObject getContextOf(AnnotatedElement uiObject) {
         Context context = uiObject.getAnnotation(Context.class);
         return getContext(context);
     }
 
-    private UIObject getContext(Context context) {
-        Class<? extends UIObject> uiObject = context.value();
+    private HtmlObject getContext(Context context) {
+        Class<? extends HtmlObject> uiObject = context.value();
+        Class<? extends HtmlObject> zxuiObject = context.value();
         By contextLocator = null;
 
         if (UIElement.class.isAssignableFrom(uiObject)) {

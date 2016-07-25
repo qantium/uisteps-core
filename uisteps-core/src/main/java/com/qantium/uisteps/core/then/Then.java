@@ -29,7 +29,7 @@ public class Then<T> {
     }
     
     public T then() {
-        return action.<T>execute();
+        return action.<T>apply();
     }
     
     public Then<T> setArgs(Object... args) {

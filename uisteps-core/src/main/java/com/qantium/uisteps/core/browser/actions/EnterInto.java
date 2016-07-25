@@ -1,25 +1,23 @@
 package com.qantium.uisteps.core.browser.actions;
 
-import com.qantium.uisteps.core.browser.Browser;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.WebElement;
 
 /**
- * Created by Solan on 28.03.2016.
+ * Created by Anton Solyankin
  */
 public class EnterInto extends Action {
 
     private final UIElement input;
     private final Object text;
 
-    public EnterInto(Browser browser, UIElement input, Object text) {
-        super(browser);
+    public EnterInto(UIElement input, Object text) {
         this.input = input;
         this.text = text;
     }
 
     @Override
-    public void toExecute() {
+    protected void apply() {
         WebElement webElement = input.getWrappedElement();
         webElement.clear();
         webElement.sendKeys(text.toString());

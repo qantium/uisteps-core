@@ -20,8 +20,8 @@ import com.qantium.uisteps.core.browser.pages.UIObject;
 
 /**
  *
- * @author ASolyankin
- * @param <T> specifies the type of uiobject
+ * @author Anton Solyankin Solyankin
+ * @param <T> specifies the type of ui object
  */
 public class OnDisplayedAction<T extends UIObject> extends Action {
 
@@ -34,7 +34,7 @@ public class OnDisplayedAction<T extends UIObject> extends Action {
     }
 
     @Override
-    public T execute() {
+    public T apply() {
         return browser.onDisplayed(uiObject);
 
     }

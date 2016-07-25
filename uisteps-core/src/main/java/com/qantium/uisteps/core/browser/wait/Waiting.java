@@ -9,19 +9,22 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
  */
 public abstract class Waiting {
 
-    private long timeout;
-    private long pollingTime;
+    private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
+    private long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+    private boolean not = true;
 
-    public Waiting(long timeout, long pollingTime) {
-        this.timeout = timeout;
-        this.pollingTime = pollingTime;
+
+    public boolean isNot() {
+        return not;
     }
 
-    public Waiting() {
-        this(
-                Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT)),
-                Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING))
-        );
+    public Waiting setNot(boolean not) {
+        this.not = not;
+        return this;
+    }
+
+    public Waiting not() {
+        return setNot(false);
     }
 
     public Waiting withTimeout(long timeout) {
@@ -42,12 +45,20 @@ public abstract class Waiting {
         return pollingTime;
     }
 
-    public void apply() throws WaitingException {
+    public boolean perform() throws WaitingException {
         long counter = 0;
+
         while (counter <= getTimeout()) {
-            if (until()) return;
-            sleep(getPollingTime());
-            counter += getPollingTime();
+            try {
+                if(isNot()) {
+                    return !until();
+                } else {
+                    return until();
+                }
+            } finally {
+                sleep(getPollingTime());
+                counter += getPollingTime();
+            }
         }
         throw new WaitingException(getTimeout(), getPollingTime());
     }
@@ -60,6 +71,6 @@ public abstract class Waiting {
         }
     }
 
-    public abstract boolean until();
+    protected abstract boolean until();
 
 }
