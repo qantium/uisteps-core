@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Contains settings that can be set before test running
- * <p/>
+ * <p>
  * Property can be overrided in "uisteps.properties" file or in another file
  * whitch path is set in "properties.path" property. Both files must be in
  * working or/and home directory. Properties in working directory override
@@ -32,10 +32,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * System.getProperty("user.home") At last all properties can be oveerided in
  * "uisteps.local.properties". The rules for it are same with
  * "uisteps.properties" file
- * <p/>
+ * </p>
+ * <p>
  * Property can be overrided by another using "AS#" construction, e.g.
  * webdriver.driver = AS#driver
- * <p/>
+ * </p>
  * List of properties:
  * <ul>
  * <li>properties.path</li>

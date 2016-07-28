@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29419889-366c-4bd1-9613-4d499d82a61e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/HtmlObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/IBrowser.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/IBrowser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIElementDisplayWaiting.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/wait/UIElementDisplayWaiting.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElements.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElements.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Visible.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/Visible.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" afterPath="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
     </list>
     <ignored path="uisteps-core.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,18 +84,18 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1469691976649" expanded="true" signature="96103:96176" placeholder="..." />
-                <marker date="1469691976649" expanded="true" signature="96103:96191" placeholder="..." />
+                <marker date="1469692295432" expanded="true" signature="97636:97684" placeholder="..." />
+                <marker date="1469692295432" expanded="true" signature="97636:97699" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UIStepsProperties.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UIStepsProperties.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28816795">
-              <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,11 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UIElementsItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/pages/UIElementsItem.java">
+      <file leaf-file-name="UIStepsProperty.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="47" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
+            <state vertical-scroll-proportion="-1.0057251">
+              <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -193,7 +189,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/OnDisplayedAction.java" />
         <option value="$PROJECT_DIR$/src/main/java/storage/Storage.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/browser/ISearchContext.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/then/IThen.java" />
@@ -244,6 +239,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java" />
       </list>
     </option>
   </component>
@@ -1199,12 +1195,12 @@
       <workItem from="1461686298858" duration="13630000" />
       <workItem from="1468912363637" duration="61943000" />
       <workItem from="1469447383973" duration="657000" />
-      <workItem from="1469448771379" duration="59534000" />
+      <workItem from="1469448771379" duration="59730000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="985305000" />
+    <option name="totallyTimeSpent" value="985501000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1287,14 +1283,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/seleniumhq/selenium/selenium-api/2.53.0/selenium-api-2.53.0-sources.jar!/org/openqa/selenium/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/ru/yandex/qatools/ashot/ashot/1.5.2/ashot-1.5.2-sources.jar!/ru/yandex/qatools/ashot/AShot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1797,19 +1785,27 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469691976649" expanded="true" signature="96103:96176" placeholder="..." />
-            <marker date="1469691976649" expanded="true" signature="96103:96191" placeholder="..." />
+            <marker date="1469692295432" expanded="true" signature="97636:97684" placeholder="..." />
+            <marker date="1469692295432" expanded="true" signature="97636:97699" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperties.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28816795">
-          <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0057251">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
