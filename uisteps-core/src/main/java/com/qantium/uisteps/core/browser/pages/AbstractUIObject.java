@@ -2,9 +2,8 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.IsDisplayException;
-import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
 import com.qantium.uisteps.core.browser.wait.Waiting;
+import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -50,7 +49,7 @@ public abstract class AbstractUIObject implements UIObject {
         try {
             displayWaiting.perform();
             return true;
-        } catch (IsNotDisplayException ex) {
+        } catch (WaitingException ex) {
             return false;
         }
     }
@@ -60,7 +59,7 @@ public abstract class AbstractUIObject implements UIObject {
         try {
             displayWaiting.not().perform();
             return true;
-        } catch (IsDisplayException ex) {
+        } catch (WaitingException ex) {
             return false;
         }
     }

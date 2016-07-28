@@ -71,6 +71,7 @@ public abstract class Waiting {
                 counter += getPollingTime();
             }
         }
+
         throw new WaitingException(getTimeout(), getPollingTime(), waitingException);
     }
 
