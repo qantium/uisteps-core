@@ -3,9 +3,7 @@ package com.qantium.uisteps.core.browser;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.factory.IUIObjectFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 
 /**
  * Created Anton Solyankin

@@ -16,8 +16,6 @@
 package com.qantium.uisteps.core.storage;
 
 import com.google.common.io.Files;
-import static com.qantium.uisteps.core.properties.UIStepsProperties.*;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import net.lightbody.bmp.core.har.Har;
 
@@ -25,6 +23,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.STORAGE_DIR;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 
 /**
  *

@@ -15,29 +15,36 @@
  */
 package com.qantium.uisteps.core.then;
 
+import com.qantium.uisteps.core.browser.ISearchContext;
+import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIObject;
+import org.openqa.selenium.By;
+
 /**
  *
- * @author ASolyankin
- * @param <T> specifies the type of action
+ * @author Anton Solyankin
  */
-public class Then<T> {
-    
-    private final Action<T> action;
-    
-    public Then(Action<T> action) {
-        this.action = action;
-    }
-    
-    public T then() {
-        return action.<T>apply();
-    }
-    
-    public Then<T> setArgs(Object... args) {
-         action.setArgs(args);
-         return this;
+public class Then<T extends UIObject> {
+
+    private final Class<T> uiObject;
+    private final By locator;
+    private final ISearchContext context;
+
+    public Then(Class<T> uiObject, ISearchContext context) {
+        this(uiObject, context, null);
     }
 
-    public Object[] getArgs() {
-        return action.getArgs();
+    public Then(Class<T> uiObject, ISearchContext context, By locator) {
+        this.uiObject = uiObject;
+        this.context = context;
+        this.locator = locator;
+    }
+
+    public T then() {
+        if(locator != null) {
+            return (T) context.onDisplayed((Class<UIElement>) uiObject, locator);
+        } else {
+            return context.onDisplayed(uiObject);
+        }
     }
 }

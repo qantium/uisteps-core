@@ -15,11 +15,12 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.factory.UIObjectFactory;
+import com.qantium.uisteps.core.browser.UIObjectFactory;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
  * Contains elements of one type
@@ -41,7 +43,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     private final Class<E> elementType;
     private UIObjectFactory uiObjectFactory;
     private ArrayList<E> elements;
-
 
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
@@ -59,7 +60,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public void setBrowser(Browser browser) {
+    public void setBrowser(IBrowser browser) {
         super.setBrowser(browser);
         this.uiObjectFactory = new UIObjectFactory(browser);
     }
@@ -109,9 +110,15 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             return elements;
         } else {
             ArrayList<E> list = new ArrayList();
-            E uiElement = uiObjectFactory.get(getElementType(), getContext(), getLocator());
-            uiElement.afterInitialization();
-            list.add(uiElement);
+            HtmlObject context = getContext();
+            By locator = getLocator();
+            Class<E> elementType = getElementType();
+
+            for(WebElement wrappedElement: context.findElements(locator)) {
+                E uiElement = uiObjectFactory.get(elementType, context, locator);
+                uiElement.setWrappedElement(wrappedElement);
+                list.add(uiElement);
+            }
             return list;
         }
     }
@@ -204,23 +211,26 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
         while (counter <= timeout) {
             boolean isFound = false;
-            List<E> list = getElements();
+            List<E> elements = getElements();
 
-            if (elementsSize == list.size() && breakCounter >= 4 * pollingTime) {
+            if (elementsSize == elements.size() && breakCounter >= 4 * pollingTime) {
                 break;
             }
-            elementsSize = list.size();
-            for (E element : list) {
+            elementsSize = elements.size();
+            for (E element : elements) {
 
                 WebElement wrappedElement = element.getWrappedElement();
                 String attr;
 
-                if (find == Find.TEXT) {
-                    attr = wrappedElement.getText();
-                } else if (find == Find.ATTRIBUTE) {
-                    attr = wrappedElement.getAttribute(value);
-                } else {
-                    attr = wrappedElement.getCssValue(value);
+                switch (find) {
+                    case TEXT:
+                        attr = wrappedElement.getText();
+                        break;
+                    case ATTRIBUTE:
+                        attr = wrappedElement.getAttribute(value);
+                        break;
+                    default:
+                        attr = wrappedElement.getCssValue(value);
                 }
 
                 switch (how) {

@@ -20,9 +20,18 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     private By locator;
     private HtmlObject context;
+    private WebElement wrappedElement;
+
+    protected void setWrappedElement(WebElement wrappedElement) {
+        this.wrappedElement = wrappedElement;
+    }
 
     @Override
     public WebElement getWrappedElement() {
+
+        if(wrappedElement != null) {
+            return wrappedElement;
+        }
 
         if (getLocator() != null) {
             return getSearchContext().findElement(getLocator());
@@ -35,7 +44,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     public SearchContext getSearchContext() {
 
         if (getContext() == null) {
-            return inOpenedBrowser().getDriver();
+            return inOpenedBrowser();
         } else {
             return getContext();
         }
@@ -67,7 +76,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
             }
 
             if (locator instanceof By.ById) {
-                ZK zk = new ZK(inOpenedBrowser().getDriver());
+                ZK zk = new ZK(inOpenedBrowser());
                 By.ById id = (By.ById) locator;
 
                 if (zk.isId(id)) {
@@ -83,7 +92,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     private By getSiblingLocator() {
-        ZK zk = new ZK(inOpenedBrowser().getDriver());
+        ZK zk = new ZK(inOpenedBrowser());
         ZKSiblingLocator siblingLocator = (ZKSiblingLocator) locator;
         return zk.getLocator(siblingLocator.getContext(), siblingLocator.getShift());
     }
@@ -269,36 +278,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot(this);
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return getDisplayWaiting().perform();
-    }
-
-    @Override
-    public boolean isNotDisplayed() {
-        return getDisplayWaiting().not().perform();
-    }
-
-    @Override
-    public boolean isDisplayed(long timeout) {
-        return getDisplayWaiting().withTimeout(timeout).perform();
-    }
-
-    @Override
-    public boolean isNotDisplayed(long timeout) {
-        return getDisplayWaiting().withTimeout(timeout).not().perform();
-    }
-
-    @Override
-    public boolean isDisplayed(long timeout, long pollingTime) {
-        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).perform();
-    }
-
-    @Override
-    public boolean isNotDisplayed(long timeout, long pollingTime) {
-        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).not().perform();
     }
 
     protected Waiting getDisplayWaiting() {

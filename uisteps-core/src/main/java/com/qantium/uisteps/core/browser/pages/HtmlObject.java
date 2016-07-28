@@ -15,24 +15,19 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.ISearchContext;
-import com.qantium.uisteps.core.browser.ScriptExecutor;
-import com.qantium.uisteps.core.browser.WithSearchContext;
+import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
-import com.qantium.uisteps.core.factory.IUIObjectFactory;
-import com.qantium.uisteps.core.factory.UIObjectFactory;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.then.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * @author Anton Solyankin
  */
 
-public abstract class HtmlObject extends AbstractUIObject implements ISearchContext, ScriptExecutor, IUIObjectFactory, SearchContext, WithSearchContext {
+public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
 
     @Override
     public Object executeScript(String script, Object... args) {
@@ -46,7 +41,6 @@ public abstract class HtmlObject extends AbstractUIObject implements ISearchCont
 
     @Override
     public <T extends UIObject> T onDisplayed(T uiObject) {
-        ;
         return inOpenedBrowser().onDisplayed(uiObject);
     }
 
@@ -97,7 +91,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ISearchCont
     }
 
     private UIObjectFactory getUIObjectFactory() {
-        return inOpenedBrowser().getUIObjectFactory();
+        return new UIObjectFactory(inOpenedBrowser());
     }
 
     @Override
@@ -110,6 +104,17 @@ public abstract class HtmlObject extends AbstractUIObject implements ISearchCont
         return getUIObjectFactory().getAll(uiObject, this, locator);
     }
 
+    @Override
+    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
+        return new Then(uiElement, this, locator);
+    }
+
+    @Override
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        return new Then(uiObject, this);
+    }
 
     public abstract Screenshot takeScreenshot();
+
+
 }

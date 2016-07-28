@@ -1,7 +1,5 @@
 package com.qantium.uisteps.core.browser;
 
-import org.openqa.selenium.JavascriptExecutor;
-
 /**
  * Created by Anton Solyankin
  */

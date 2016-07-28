@@ -10,7 +10,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 /**
  * Created by Anton Solyankin
  */
-public abstract class Action {
+public abstract class Action<T> {
 
     private int timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private int pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
@@ -49,16 +49,16 @@ public abstract class Action {
         this.attempts = attempts;
     }
 
-    public void perform() throws ActionException {
+    public T perform() throws ActionException {
 
         ActionException exception = null;
 
         while (condition()) {
 
             try {
-                apply();
-                exception = null;
-                break;
+                T result = apply();
+                counter = 0;
+                return result;
             } catch (NoBrowserException | UnhandledAlertException ex) {
                 exception = new ActionException(this, ex);
                 break;
@@ -69,11 +69,7 @@ public abstract class Action {
             }
         }
 
-        counter = 0;
-
-        if (exception != null) {
-            throw new ActionException(this, exception);
-        }
+        throw new ActionException(this, exception);
     }
 
     private void sleep(long pollingTime) {
@@ -84,7 +80,7 @@ public abstract class Action {
         }
     }
 
-    protected abstract void apply();
+    protected abstract T apply();
 
     protected boolean condition() {
         return counter <= timeout && counter <= attempts * pollingTime;

@@ -1,10 +1,11 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.IsDisplayException;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
 import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.name.NameConverter;
-import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -14,14 +15,15 @@ import org.codehaus.plexus.util.StringUtils;
 public abstract class AbstractUIObject implements UIObject {
 
     private String name;
-    private Browser browser;
+    private IBrowser browser;
+    private final Waiting displayWaiting = getDisplayWaiting();
 
-    public Browser inOpenedBrowser() {
+    public IBrowser inOpenedBrowser() {
         return browser;
     }
 
     @Override
-    public void setBrowser(Browser browser) {
+    public void setBrowser(IBrowser browser) {
         this.browser = browser;
     }
 
@@ -44,9 +46,23 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     @Override
-    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
-        new Then(uiObject);
-        return inOpenedBrowser().then(uiObject);
+    public boolean isDisplayed() {
+        try {
+            displayWaiting.perform();
+            return true;
+        } catch (IsNotDisplayException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isNotDisplayed() {
+        try {
+            displayWaiting.not().perform();
+            return true;
+        } catch (IsDisplayException ex) {
+            return false;
+        }
     }
 
     @Override
@@ -54,34 +70,19 @@ public abstract class AbstractUIObject implements UIObject {
         isDisplayed();
     }
 
-    @Override
-    public boolean isDisplayed() {
-        return getDisplayWaiting().perform();
+    public AbstractUIObject delay(long delay) {
+        displayWaiting.withDelay(delay);
+        return this;
     }
 
-    @Override
-    public boolean isNotDisplayed() {
-        return getDisplayWaiting().not().perform();
+    public AbstractUIObject withTimeout(long timeout) {
+        displayWaiting.withTimeout(timeout);
+        return this;
     }
 
-    @Override
-    public boolean isDisplayed(long timeout) {
-        return getDisplayWaiting().withTimeout(timeout).perform();
-    }
-
-    @Override
-    public boolean isNotDisplayed(long timeout) {
-        return getDisplayWaiting().withTimeout(timeout).not().perform();
-    }
-
-    @Override
-    public boolean isDisplayed(long timeout, long pollingTime) {
-        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).perform();
-    }
-
-    @Override
-    public boolean isNotDisplayed(long timeout, long pollingTime) {
-        return getDisplayWaiting().withTimeout(timeout).pollingEvery(pollingTime).not().perform();
+    public AbstractUIObject pollingEvery(long pollingTime) {
+        displayWaiting.pollingEvery(pollingTime);
+        return this;
     }
 
     protected abstract Waiting getDisplayWaiting();

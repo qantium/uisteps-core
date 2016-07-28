@@ -15,12 +15,11 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.Browser;
+import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.name.Named;
-import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.then.IThen;
 import com.qantium.uisteps.core.then.Then;
-import org.openqa.selenium.SearchContext;
 
 /**
  * Any element (Page, UIElement or Alert) of user interface
@@ -31,11 +30,11 @@ import org.openqa.selenium.SearchContext;
  * @see com.qantium.uisteps.core.browser.pages.UIElements
  */
 @NotInit
-public interface UIObject extends Named, Visible {
+public interface UIObject extends Named, Visible, IThen {
 
-    void setBrowser(Browser browser);
+    void setBrowser(IBrowser browser);
 
-    Browser inOpenedBrowser();
+    IBrowser inOpenedBrowser();
 
     <T extends UIObject> Then<T> then(Class<T> uiObject);
 

@@ -36,9 +36,9 @@ import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SCREENSHOTS_TAKE_FAKE;
 
 /**
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
-public class Photographer {
+public class Photographer implements IPhotographer {
 
     private final AShot aShot = new AShot();
     private final WebDriver driver;
@@ -47,27 +47,19 @@ public class Photographer {
         this.driver = driver;
     }
 
-    public AShot getAShot() {
-        return aShot;
-    }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
     //settings
-    protected Photographer setCoordsProvider(CoordsProvider coordsProvider) {
-        getAShot().coordsProvider(coordsProvider);
+    protected Photographer setCoordinatesProvider(CoordsProvider coordsProvider) {
+        aShot.coordsProvider(coordsProvider);
         return this;
     }
 
     protected Photographer setImageCropper(ImageCropper cropper) {
-        getAShot().imageCropper(cropper);
+        aShot.imageCropper(cropper);
         return this;
     }
 
-    public Photographer shootingStrategy(ShootingStrategy strategy) {
-        getAShot().shootingStrategy(strategy);
+    protected Photographer shootingStrategy(ShootingStrategy strategy) {
+        aShot.shootingStrategy(strategy);
         return this;
     }
 
@@ -75,43 +67,47 @@ public class Photographer {
     public Photographer ignore(By... locators) {
         Set<By> selectors = new HashSet();
         selectors.addAll(Arrays.asList(locators));
-        getAShot().ignoredElements(selectors);
+        aShot.ignoredElements(selectors);
         return this;
     }
 
+    @Override
     public Photographer ignore(UIElement... elements) {
-        List<Coords> coords = new ArrayList();
+        List<Coords> coordinates = new ArrayList();
 
         for (UIElement element : elements) {
             Point position = element.getPosition();
             Dimension size = element.getSize();
-            coords.add(new Coords(position.x, position.y, size.width, size.height));
+            coordinates.add(new Coords(position.x, position.y, size.width, size.height));
         }
 
-        return ignore(coords.toArray(new Coords[elements.length]));
+        return ignore(coordinates.toArray(new Coords[elements.length]));
     }
 
+    @Override
     public Photographer ignore(Coords... areas) {
-        Set<Coords> coords = new HashSet();
-        coords.addAll(Arrays.asList(areas));
-        getAShot().ignoredAreas(coords);
+        Set<Coords> coordinates = new HashSet();
+        coordinates.addAll(Arrays.asList(areas));
+        aShot.ignoredAreas(coordinates);
         return this;
     }
 
+    @Override
     public Photographer ignore(int width, int height) {
         return ignore(new Coords(width, height));
     }
 
+    @Override
     public Photographer ignore(int x, int y, int width, int height) {
         return ignore(new Coords(x, y, width, height));
     }
 
 
-    //take screenshot
+    @Override
     public Screenshot takeScreenshot() {
         try {
             try {
-                BufferedImage image = getAShot().shootingStrategy(new ScreenshotStrategy()).takeScreenshot(getDriver()).getImage();
+                BufferedImage image = aShot.shootingStrategy(new ScreenshotStrategy()).takeScreenshot(driver).getImage();
                 return new Screenshot(image);
             } catch (UnhandledAlertException ex) {
                 return new Screenshot(new Robot().createScreenCapture(new java.awt.Rectangle(Toolkit.getDefaultToolkit().getScreenSize())));
@@ -126,6 +122,7 @@ public class Photographer {
         }
     }
 
+    @Override
     public Screenshot takeScreenshot(UIElement... elements) {
         List<WebElement> webElements = new ArrayList();
 
@@ -145,10 +142,11 @@ public class Photographer {
                 webElements.add(element.getWrappedElement());
             }
         }
-        BufferedImage image = getAShot().takeScreenshot(getDriver(), webElements).getImage();
+        BufferedImage image = aShot.takeScreenshot(driver, webElements).getImage();
         return new Screenshot(image);
     }
 
+    @Override
     public Screenshot takeScreenshot(Ignored... elements) {
 
         for (Ignored ignored : elements) {

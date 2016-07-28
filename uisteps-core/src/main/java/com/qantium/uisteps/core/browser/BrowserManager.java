@@ -26,10 +26,10 @@ import java.util.List;
 /**
  * @author Anton Solyankin
  */
-public class BrowserManager {
+public class BrowserManager implements IBrowserManager {
 
     private Integer currentIndex = -1;
-    private List<Browser> browsers = new ArrayList();
+    private List<IBrowser> browsers = new ArrayList();
     private BrowserFactory browserFactory = new BrowserFactory();
 
     private BrowserFactory getBrowserFactory() {
@@ -40,7 +40,7 @@ public class BrowserManager {
         this.browserFactory = browserFactory;
     }
 
-    public List<Browser> getBrowsers() {
+    public List<IBrowser> getBrowsers() {
         return browsers;
     }
 
@@ -58,7 +58,6 @@ public class BrowserManager {
 
     private Integer setCurrentIndex(int index) {
         currentIndex = index;
-        currentBrowser.set(getCurrentBrowser());
         return currentIndex;
     }
 
@@ -66,16 +65,18 @@ public class BrowserManager {
         return setCurrentIndex(-1);
     }
 
+    @Override
     public void closeAllBrowsers() {
-        for (Browser browser : getBrowsers()) {
+        for (IBrowser browser : getBrowsers()) {
             browser.close();
         }
         browsers = new ArrayList();
         resetCurrentIndex();
     }
 
+    @Override
     public void closeCurrentBrowser() {
-        Browser browser = getCurrentBrowser();
+        IBrowser browser = getCurrentBrowser();
         if (browser != null) {
             browser.close();
             getBrowsers().remove(browser);
@@ -86,10 +87,9 @@ public class BrowserManager {
         }
     }
 
-    public static final ThreadLocal<Browser> currentBrowser = new ThreadLocal();
-
-    public Browser getCurrentBrowser() {
-        Browser browser;
+    @Override
+    public IBrowser getCurrentBrowser() {
+        IBrowser browser;
 
         if (currentIndex > -1) {
             browser = browsers.get(currentIndex);
@@ -99,50 +99,58 @@ public class BrowserManager {
         return browser;
     }
 
-    public Browser openNewBrowser() {
+    @Override
+    public IBrowser openNewBrowser() {
         return open(getBrowserFactory().getBrowser());
     }
 
-    public Browser openNewBrowser(WebDriver driver) {
+    @Override
+    public IBrowser openNewBrowser(WebDriver driver) {
         return open(getBrowserFactory().getBrowser(driver));
     }
 
-    public Browser openNewBrowser(Driver driver) {
+    @Override
+    public IBrowser openNewBrowser(Driver driver) {
         DriverBuilder driverBuilder = new DriverBuilder().setDriver(driver);
         return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
-    public Browser openNewBrowser(String driver) {
+    @Override
+    public IBrowser openNewBrowser(String driver) {
         DriverBuilder driverBuilder = new DriverBuilder().setDriver(driver);
         return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
-    public Browser openNewBrowser(DriverBuilder driverBuilder) {
+    @Override
+    public IBrowser openNewBrowser(DriverBuilder driverBuilder) {
         return open(getBrowserFactory().getBrowser(driverBuilder));
     }
 
-    public Browser open(Browser browser) {
+    @Override
+    public IBrowser open(IBrowser browser) {
         getBrowsers().add(browser);
         setCurrentIndex(getBrowsers().size() - 1);
         return getCurrentBrowser();
     }
 
-    public Browser switchToNextBrowser() {
+    @Override
+    public IBrowser switchToNextBrowser() {
 
-        if (hasNext()) {
+        if (hasNextBrowser()) {
             return switchToBrowserByIndex(incrementCurrentIndex());
-        } else if (hasAny()) {
+        } else if (hasAnyBrowser()) {
             return switchToFirstBrowser();
         } else {
             return null;
         }
     }
 
-    public Browser switchToPreviousBrowser() {
+    @Override
+    public IBrowser switchToPreviousBrowser() {
 
-        if (hasPrevious()) {
+        if (hasPreviousBrowser()) {
             return switchToBrowserByIndex(decrementCurrentIndex());
-        } else if (hasAny()) {
+        } else if (hasAnyBrowser()) {
             return switchToLastBrowser();
         } else {
             resetCurrentIndex();
@@ -150,15 +158,18 @@ public class BrowserManager {
         }
     }
 
-    public Browser switchToFirstBrowser() {
+    @Override
+    public IBrowser switchToFirstBrowser() {
         return switchToBrowserByIndex(0);
     }
 
-    public Browser switchToLastBrowser() {
+    @Override
+    public IBrowser switchToLastBrowser() {
         return switchToBrowserByIndex(getBrowsers().size() - 1);
     }
 
-    public Browser switchToBrowserByIndex(int index) {
+    @Override
+    public IBrowser switchToBrowserByIndex(int index) {
         if (index < 0) {
             showNoBrowserException("Index of browser must not be negative! Index: " + index);
         }
@@ -167,7 +178,7 @@ public class BrowserManager {
             showNoBrowserException("Index of browser is out of bounds! Index: " + index);
         }
 
-        if (!hasAny()) {
+        if (!hasAnyBrowser()) {
             showNoBrowserException("The list of browsers is empty!");
         }
         setCurrentIndex(index);
@@ -179,15 +190,18 @@ public class BrowserManager {
         throw new NoBrowserException(message);
     }
 
-    public boolean hasNext() {
+    @Override
+    public boolean hasNextBrowser() {
         return !getBrowsers().isEmpty() && getCurrentIndex() < getBrowsers().size() - 1;
     }
 
-    public boolean hasPrevious() {
+    @Override
+    public boolean hasPreviousBrowser() {
         return !getBrowsers().isEmpty() && getCurrentIndex() > 0;
     }
 
-    public boolean hasAny() {
+    @Override
+    public boolean hasAnyBrowser() {
         return !getBrowsers().isEmpty() && !getBrowsers().isEmpty();
     }
 }

@@ -1,11 +1,11 @@
 package com.qantium.uisteps.core.utils.zk;
 
+import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.properties.UIStepsProperties;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,10 +17,10 @@ public class ZK {
 
 
     public static final String ZK_ID_MARK = UIStepsProperties.getProperty(UIStepsProperty.ZK_ID_MARK);
-    private final WebDriver driver;
+    private final IBrowser browser;
 
-    public ZK(WebDriver driver) {
-        this.driver = driver;
+    public ZK(IBrowser browser) {
+        this.browser = browser;
     }
 
     public boolean isId(By.ById id) {
@@ -120,7 +120,7 @@ public class ZK {
         String ZK_HASH_ATTRIBUTE = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_ATTRIBUTE);
         String ZK_HASH_REGEXP = UIStepsProperties.getProperty(UIStepsProperty.ZK_HASH_REGEXP);
 
-        String id = driver.findElement(By.xpath(ZK_HASH_XPATH)).getAttribute(ZK_HASH_ATTRIBUTE);
+        String id = browser.findElement(By.xpath(ZK_HASH_XPATH)).getAttribute(ZK_HASH_ATTRIBUTE);
 
         Pattern pattern = Pattern.compile(ZK_HASH_REGEXP);
         Matcher matcher = pattern.matcher(id);

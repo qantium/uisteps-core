@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.factory;
+package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIElements;

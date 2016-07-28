@@ -22,7 +22,7 @@ package com.qantium.uisteps.core.browser;
 public class NoBrowserException  extends RuntimeException {
 
     public NoBrowserException() {
-        super("No browser to switch!");
+        super("No any browser!");
     }
 
     public NoBrowserException(String message) {

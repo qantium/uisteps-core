@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.browser;
 import com.qantium.uisteps.core.browser.actions.Clear;
 import com.qantium.uisteps.core.browser.actions.Click;
 import com.qantium.uisteps.core.browser.actions.EnterInto;
+import com.qantium.uisteps.core.browser.actions.GetText;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
 import com.qantium.uisteps.core.browser.pages.elements.FileInput;
@@ -28,12 +29,12 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
-import com.qantium.uisteps.core.factory.IUIObjectFactory;
-import com.qantium.uisteps.core.factory.UIObjectFactory;
 import com.qantium.uisteps.core.name.NameConverter;
+import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -53,13 +54,13 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 /**
  * @author Anton Solyankin
  */
-public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory, SearchContext, WithSearchContext {
+public class Browser implements IBrowser {
 
     private WebDriver driver;
     private String name;
-    private WindowManager windowManager;
+    private IWindowManager windowManager;
     private UrlFactory urlFactory = new UrlFactory();
-    private UIObjectFactory uiObjectFactory = new UIObjectFactory(this);
+    private IUIObjectFactory uiObjectFactory = new UIObjectFactory(this);
     private BrowserMobProxyServer proxy;
     private Photographer photographer;
 
@@ -72,27 +73,25 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         });
     }
 
-    public UIObjectFactory getUIObjectFactory() {
-        return uiObjectFactory;
-    }
-
     public void setDriver(WebDriver driver) {
         this.driver = driver;
         windowManager = new WindowManager(driver);
+        photographer = new Photographer(driver);
     }
 
-    public WindowManager getWindowManager() {
-
-        if (driver == null) {
-            throw new NullPointerException("Driver must be set to get window manager");
-        }
+    private IWindowManager getWindowManager() {
         return windowManager;
     }
 
+    @Override
     public WebDriver getDriver() {
+        if (driver == null) {
+            throw new WebDriverException("WebDriver is not set in browser " + this + "!");
+        }
         return driver;
     }
 
+    @Override
     public boolean isAlive() {
         try {
             driver.getWindowHandles().size();
@@ -100,31 +99,6 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         } catch (Exception ex) {
             return false;
         }
-    }
-
-    public void setUrlFactory(UrlFactory urlFactory) {
-        this.urlFactory = urlFactory;
-    }
-
-    public UrlFactory getUrlFactory() {
-        return urlFactory;
-    }
-
-    public void setPhotographer(Photographer photographer) {
-        this.photographer = photographer;
-    }
-
-    public Photographer getPhotographer() {
-
-        if (driver == null) {
-            throw new NullPointerException("Driver must be set to get photographer");
-        }
-
-        if (photographer == null) {
-            photographer = new Photographer(driver);
-        }
-
-        return photographer;
     }
 
     public BrowserMobProxyServer getProxy() {
@@ -135,6 +109,7 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         this.proxy = proxy;
     }
 
+    @Override
     public void close() {
         if (driver != null) {
             driver.quit();
@@ -156,10 +131,12 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
     }
 
     //Open
+    @Override
     public Page openUrl(String url) {
         return openUrl(url, null);
     }
 
+    @Override
     public Page openUrl(String url, String[] params) {
         try {
             return open(new Url(url), params);
@@ -168,42 +145,52 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         }
     }
 
+    @Override
     public Page open(Url url) {
         return open(url, null);
     }
 
+    @Override
     public Page open(Url url, String[] params) {
         return open(Page.class, url, params);
     }
 
+    @Override
     public <T extends Page> T open(Class<T> page, Url url) {
         return open(page, url, null);
     }
 
+    @Override
     public <T extends Page> T open(Class<T> page, String[] params) {
         return open(page, null, params);
     }
 
-    public <T extends Page> T open(Class<T> page, Url url, String[] params) {
-        T pageInstance = uiObjectFactory.get(page);
-
-        if (url != null) {
-            pageInstance.setUrl(url);
-        }
-
-        if (!isEmpty(params)) {
-            Url withParams = getUrlFactory().getUrlOf(page, params);
-            pageInstance.setUrl(withParams);
-        }
-
-        return open(page);
+    @Override
+    public <T extends Page> T open(Class<T> page) {
+        return open(page, null, null);
     }
 
-    public <T extends Page> T open(Class<T> page) {
+    @Override
+    public <T extends Page> T open(Class<T> page, Url url, String[] params) {
         T pageInstance = uiObjectFactory.get(page);
+        Url pageUrl;
+
+        if (url != null) {
+            pageUrl = url;
+        } else {
+            pageUrl = urlFactory.getUrlOf(pageInstance);
+        }
+        pageInstance.setUrl(pageUrl);
+
+        if(!isEmpty(params)) {
+            pageUrl = urlFactory.getUrlOf(pageInstance, params);
+            pageInstance.setUrl(pageUrl);
+        }
+
         return open(pageInstance);
     }
 
+    @Override
     public <T extends Page> T open(T page) {
         Url url = page.getUrl();
         getDriver().get(url.toString());
@@ -211,164 +198,192 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return page;
     }
 
+    @Override
     public String getCurrentUrl() {
         return getDriver().getCurrentUrl();
     }
 
+    @Override
     public String getCurrentTitle() {
         return getDriver().getTitle();
     }
 
     //Window
+    @Override
     public void openNewWindow() {
-        executeScript("window.open()");
-        getWindowManager().switchToNextWindow();
+        getWindowManager().openNewWindow();
     }
 
+    @Override
     public void switchToNextWindow() {
         getWindowManager().switchToNextWindow();
     }
 
+    @Override
     public void switchToPreviousWindow() {
         getWindowManager().switchToPreviousWindow();
     }
 
+    @Override
     public void switchToDefaultWindow() {
         getWindowManager().switchToDefaultWindow();
     }
 
+    @Override
     public void switchToWindowByIndex(int index) {
         getWindowManager().switchToWindowByIndex(index);
     }
 
+    @Override
+    public boolean hasNextWindow() {
+        return getWindowManager().hasNextWindow();
+    }
+
+    @Override
+    public boolean hasPreviousWindow() {
+        return getWindowManager().hasPreviousWindow();
+    }
+
+    @Override
+    public int getCountOfWindows() {
+        return getWindowManager().getCountOfWindows();
+    }
+
+    @Override
+    public int getCurrentWindowIndex() {
+        return getWindowManager().getCurrentWindowIndex();
+    }
+
     //Window position
+    @Override
     public Point getWindowPosition() {
         return getDriver().manage().window().getPosition();
     }
 
+    @Override
     public void setWindowPosition(int newX, int newY) {
         getDriver().manage().window().setPosition(new Point(newX, newY));
     }
 
+    @Override
     public void moveWindowBy(int xOffset, int yOffset) {
         getDriver().manage().window().getPosition().moveBy(xOffset, yOffset);
-
     }
 
+    @Override
     public void moveWindowTo(int newX, int newY) {
         getDriver().manage().window().getPosition().moveBy(newX, newY);
     }
 
-    public void maximizeWindow() {
-        getDriver().manage().window().maximize();
-    }
-
     //Navigation
+    @Override
     public void goBack() {
         getDriver().navigate().back();
     }
 
+    @Override
     public void goForward() {
         getDriver().navigate().forward();
     }
 
     //Window size
+    @Override
+    public void maximizeWindow() {
+        getDriver().manage().window().maximize();
+    }
+
+    @Override
     public Dimension getWindowSize() {
         return getDriver().manage().window().getSize();
     }
 
+    @Override
     public void setWindowSize(int width, int height) {
         getDriver().manage().window().setSize(new Dimension(width, height));
     }
 
+    @Override
     public void setWindowWidth(int width) {
         setWindowSize(width, getWindowSize().getHeight());
     }
 
+    @Override
     public void setWindowHeight(int height) {
         setWindowSize(getWindowSize().getWidth(), height);
 
     }
 
-    public void setWindowSize(String size) {
-        Dimension defaultDimension = getWindowSize();
-        int width = defaultDimension.width;
-        int height = defaultDimension.height;
-
-        String[] dimension = size.split("x");
-
-        if (dimension.length > 0) {
-
-            if (!StringUtils.isEmpty(size)) {
-                width = Integer.parseInt(dimension[0]);
-            }
-        }
-
-        if (dimension.length > 1) {
-            height = Integer.parseInt(dimension[1]);
-        }
-
-        setWindowSize(width, height);
-    }
-
+    @Override
     public void refreshPage() {
         getDriver().navigate().refresh();
     }
 
+    @Override
     public void deleteAllCookies() {
         getDriver().manage().deleteAllCookies();
     }
 
-    public void deleteCookieNamed(String name) {
+    @Override
+    public void deleteCookie(String name) {
         getDriver().manage().deleteCookieNamed(name);
-
     }
 
+    @Override
     public Set<Cookie> getCookies() {
         return getDriver().manage().getCookies();
     }
 
-    public Actions getActions() {
+    private Actions getActions() {
         return new Actions(getDriver());
     }
 
     //Elements
+    @Override
     public void click() {
         getActions().click().perform();
     }
 
+    @Override
     public void clickAndHold() {
         getActions().clickAndHold().perform();
     }
 
+    @Override
     public void clickAndHold(UIElement element) {
         getActions().clickAndHold(element.getWrappedElement()).perform();
     }
 
+    @Override
     public void doubleClick() {
         getActions().doubleClick().perform();
     }
 
+    @Override
     public void doubleClick(UIElement element) {
         getActions().doubleClick(element.getWrappedElement()).perform();
     }
 
+    @Override
     public void contextClick() {
         getActions().contextClick().perform();
     }
 
+    @Override
     public void contextClick(UIElement element) {
         getActions().contextClick(element.getWrappedElement()).perform();
     }
 
+    @Override
     public void releaseMouse() {
         getActions().release().perform();
     }
 
+    @Override
     public void releaseMouse(UIElement element) {
         getActions().release(element.getWrappedElement()).perform();
     }
 
+    @Override
     public void dragAndDrop(UIElement source, UIElement target) {
         getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
     }
@@ -377,71 +392,88 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         getActions().dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform();
     }
 
+    @Override
     public void keyDown(Keys theKey) {
         getActions().keyDown(theKey).perform();
     }
 
+    @Override
     public void keyDown(UIElement element, Keys theKey) {
         getActions().keyDown(element.getWrappedElement(), theKey).perform();
     }
 
+    @Override
     public void keyUp(Keys theKey) {
         getActions().keyUp(theKey).perform();
     }
 
+    @Override
     public void keyUp(UIElement element, Keys theKey) {
         getActions().keyUp(element.getWrappedElement(), theKey).perform();
     }
 
+    @Override
     public void click(UIElement element) {
         new Click(element).perform();
     }
 
+    @Override
     public void clickOnPoint(UIElement element, int x, int y) {
         getActions().moveToElement(element.getWrappedElement(), x, y).click().build().perform();
     }
 
+    @Override
     public void moveMouseByOffset(int xOffset, int yOffset) {
         getActions().moveByOffset(xOffset, yOffset).perform();
     }
 
+    @Override
     public void moveToElement(UIElement element, int xOffset, int yOffset) {
         getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
     }
 
+    @Override
     public void moveMouseOver(UIElement element) {
         getActions().moveToElement(element.getWrappedElement()).perform();
     }
 
+    @Override
     public void typeInto(UIElement input, Object text) {
         input.getWrappedElement().sendKeys(text.toString());
     }
 
+    @Override
     public void clear(UIElement input) {
         new Clear(input).perform();
     }
 
+    @Override
     public void enterInto(UIElement input, Object text) {
         new EnterInto(input, text).perform();
     }
 
     //Tags
+    @Override
     public String getTagNameOf(UIElement element) {
         return element.getWrappedElement().getTagName();
     }
 
+    @Override
     public String getAttribute(UIElement element, String attribute) {
         return element.getWrappedElement().getAttribute(attribute);
     }
 
+    @Override
     public String getCSSPropertyOf(UIElement element, String cssProperty) {
         return element.getWrappedElement().getCssValue(cssProperty);
     }
 
+    @Override
     public Point getPositionOf(UIElement element) {
         return element.getWrappedElement().getLocation();
     }
 
+    @Override
     public Point getMiddlePositionOf(UIElement element) {
         Point position = getPositionOf(element);
         Dimension size = getSizeOf(element);
@@ -452,6 +484,7 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return new Point(x, y);
     }
 
+    @Override
     public Point getRelativePositionOf(UIElement element, UIElement target) {
         Point elementPosition = getPositionOf(element);
         Point targetPosition = getPositionOf(target);
@@ -462,6 +495,7 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return new Point(x, y);
     }
 
+    @Override
     public Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
         Point elementPosition = getMiddlePositionOf(element);
         Point targetPosition = getMiddlePositionOf(target);
@@ -472,24 +506,147 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return new Point(x, y);
     }
 
+    @Override
     public Dimension getSizeOf(UIElement element) {
         return element.getWrappedElement().getSize();
     }
 
-    public String getTextFrom(UIElement input) {
-        WebElement inputWrappedElement = input.getWrappedElement();
+    @Override
+    public String getTextFrom(UIElement element) {
+        return new GetText(element).perform();
+    }
 
-        if ("input".equals(input.getWrappedElement().getTagName())) {
-            String enteredText = inputWrappedElement.getAttribute("value");
+    //Select
+    @Override
+    public void select(Option option) {
+        option.select();
+    }
 
-            if (enteredText != null) {
-                return enteredText;
-            } else {
-                return "";
-            }
-        } else {
-            return inputWrappedElement.getText();
+    @Override
+    public void deselectAllValuesFrom(Select select) {
+        select.getWrappedSelect().deselectAll();
+    }
+
+    @Override
+    public void deselect(Option option) {
+        option.deselect();
+    }
+
+    //Radio button
+    @Override
+    public void select(RadioButton button) {
+        if (!button.isSelected()) {
+            new Click(button).perform();
         }
+    }
+
+    //CheckBox
+    @Override
+    public void select(CheckBox checkBox) {
+        checkBox.getWrappedCheckBox().select();
+    }
+
+    @Override
+    public void deselect(CheckBox checkBox) {
+        checkBox.getWrappedCheckBox().deselect();
+    }
+
+    //Scroll window
+    @Override
+    public void scrollWindowByOffset(int x, int y) {
+        executeScript("window.scrollBy(" + x + "," + y + ");");
+    }
+
+    @Override
+    public void scrollWindowToTarget(UIElement element) {
+        executeScript("arguments[0].scrollIntoView();", element.getWrappedElement());
+    }
+
+    @Override
+    public void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
+        WebElement target = element.getWrappedElement();
+        Point location = target.getLocation();
+
+        int xLocation = location.x + x;
+        int yLocation = location.y + y;
+        String script = "window.scroll(arguments[0],arguments[1]);";
+
+        executeScript(script, xLocation, yLocation);
+    }
+
+    //Scroll
+    @Override
+    public void scrollToTarget(UIElement scroll, UIElement target) {
+        Point scrollPosition = getPositionOf(scroll);
+        Point targetPosition = getPositionOf(target);
+        int targetX = targetPosition.x - scrollPosition.x;
+        int targetY = targetPosition.y - scrollPosition.y;
+        scroll(scroll, targetX, targetY);
+    }
+
+    @Override
+    public void verticalScrollToTarget(UIElement scroll, UIElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        verticalScroll(scroll, targetPosition.y - scrollPosition.y);
+    }
+
+    @Override
+    public void horizontalScrollToTarget(UIElement scroll, UIElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        horizontalScroll(scroll, targetPosition.x - scrollPosition.x);
+    }
+
+    @Override
+    public void horizontalScroll(UIElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, pixels, position.y);
+    }
+
+    @Override
+    public void verticalScroll(UIElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, position.x, pixels);
+    }
+
+    @Override
+    public void scroll(UIElement scroll, int x, int y) {
+        getActions()
+                .clickAndHold(scroll.getWrappedElement())
+                .moveByOffset(x, y)
+                .release()
+                .perform();
+    }
+
+
+    //FileInput
+    @Override
+    public void setFileToUpload(FileInput fileInput, String filePath) {
+        fileInput.getWrappedFileInput().setFileToUpload(filePath);
+    }
+
+    //Alert
+    @Override
+    public void accept(Alert alert) {
+        alert.getWrappedAlert().accept();
+    }
+
+    @Override
+    public void dismiss(ConfirmAlert confirm) {
+        confirm.getWrappedAlert().dismiss();
+    }
+
+    @Override
+    public PromtAlert enterInto(PromtAlert promt, String text) {
+        promt.getWrappedAlert().sendKeys(text);
+        return promt;
+    }
+
+    @Override
+    public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
+        Credentials credentials = new UserAndPassword(login, password);
+        authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
     }
 
     @Override
@@ -502,10 +659,12 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return ((JavascriptExecutor) getDriver()).executeScript(script, args);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -532,125 +691,6 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         }
 
         return browserName.toString();
-    }
-
-    //Select
-    public void select(Option option) {
-        option.select();
-    }
-
-    public void deselectAllValuesFrom(Select select) {
-        select.getWrappedSelect().deselectAll();
-    }
-
-    public void deselect(Option option) {
-        option.deselect();
-    }
-
-    //Radio button
-    public void select(RadioButton button) {
-        if (!button.isSelected()) {
-            new Click(button).perform();
-        }
-    }
-
-    //CheckBox
-    public void select(CheckBox checkBox) {
-        checkBox.getWrappedCheckBox().select();
-    }
-
-    public void deselect(CheckBox checkBox) {
-        checkBox.getWrappedCheckBox().deselect();
-    }
-
-    //Scrooll window
-    public void scrollWindowByOffset(int x, int y) {
-        executeScript("window.scrollBy(" + x + "," + y + ");");
-    }
-
-    public void scrollWindowToTarget(UIElement element) {
-        executeScript("arguments[0].scrollIntoView();", element.getWrappedElement());
-    }
-
-    public void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
-        WebElement target = element.getWrappedElement();
-        Point location = target.getLocation();
-
-        int xLocation = location.x + x;
-        int yLocation = location.y + y;
-        String script = "window.scroll(arguments[0],arguments[1]);";
-
-        executeScript(script, xLocation, yLocation);
-    }
-
-    //Scroll
-    public void scrollToTarget(UIElement scroll, UIElement target) {
-        Point scrollPosition = getPositionOf(scroll);
-        Point targetPosition = getPositionOf(target);
-        scroll(scroll, new Point(targetPosition.x - scrollPosition.x, targetPosition.y - scrollPosition.y));
-    }
-
-    public void verticalScrollToTarget(UIElement scroll, UIElement target) {
-        Point targetPosition = getPositionOf(target);
-        Point scrollPosition = getPositionOf(scroll);
-        verticalScroll(scroll, targetPosition.y - scrollPosition.y);
-    }
-
-    public void horizontalScrollToTarget(UIElement scroll, UIElement target) {
-        Point targetPosition = getPositionOf(target);
-        Point scrollPosition = getPositionOf(scroll);
-        horizontalScroll(scroll, targetPosition.x - scrollPosition.x);
-    }
-
-    public void horizontalScroll(UIElement scroll, int pixels) {
-        Point position = getPositionOf(scroll);
-        scroll(scroll, new Point(pixels, position.y));
-    }
-
-    public void verticalScroll(UIElement scroll, int pixels) {
-        Point position = getPositionOf(scroll);
-        scroll(scroll, new Point(position.x, pixels));
-    }
-
-    public void scroll(UIElement scroll, int x, int y) {
-        getActions()
-                .clickAndHold(scroll.getWrappedElement())
-                .moveByOffset(x, y)
-                .release()
-                .perform();
-    }
-
-    protected void scroll(UIElement scroll, Point point) {
-        getActions()
-                .clickAndHold(scroll.getWrappedElement())
-                .moveByOffset(point.x, point.y)
-                .release()
-                .perform();
-    }
-
-    //FileInput
-    public void setFileToUpload(FileInput fileInput, String filePath) {
-        fileInput.getWrappedFileInput().setFileToUpload(filePath);
-    }
-
-    //Alert
-
-    public void accept(Alert alert) {
-        alert.getWrappedAlert().accept();
-    }
-
-    public void dismiss(ConfirmAlert confirm) {
-        confirm.getWrappedAlert().dismiss();
-    }
-
-    public PromtAlert enterInto(PromtAlert promt, String text) {
-        promt.getWrappedAlert().sendKeys(text);
-        return promt;
-    }
-
-    public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
-        Credentials credentials = new UserAndPassword(login, password);
-        authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
     }
 
     //onDisplayed
@@ -692,30 +732,45 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
         return onDisplayed(getAll(uiObject, locator));
     }
 
-
     //Screenshots
-    public Photographer inScreenshotIgnoring(By... locators) {
-        return getPhotographer().ignore(locators);
+    @Override
+    public IPhotographer ignore(By... locators) {
+        return photographer.ignore(locators);
     }
 
-    public Photographer inScreenshotIgnoring(UIElement... elements) {
-        return getPhotographer().ignore(elements);
+    @Override
+    public IPhotographer ignore(UIElement... elements) {
+        return photographer.ignore(elements);
     }
 
-    public Photographer inScreenshotIgnoring(Coords... areas) {
-        return getPhotographer().ignore(areas);
+    @Override
+    public IPhotographer ignore(Coords... areas) {
+        return photographer.ignore(areas);
     }
 
+    @Override
+    public IPhotographer ignore(int width, int height) {
+        return photographer.ignore(width, height);
+    }
+
+    @Override
+    public IPhotographer ignore(int x, int y, int width, int height) {
+        return photographer.ignore(x, y, width, height);
+    }
+
+    @Override
     public Screenshot takeScreenshot() {
-        return getPhotographer().takeScreenshot();
+        return photographer.takeScreenshot();
     }
 
+    @Override
     public Screenshot takeScreenshot(UIElement... elements) {
-        return getPhotographer().takeScreenshot(elements);
+        return photographer.takeScreenshot(elements);
     }
 
+    @Override
     public Screenshot takeScreenshot(Ignored... elements) {
-        return getPhotographer().takeScreenshot(elements);
+        return photographer.takeScreenshot(elements);
     }
 
     //Page source
@@ -733,34 +788,37 @@ public class Browser implements ISearchContext, ScriptExecutor, IUIObjectFactory
     }
 
     @Override
-    public SearchContext getSearchContext() {
-        return getDriver();
-    }
-
-    @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return getUIObjectFactory().getAll(uiObject);
+        return uiObjectFactory.getAll(uiObject);
     }
 
     @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
-        return getUIObjectFactory().getAll(uiObject, locator);
+        return uiObjectFactory.getAll(uiObject, locator);
     }
 
     @Override
     public UIElement get(By locator) {
-        return getUIObjectFactory().get(locator);
+        return uiObjectFactory.get(locator);
     }
 
     @Override
     public <T extends UIObject> T get(Class<T> uiObject) {
-        return getUIObjectFactory().get(uiObject);
+        return uiObjectFactory.get(uiObject);
     }
 
     @Override
     public <T extends UIElement> T get(Class<T> uiObject, By locator) {
-        return getUIObjectFactory().get(uiObject, locator);
+        return uiObjectFactory.get(uiObject, locator);
     }
 
+    @Override
+    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
+        return new Then(uiElement, this, locator);
+    }
 
+    @Override
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        return new Then(uiObject, this);
+    }
 }

@@ -15,8 +15,9 @@ public class Click extends Action {
     }
 
     @Override
-    protected void apply() {
+    protected Object apply() {
         uiElement.getWrappedElement().click();
+        return null;
     }
 
     @Override

@@ -15,19 +15,15 @@
  */
 package com.qantium.uisteps.core.user;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Storage;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.browser.factory.Driver;
 import com.qantium.uisteps.core.browser.factory.DriverBuilder;
 import com.qantium.uisteps.core.browser.pages.*;
-import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
-import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
-import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
+import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.screenshots.Ignored;
-import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import com.qantium.uisteps.core.storage.Storage;
+import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.*;
 import ru.yandex.qatools.ashot.coordinates.Coords;
@@ -40,483 +36,451 @@ import java.util.Set;
 /**
  * @author Anton Solyankin
  */
-public class User  implements ISearchContext, ScriptExecutor {
+public class User implements BrowserActions, IBrowserManager {
 
-    private final BrowserManager browserManager;
-    public final Storage storage;
+    private final IBrowserManager browserManager;// = new BrowserManager();
+    private final Storage storage;// = new Storage();
 
-    public User(BrowserManager browserManager, Storage storage) {
+    public User(IBrowserManager browserManager, Storage storage) {
         this.browserManager = browserManager;
         this.storage = storage;
     }
-
-    public User(BrowserManager browserManager) {
-        this(browserManager, new Storage());
-    }
-
     public User() {
-        this(new BrowserManager());
+        this(new BrowserManager(), new Storage());
     }
 
     public Storage getStorage() {
         return storage;
     }
 
-    public BrowserManager getBrowserManager() {
-        return browserManager;
+    @Override
+    public WebDriver getDriver() {
+        if (!browserManager.hasAnyBrowser()) {
+            throw new NoBrowserException();
+        }
+        return inOpenedBrowser().getDriver();
     }
 
-    public Browser inOpenedBrowser() {
-
-        if (!getBrowserManager().hasAny()) {
+    public IBrowser inOpenedBrowser() {
+        if (!browserManager.hasAnyBrowser()) {
             openNewBrowser();
         }
-        return getBrowserManager().getCurrentBrowser();
+        return browserManager.getCurrentBrowser();
     }
 
-    //Browser
-    public <T extends User> T openNewBrowser(Driver driver) {
-        getBrowserManager().openNewBrowser(driver);
-        return (T) this;
+    @Override
+    public Page openUrl(String url) {
+        return inOpenedBrowser().openUrl(url);
     }
 
-    public <T extends User> T openNewBrowser() {
-        getBrowserManager().openNewBrowser();
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(WebDriver driver) {
-        getBrowserManager().openNewBrowser(driver);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(String driver) {
-        getBrowserManager().openNewBrowser(driver);
-        return (T) this;
-    }
-
-    public <T extends User> T openNewBrowser(DriverBuilder driverBuilder) {
-        getBrowserManager().openNewBrowser(driverBuilder);
-        return (T) this;
-    }
-
-    public <T extends User> T switchToNextBrowser() {
-        getBrowserManager().switchToNextBrowser();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToPreviousBrowser() {
-        getBrowserManager().switchToPreviousBrowser();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToDefaultBrowser() {
-        getBrowserManager().switchToFirstBrowser();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToBrowserByIndex(int index) throws NoBrowserException {
-        getBrowserManager().switchToBrowserByIndex(index);
-        return (T) this;
-    }
-
-    public <T extends User> T switchToLastBrowser() {
-        getBrowserManager().switchToLastBrowser();
-        return (T) this;
-    }
-
-    public synchronized void closeAllBrowsers() {
-        getBrowserManager().closeAllBrowsers();
-    }
-
-    public <T extends User> T closeCurrentBrowser() {
-        getBrowserManager().closeCurrentBrowser();
-        return (T) this;
-    }
-
+    @Override
     public Page openUrl(String url, String[] params) {
         return inOpenedBrowser().openUrl(url, params);
     }
 
-    public <T extends User> T open(Url url, String[] params) {
-        inOpenedBrowser().open(url, params);
-        return (T) this;
+    @Override
+    public Page open(Url url) {
+        return inOpenedBrowser().open(url);
     }
 
-    public <T extends Page> T open(Class<T> page, Url url, String... params) {
-        return inOpenedBrowser().open(page, url, params);
+    @Override
+    public Page open(Url url, String[] params) {
+        return inOpenedBrowser().open(url, params);
     }
 
-    public <T extends Page> T open(T page, Url url, String... params) {
-        return inOpenedBrowser().open(page, url, params);
+    @Override
+    public <T extends Page> T open(Class<T> page, Url url) {
+        return inOpenedBrowser().open(page, url);
     }
 
-    public <T extends Page> T open(Class<T> page, String... params) {
+    @Override
+    public <T extends Page> T open(Class<T> page, String[] params) {
         return inOpenedBrowser().open(page, params);
     }
 
-    public <T extends Page> T open(T page, String... params) {
-        return inOpenedBrowser().open(page, params);
+    @Override
+    public <T extends Page> T open(Class<T> page, Url url, String[] params) {
+        return inOpenedBrowser().open(page, url, params);
     }
 
-    //Navigation
-    public <T extends User> T goBack() {
-        inOpenedBrowser().goBack();
-        return (T) this;
+    @Override
+    public <T extends Page> T open(Class<T> page) {
+        return inOpenedBrowser().open(page);
     }
 
-    public <T extends User> T goForward() {
-        inOpenedBrowser().goForward();
-        return (T) this;
+    @Override
+    public <T extends Page> T open(T page) {
+        return inOpenedBrowser().open(page);
     }
 
-    //Window
-    public <T extends User> T openNewWindow() {
-        inOpenedBrowser().openNewWindow();
-        return (T) this;
+    @Override
+    public String getCurrentUrl() {
+        return inOpenedBrowser().getCurrentUrl();
     }
 
-    public <T extends User> T switchToNextWindow() {
-        inOpenedBrowser().switchToNextWindow();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToPreviousWindow() {
-        inOpenedBrowser().switchToPreviousWindow();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToDefaultWindow() {
-        inOpenedBrowser().switchToDefaultWindow();
-        return (T) this;
-    }
-
-    public <T extends User> T switchToWindowByIndex(int index) {
-        inOpenedBrowser().switchToWindowByIndex(index);
-        return (T) this;
-    }
-
-    public Point getWindowPosition() {
-        return inOpenedBrowser().getWindowPosition();
-    }
-
-    public <T extends User> T setWindowPosition(int newX, int newY) {
-        inOpenedBrowser().setWindowPosition(newX, newY);
-        return (T) this;
-    }
-
-    public <T extends User> T moveWindowBy(int xOffset, int yOffset) {
-        inOpenedBrowser().moveWindowBy(xOffset, yOffset);
-        return (T) this;
-    }
-
-    public <T extends User> T moveWindowTo(int newX, int newY) {
-        inOpenedBrowser().moveWindowTo(newX, newY);
-        return (T) this;
-    }
-
-    public <T extends User> T maximizeWindow() {
-        inOpenedBrowser().maximizeWindow();
-        return (T) this;
-    }
-
-    public Dimension getWindowSize() {
-        return inOpenedBrowser().getWindowSize();
-    }
-
-    public <T extends User> T setWindowSize(String size) {
-        inOpenedBrowser().setWindowSize(size);
-        return (T) this;
-    }
-
-    public <T extends User> T setWindowSize(int width, int height) {
-        inOpenedBrowser().setWindowSize(width, height);
-        return (T) this;
-    }
-
-    public <T extends User> T setWindowWidth(int width) {
-        inOpenedBrowser().setWindowWidth(width);
-        return (T) this;
-    }
-
-    public <T extends User> T setWindowHeight(int height) {
-        inOpenedBrowser().setWindowHeight(height);
-        return (T) this;
-    }
-
-    //Scrooll window
-    public <T extends User> T scrollWindowByOffset(int x, int y) {
-        inOpenedBrowser().scrollWindowByOffset(x, y);
-        return (T) this;
-    }
-
-    public <T extends User> T scrollWindowToTarget(UIElement element) {
-        inOpenedBrowser().scrollWindowToTarget(element);
-        return (T) this;
-    }
-
-    public <T extends User> T scrollWindowToTargetByOffset(UIElement element, int x, int y) {
-        inOpenedBrowser().scrollWindowToTargetByOffset(element, x, y);
-        return (T) this;
-    }
-
-    //Current page
-    public <T extends User> T refreshPage() {
-        inOpenedBrowser().refreshPage();
-        return (T) this;
-    }
-
+    @Override
     public String getCurrentTitle() {
         return inOpenedBrowser().getCurrentTitle();
     }
 
-    public Page getCurrentPage() {
-        return inOpenedBrowser().getCurrentPage();
+    @Override
+    public Point getWindowPosition() {
+        return inOpenedBrowser().getWindowPosition();
     }
 
-    //Cookies
-    public <T extends User> T deleteCookies() {
-        Browser inOpenedBrowser = inOpenedBrowser();
-        inOpenedBrowser.deleteAllCookies();
-        return (T) this;
+    @Override
+    public void setWindowPosition(int newX, int newY) {
+        inOpenedBrowser().setWindowPosition(newX, newY);
     }
 
-    public <T extends User> T deleteCookieNamed(String name) {
-        inOpenedBrowser().deleteCookieNamed(name);
-        return (T) this;
+    @Override
+    public void moveWindowBy(int xOffset, int yOffset) {
+        inOpenedBrowser().moveWindowBy(xOffset, yOffset);
     }
 
+    @Override
+    public void moveWindowTo(int newX, int newY) {
+        inOpenedBrowser().moveWindowTo(newX, newY);
+    }
+
+    @Override
+    public void goBack() {
+        inOpenedBrowser().goBack();
+    }
+
+    @Override
+    public void goForward() {
+        inOpenedBrowser().goForward();
+    }
+
+    @Override
+    public void maximizeWindow() {
+        inOpenedBrowser().maximizeWindow();
+    }
+
+    @Override
+    public Dimension getWindowSize() {
+        return inOpenedBrowser().getWindowSize();
+    }
+
+    @Override
+    public void setWindowSize(int width, int height) {
+        inOpenedBrowser().setWindowSize(width, height);
+    }
+
+    @Override
+    public void setWindowWidth(int width) {
+        inOpenedBrowser().setWindowWidth(width);
+    }
+
+    @Override
+    public void setWindowHeight(int height) {
+        inOpenedBrowser().setWindowHeight(height);
+    }
+
+    @Override
+    public void refreshPage() {
+        inOpenedBrowser().refreshPage();
+    }
+
+    @Override
+    public void deleteAllCookies() {
+        inOpenedBrowser().deleteAllCookies();
+    }
+
+    @Override
+    public void deleteCookie(String name) {
+        inOpenedBrowser().deleteCookie(name);
+    }
+
+    @Override
     public Set<Cookie> getCookies() {
         return inOpenedBrowser().getCookies();
     }
 
-    //Actions
-    public <T extends User> T click() {
+    @Override
+    public void click() {
         inOpenedBrowser().click();
-        return (T) this;
     }
 
-    public <T extends User> T clickAndHold() {
+    @Override
+    public void clickAndHold() {
         inOpenedBrowser().clickAndHold();
-        return (T) this;
     }
 
-    public <T extends User> T doubleClick() {
+    @Override
+    public void doubleClick() {
         inOpenedBrowser().doubleClick();
-        return (T) this;
     }
 
-    public <T extends User> T contextClick() {
+    @Override
+    public void contextClick() {
         inOpenedBrowser().contextClick();
-        return (T) this;
     }
 
-    public <T extends User> T releaseMouse() {
+    @Override
+    public void releaseMouse() {
         inOpenedBrowser().releaseMouse();
-        return (T) this;
     }
 
-    public <T extends User> T keyDown(Keys theKey) {
+    @Override
+    public void keyDown(Keys theKey) {
         inOpenedBrowser().keyDown(theKey);
-        return (T) this;
     }
 
-    public <T extends User> T keyUp(Keys theKey) {
+    @Override
+    public void keyUp(Keys theKey) {
         inOpenedBrowser().keyUp(theKey);
-        return (T) this;
     }
 
-    public <T extends User> T moveMouseByOffset(int xOffset, int yOffset) {
+    @Override
+    public void moveMouseByOffset(int xOffset, int yOffset) {
         inOpenedBrowser().moveMouseByOffset(xOffset, yOffset);
-        return (T) this;
     }
 
-    public Object executeAsyncScript(String script, Object... args) {
-        return inOpenedBrowser().executeAsyncScript(script, args);
+    @Override
+    public void closeAllBrowsers() {
+        browserManager.closeAllBrowsers();
     }
 
-    public Object executeScript(String script, Object... args) {
-        return inOpenedBrowser().executeScript(script, args);
+    @Override
+    public void closeCurrentBrowser() {
+        browserManager.closeCurrentBrowser();
     }
 
-    //onDisplayed
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
+    @Override
+    public IBrowser getCurrentBrowser() {
+        return inOpenedBrowser();
     }
 
-    public boolean isDisplayed(Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().isDisplayed(uiObject);
+    @Override
+    public IBrowser openNewBrowser() {
+        return browserManager.openNewBrowser();
     }
 
-    public boolean isNotDisplayed(Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().isNotDisplayed(uiObject);
+    @Override
+    public IBrowser openNewBrowser(WebDriver driver) {
+        return browserManager.openNewBrowser(driver);
     }
 
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayed(uiObject, by);
+    @Override
+    public IBrowser openNewBrowser(Driver driver) {
+        return browserManager.openNewBrowser(driver);
     }
 
-    public boolean isDisplayed(Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().isDisplayed(uiObject);
+    @Override
+    public IBrowser openNewBrowser(String driver) {
+        return browserManager.openNewBrowser(driver);
     }
 
-    public boolean isNotDisplayed(Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().isNotDisplayed(uiObject, by);
+    @Override
+    public IBrowser openNewBrowser(DriverBuilder driverBuilder) {
+        return browserManager.openNewBrowser(driverBuilder);
     }
 
-    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(context, uiObject);
+    @Override
+    public IBrowser open(IBrowser browser) {
+        return browserManager.open(browser);
     }
 
-    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().isDisplayed(context, uiObject);
+    @Override
+    public IBrowser switchToNextBrowser() {
+        return browserManager.switchToNextBrowser();
     }
 
-    public boolean isNotDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().isNotDisplayed(context, uiObject, by);
+    @Override
+    public IBrowser switchToPreviousBrowser() {
+        return browserManager.switchToPreviousBrowser();
     }
 
-    public <T extends UIElement> T onDisplayed(UIObject context, Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayed(context, uiObject, by);
+    @Override
+    public IBrowser switchToFirstBrowser() {
+        return browserManager.switchToFirstBrowser();
     }
 
-    public boolean isDisplayed(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().isDisplayed(context, uiObject, by);
+    @Override
+    public IBrowser switchToLastBrowser() {
+        return browserManager.switchToLastBrowser();
     }
 
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
+    @Override
+    public IBrowser switchToBrowserByIndex(int index) {
+        return browserManager.switchToBrowserByIndex(index);
     }
 
-    public boolean isDisplayed(UIObject uiObject) {
-        return inOpenedBrowser().isDisplayed(uiObject);
+    @Override
+    public boolean hasNextBrowser() {
+        return browserManager.hasNextBrowser();
     }
 
-    public boolean isNotDisplayed(UIObject uiObject) {
-        return inOpenedBrowser().isNotDisplayed(uiObject);
+    @Override
+    public boolean hasPreviousBrowser() {
+        return browserManager.hasPreviousBrowser();
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(uiObject);
+    @Override
+    public boolean hasAnyBrowser() {
+        return browserManager.hasAnyBrowser();
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(uiObject, by);
+    @Override
+    public IPhotographer ignore(By... locators) {
+        return inOpenedBrowser().ignore(locators);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayedAll(context, uiObject);
+    @Override
+    public IPhotographer ignore(UIElement... elements) {
+        return inOpenedBrowser().ignore(elements);
     }
 
-    public <T extends UIElement> UIElements<T> onDisplayedAll(UIObject context, Class<T> uiObject, By by) {
-        return inOpenedBrowser().onDisplayedAll(context, uiObject, by);
+    @Override
+    public IPhotographer ignore(Coords... areas) {
+        return inOpenedBrowser().ignore(areas);
     }
 
-    //find
-
-    public UIElement find(By locator) {
-        return inOpenedBrowser().find(locator);
+    @Override
+    public IPhotographer ignore(int width, int height) {
+        return inOpenedBrowser().ignore(width, height);
     }
 
-    public <T extends UIElement> T find(Class<T> uiObject) {
-        return inOpenedBrowser().find(uiObject);
+    @Override
+    public IPhotographer ignore(int x, int y, int width, int height) {
+        return inOpenedBrowser().ignore(x, y, width, height);
     }
 
-    public <T extends UIElement> T find(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().find(uiObject, locator);
-    }
-
-    public <T extends UIElement> T find(UIObject context, Class<T> uiObject) {
-        return inOpenedBrowser().find(context, uiObject);
-    }
-
-    public <T extends UIElement> T find(UIObject context, Class<T> uiObject, By locator) {
-        return inOpenedBrowser().find(context, uiObject, locator);
-    }
-
-    //find all
-    public UIElements findAll(By locator) {
-        return inOpenedBrowser().findAll(locator);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject) {
-        return inOpenedBrowser().findAll(uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().findAll(uiObject, locator);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject) {
-        return inOpenedBrowser().findAll(context, uiObject);
-    }
-
-    public <T extends UIElement> UIElements<T> findAll(UIObject context, Class<T> uiObject, By locator) {
-        return inOpenedBrowser().findAll(context, uiObject, locator);
-    }
-
-
-    //take screenshot
-    public Photographer inScreenshotIgnoring(By... locators) {
-        return inOpenedBrowser().inScreenshotIgnoring(locators);
-    }
-
-    public Photographer inScreenshotIgnoring(UIElement... elements) {
-        return inOpenedBrowser().inScreenshotIgnoring(elements);
-    }
-
-    public Photographer inScreenshotIgnoring(Coords... areas) {
-        return inOpenedBrowser().inScreenshotIgnoring(areas);
-    }
-
+    @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot();
     }
 
+    @Override
     public Screenshot takeScreenshot(UIElement... elements) {
         return inOpenedBrowser().takeScreenshot(elements);
     }
 
+    @Override
     public Screenshot takeScreenshot(Ignored... elements) {
         return inOpenedBrowser().takeScreenshot(elements);
     }
 
-    public String getPageSource() {
-        return inOpenedBrowser().getPageSource();
+    @Override
+    public <T extends UIObject> T onDisplayed(T uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-
-    //wait
-    public <V> V waitUntil(Function<? super WebDriver, V> isTrue) {
-        return inOpenedBrowser().waitUntil(isTrue);
+    @Override
+    public UIElement onDisplayed(By locator) {
+        return inOpenedBrowser().onDisplayed(locator);
     }
 
-    public void waitUntil(Predicate<WebDriver> isTrue) {
-        inOpenedBrowser().waitUntil(isTrue);
+    @Override
+    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
+        return inOpenedBrowser().onDisplayed(uiObject);
     }
 
-    public UIObjectWait wait(UIObject uiObject) {
-        return inOpenedBrowser().wait(uiObject);
+    @Override
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().onDisplayed(uiObject, locator);
     }
 
-    public UIElementWait wait(UIElement uiElement) {
-        return inOpenedBrowser().wait(uiElement);
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject) {
+        return inOpenedBrowser().onAllDisplayed(uiObject);
     }
 
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().wait(context, uiObject, by);
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().onAllDisplayed(uiObject, locator);
     }
 
-    public UIObjectWait wait(UIObject context, Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().wait(context, uiObject);
+    @Override
+    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
+        return inOpenedBrowser().then(uiElement, locator);
     }
 
-    public UIObjectWait wait(Class<? extends UIObject> uiObject, By by) {
-        return inOpenedBrowser().wait(uiObject, by);
+    @Override
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        return inOpenedBrowser().then(uiObject);
     }
 
-    public UIObjectWait wait(Class<? extends UIObject> uiObject) {
-        return inOpenedBrowser().wait(uiObject);
+    @Override
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
+        return inOpenedBrowser().getAll(uiObject);
+    }
+
+    @Override
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().getAll(uiObject, locator);
+    }
+
+    @Override
+    public UIElement get(By locator) {
+        return inOpenedBrowser().get(locator);
+    }
+
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject) {
+        return inOpenedBrowser().get(uiObject);
+    }
+
+    @Override
+    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
+        return inOpenedBrowser().get(uiObject, locator);
+    }
+
+    @Override
+    public void openNewWindow() {
+        inOpenedBrowser().openNewWindow();
+    }
+
+    @Override
+    public void switchToNextWindow() {
+        inOpenedBrowser().switchToNextWindow();
+    }
+
+    @Override
+    public void switchToPreviousWindow() {
+        inOpenedBrowser().switchToPreviousWindow();
+    }
+
+    @Override
+    public void switchToDefaultWindow() {
+        inOpenedBrowser().switchToDefaultWindow();
+    }
+
+    @Override
+    public void switchToWindowByIndex(int index) {
+        inOpenedBrowser().switchToWindowByIndex(index);
+    }
+
+    @Override
+    public boolean hasNextWindow() {
+        return inOpenedBrowser().hasNextWindow();
+    }
+
+    @Override
+    public boolean hasPreviousWindow() {
+        return inOpenedBrowser().hasPreviousWindow();
+    }
+
+    @Override
+    public int getCountOfWindows() {
+        return inOpenedBrowser().getCountOfWindows();
+    }
+
+    @Override
+    public int getCurrentWindowIndex() {
+        return inOpenedBrowser().getCurrentWindowIndex();
+    }
+
+    @Override
+    public Object executeAsyncScript(String script, Object... args) {
+        return inOpenedBrowser().executeAsyncScript(script, args);
+    }
+
+    @Override
+    public Object executeScript(String script, Object... args) {
+        return inOpenedBrowser().executeScript(script, args);
     }
 
     //Storage
@@ -524,16 +488,8 @@ public class User  implements ISearchContext, ScriptExecutor {
         return getStorage().toDir(dir);
     }
 
-    public File put(File file) {
-        return getStorage().put(file);
-    }
-
     public File save(byte[] bytes, String path) throws IOException {
         return getStorage().save(bytes, path);
-    }
-
-    public <T> T put(String key, T value) {
-        return getStorage().put(key, value);
     }
 
     public File save(RenderedImage image, String path) throws IOException {
@@ -544,37 +500,12 @@ public class User  implements ISearchContext, ScriptExecutor {
         return getStorage().save(har, path);
     }
 
-    public <T> T get(Class<T> key) {
-        return getStorage().get(key);
-    }
-
-    public <T> T put(T value) {
-        return getStorage().put(value);
-    }
-
     public File save(String data, String path) throws IOException {
         return getStorage().save(data, path);
     }
 
     public File save(Screenshot screenshot, String path) throws IOException {
         return getStorage().save(screenshot, path);
-    }
-
-    public <T> T get(String key) {
-        return getStorage().get(key);
-    }
-
-    //Alert
-    public Alert getDisplayedAlert() {
-        return inOpenedBrowser()..getDisplayedAlert();
-    }
-
-    public ConfirmAlert getDisplayedComfirmAlert() {
-        return inOpenedBrowser().getDisplayedConfirmAlert();
-    }
-
-    public PromtAlert getDisplayedPromtAlert() {
-        return inOpenedBrowser().getDisplayedPromtAlert();
     }
 
 }

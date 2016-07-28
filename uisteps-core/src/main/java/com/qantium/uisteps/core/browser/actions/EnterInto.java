@@ -17,10 +17,11 @@ public class EnterInto extends Action {
     }
 
     @Override
-    protected void apply() {
+    protected Object apply() {
         WebElement webElement = input.getWrappedElement();
         webElement.clear();
         webElement.sendKeys(text.toString());
+        return null;
     }
 
     @Override

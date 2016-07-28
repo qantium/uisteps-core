@@ -15,8 +15,9 @@ public class Clear extends Action {
     }
 
     @Override
-    protected void apply() {
-        uiElement.getWrappedElement().click();
+    protected Object apply() {
+        uiElement.getWrappedElement().clear();
+        return null;
     }
 
     @Override

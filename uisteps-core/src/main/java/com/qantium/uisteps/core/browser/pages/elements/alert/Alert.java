@@ -2,8 +2,12 @@ package com.qantium.uisteps.core.browser.pages.elements.alert;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
+import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.wait.AlertDisplayWaiting;
 import com.qantium.uisteps.core.browser.wait.Waiting;
+import com.qantium.uisteps.core.then.Then;
+import org.openqa.selenium.By;
 
 /**
  * Created by Anton Solyankin
@@ -13,11 +17,6 @@ public class Alert extends AbstractUIObject {
 
     private org.openqa.selenium.Alert wrappedAlert;
 
-
-    @Override
-    protected Waiting getDisplayWaiting() {
-        return new AlertDisplayWaiting(this);
-    }
 
     public void accept() {
         inOpenedBrowser().accept(this);
@@ -37,5 +36,20 @@ public class Alert extends AbstractUIObject {
     @Override
     public String toString() {
         return getWrappedAlert().getText();
+    }
+
+    @Override
+    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
+        return inOpenedBrowser().then(uiElement, locator);
+    }
+
+    @Override
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        return inOpenedBrowser().then(uiObject);
+    }
+
+    @Override
+    protected Waiting getDisplayWaiting() {
+        return new AlertDisplayWaiting(this);
     }
 }

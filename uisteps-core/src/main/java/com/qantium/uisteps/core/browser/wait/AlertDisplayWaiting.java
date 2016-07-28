@@ -18,9 +18,13 @@ public class AlertDisplayWaiting extends Waiting {
     protected boolean until() {
         try {
             alert.getText();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
+            return !isNot();
+        } catch (NoAlertPresentException ex) {
+            if(isNot()) {
+                return true;
+            } else {
+                throw new IsNotDisplayException(alert, ex);
+            }
         }
     }
 }

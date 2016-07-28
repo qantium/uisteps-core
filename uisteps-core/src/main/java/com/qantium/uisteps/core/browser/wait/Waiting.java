@@ -9,9 +9,10 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
  */
 public abstract class Waiting {
 
+    private long delay = 0;
     private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
-    private boolean not = true;
+    private boolean not;
 
 
     public boolean isNot() {
@@ -24,7 +25,7 @@ public abstract class Waiting {
     }
 
     public Waiting not() {
-        return setNot(false);
+        return setNot(true);
     }
 
     public Waiting withTimeout(long timeout) {
@@ -37,6 +38,11 @@ public abstract class Waiting {
         return this;
     }
 
+    public Waiting withDelay(long delay) {
+        this.delay = delay;
+        return this;
+    }
+
     public long getTimeout() {
         return timeout;
     }
@@ -45,32 +51,36 @@ public abstract class Waiting {
         return pollingTime;
     }
 
-    public boolean perform() throws WaitingException {
+    public long getDelay() {
+        return delay;
+    }
+
+    public void perform() {
         long counter = 0;
+        Exception waitingException = null;
 
         while (counter <= getTimeout()) {
             try {
-                if(isNot()) {
-                    return !until();
-                } else {
-                    return until();
+                if (until()) {
+                    return;
                 }
+            } catch (Exception ex) {
+                waitingException = ex;
             } finally {
-                sleep(getPollingTime());
+                sleep();
                 counter += getPollingTime();
             }
         }
-        throw new WaitingException(getTimeout(), getPollingTime());
+        throw new WaitingException(getTimeout(), getPollingTime(), waitingException);
     }
 
-    private void sleep(long pollingTime) {
+    private void sleep() {
         try {
-            Thread.sleep(pollingTime);
+            Thread.sleep(getPollingTime());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-
     protected abstract boolean until();
 
 }

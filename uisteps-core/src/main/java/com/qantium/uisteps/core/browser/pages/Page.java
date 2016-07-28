@@ -27,7 +27,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 /**
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 @NotInit
 @Root
@@ -45,11 +45,6 @@ public class Page extends HtmlObject {
 
     public String getTitle() {
         return inOpenedBrowser().getCurrentTitle();
-    }
-
-    @Override
-    protected Waiting getDisplayWaiting() {
-        return new PageDisplayWaiting(this);
     }
 
     public <T extends Page> T setUrl(Url url) {
@@ -85,5 +80,10 @@ public class Page extends HtmlObject {
     @Override
     public SearchContext getSearchContext() {
         return inOpenedBrowser().getDriver();
+    }
+
+    @Override
+    protected Waiting getDisplayWaiting() {
+        return new PageDisplayWaiting(this);
     }
 }

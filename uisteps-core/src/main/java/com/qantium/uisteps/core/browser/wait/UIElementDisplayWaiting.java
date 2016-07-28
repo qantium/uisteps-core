@@ -1,6 +1,8 @@
 package com.qantium.uisteps.core.browser.wait;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NotFoundException;
 
 /**
  * Created by Anton Solyankin
@@ -15,6 +17,20 @@ public class UIElementDisplayWaiting extends Waiting {
 
     @Override
     protected boolean until() {
-        return uiElement.getWrappedElement().isDisplayed() ;
+
+        try {
+            boolean result = uiElement.getWrappedElement().isDisplayed();
+            if(isNot()) {
+                return !result;
+            } else {
+                return result;
+            }
+        } catch (NotFoundException ex) {
+            if(isNot()) {
+                return true;
+            } else {
+                throw new IsNotDisplayException(uiElement, ex);
+            }
+        }
     }
 }

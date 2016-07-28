@@ -1,8 +1,5 @@
-package com.qantium.uisteps.core.factory;
+package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.Browser;
-import com.qantium.uisteps.core.browser.LocatorFactory;
-import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
@@ -24,10 +21,10 @@ import java.util.List;
  */
 public class UIObjectFactory implements IUIObjectFactory {
 
-    private final Browser browser;
+    private final IBrowser browser;
     private final LocatorFactory locatorFactory ;
 
-    public UIObjectFactory(Browser browser) {
+    public UIObjectFactory(IBrowser browser) {
         this.browser = browser;
         locatorFactory = new LocatorFactory();
     }
@@ -162,7 +159,6 @@ public class UIObjectFactory implements IUIObjectFactory {
 
     private HtmlObject getContext(Context context) {
         Class<? extends HtmlObject> uiObject = context.value();
-        Class<? extends HtmlObject> zxuiObject = context.value();
         By contextLocator = null;
 
         if (UIElement.class.isAssignableFrom(uiObject)) {
