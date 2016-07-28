@@ -135,7 +135,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
     WEBDRIVER_BASE_URL_PASSWORD,
     /**
      * Set "webdriver.proxy" to specify ip and port for proxy server
-     * <p/>
+     * <p>
      * Examples:
      * <ul>
      * <li>localhost<li>
@@ -143,6 +143,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * <li>127.0.0.1:7777</li>
      * <li>:7777</li>
      * </ul>
+     * </p>
      *
      * @see BrowserFactory
      */
