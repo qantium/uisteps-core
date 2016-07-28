@@ -54,7 +54,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>webdriver.proxy = localhost:7777</li>
  * <li>webdriver.proxy = 127.0.0.1:7777</li>
  * <li>webdriver.proxy = :7777</li>
- * <li>webdriver.unexpected.alert.behaviour/li>
+ * <li>webdriver.unexpected.alert.behaviour</li>
  * <li>user.dir</li>
  * <li>home.dir</li>
  * <li>source.take</li>
@@ -138,7 +138,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * <p>
      * Examples:
      * <ul>
-     * <li>localhost<li>
+     * <li>localhost</li>
      * <li>localhost:7777</li>
      * <li>127.0.0.1:7777</li>
      * <li>:7777</li>
