@@ -82,8 +82,8 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1469692456899" expanded="true" signature="96724:96772" placeholder="..." />
-                <marker date="1469692456899" expanded="true" signature="96724:96787" placeholder="..." />
+                <marker date="1469692546854" expanded="true" signature="96718:96766" placeholder="..." />
+                <marker date="1469692546854" expanded="true" signature="96718:96781" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -104,8 +104,8 @@
       <file leaf-file-name="UIStepsProperty.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36641222">
-              <caret line="140" column="21" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.52862597">
+              <caret line="145" column="6" selection-start-line="145" selection-start-column="6" selection-end-line="145" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -1193,12 +1193,12 @@
       <workItem from="1461686298858" duration="13630000" />
       <workItem from="1468912363637" duration="61943000" />
       <workItem from="1469447383973" duration="657000" />
-      <workItem from="1469448771379" duration="59891000" />
+      <workItem from="1469448771379" duration="59981000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="985662000" />
+    <option name="totallyTimeSpent" value="985752000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1783,8 +1783,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469692456899" expanded="true" signature="96724:96772" placeholder="..." />
-            <marker date="1469692456899" expanded="true" signature="96724:96787" placeholder="..." />
+            <marker date="1469692546854" expanded="true" signature="96718:96766" placeholder="..." />
+            <marker date="1469692546854" expanded="true" signature="96718:96781" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1801,8 +1801,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/qantium/uisteps/core/properties/UIStepsProperty.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36641222">
-          <caret line="140" column="21" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.52862597">
+          <caret line="145" column="6" selection-start-line="145" selection-start-column="6" selection-end-line="145" selection-end-column="6" />
           <folding />
         </state>
       </provider>
