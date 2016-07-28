@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.browser.wait;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NotFoundException;
 
 /**

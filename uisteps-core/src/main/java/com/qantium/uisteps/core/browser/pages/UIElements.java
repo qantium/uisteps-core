@@ -20,7 +20,6 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.UIObjectFactory;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;

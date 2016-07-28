@@ -1,7 +1,5 @@
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.wait.Waiting;
-
 /**
  * Created by Anton Solyankin
  */

@@ -10,8 +10,10 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
 import com.qantium.uisteps.core.name.Named;
-import com.qantium.uisteps.core.screenshots.IPhotographer;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.SearchContext;
 
 /**
  * Created by Anton Solyankin

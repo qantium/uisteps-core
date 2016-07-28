@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import org.openqa.selenium.By;
