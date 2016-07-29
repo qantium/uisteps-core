@@ -813,11 +813,6 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
-        return new Then(uiElement, this, locator);
-    }
-
-    @Override
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return new Then(uiObject, this);
     }

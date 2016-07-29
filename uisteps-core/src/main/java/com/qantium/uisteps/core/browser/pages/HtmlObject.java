@@ -103,16 +103,6 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
         return getUIObjectFactory().getAll(uiObject, this, locator);
     }
 
-    @Override
-    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
-        return new Then(uiElement, this, locator);
-    }
-
-    @Override
-    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
-        return new Then(uiObject, this);
-    }
-
     public abstract Screenshot takeScreenshot();
 
 

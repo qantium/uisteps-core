@@ -9,7 +9,5 @@ import org.openqa.selenium.By;
  */
 public interface IThen {
 
-    <T extends UIElement> Then<T> then(Class<T> uiElement, By locator);
-
     <T extends UIObject> Then<T> then(Class<T> uiObject);
 }

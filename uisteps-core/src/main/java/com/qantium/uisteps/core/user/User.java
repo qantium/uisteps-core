@@ -394,11 +394,6 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
-    public <T extends UIElement> Then<T> then(Class<T> uiElement, By locator) {
-        return inOpenedBrowser().then(uiElement, locator);
-    }
-
-    @Override
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }

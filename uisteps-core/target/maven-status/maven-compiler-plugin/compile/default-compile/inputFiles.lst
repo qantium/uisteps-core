@@ -92,7 +92,6 @@ C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\brow
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\BrowserManager.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\PageDisplayWaiting.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\alert\AuthenticationAlert.java
-C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\wait\IsDisplayException.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\utils\testrail\TestRailEntity.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\BaseUrl.java
 C:\qantium\uisteps-core\uisteps-core\src\main\java\com\qantium\uisteps\core\browser\pages\elements\TextField.java

@@ -3,6 +3,8 @@ package com.qantium.uisteps.core.browser.wait;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.NotFoundException;
 
+import java.util.NoSuchElementException;
+
 /**
  * Created by Anton Solyankin
  */
@@ -24,7 +26,7 @@ public class UIElementDisplayWaiting extends Waiting {
             } else {
                 return result;
             }
-        } catch (NotFoundException ex) {
+        } catch (Exception ex) {
             if(isNot()) {
                 return true;
             } else {

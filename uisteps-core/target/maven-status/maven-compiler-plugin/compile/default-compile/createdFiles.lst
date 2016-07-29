@@ -76,7 +76,6 @@ com\qantium\uisteps\core\screenshots\Ignored$1.class
 com\qantium\uisteps\core\utils\data\Data.class
 com\qantium\uisteps\core\browser\pages\elements\CheckBox.class
 com\qantium\uisteps\core\browser\pages\elements\lists\equalizer\VerticalEqualizer.class
-com\qantium\uisteps\core\browser\wait\IsDisplayException.class
 com\qantium\uisteps\core\lifecycle\MetaInfo.class
 com\qantium\uisteps\core\browser\BrowserManager.class
 com\qantium\uisteps\core\browser\factory\DriverBuilder.class

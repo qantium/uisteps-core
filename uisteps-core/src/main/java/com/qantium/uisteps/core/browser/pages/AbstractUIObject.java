@@ -5,6 +5,7 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
+import com.qantium.uisteps.core.then.Then;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -62,6 +63,11 @@ public abstract class AbstractUIObject implements UIObject {
         } catch (WaitingException ex) {
             return false;
         }
+    }
+
+    @Override
+    public <T extends UIObject> Then<T> then(Class<T> uiObject) {
+        return inOpenedBrowser().then(uiObject);
     }
 
     @Override
