@@ -18,4 +18,8 @@ public class IsNotDisplayException extends RuntimeException {
     public IsNotDisplayException(Visible uiObject, Throwable cause) {
         super(uiObject + " is not displayed!", cause);
     }
+
+    public IsNotDisplayException(Visible uiObject) {
+        this(uiObject, null);
+    }
 }

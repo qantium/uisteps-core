@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
 import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
@@ -72,7 +73,9 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public void afterInitialization() {
-        isDisplayed();
+        if(!isDisplayed()) {
+            throw new IsNotDisplayException(this);
+        }
     }
 
     public AbstractUIObject delay(long delay) {
