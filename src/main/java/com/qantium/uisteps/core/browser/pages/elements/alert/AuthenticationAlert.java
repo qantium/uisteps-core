@@ -1,7 +1,7 @@
 package com.qantium.uisteps.core.browser.pages.elements.alert;
 
 /**
- * Created by Solan on 02.02.2016.
+ * Created by Anton Solyankin
  */
 public class AuthenticationAlert extends ConfirmAlert {
 
