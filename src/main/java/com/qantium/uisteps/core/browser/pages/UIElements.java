@@ -133,7 +133,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         while (counter <= timeout) {
             List<E> list = getElements();
 
-            if (elementsSize == list.size() && breakCounter >= 4 * pollingTime) {
+            if (elementsSize == list.size() && breakCounter >= 2 * pollingTime) {
                 break;
             }
 
