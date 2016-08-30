@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.*;
+import com.qantium.uisteps.core.browser.context.UseContext;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
@@ -26,7 +27,6 @@ import org.openqa.selenium.SearchContext;
  */
 
 public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
-
 
 
     @Override
@@ -71,14 +71,14 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public UIElement get(By locator) {
-        return getUIObjectFactory().get(UIElement.class, this, locator);
+        return getUIObjectFactory().get(UIElement.class, getChildContext(), locator);
     }
 
     @Override
     public <T extends UIObject> T get(Class<T> uiObject) {
         if (UIElement.class.isAssignableFrom(uiObject)) {
-            return (T) getUIObjectFactory().get((Class<UIElement>) uiObject, this);
-        } else if (Alert.class.isAssignableFrom(uiObject)) {
+            return (T) getUIObjectFactory().get((Class<UIElement>) uiObject, getChildContext());
+        } else if (Page.class.isAssignableFrom(uiObject) || Alert.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().get(uiObject);
         } else {
             throw new IllegalArgumentException("Cannot get " + uiObject + " from HtmlObject! Only Alerts and HtmlObjects are allowed!");
@@ -87,7 +87,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public <T extends UIElement> T get(Class<T> uiObject, By locator) {
-        return getUIObjectFactory().get(uiObject, this, locator);
+        return getUIObjectFactory().get(uiObject, getChildContext(), locator);
     }
 
     private UIObjectFactory getUIObjectFactory() {
@@ -96,15 +96,19 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return getUIObjectFactory().getAll(uiObject, this);
+        return getUIObjectFactory().getAll(uiObject, getChildContext());
     }
 
     @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
-        return getUIObjectFactory().getAll(uiObject, this, locator);
+        return getUIObjectFactory().getAll(uiObject, getChildContext(), locator);
     }
 
     public abstract Screenshot takeScreenshot();
 
+
+    protected <T extends UIObject> HtmlObject getChildContext() {
+        return this;
+    }
 
 }

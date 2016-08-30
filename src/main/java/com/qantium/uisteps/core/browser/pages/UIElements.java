@@ -40,7 +40,6 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable {
 
     private final Class<E> elementType;
-    private UIObjectFactory uiObjectFactory;
     private ArrayList<E> elements;
 
 
@@ -61,7 +60,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     public void setBrowser(IBrowser browser) {
         super.setBrowser(browser);
-        this.uiObjectFactory = new UIObjectFactory(browser);
     }
 
     @Override
@@ -88,7 +86,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public boolean isDisplayed() {
+    public boolean isCurrentlyDisplayed() {
         return !isEmpty();
     }
 
@@ -109,12 +107,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             return elements;
         } else {
             ArrayList<E> list = new ArrayList();
-            HtmlObject context = getContext();
             By locator = getLocator();
             Class<E> elementType = getElementType();
 
             for(WebElement wrappedElement: getSearchContext().findElements(locator)) {
-                E uiElement = uiObjectFactory.get(elementType, context, locator);
+                E uiElement = super.get(elementType, locator);
                 uiElement.setWrappedElement(wrappedElement);
                 list.add(uiElement);
             }
@@ -365,5 +362,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     public Screenshot takeScreenshot() {
         return inOpenedBrowser().takeScreenshot(toArray());
+    }
+
+    @Override
+    protected HtmlObject getChildContext() {
+        return getContext();
     }
 }

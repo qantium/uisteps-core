@@ -22,7 +22,7 @@ import java.util.List;
 public class UIObjectFactory implements IUIObjectFactory {
 
     private final IBrowser browser;
-    private final LocatorFactory locatorFactory ;
+    private final LocatorFactory locatorFactory;
 
     public UIObjectFactory(IBrowser browser) {
         this.browser = browser;
@@ -73,7 +73,7 @@ public class UIObjectFactory implements IUIObjectFactory {
         return get(uiObjectInstance, context, locator);
     }
 
-    private  <T extends UIObject> T get(T uiObject, HtmlObject context, By locator) {
+    private <T extends UIObject> T get(T uiObject, HtmlObject context, By locator) {
 
         uiObject.setBrowser(browser);
 
@@ -114,19 +114,24 @@ public class UIObjectFactory implements IUIObjectFactory {
         return uiObject;
     }
 
-    private <T extends HtmlObject> void initAsUIElement(T uiObject, HtmlObject context, By locator) {
-        UIElement uiElement = (UIElement) uiObject;
+    private <T extends UIElement> void initAsUIElement(T uiObject, HtmlObject context, By locator) {
 
-        if (context == null && contextPresentsIn(uiObject.getClass())) {
+        if (doNotUseContextFor(uiObject.getClass())) {
+            context = null;
+        } else if (context == null && contextPresentsIn(uiObject.getClass())) {
             context = getContext(uiObject.getClass().getAnnotation(Context.class));
         }
 
         if (locator == null) {
-            locator = getLocator(uiElement);
+            locator = getLocator(uiObject);
         }
 
-        uiElement.setContext(context);
-        uiElement.setLocator(locator);
+        uiObject.setContext(context);
+        uiObject.setLocator(locator);
+    }
+
+    private <T extends UIElement> boolean doNotUseContextFor(Class<T> uiObject) {
+        return uiObject.isAnnotationPresent(UseContext.class) && uiObject.getAnnotation(UseContext.class).value() == false;
     }
 
     private <T extends UIObject> T getInstanceOf(Class<T> uiObject) {
@@ -144,6 +149,7 @@ public class UIObjectFactory implements IUIObjectFactory {
             return null;
         }
     }
+
     private boolean useContextOf(AnnotatedElement uiObject) {
         return uiObject.isAnnotationPresent(UseContext.class);
     }

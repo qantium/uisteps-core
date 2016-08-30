@@ -69,11 +69,11 @@ public class Waiting {
             try {
 
                 if(isNot()) {
-                    if (!uiObject.getDisplayCondition()) {
+                    if (!uiObject.isCurrentlyDisplayed()) {
                         return;
                     }
                 } else {
-                    if (uiObject.getDisplayCondition()) {
+                    if (uiObject.isCurrentlyDisplayed()) {
                         return;
                     }
                 }

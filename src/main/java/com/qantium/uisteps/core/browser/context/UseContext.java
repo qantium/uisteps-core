@@ -15,16 +15,16 @@
  */
 package com.qantium.uisteps.core.browser.context;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * @author ASolyankin
  */
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.TYPE})
+@Inherited
 public @interface UseContext {
+
+    boolean value() default true;
 
 }

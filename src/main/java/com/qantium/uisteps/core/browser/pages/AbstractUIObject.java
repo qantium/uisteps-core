@@ -7,7 +7,7 @@ import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
-import org.codehaus.plexus.util.StringUtils;
+import static org.codehaus.plexus.util.StringUtils.isEmpty;
 
 /**
  * Created by Anton Solyankin
@@ -39,14 +39,14 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public String getName() {
-        if (StringUtils.isEmpty(name)) {
+        if (isEmpty(name)) {
             setName(NameConverter.humanize(getClass()));
         }
         return name;
     }
 
     @Override
-    public boolean isDisplayed() {
+    public final boolean isDisplayed() {
         try {
             getDisplayWaiting().perform();
             return true;
@@ -56,7 +56,7 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     @Override
-    public boolean isNotDisplayed() {
+    public final boolean isNotDisplayed() {
         try {
             getDisplayWaiting().not().perform();
             return true;
