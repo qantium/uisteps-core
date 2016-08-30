@@ -113,7 +113,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             By locator = getLocator();
             Class<E> elementType = getElementType();
 
-            for(WebElement wrappedElement: context.findElements(locator)) {
+            for(WebElement wrappedElement: getSearchContext().findElements(locator)) {
                 E uiElement = uiObjectFactory.get(elementType, context, locator);
                 uiElement.setWrappedElement(wrappedElement);
                 list.add(uiElement);
@@ -212,7 +212,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             boolean isFound = false;
             List<E> elements = getElements();
 
-            if (elementsSize == elements.size() && breakCounter >= 4 * pollingTime) {
+            if (elementsSize == elements.size() && breakCounter >= 2 * pollingTime) {
                 break;
             }
             elementsSize = elements.size();

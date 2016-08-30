@@ -16,8 +16,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.PageDisplayWaiting;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -83,7 +81,7 @@ public class Page extends HtmlObject {
     }
 
     @Override
-    protected Waiting getDisplayWaiting() {
-        return new PageDisplayWaiting(this);
+    public boolean getDisplayCondition() {
+        return executeScript("return document.readyState").equals("complete");
     }
 }
