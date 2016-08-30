@@ -16,7 +16,6 @@ public abstract class AbstractUIObject implements UIObject {
 
     private String name;
     private IBrowser browser;
-    private final Waiting displayWaiting = getDisplayWaiting();
 
     public IBrowser inOpenedBrowser() {
         return browser;
@@ -48,7 +47,7 @@ public abstract class AbstractUIObject implements UIObject {
     @Override
     public boolean isDisplayed() {
         try {
-            displayWaiting.perform();
+            getDisplayWaiting().perform();
             return true;
         } catch (WaitingException ex) {
             return false;
@@ -58,7 +57,7 @@ public abstract class AbstractUIObject implements UIObject {
     @Override
     public boolean isNotDisplayed() {
         try {
-            displayWaiting.not().perform();
+            getDisplayWaiting().not().perform();
             return true;
         } catch (WaitingException ex) {
             return false;
@@ -76,20 +75,22 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     public AbstractUIObject delay(long delay) {
-        displayWaiting.withDelay(delay);
+        getDisplayWaiting().withDelay(delay);
         return this;
     }
 
     public AbstractUIObject withTimeout(long timeout) {
-        displayWaiting.withTimeout(timeout);
+        getDisplayWaiting().withTimeout(timeout);
         return this;
     }
 
     public AbstractUIObject pollingEvery(long pollingTime) {
-        displayWaiting.pollingEvery(pollingTime);
+        getDisplayWaiting().pollingEvery(pollingTime);
         return this;
     }
 
-    protected abstract Waiting getDisplayWaiting();
+    private Waiting getDisplayWaiting() {
+        return new Waiting(this);
+    }
 }
 

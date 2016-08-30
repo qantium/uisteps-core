@@ -30,6 +30,6 @@ public class GetText extends Action<String> {
 
     @Override
     public String toString() {
-        return "det text from \"" + uiElement + "\"";
+        return "get text from \"" + uiElement + "\"";
     }
 }

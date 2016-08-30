@@ -15,6 +15,9 @@
  */
 package com.qantium.uisteps.core.browser.context;
 
+import com.qantium.uisteps.core.browser.pages.HtmlObject;
+import org.openqa.selenium.support.FindBy;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,4 +29,5 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface UseContext {
+
 }

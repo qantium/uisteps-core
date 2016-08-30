@@ -1,5 +1,7 @@
 package com.qantium.uisteps.core.browser.wait;
 
+import com.qantium.uisteps.core.browser.pages.UIObject;
+
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
@@ -7,13 +9,17 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 /**
  * Created by Anton Solyankin
  */
-public abstract class Waiting {
+public class Waiting {
 
     private long delay = 0;
     private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
     private boolean not;
+    private final UIObject uiObject;
 
+    public Waiting(UIObject uiObject) {
+        this.uiObject = uiObject;
+    }
 
     public boolean isNot() {
         return not;
@@ -61,11 +67,22 @@ public abstract class Waiting {
 
         while (counter <= getTimeout()) {
             try {
-                if (until()) {
-                    return;
+
+                if(isNot()) {
+                    if (!uiObject.getDisplayCondition()) {
+                        return;
+                    }
+                } else {
+                    if (uiObject.getDisplayCondition()) {
+                        return;
+                    }
                 }
             } catch (Exception ex) {
-                waitingException = ex;
+                if(isNot()) {
+                    return;
+                } else {
+                    waitingException = new IsNotDisplayException(uiObject, ex);
+                }
             } finally {
                 sleep();
                 counter += getPollingTime();
@@ -82,6 +99,4 @@ public abstract class Waiting {
             e.printStackTrace();
         }
     }
-    protected abstract boolean until();
-
 }
