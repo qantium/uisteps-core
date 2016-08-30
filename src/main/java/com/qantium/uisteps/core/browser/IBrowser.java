@@ -1,10 +1,7 @@
 package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
-import com.qantium.uisteps.core.browser.pages.elements.FileInput;
-import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup;
-import com.qantium.uisteps.core.browser.pages.elements.Select;
+import com.qantium.uisteps.core.browser.pages.elements.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -49,11 +46,11 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void moveMouseOver(UIElement element);
 
-    void typeInto(UIElement input, Object text);
+    void typeInto(TextField input, Object text);
 
-    void clear(UIElement input);
+    void clear(TextField input);
 
-     void enterInto(UIElement input, Object text);
+     void enterInto(TextField input, Object text);
 
     String getTagNameOf(UIElement element);
 

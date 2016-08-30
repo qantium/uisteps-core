@@ -25,6 +25,7 @@ import com.qantium.uisteps.core.browser.pages.elements.FileInput;
 import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
 import com.qantium.uisteps.core.browser.pages.elements.Select;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
+import com.qantium.uisteps.core.browser.pages.elements.TextField;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -438,17 +439,17 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public void typeInto(UIElement input, Object text) {
+    public void typeInto(TextField input, Object text) {
         input.getWrappedElement().sendKeys(text.toString());
     }
 
     @Override
-    public void clear(UIElement input) {
+    public void clear(TextField input) {
         new Clear(input).perform();
     }
 
     @Override
-    public void enterInto(UIElement input, Object text) {
+    public void enterInto(TextField input, Object text) {
         new EnterInto(input, text).perform();
     }
 
