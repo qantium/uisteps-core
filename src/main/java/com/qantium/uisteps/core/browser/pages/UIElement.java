@@ -1,9 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
-import com.qantium.uisteps.core.browser.wait.UIElementDisplayWaiting;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.utils.zk.ZK;
 import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;

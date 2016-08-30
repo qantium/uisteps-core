@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.then;
 
-import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.ISearchContext;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
