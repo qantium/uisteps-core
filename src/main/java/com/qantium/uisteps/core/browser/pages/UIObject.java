@@ -41,4 +41,6 @@ public interface UIObject extends Named, Visible, IThen {
     void afterInitialization();
 
     boolean isCurrentlyDisplayed();
+
+    boolean isNotCurrentlyDisplayed();
 }

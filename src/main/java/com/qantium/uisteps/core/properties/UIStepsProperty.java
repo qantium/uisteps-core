@@ -245,6 +245,8 @@ public enum UIStepsProperty implements IUIStepsProperty {
 
     STORAGE_DIR(HOME_DIR.getDefaultValue()),
 
+    LIST_POLLING_ATTEMPS("2"),
+
     /**
      * @see com.qantium.uisteps.core.utils.testrail.Action
      */

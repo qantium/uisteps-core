@@ -280,6 +280,10 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public boolean isCurrentlyDisplayed() {
-        return getWrappedElement().isDisplayed();
+        try {
+            return getWrappedElement().isDisplayed();
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }

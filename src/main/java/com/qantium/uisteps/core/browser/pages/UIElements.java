@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.UIObjectFactory;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -29,6 +28,7 @@ import java.util.NoSuchElementException;
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.LIST_POLLING_ATTEMPS;
 
 /**
  * Contains elements of one type
@@ -41,6 +41,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     private final Class<E> elementType;
     private ArrayList<E> elements;
+    private int listPollingAttempts;
 
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
@@ -49,6 +50,12 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             throw new IllegalArgumentException("UIElements cannot contain other elements with type " + elementType);
         }
         this.elementType = elementType;
+
+        listPollingAttempts = getListPollingAttempts();
+
+        if(listPollingAttempts < 1) {
+            listPollingAttempts = 1;
+        }
     }
 
     protected UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
@@ -130,7 +137,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         while (counter <= timeout) {
             List<E> list = getElements();
 
-            if (elementsSize == list.size() && breakCounter >= 2 * pollingTime) {
+            if (elementsSize == list.size() && breakCounter >= listPollingAttempts * pollingTime) {
                 break;
             }
 
@@ -354,7 +361,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     @Override
     public UIElements<E> clone() {
-        ArrayList<E> cloned = (ArrayList<E>) elements.clone();
+        ArrayList<E> cloned = (ArrayList<E>) ((ArrayList<E>) getElements()).clone();
         return new UIElements(elementType, cloned);
     }
 
@@ -367,5 +374,13 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     protected HtmlObject getChildContext() {
         return getContext();
+    }
+
+    public int getListPollingAttempts() {
+        return Integer.parseInt(getProperty(LIST_POLLING_ATTEMPS));
+    }
+
+    public void setListPollingAttempts(int listPollingAttempts) {
+        this.listPollingAttempts = listPollingAttempts;
     }
 }

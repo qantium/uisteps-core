@@ -9,7 +9,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
 /**
  * Created by Anton Solyankin
  */
-public class Waiting {
+public class DisplayWaiting {
 
     private long delay = 0;
     private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
@@ -17,7 +17,7 @@ public class Waiting {
     private boolean not;
     private final UIObject uiObject;
 
-    public Waiting(UIObject uiObject) {
+    public DisplayWaiting(UIObject uiObject) {
         this.uiObject = uiObject;
     }
 
@@ -25,26 +25,26 @@ public class Waiting {
         return not;
     }
 
-    public Waiting setNot(boolean not) {
+    public DisplayWaiting setNot(boolean not) {
         this.not = not;
         return this;
     }
 
-    public Waiting not() {
+    public DisplayWaiting not() {
         return setNot(true);
     }
 
-    public Waiting withTimeout(long timeout) {
+    public DisplayWaiting withTimeout(long timeout) {
         this.timeout = timeout;
         return this;
     }
 
-    public Waiting pollingEvery(long pollingTime) {
+    public DisplayWaiting pollingEvery(long pollingTime) {
         this.pollingTime = pollingTime;
         return this;
     }
 
-    public Waiting withDelay(long delay) {
+    public DisplayWaiting withDelay(long delay) {
         this.delay = delay;
         return this;
     }
@@ -68,14 +68,12 @@ public class Waiting {
         while (counter <= getTimeout()) {
             try {
 
-                if(isNot()) {
-                    if (!uiObject.isCurrentlyDisplayed()) {
-                        return;
-                    }
-                } else {
-                    if (uiObject.isCurrentlyDisplayed()) {
-                        return;
-                    }
+                if(isNot() && uiObject.isNotCurrentlyDisplayed()) {
+                    return;
+                }
+
+                if (uiObject.isCurrentlyDisplayed()) {
+                    return;
                 }
             } catch (Exception ex) {
                 if(isNot()) {

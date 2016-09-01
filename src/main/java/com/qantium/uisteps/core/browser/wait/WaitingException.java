@@ -14,7 +14,7 @@ public class WaitingException extends RuntimeException {
     }
 
     public WaitingException(long timeout, long pollingTime) {
-        this("Waiting timeout " + timeout + " ms polling every " + pollingTime + " ms had been exceeded!");
+        this("DisplayWaiting timeout " + timeout + " ms polling every " + pollingTime + " ms had been exceeded!");
     }
 
     public WaitingException(long timeout, long pollingTime, Throwable cause) {

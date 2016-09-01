@@ -2,8 +2,8 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.DisplayWaiting;
 import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
@@ -92,8 +92,13 @@ public abstract class AbstractUIObject implements UIObject {
         return this;
     }
 
-    private Waiting getDisplayWaiting() {
-        return new Waiting(this);
+    private DisplayWaiting getDisplayWaiting() {
+        return new DisplayWaiting(this);
+    }
+
+    @Override
+    public boolean isNotCurrentlyDisplayed() {
+        return !isCurrentlyDisplayed();
     }
 }
 
