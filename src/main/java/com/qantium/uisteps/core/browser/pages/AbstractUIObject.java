@@ -3,7 +3,7 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.wait.DisplayWaiting;
-import com.qantium.uisteps.core.browser.wait.IsNotDisplayException;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.browser.wait.WaitingException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
@@ -47,22 +47,12 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public final boolean isDisplayed() {
-        try {
-            getDisplayWaiting().perform();
-            return true;
-        } catch (WaitingException ex) {
-            return false;
-        }
+        return getDisplayWaiting().perform(System.currentTimeMillis());
     }
 
     @Override
     public final boolean isNotDisplayed() {
-        try {
-            getDisplayWaiting().not().perform();
-            return true;
-        } catch (WaitingException ex) {
-            return false;
-        }
+        return getDisplayWaiting().not().perform(System.currentTimeMillis());
     }
 
     @Override
@@ -73,7 +63,7 @@ public abstract class AbstractUIObject implements UIObject {
     @Override
     public void afterInitialization() {
         if(!isDisplayed()) {
-            throw new IsNotDisplayException(this);
+            throw new IsNotDisplayedException(this);
         }
     }
 

@@ -61,38 +61,34 @@ public class DisplayWaiting {
         return delay;
     }
 
-    public void perform() {
-        long counter = 0;
-        Exception waitingException = null;
+    public boolean perform(long startTime) {
+        sleep(getDelay());
+        boolean successful;
+        long timeDelta;
 
-        while (counter <= getTimeout()) {
+        do {
             try {
-
-                if(isNot() && uiObject.isNotCurrentlyDisplayed()) {
-                    return;
-                }
-
-                if (uiObject.isCurrentlyDisplayed()) {
-                    return;
+                if (isNot()) {
+                    successful = uiObject.isNotCurrentlyDisplayed();
+                } else {
+                    successful = uiObject.isCurrentlyDisplayed();
                 }
             } catch (Exception ex) {
-                if(isNot()) {
-                    return;
-                } else {
-                    waitingException = new IsNotDisplayException(uiObject, ex);
-                }
-            } finally {
-                sleep();
-                counter += getPollingTime();
+                successful = isNot();
             }
-        }
 
-        throw new WaitingException(getTimeout(), getPollingTime(), waitingException);
+            sleep(getPollingTime());
+
+            long currentTime = System.currentTimeMillis();
+            timeDelta = currentTime - startTime;
+        } while (!successful && timeDelta <= getTimeout());
+
+        return successful;
     }
 
-    private void sleep() {
+    private void sleep(long time) {
         try {
-            Thread.sleep(getPollingTime());
+            Thread.sleep(time);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
