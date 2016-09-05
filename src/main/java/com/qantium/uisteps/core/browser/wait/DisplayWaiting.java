@@ -3,6 +3,7 @@ package com.qantium.uisteps.core.browser.wait;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
@@ -11,7 +12,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
  */
 public class DisplayWaiting {
 
-    private long delay = 0;
+    private long delay = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_DELAY));;
     private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
     private boolean not;
@@ -62,29 +63,39 @@ public class DisplayWaiting {
     }
 
     public boolean perform(long startTime) {
-        sleep(getDelay());
-        boolean successful;
+        perform(startTime, getDelay(), !isNot());
+        return perform(startTime, getTimeout(), isNot());
+    }
+
+
+    private boolean perform(long startTime, long timeout, boolean not) {
         long timeDelta;
 
         do {
-            try {
-                if (isNot()) {
-                    successful = uiObject.isNotCurrentlyDisplayed();
-                } else {
-                    successful = uiObject.isCurrentlyDisplayed();
-                }
-            } catch (Exception ex) {
-                successful = isNot();
+            if(!isSuccessful(not)) {
+                sleep(getPollingTime());
+            } else {
+                return true;
             }
-
-            sleep(getPollingTime());
-
             long currentTime = System.currentTimeMillis();
             timeDelta = currentTime - startTime;
-        } while (!successful && timeDelta <= getTimeout());
+        } while (timeDelta <= timeout);
 
-        return successful;
+        return false;
     }
+
+    private boolean isSuccessful(boolean not) {
+        try {
+            if (not) {
+                return uiObject.isNotCurrentlyDisplayed();
+            } else {
+                return uiObject.isCurrentlyDisplayed();
+            }
+        } catch (Exception ex) {
+            return not;
+        }
+    }
+
 
     private void sleep(long time) {
         try {

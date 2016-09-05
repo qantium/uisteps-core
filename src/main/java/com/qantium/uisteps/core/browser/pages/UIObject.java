@@ -39,8 +39,4 @@ public interface UIObject extends Named, Visible, IThen {
     <T extends UIObject> Then<T> then(Class<T> uiObject);
 
     void afterInitialization();
-
-    boolean isCurrentlyDisplayed();
-
-    boolean isNotCurrentlyDisplayed();
 }

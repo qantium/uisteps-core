@@ -48,6 +48,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>webdriver.base.url.password</li>
  * <li>webdriver.timeouts.implicitlywait</li>
  * <li>webdriver.timeouts.polling</li>
+ * <li>webdriver.timeouts.withDelay</li>
  * <li>meta.info.regexp</li>
  * <li>meta.param.regexp</li>
  * <li>webdriver.proxy = localhost<li>
@@ -81,7 +82,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>run.groups</li>
  * <li>com.qantium.uisteps.core.storage.dir</li>
  * <li>retry.attempts</li>
- * <li>retry.delay</li>
+ * <li>retry.withDelay</li>
  * </ul>
  *
  * @author Anton Solyankin
@@ -157,7 +158,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_POLLING("250"),
-
+    WEBDRIVER_TIMEOUTS_DELAY("250"),
     /**
      * Examples:
      * <ul>
@@ -273,7 +274,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      */
     RETRY_ATTEMPTS("0"),
     /**
-     * Set "retry.delay" to specify delay time before retry test in milliseconds
+     * Set "retry.withDelay" to specify withDelay time before retry test in milliseconds
      */
     RETRY_DELAY("0");
 
