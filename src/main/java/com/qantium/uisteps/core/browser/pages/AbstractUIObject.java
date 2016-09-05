@@ -17,6 +17,7 @@ public abstract class AbstractUIObject implements UIObject {
     private String name;
     private IBrowser browser;
     private final DisplayWaiting displayWaiting = new DisplayWaiting(this);
+    private boolean inited;
 
     public IBrowser inOpenedBrowser() {
         return browser;

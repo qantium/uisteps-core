@@ -5,18 +5,17 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  * Created by Anton Solyankin
  */
-public class GetText extends Action<String> {
+public class GetText extends UIElementAction<String> {
 
-    private final UIElement uiElement;
 
     public GetText(UIElement uiElement) {
-        this.uiElement = uiElement;
+        super(uiElement);
     }
 
     @Override
     protected String apply() {
-        if ("input".equals(uiElement.getTagName())) {
-            String enteredText = uiElement.getAttribute("value");
+        if ("input".equals(getUIObject().getTagName())) {
+            String enteredText = getUIObject().getAttribute("value");
 
             if (enteredText != null) {
                 return enteredText;
@@ -24,12 +23,12 @@ public class GetText extends Action<String> {
                 return "";
             }
         } else {
-            return uiElement.getWrappedElement().getText();
+            return getUIObject().getWrappedElement().getText();
         }
     }
 
     @Override
     public String toString() {
-        return "get text from \"" + uiElement + "\"";
+        return "get text from \"" + getUIObject() + "\"";
     }
 }

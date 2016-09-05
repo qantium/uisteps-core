@@ -1,6 +1,9 @@
 package com.qantium.uisteps.core.browser.wait;
 
+import com.qantium.uisteps.core.browser.NoBrowserException;
+import com.qantium.uisteps.core.browser.actions.ActionException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
@@ -72,13 +75,17 @@ public class DisplayWaiting {
         long timeDelta;
 
         do {
-            if(!isSuccessful(not)) {
-                sleep(getPollingTime());
-            } else {
-                return true;
+            try {
+                if (!isSuccessful(not)) {
+                    sleep();
+                } else {
+                    return true;
+                }
+                long currentTime = System.currentTimeMillis();
+                timeDelta = currentTime - startTime;
+            } catch (NoBrowserException | UnhandledAlertException ex) {
+                break;
             }
-            long currentTime = System.currentTimeMillis();
-            timeDelta = currentTime - startTime;
         } while (timeDelta <= timeout);
 
         return false;
@@ -91,15 +98,17 @@ public class DisplayWaiting {
             } else {
                 return uiObject.isCurrentlyDisplayed();
             }
-        } catch (Exception ex) {
+        } catch (NoBrowserException | UnhandledAlertException ex) {
+            throw ex;
+        }catch (Exception ex) {
             return not;
         }
     }
 
 
-    private void sleep(long time) {
+    private void sleep() {
         try {
-            Thread.sleep(time);
+            Thread.sleep(getPollingTime());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

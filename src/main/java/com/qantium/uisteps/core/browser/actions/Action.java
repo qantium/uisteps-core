@@ -1,6 +1,7 @@
 package com.qantium.uisteps.core.browser.actions;
 
 import com.qantium.uisteps.core.browser.NoBrowserException;
+import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
@@ -16,6 +17,8 @@ public abstract class Action<T> {
     private int pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
     private int counter = 0;
     private int attempts = timeout / pollingTime;
+
+    protected abstract UIObject getUIObject();
 
     public int getTimeout() {
         return timeout;
@@ -33,57 +36,38 @@ public abstract class Action<T> {
         this.pollingTime = pollingTime;
     }
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
-    public int getAttempts() {
-        return attempts;
-    }
-
-    public void setAttempts(int attempts) {
-        this.attempts = attempts;
-    }
-
     public T perform() throws ActionException {
+        long startTime = System.currentTimeMillis();
+        getUIObject().afterInitialization();
+        ActionException exception;
+        long timeDelta;
 
-        ActionException exception = null;
-
-        while (condition()) {
-
+        do {
             try {
-                T result = apply();
-                counter = 0;
-                return result;
+                return apply();
             } catch (NoBrowserException | UnhandledAlertException ex) {
                 exception = new ActionException(this, ex);
                 break;
             } catch (Exception ex) {
-                sleep(pollingTime);
+                sleep();
                 exception = new ActionException(this, ex);
-                counter += pollingTime;
             }
-        }
+
+            long currentTime = System.currentTimeMillis();
+            timeDelta = currentTime - startTime;
+        } while (timeDelta <= getTimeout());
 
         throw new ActionException(this, exception);
     }
 
-    private void sleep(long pollingTime) {
+    private void sleep() {
         try {
-            Thread.sleep(pollingTime);
+            Thread.sleep(getPollingTime());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     protected abstract T apply();
-
-    protected boolean condition() {
-        return counter <= timeout && counter <= attempts * pollingTime;
-    }
 
 }

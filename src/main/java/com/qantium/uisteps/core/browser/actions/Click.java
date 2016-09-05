@@ -6,22 +6,20 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  * Created by Anton Solyankin
  */
-public class Click extends Action {
-
-    private final UIElement uiElement;
+public class Click extends UIElementAction {
 
     public Click(UIElement uiElement) {
-        this.uiElement = uiElement;
+        super(uiElement);
     }
 
     @Override
     protected Object apply() {
-        uiElement.getWrappedElement().click();
+        getUIObject().getWrappedElement().click();
         return null;
     }
 
     @Override
     public String toString() {
-        return "click \"" + uiElement + "\"";
+        return "click \"" + getUIObject() + "\"";
     }
 }
