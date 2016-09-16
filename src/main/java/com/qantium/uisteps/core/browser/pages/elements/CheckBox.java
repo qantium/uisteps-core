@@ -18,29 +18,18 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
-
 /**
  * @author ASolyankin
  */
 @NotInit
 public class CheckBox extends UIElement implements Fillable {
 
-    public String getLabelText() {
-        return getWrappedCheckBox().getLabelText();
-    }
-
     public Object select() {
-        inOpenedBrowser().select(this);
-        return null;
+        return inOpenedBrowser().select(this);
     }
 
     public Object deselect() {
-        inOpenedBrowser().deselect(this);
-        return null;
-    }
-
-    public ru.yandex.qatools.htmlelements.element.CheckBox getWrappedCheckBox() {
-        return new ru.yandex.qatools.htmlelements.element.CheckBox(getWrappedElement());
+        return inOpenedBrowser().deselect(this);
     }
 
     public boolean isEnabled() {
@@ -52,11 +41,7 @@ public class CheckBox extends UIElement implements Fillable {
     }
 
     public Object select(boolean flag) {
-        if (flag) {
-            return select();
-        } else {
-            return deselect();
-        }
+        return inOpenedBrowser().select(this, flag);
     }
 
     public Object select(String flag) {

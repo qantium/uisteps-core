@@ -5,16 +5,16 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  * Created by Anton Sopyankin
  */
-public abstract class UIElementAction<T> extends Action<T> {
+public abstract class UIElementAction<T, E extends UIElement> extends Action<T> {
 
-    private final UIElement uiElement;
+    private final E uiElement;
 
-    public UIElementAction(UIElement uiElement) {
+    public UIElementAction(E uiElement) {
         this.uiElement = uiElement;
     }
 
     @Override
-    protected UIElement getUIObject() {
+    protected E getUIObject() {
         return uiElement;
     }
 }

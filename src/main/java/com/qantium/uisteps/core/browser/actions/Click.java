@@ -13,7 +13,7 @@ public class Click extends UIElementAction {
     }
 
     @Override
-    protected Object apply() {
+    protected Object apply(Object... args) {
         getUIObject().getWrappedElement().click();
         return null;
     }

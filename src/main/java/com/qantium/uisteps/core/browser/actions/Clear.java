@@ -13,7 +13,7 @@ public class Clear extends UIElementAction {
     }
 
     @Override
-    protected Object apply() {
+    protected Object apply(Object... args) {
         getUIObject().getWrappedElement().clear();
         return null;
     }

@@ -5,7 +5,7 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 /**
  * Created by Anton Solyankin
  */
-public class GetText extends UIElementAction<String> {
+public class GetText extends UIElementAction<String, UIElement> {
 
 
     public GetText(UIElement uiElement) {
@@ -13,7 +13,7 @@ public class GetText extends UIElementAction<String> {
     }
 
     @Override
-    protected String apply() {
+    protected String apply(Object... args) {
         if ("input".equals(getUIObject().getTagName())) {
             String enteredText = getUIObject().getAttribute("value");
 

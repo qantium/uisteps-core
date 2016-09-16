@@ -15,10 +15,7 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.actions.Clear;
-import com.qantium.uisteps.core.browser.actions.Click;
-import com.qantium.uisteps.core.browser.actions.EnterInto;
-import com.qantium.uisteps.core.browser.actions.GetText;
+import com.qantium.uisteps.core.browser.actions.*;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
 import com.qantium.uisteps.core.browser.pages.elements.FileInput;
@@ -540,16 +537,21 @@ public class Browser implements IBrowser {
             new Click(button).perform();
         }
     }
-
     //CheckBox
+
     @Override
-    public void select(CheckBox checkBox) {
-        checkBox.getWrappedCheckBox().select();
+    public boolean select(CheckBox checkBox, boolean select) {
+        return new CheckBoxSelect(checkBox).perform(select);
     }
 
     @Override
-    public void deselect(CheckBox checkBox) {
-        checkBox.getWrappedCheckBox().deselect();
+    public boolean select(CheckBox checkBox) {
+        return select(checkBox, true);
+    }
+
+    @Override
+    public boolean deselect(CheckBox checkBox) {
+        return select(checkBox, false);
     }
 
     //Scroll window

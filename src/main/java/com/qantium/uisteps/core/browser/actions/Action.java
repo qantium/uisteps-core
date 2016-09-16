@@ -15,8 +15,6 @@ public abstract class Action<T> {
 
     private int timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
     private int pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
-    private int counter = 0;
-    private int attempts = timeout / pollingTime;
 
     protected abstract UIObject getUIObject();
 
@@ -36,7 +34,7 @@ public abstract class Action<T> {
         this.pollingTime = pollingTime;
     }
 
-    public T perform() throws ActionException {
+    public T perform(Object... args) throws ActionException {
         long startTime = System.currentTimeMillis();
         getUIObject().afterInitialization();
         ActionException exception;
@@ -44,7 +42,7 @@ public abstract class Action<T> {
 
         do {
             try {
-                return apply();
+                return apply(args);
             } catch (NoBrowserException | UnhandledAlertException ex) {
                 exception = new ActionException(this, ex);
                 break;
@@ -68,6 +66,6 @@ public abstract class Action<T> {
         }
     }
 
-    protected abstract T apply();
+    protected abstract T apply(Object... args);
 
 }

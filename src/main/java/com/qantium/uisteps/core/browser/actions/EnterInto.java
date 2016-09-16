@@ -16,7 +16,7 @@ public class EnterInto extends UIElementAction {
     }
 
     @Override
-    protected Object apply() {
+    protected Object apply(Object... args) {
         WebElement webElement = getUIObject().getWrappedElement();
         webElement.clear();
         webElement.sendKeys(text.toString());

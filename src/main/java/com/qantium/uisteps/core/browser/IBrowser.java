@@ -1,5 +1,6 @@
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.actions.CheckBoxSelect;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
@@ -81,9 +82,11 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
     void select(RadioButtonGroup.RadioButton button);
 
     //CheckBox
-    void select(CheckBox checkBox);
+    boolean select(CheckBox checkBox);
 
-    void deselect(CheckBox checkBox);
+    boolean deselect(CheckBox checkBox);
+
+    boolean select(CheckBox checkBox, boolean select);
 
     //Scrooll window
     void scrollWindowByOffset(int x, int y);
