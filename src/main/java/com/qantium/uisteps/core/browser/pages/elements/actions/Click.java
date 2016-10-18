@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.browser.actions;
+package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 
 import com.qantium.uisteps.core.browser.pages.UIElement;

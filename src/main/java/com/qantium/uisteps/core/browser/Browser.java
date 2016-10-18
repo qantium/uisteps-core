@@ -15,14 +15,10 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.actions.*;
 import com.qantium.uisteps.core.browser.pages.*;
-import com.qantium.uisteps.core.browser.pages.elements.CheckBox;
-import com.qantium.uisteps.core.browser.pages.elements.FileInput;
-import com.qantium.uisteps.core.browser.pages.elements.RadioButtonGroup.RadioButton;
-import com.qantium.uisteps.core.browser.pages.elements.Select;
+import com.qantium.uisteps.core.browser.pages.elements.*;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
-import com.qantium.uisteps.core.browser.pages.elements.TextField;
+import com.qantium.uisteps.core.browser.pages.elements.actions.*;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -437,7 +433,7 @@ public class Browser implements IBrowser {
 
     @Override
     public void typeInto(TextField input, Object text) {
-        input.getWrappedElement().sendKeys(text.toString());
+        new TypeInto(input, text).perform();
     }
 
     @Override
@@ -532,10 +528,8 @@ public class Browser implements IBrowser {
 
     //Radio button
     @Override
-    public void select(RadioButton button) {
-        if (!button.isSelected()) {
-            new Click(button).perform();
-        }
+    public boolean select(RadioButton button) {
+        return new CheckBoxSelect(button).perform(true);
     }
     //CheckBox
 

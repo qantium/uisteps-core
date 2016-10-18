@@ -1,16 +1,12 @@
 package com.qantium.uisteps.core.browser.factory;
 
+import com.opera.core.systems.OperaDesktopDriver;
 import com.qantium.uisteps.core.browser.Proxy;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -19,13 +15,13 @@ import org.uiautomation.ios.IOSCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Created by Anton Solyankin
@@ -33,16 +29,86 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class DriverBuilder {
 
     private Driver driver;
-    private Map<String, Object> capabilities = new HashMap();
+    private Map<String, Object> capabilities = newHashMap();
     private String hub;
     private Proxy proxy;
+    private int width;
+    private int height;
+    private boolean maxWidth;
+    private boolean maxHeight;
 
     public DriverBuilder() {
         setDriver(getProperty(WEBDRIVER_DRIVER));
         setProxy(getProperty(WEBDRIVER_PROXY));
         setHub(getProperty(WEBDRIVER_REMOTE_URL));
 
+        width = initWidth();
+        height = initHeight();
+
         capabilities.put(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, getProperty(WEBDRIVER_UNEXPECTED_ALERT_BEHAVIOUR));
+    }
+
+    private int initWidth() {
+        return initSize(getProperty(BROWSER_WIDTH), true);
+    }
+
+    private int initHeight() {
+        return initSize(getProperty(BROWSER_HEIGHT), false);
+    }
+
+    private int initSize(String property, boolean width) {
+        if ("max".equals(property.toLowerCase())) {
+            if (width) {
+                setMaxWidth();
+            } else {
+                setMaxHeight();
+            }
+            return -1;
+        } else {
+            try {
+                return Integer.parseInt(property);
+            } catch (NumberFormatException ex) {
+                return -1;
+            }
+        }
+    }
+
+    public boolean isMaxWidth() {
+        return maxWidth;
+    }
+
+    public DriverBuilder setMaxWidth() {
+        maxWidth = true;
+        return this;
+    }
+
+    public boolean isMaxHeight() {
+        return maxHeight;
+    }
+
+    public DriverBuilder setMaxHeight() {
+        maxHeight = true;
+        return this;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public DriverBuilder setWidth(int width) {
+        this.width = width;
+        maxWidth = false;
+        return this;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public DriverBuilder setHeight(int height) {
+        this.height = height;
+        maxHeight = false;
+        return this;
     }
 
     public DriverBuilder setHub(String hub) {
@@ -83,7 +149,7 @@ public class DriverBuilder {
     public WebDriver getWebDriver() {
         DesiredCapabilities desiredCapabilities = getDesiredCapabilities();
 
-        for (String capability : new HashSet<>(capabilities.keySet())) {
+        for (String capability : capabilities.keySet()) {
             desiredCapabilities.setCapability(capability, capabilities.get(capability));
         }
 
@@ -93,26 +159,26 @@ public class DriverBuilder {
 
         WebDriver driver;
 
-        if (StringUtils.isEmpty(hub)) {
+        if (isEmpty(hub)) {
             driver = getWebDriver(desiredCapabilities);
         } else {
             driver = getRemoteDriver(desiredCapabilities);
         }
 
-        setSettings(driver);
+        setSize(driver);
         return driver;
     }
 
     public DriverBuilder setProxy(String proxy) {
 
-        if (!StringUtils.isEmpty(proxy)) {
+        if (!isEmpty(proxy)) {
 
             String[] address = proxy.split(":");
 
             String ip = null;
             Integer port = null;
 
-            if (address.length > 0 && !StringUtils.isEmpty(address[0])) {
+            if (address.length > 0 && !isEmpty(address[0])) {
                 ip = address[0];
             }
 
@@ -137,11 +203,11 @@ public class DriverBuilder {
             case CHROME:
                 return DesiredCapabilities.chrome();
             case OPERA:
-                return DesiredCapabilities.operaBlink();
+                return DesiredCapabilities.opera();
             case IEXPLORER:
                 return DesiredCapabilities.internetExplorer();
             case EDGE:
-                return DesiredCapabilities.edge();
+                return DesiredCapabilities.internetExplorer();
             case SAFARI:
                 return DesiredCapabilities.safari();
             case ANDROID:
@@ -153,7 +219,7 @@ public class DriverBuilder {
             case HTMLUNIT:
                 return DesiredCapabilities.htmlUnit();
             case HTMLUNITWITHJS:
-                return DesiredCapabilities.htmlUnitWithJs();
+                throw new IllegalArgumentException("Cannot get capabilities for driver " + driver + "!");
             case PHANTOMJS:
                 return DesiredCapabilities.phantomjs();
             default:
@@ -169,11 +235,11 @@ public class DriverBuilder {
             case CHROME:
                 return new ChromeDriver(capabilities);
             case OPERA:
-                return new OperaDriver(capabilities);
+                return new OperaDesktopDriver(capabilities);
             case IEXPLORER:
                 return new InternetExplorerDriver(capabilities);
             case EDGE:
-                return new EdgeDriver(capabilities);
+                return new InternetExplorerDriver(capabilities);
             case SAFARI:
                 return new SafariDriver(capabilities);
             case ANDROID:
@@ -183,11 +249,11 @@ public class DriverBuilder {
             case IPAD:
                 remoteDriverUrlError(driver, capabilities);
             case HTMLUNIT:
-                return new HtmlUnitDriver(capabilities);
+                remoteDriverUrlError(driver, capabilities);
             case HTMLUNITWITHJS:
                 remoteDriverUrlError(driver, capabilities);
             case PHANTOMJS:
-                return new PhantomJSDriver(capabilities);
+                throw new IllegalArgumentException("Cannot get driver " + driver + " with capabilities " + capabilities);
             default:
                 throw new IllegalArgumentException("Cannot get driver " + driver + " with capabilities " + capabilities);
         }
@@ -205,32 +271,38 @@ public class DriverBuilder {
         throw new IllegalArgumentException("It is necessary to set url for RemoteDriver to get " + driver + " driver with capabilities " + capabilities);
     }
 
-    private void setSettings(WebDriver driver) {
+    private void setSize(WebDriver driver) {
         WebDriver.Options manage = driver.manage();
         manage.timeouts().implicitlyWait(0, MILLISECONDS);
 
-        String widthProperty = getProperty(BROWSER_WIDTH).toLowerCase();
-        String heightProperty = getProperty(BROWSER_HEIGHT).toLowerCase();
         WebDriver.Window window = manage.window();
 
-        if ("max".equals(widthProperty) || "max".equals(heightProperty)) {
+        if (isMaxWidth() || isMaxWidth()) {
             window.maximize();
         }
 
-        Dimension size = window.getSize();
-        int width = getSizeFrom(widthProperty, size.width);
-        int height = getSizeFrom(heightProperty, size.height);
+        Dimension defaultSize = window.getSize();
+        int width = getWidth(defaultSize);
+        int height = getHeight(defaultSize);
 
-        if (width != size.width || height != size.height) {
+        if (width != defaultSize.width || height != defaultSize.height) {
             Dimension dimension = new Dimension(width, height);
             manage.window().setSize(dimension);
         }
     }
 
-    private int getSizeFrom(String property, int defaultSize) {
+    private int getWidth(Dimension defaultSize) {
+        return getSize(isMaxWidth(), getWidth(), defaultSize.width);
+    }
 
-        if (!StringUtils.isEmpty(property) && !"max".equals(property)) {
-            return Integer.parseInt(property);
+    private int getHeight(Dimension defaultSize) {
+        return getSize(isMaxWidth(), getHeight(), defaultSize.height);
+    }
+
+    private int getSize(boolean isMax, int size, int defaultSize) {
+
+        if (size > 0 && !isMax) {
+            return size;
         } else {
             return defaultSize;
         }
