@@ -2,8 +2,6 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
-import com.qantium.uisteps.core.utils.zk.ZK;
-import com.qantium.uisteps.core.utils.zk.ZKSiblingLocator;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -20,7 +18,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private HtmlObject context;
     private WebElement wrappedElement;
 
-    protected void setWrappedElement(WebElement wrappedElement) {
+    public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
     }
 
@@ -67,32 +65,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     public By getLocator() {
-
-        if (locator != null) {
-            if (locator instanceof ZKSiblingLocator) {
-                return getSiblingLocator();
-            }
-
-            if (locator instanceof By.ById) {
-                ZK zk = new ZK(inOpenedBrowser());
-                By.ById id = (By.ById) locator;
-
-                if (zk.isId(id)) {
-                    if (zk.isShiftId(id)) {
-                        locator = zk.getLocator(id, getContext());
-                    } else {
-                        locator = zk.getLocator(id);
-                    }
-                }
-            }
-        }
         return locator;
-    }
-
-    private By getSiblingLocator() {
-        ZK zk = new ZK(inOpenedBrowser());
-        ZKSiblingLocator siblingLocator = (ZKSiblingLocator) locator;
-        return zk.getLocator(siblingLocator.getContext(), siblingLocator.getShift());
     }
 
     /**

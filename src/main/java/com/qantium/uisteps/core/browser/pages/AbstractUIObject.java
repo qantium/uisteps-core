@@ -6,6 +6,7 @@ import com.qantium.uisteps.core.browser.wait.DisplayWaiting;
 import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
+
 import static org.codehaus.plexus.util.StringUtils.isEmpty;
 
 /**
@@ -17,7 +18,6 @@ public abstract class AbstractUIObject implements UIObject {
     private String name;
     private IBrowser browser;
     private final DisplayWaiting displayWaiting = new DisplayWaiting(this);
-    private boolean inited;
 
     public IBrowser inOpenedBrowser() {
         return browser;

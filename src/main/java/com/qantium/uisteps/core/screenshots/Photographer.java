@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.screenshots;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;

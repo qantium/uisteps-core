@@ -1,8 +1,8 @@
 package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIElements;
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import org.openqa.selenium.By;
 
 /**
