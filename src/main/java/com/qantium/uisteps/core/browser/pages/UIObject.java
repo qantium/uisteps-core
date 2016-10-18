@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.IThen;
 import com.qantium.uisteps.core.then.Then;
@@ -27,7 +28,7 @@ import com.qantium.uisteps.core.then.Then;
  * @author Anton Solyankin
  * @see com.qantium.uisteps.core.browser.pages.Page
  * @see com.qantium.uisteps.core.browser.pages.UIElement
- * @see com.qantium.uisteps.core.browser.pages.UIElements
+ * @see UIElements
  */
 @NotInit
 public interface UIObject extends Named, Visible, IThen {

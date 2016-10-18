@@ -15,6 +15,9 @@
  */
 package com.qantium.uisteps.core.browser;
 
+
+import com.qantium.net.rest.RestApi;
+import com.qantium.net.rest.RestApiRequest;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.*;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
@@ -31,19 +34,24 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.security.UserAndPassword;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * @author Anton Solyankin
@@ -56,6 +64,7 @@ public class Browser implements IBrowser {
     private UrlFactory urlFactory = new UrlFactory();
     private IUIObjectFactory uiObjectFactory = new UIObjectFactory(this);
     private BrowserMobProxyServer proxy;
+    private String hub;
     private Photographer photographer;
 
     public Browser() {
@@ -78,6 +87,41 @@ public class Browser implements IBrowser {
     }
 
     @Override
+    public URL getNodeUrl()  {
+
+        RestApiRequest request = null;
+
+        try {
+            URL hub = getHubUrl();
+            RestApi client = new RestApi(hub.toString());
+            RemoteWebDriver driver = (RemoteWebDriver) getDriver();
+            SessionId session = driver.getSessionId();
+            request = client.createRequest("/grid/api/testsession?session=" + session);
+            JSONObject response = client.createRequest("/grid/api/testsession?session=" + session).get().toJSONObject();
+
+            return new URL(response.getString("proxyId"));
+        } catch (Exception ex) {
+            throw new IllegalStateException("Cannot get node url by request " + request, ex);
+        }
+    }
+
+    @Override
+    public URL getHubUrl()  {
+        String hub = getHub();
+        if (isEmpty(hub)) {
+            throw new IllegalStateException("A hub is not set for browser " + this);
+        } else {
+            try {
+                return new URL(hub.replace("/wd/hub", ""));
+            } catch (MalformedURLException e) {
+                throw new IllegalStateException("Cannot get remote url for browser " + this);
+            }
+        }
+    }
+
+
+
+    @Override
     public WebDriver getDriver() {
         if (driver == null) {
             throw new WebDriverException("WebDriver is not set in browser " + this + "!");
@@ -95,12 +139,24 @@ public class Browser implements IBrowser {
         }
     }
 
+    @Override
     public BrowserMobProxyServer getProxy() {
         return proxy;
     }
 
+    @Override
     public void setProxy(BrowserMobProxyServer proxy) {
         this.proxy = proxy;
+    }
+
+    @Override
+    public String getHub() {
+        return hub;
+    }
+
+    @Override
+    public void setHub(String hub) {
+        this.hub = hub;
     }
 
     @Override
@@ -176,7 +232,7 @@ public class Browser implements IBrowser {
         }
         pageInstance.setUrl(pageUrl);
 
-        if(!isEmpty(params)) {
+        if (!isEmpty(params)) {
             pageUrl = urlFactory.getUrlOf(pageInstance, params);
             pageInstance.setUrl(pageUrl);
         }

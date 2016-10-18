@@ -70,7 +70,7 @@ public interface BrowserActions extends IWindowManager, IThen, ScriptExecutor, I
 
     Set<Cookie> getCookies();
 
-    //Actions
+    //RobotActions
     void click();
 
     void clickAndHold();

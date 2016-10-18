@@ -7,19 +7,34 @@ import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
 import com.qantium.uisteps.core.name.Named;
+import net.lightbody.bmp.BrowserMobProxyServer;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
+
+import java.net.URL;
 
 /**
  * Created by Anton Solyankin
  */
 public interface IBrowser extends BrowserActions, SearchContext, Named {
 
+    public BrowserMobProxyServer getProxy();
+
+    public void setProxy(BrowserMobProxyServer proxy);
+
+    public String getHub();
+
+    public void setHub(String hub);
+
     boolean isAlive();
 
     void close();
+
+    URL getNodeUrl();
+
+    URL getHubUrl();
 
     //UIElement
     void clickAndHold(UIElement element);
@@ -87,7 +102,7 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     boolean select(CheckBox checkBox, boolean select);
 
-    //Scrooll window
+    //Scroll window
     void scrollWindowByOffset(int x, int y);
 
     void scrollWindowToTarget(UIElement element);

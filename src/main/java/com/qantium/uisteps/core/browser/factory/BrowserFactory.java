@@ -37,6 +37,10 @@ public class BrowserFactory {
         if (proxy != null) {
             browser.setProxy(proxy.getMobProxy());
         }
+
+        String hub = driverBuilder.getHub();
+        browser.setHub(hub);
+
         return browser;
     }
 

@@ -1,18 +1,19 @@
 package com.qantium.uisteps.core.utils.grid.servlets.robot;
 
 
+import com.qantium.uisteps.core.utils.grid.servlets.GridServlet;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.grid.internal.Registry;
-import org.openqa.grid.web.servlet.RegistryBasedServlet;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
+import java.awt.*;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,55 +21,78 @@ import java.util.List;
 /**
  * Created by Anton Solyankin
  */
-public class Robot extends RegistryBasedServlet {
+public class RobotServlet extends GridServlet {
 
-    private static final long serialVersionUID = 115148461514875L;
-
-    public Robot() {
+    public RobotServlet() {
         this(null);
     }
 
-    public Robot(Registry registry) {
+    public RobotServlet(Registry registry) {
         super(registry);
-    }
-
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String json = getRequestJson(request);
-            List<Action> actions = getActions(json);
-            Robot robot = new Robot();
-
-            for (Action action : actions) {
-                action.setObject(robot).run();
-            }
-        } catch (IOException | JSONException | IllegalArgumentException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter out = resp.getWriter();
-        out.print("<h1>If you want to execute Robot actions you need to use POST request</h1>");
+        out.print("<h1>If you want to execute RobotServlet actions you need to use POST request</h1>");
     }
 
-    protected String getRequestJson(HttpServletRequest request) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        StringBuilder jsonRequest = new StringBuilder();
-        String line = "";
-        while ((line = br.readLine()) != null) {
-            jsonRequest.append(line);
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        RobotGridResponse robotResponse = new RobotGridResponse();
+        try {
+            RobotActions actions;
+            if (isSerialized(request)) {
+                actions = getActions(request);
+            } else {
+                String json = getRequestString(request);
+                actions = getActions(json);
+            }
+            run(actions);
+
+            robotResponse.setResults(actions.getResults());
+        } catch (JSONException | IllegalArgumentException | ClassNotFoundException | AWTException ex) {
+            robotResponse.failed(ex);
+            ex.printStackTrace();
+        } finally {
+            PrintWriter out = response.getWriter();
+            out.print(robotResponse);
         }
-        return jsonRequest.toString();
+
     }
 
-    protected List<Action> getActions(String request) throws JSONException, IllegalArgumentException {
+    protected void run(RobotActions actions) throws AWTException {
+        Robot robot = new Robot();
+
+        for (RobotAction action : actions) {
+            action.setRobot(robot);
+        }
+
+        actions.run();
+    }
+
+    protected boolean isSerialized(HttpServletRequest request) {
+        String contentType = request.getHeader("Content-Type");
+        return contentType == null || !contentType.contains("application/json");
+    }
+
+    protected RobotActions getActions(HttpServletRequest request) throws IOException, ClassNotFoundException {
+        ServletInputStream inputStream = request.getInputStream();
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        return (RobotActions) objectInputStream.readObject();
+    }
+
+    protected RobotActions getActions(String json) throws JSONException, IOException, ClassNotFoundException {
+        List<RobotAction> actions = getActionsList(json);
+        return new RobotActions(actions);
+    }
+
+    protected List<RobotAction> getActionsList(String request) throws JSONException, IllegalArgumentException {
         JSONObject json = new JSONObject(request);
         JSONArray actionsJSONArray = json.getJSONArray("actions");
 
-        List<Action> actions = new ArrayList();
+        List<RobotAction> actions = new ArrayList();
 
         for (int i = 0; i < actionsJSONArray.length(); i++) {
             JSONObject jsonAction = actionsJSONArray.getJSONObject(i);
@@ -87,12 +111,11 @@ public class Robot extends RegistryBasedServlet {
                 paramTypes[j] = paramType;
                 paramsValues[j] = paramValue;
             }
-            Action action = new Action(actionName, paramTypes, paramsValues);
+            RobotAction action = new RobotAction(actionName, paramTypes, paramsValues);
             actions.add(action);
         }
         return actions;
     }
-
 
     private Class<?> getParamType(String name) throws IllegalArgumentException {
         switch (name) {

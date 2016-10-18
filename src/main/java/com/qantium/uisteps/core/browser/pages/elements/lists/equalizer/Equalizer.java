@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.browser.pages.elements.lists.equalizer;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.pages.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.scroll.Scroll;
 
 /**
