@@ -4,7 +4,6 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.finder.Find;
 import com.qantium.uisteps.core.browser.pages.elements.finder.Finder;
-import com.qantium.uisteps.core.browser.pages.elements.finder.FinderFactory;
 
 /**
  * Created by Anton Solyankin
@@ -14,7 +13,7 @@ public abstract class FinderFacade<T, E extends UIElement> {
     private final Finder<E> finder;
 
     public FinderFacade(UIElements<E> elements) {
-        finder = new FinderFactory(elements).getSingleFinder();
+        finder = new Finder(elements);
     }
 
     public Finder<E> by(Find by) {
