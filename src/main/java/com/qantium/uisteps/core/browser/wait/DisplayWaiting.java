@@ -1,14 +1,11 @@
 package com.qantium.uisteps.core.browser.wait;
 
 import com.qantium.uisteps.core.browser.NoBrowserException;
-import com.qantium.uisteps.core.browser.actions.ActionException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  * Created by Anton Solyankin

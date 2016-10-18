@@ -72,6 +72,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>base.url.param.value.regexp</li>
  * <li>browser.width</li>
  * <li>browser.height</li>
+ * <li>browser.download.path</li>
  * <li>testrail.action</li>
  * <li>testrail.host</li>
  * <li>testrail.user</li>

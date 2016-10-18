@@ -26,9 +26,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.LIST_POLLING_ATTEMPS;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  * Contains elements of one type

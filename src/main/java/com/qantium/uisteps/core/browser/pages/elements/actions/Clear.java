@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.browser.actions;
+package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 /**
  * Created by Anton Solyankin
