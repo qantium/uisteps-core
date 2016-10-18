@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  *
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
 public class Ignored {
 
@@ -47,7 +47,7 @@ public class Ignored {
 
         for (UIElement element : elements) {
             if (element instanceof UIElements) {
-                Iterator iterator = ((UIElements) element).getElements().iterator();
+                Iterator iterator = ((UIElements) element).iterator();
 
                 while (iterator.hasNext()) {
                     UIElement uiElement = (UIElement) iterator.next();

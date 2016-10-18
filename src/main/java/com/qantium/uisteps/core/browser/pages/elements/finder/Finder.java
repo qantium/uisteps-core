@@ -4,10 +4,14 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 /**
  * Created by Anton Solyankin
  */
-public abstract class Finder<E extends UIElement> {
+public class Finder<E extends UIElement> {
 
     protected final UIElements<E> elements;
     protected Find by;
@@ -19,9 +23,49 @@ public abstract class Finder<E extends UIElement> {
         this.elements = elements;
     }
 
-    public abstract E get();
+    public E get() {
+        for (E element : elements) {
+            for(String value: values) {
+                if (how.isFound(by.get(element, attribute), value)) {
+                    return element;
+                }
+            }
+        }
 
-    public abstract boolean contains();
+        String error = getError();
+        throw new NoSuchElementException(error);
+    }
+
+    public boolean contains() {
+        try {
+            get();
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    public UIElements<E> getAll() {
+        List<E> found = new ArrayList();
+
+        for (E element : elements) {
+            for(String value: values) {
+                if (how.isFound(by.get(element, attribute), value)) {
+                    found.add(element);
+                }
+            }
+        }
+        return elements.getUIElements(found);
+    }
+
+    public boolean containsAll() {
+        try {
+            get();
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
 
     public Finder<E> by(Find by) {
         this.by = by;

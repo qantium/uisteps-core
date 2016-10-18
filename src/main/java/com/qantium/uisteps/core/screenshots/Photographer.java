@@ -132,7 +132,7 @@ public class Photographer implements IPhotographer {
 
                 UIElements uiElements = (UIElements) element;
 
-                Iterator iterator = uiElements.getElements().iterator();
+                Iterator iterator = uiElements.iterator();
                 while (iterator.hasNext()) {
                     UIElement uiElement = (UIElement) iterator.next();
                     webElements.add(uiElement.getWrappedElement());

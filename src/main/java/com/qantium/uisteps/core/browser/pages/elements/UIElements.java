@@ -19,8 +19,6 @@ import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.finder.Find;
-import com.qantium.uisteps.core.browser.pages.elements.finder.Finder;
 import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderAccessAllFacade;
 import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderAccessFacade;
 import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderContainsAllFacade;
