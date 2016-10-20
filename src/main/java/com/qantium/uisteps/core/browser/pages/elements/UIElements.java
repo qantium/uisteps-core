@@ -19,10 +19,7 @@ import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderAccessAllFacade;
-import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderAccessFacade;
-import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderContainsAllFacade;
-import com.qantium.uisteps.core.browser.pages.elements.finder.facades.FinderContainsFacade;
+import com.qantium.uisteps.core.browser.pages.elements.finder.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -243,20 +240,28 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getContext();
     }
 
-    public FinderAccessFacade<E> get() {
-        return new FinderAccessFacade(this);
+    public HowCondition<E, E> get() {
+        FinderGet finder = new FinderGet(this);
+        return new HowCondition(finder);
     }
 
-    public FinderAccessAllFacade<E> getAll() {
-        return new FinderAccessAllFacade(this);
+    public HowCondition<UIElements<E>, E> getAll() {
+        FinderGetAll finder = new FinderGetAll(this);
+        return new HowCondition(finder);
     }
 
-    public FinderContainsFacade<E> contains() {
-        return new FinderContainsFacade(this);
+    public HowCondition<Boolean, E> contains() {
+        Finder finder = new FinderContains(this);
+        return new HowCondition(finder);
     }
 
-    public FinderContainsAllFacade<E> containsAll() {
-        return new FinderContainsAllFacade(this);
+    public HowCondition<Boolean, E> containsAll() {
+        Finder finder = new FinderContainsAll(this);
+        return new HowCondition(finder);
+    }
+
+    public Finder<?, E> by(Find by) {
+        return new Finder(this).by(by);
     }
 
 }

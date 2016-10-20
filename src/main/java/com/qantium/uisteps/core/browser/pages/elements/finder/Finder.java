@@ -3,6 +3,7 @@ package com.qantium.uisteps.core.browser.pages.elements.finder;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.MethodNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by Anton Solyankin
  */
-public class Finder<E extends UIElement> {
+public class Finder<T, E extends UIElement> {
 
     protected final UIElements<E> elements;
     protected Find by;
@@ -25,13 +26,12 @@ public class Finder<E extends UIElement> {
 
     public E get() {
         for (E element : elements) {
-            for(String value: values) {
+            for (String value : values) {
                 if (how.isFound(by.get(element, attribute), value)) {
                     return element;
                 }
             }
         }
-
         String error = getError();
         throw new NoSuchElementException(error);
     }
@@ -49,7 +49,7 @@ public class Finder<E extends UIElement> {
         List<E> found = new ArrayList();
 
         for (E element : elements) {
-            for(String value: values) {
+            for (String value : values) {
                 if (how.isFound(by.get(element, attribute), value)) {
                     found.add(element);
                 }
@@ -67,22 +67,22 @@ public class Finder<E extends UIElement> {
         }
     }
 
-    public Finder<E> by(Find by) {
+    public Finder<T, E> by(Find by) {
         this.by = by;
         return this;
     }
 
-    public Finder<E> how(How how) {
+    public Finder<T, E> how(How how) {
         this.how = how;
         return this;
     }
 
-    public Finder<E> attribute(String attribute) {
+    public Finder<T, E> attribute(String attribute) {
         this.attribute = attribute;
         return this;
     }
 
-    public Finder<E> values(String... values) {
+    public Finder<T, E> values(String... values) {
         this.values = values;
         return this;
     }
@@ -101,4 +101,9 @@ public class Finder<E extends UIElement> {
 
         return error.toString();
     }
+
+    protected T find()  {
+        throw new UnsupportedOperationException("This method must be overridden!");
+    }
+
 }
