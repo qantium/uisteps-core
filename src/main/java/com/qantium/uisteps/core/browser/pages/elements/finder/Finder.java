@@ -90,7 +90,7 @@ public class Finder<T, E extends UIElement> {
     protected String getError() {
         StringBuilder error = new StringBuilder();
 
-        error.append("Cannot find element by ").append(by);
+        error.append("Cannot find element by ").append(by.name().toLowerCase());
 
         if (!StringUtils.isEmpty(attribute)) {
             error.append(" ").append(attribute);

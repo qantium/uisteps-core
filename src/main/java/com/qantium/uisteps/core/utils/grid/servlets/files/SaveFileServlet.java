@@ -32,7 +32,6 @@ public class SaveFileServlet extends GridServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         GridResponse griResponse = new RobotGridResponse();
-        ;
 
         try {
             String requestString = getRequestString(request);

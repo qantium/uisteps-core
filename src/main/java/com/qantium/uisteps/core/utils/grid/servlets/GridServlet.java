@@ -36,7 +36,7 @@ public class GridServlet extends RegistryBasedServlet {
     protected String getRequestString(HttpServletRequest request) throws IOException {
         BufferedReader reader = request.getReader();
         StringBuilder jsonRequest = new StringBuilder();
-        String line = "";
+        String line;
         while ((line = reader.readLine()) != null) {
             jsonRequest.append(line);
         }

@@ -1,6 +1,9 @@
 package com.qantium.uisteps.core.utils.grid.servlets.robot;
 
 import com.qantium.uisteps.core.utils.grid.servlets.GridResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,5 +21,14 @@ public class RobotGridResponse extends GridResponse {
 
     public void setResults(List<Object> results) {
         this.results = results;
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        try {
+            return super.toJSON().put("results", getResults().toArray());
+        } catch (JSONException ex) {
+            throw new RuntimeException("Cannot get JSONObject", ex);
+        }
     }
 }

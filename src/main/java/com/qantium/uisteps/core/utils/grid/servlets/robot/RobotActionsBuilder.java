@@ -47,23 +47,15 @@ public class RobotActionsBuilder {
         return this;
     }
 
-    public RobotActionsBuilder getAutoDelay() {
-        actions.add(factory.getAutoDelay());
-        return this;
-    }
-
-    public RobotActionsBuilder isAutoWaitForIdle() {
-        actions.add(factory.isAutoWaitForIdle());
-        return this;
-    }
-
     public RobotActionsBuilder setAutoWaitForIdle(boolean isOn) {
         actions.add(factory.setAutoWaitForIdle(isOn));
         return this;
     }
 
-    public RobotActionsBuilder keyRelease(int keycode) {
-        actions.add(factory.keyRelease(keycode));
+    public RobotActionsBuilder keyRelease(Integer... keyCodes) {
+        for(Integer keycode: keyCodes) {
+            actions.add(factory.keyRelease(keycode));
+        }
         return this;
     }
 
@@ -72,20 +64,17 @@ public class RobotActionsBuilder {
         return this;
     }
 
-    public RobotActionsBuilder keyPress(int keycode) {
-        actions.add(factory.keyPress(keycode));
-        return this;
-    }
-
-    public RobotActionsBuilder sendKey(int keycode) {
-        keyPress(keycode);
-        keyRelease(keycode);
+    public RobotActionsBuilder keyPress(Integer... keyCodes) {
+        for(Integer keycode: keyCodes) {
+            actions.add(factory.keyPress(keycode));
+        }
         return this;
     }
 
     public RobotActionsBuilder sendKeys(Integer... keyCodes) {
         for(Integer keycode: keyCodes) {
-            sendKey(keycode);
+            keyPress(keycode);
+            keyRelease(keycode);
         }
         return this;
     }

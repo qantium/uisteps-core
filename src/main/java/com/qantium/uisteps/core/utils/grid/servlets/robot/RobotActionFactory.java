@@ -40,16 +40,8 @@ public class RobotActionFactory {
         return new RobotAction("createScreenCapture", new Class<?>[]{Rectangle.class}, new Object[]{screenRect});
     }
 
-    public RobotAction isAutoWaitForIdle() {
-        return new RobotAction("isAutoWaitForIdle");
-    }
-
     public RobotAction setAutoWaitForIdle(boolean isOn) {
         return new RobotAction("setAutoWaitForIdle", new Class<?>[]{Boolean.TYPE}, new Object[]{isOn});
-    }
-
-    public RobotAction getAutoDelay() {
-        return new RobotAction("getAutoDelay");
     }
 
     public RobotAction setAutoDelay(int ms) {
