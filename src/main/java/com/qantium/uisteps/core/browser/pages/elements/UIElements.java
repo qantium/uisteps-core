@@ -138,7 +138,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         elements = new ArrayList();
 
         for (WebElement wrappedElement : webElements) {
-            E uiElement = super.get(elementType, locator);
+            E uiElement = get(elementType, locator);
             uiElement.setWrappedElement(wrappedElement);
             elements.add(uiElement);
         }

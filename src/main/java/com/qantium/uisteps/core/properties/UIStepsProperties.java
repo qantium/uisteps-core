@@ -137,6 +137,10 @@ public class UIStepsProperties {
         return value;
     }
 
+    public static int getIntProperty(IUIStepsProperty property) {
+        return Integer.parseInt(getProperty(property));
+    }
+
     /**
      * Get the property
      *

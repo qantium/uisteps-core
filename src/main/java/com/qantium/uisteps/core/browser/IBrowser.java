@@ -57,7 +57,7 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void clickOnPoint(UIElement element, int x, int y);
 
-    void moveToElement(UIElement element, int xOffset, int yOffset);
+    void moveMouseOver(UIElement element, int xOffset, int yOffset);
 
     void moveMouseOver(UIElement element);
 

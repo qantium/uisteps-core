@@ -1,10 +1,10 @@
-package com.qantium.uisteps.core.utils.testrail;
+package com.qantium.uisteps.core.utils.testrail.entity;
 
 /**
  * Created by Anton Solyankin
  */
 public enum TestRailType {
-    RUN("R"), SUITE("S"), TEST("T"), CASE("C");
+    PROJECT("P"), RUN("R"), SUITE("S"), TEST("T"), CASE("C");
 
     public final String mark;
 

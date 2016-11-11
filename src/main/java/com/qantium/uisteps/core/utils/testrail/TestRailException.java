@@ -1,7 +1,7 @@
 package com.qantium.uisteps.core.utils.testrail;
 
 /**
- * Created by SolAN on 11.02.2016.
+ * Created by Anton Solyankin
  */
 public class TestRailException extends RuntimeException {
 

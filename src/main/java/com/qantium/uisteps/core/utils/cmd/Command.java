@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Solan on 27.09.2016.
+ * Created by Anton Solyankin
  */
-public class Command {
+public class Command implements Runnable{
 
     private final List<String> stdoutLog = new ArrayList();
     private final List<String> stdoutError = new ArrayList();
@@ -19,21 +19,26 @@ public class Command {
         this.cmd = cmd;
     }
 
-    public void run() throws IOException {
-        Process process = Runtime.getRuntime().exec(cmd);
+    @Override
+    public void run()  {
+        try {
+            Process process = Runtime.getRuntime().exec(cmd);
 
-        BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String line;
-        while ((line = stdout.readLine()) != null) {
-            stdoutLog.add(line);
-        }
-        stdout.close();
+            BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = stdout.readLine()) != null) {
+                stdoutLog.add(line);
+            }
+            stdout.close();
 
-        BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-        while ((line = stderr.readLine()) != null) {
-            stdoutError.add(line);
+            BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((line = stderr.readLine()) != null) {
+                stdoutError.add(line);
+            }
+            stderr.close();
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot run cmd: " + cmd, ex);
         }
-        stderr.close();
     }
 
     public List<String> getStdoutLog() {
@@ -42,5 +47,10 @@ public class Command {
 
     public List<String> getStdoutError() {
         return stdoutError;
+    }
+
+    @Override
+    public String toString() {
+        return cmd;
     }
 }

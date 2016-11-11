@@ -208,7 +208,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     public Object moveMouseOverWithOffset(int xOffset, int yOffset) {
-        inOpenedBrowser().moveToElement(this, xOffset, yOffset);
+        inOpenedBrowser().moveMouseOver(this, xOffset, yOffset);
         return null;
     }
 

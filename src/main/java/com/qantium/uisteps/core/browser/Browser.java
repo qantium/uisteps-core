@@ -478,7 +478,7 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public void moveToElement(UIElement element, int xOffset, int yOffset) {
+    public void moveMouseOver(UIElement element, int xOffset, int yOffset) {
         getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
     }
 

@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.properties;
 
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.lifecycle.Execute;
-import com.qantium.uisteps.core.utils.testrail.Action;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -73,12 +72,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * <li>browser.width</li>
  * <li>browser.height</li>
  * <li>browser.download.path</li>
- * <li>testrail.action</li>
  * <li>testrail.host</li>
- * <li>testrail.user</li>
+ * <li>testrail.login</li>
  * <li>testrail.password</li>
- * <li>testrail.runs</li>
- * <li>testrail.status.codes</li>
+ * <li>testrail.run</li>
+ * <li>testrail.statuses</li>
  * <li>testrail.outcome.file</li>
  * <li>run.groups</li>
  * <li>com.qantium.uisteps.core.storage.dir</li>
@@ -249,26 +247,18 @@ public enum UIStepsProperty implements IUIStepsProperty {
 
     LIST_POLLING_ATTEMPTS("1"),
 
-    /**
-     * @see com.qantium.uisteps.core.utils.testrail.Action
-     */
-    TESTRAIL_ACTION(Action.UNDEFINED.name().toLowerCase()),
+
     TESTRAIL_HOST,
-    TESTRAIL_USER,
+    TESTRAIL_LOGIN,
     TESTRAIL_PASSWORD,
-    TESTRAIL_RUNS,
-    TESTRAIL_STATUS_CODES,
+    TESTRAIL_RUN(""),
+    TESTRAIL_STATUSES("Passed=1;Blocked=2;Untested=3;Retest=4;Failed=5"),
     /**
      * Set "testrail.outcome.file" to specify path to *.properties file with list of runed testrail cases
      */
     TESTRAIL_OUTCOME_FILE("/target/testrail/tests.properties"),
     RUN_GROUPS,
 
-    ZK_ID_MARK("ZK#"),
-    ZK_HASH_XPATH("//body/div[1]"),
-    ZK_HASH_ATTRIBUTE("id"),
-    ZK_HASH_REGEXP("(.*)_"),
-    ZK_SHIFT_REGEXP("(\\[(.*?)\\])"),
 
     /**
      * Set "retry.attempts" to specify number of retries after failed test
