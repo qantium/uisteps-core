@@ -28,7 +28,7 @@ public class FindCondition<T, E extends UIElement> {
     }
 
     public T attribute(String attribute, String... values) {
-        return getFinder().by(HTML).attribute(attribute).values(values).find();
+        return getFinder().by(ATTRIBUTE).attribute(attribute).values(values).find();
     }
 
     public Finder<T, E> getFinder() {

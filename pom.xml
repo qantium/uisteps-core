@@ -6,7 +6,7 @@
     <artifactId>uisteps-core</artifactId>
     <name>${project.artifactId}</name>
     <description>Framework based on Selenium</description>
-    <version>3.2.4</version>
+    <version>3.2.5</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
