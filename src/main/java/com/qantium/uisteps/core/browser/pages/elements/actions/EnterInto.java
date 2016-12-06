@@ -22,6 +22,6 @@ public class EnterInto extends TypeInto {
 
     @Override
     protected boolean textIsNotEmpty() {
-        return  getNullValue().equals(getText());
+        return  !getNullValue().equals(getText());
     }
 }

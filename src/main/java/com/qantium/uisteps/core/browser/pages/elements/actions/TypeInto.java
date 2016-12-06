@@ -31,7 +31,7 @@ public class TypeInto extends UIElementAction {
         WebElement webElement = getUIObject().getWrappedElement();
 
         if(textIsNotEmpty()) {
-            webElement.sendKeys(getText().toString());
+            webElement.sendKeys(getText());
         }
         return null;
     }
