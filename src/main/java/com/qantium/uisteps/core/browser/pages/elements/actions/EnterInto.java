@@ -8,16 +8,20 @@ import org.openqa.selenium.WebElement;
  */
 public class EnterInto extends TypeInto {
 
-    
     public EnterInto(TextField input, Object text) {
         super(input, text);
     }
 
     @Override
     protected Object apply(Object... args) {
-        WebElement webElement = getUIObject().getWrappedElement();
-        webElement.clear();
+        if(textIsNotEmpty()) {
+            new Clear(getUIObject()).apply(args);
+        }
         return super.apply(args);
     }
 
+    @Override
+    protected boolean textIsNotEmpty() {
+        return  getNullValue().equals(getText());
+    }
 }

@@ -14,6 +14,6 @@ public class FinderContainsAll<E extends UIElement> extends Finder<Boolean, E> {
 
     @Override
     protected Boolean find() {
-        return containsAll();
+        return allContains();
     }
 }

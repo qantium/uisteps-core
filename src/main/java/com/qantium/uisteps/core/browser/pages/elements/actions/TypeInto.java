@@ -37,7 +37,11 @@ public class TypeInto extends UIElementAction {
     }
 
     protected boolean textIsNotEmpty() {
-        return  getText() != null && !nullValue.equals(getText());
+        return  getText() != null && !getNullValue().equals(getText());
+    }
+
+    protected String getNullValue() {
+        return nullValue;
     }
 
     @Override

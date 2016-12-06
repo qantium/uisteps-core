@@ -27,11 +27,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 @NotInit
 public class TextField extends UIElement implements Fillable {
 
-    public Object sendKeys(String keys) {
+    public Object sendKeys(Object keys) {
         return type(keys);
     }
 
-    public Object type(String keys) {
+    public Object type(Object keys) {
         inOpenedBrowser().typeInto(this, keys);
         return null;
     }
@@ -41,7 +41,7 @@ public class TextField extends UIElement implements Fillable {
         return null;
     }
 
-    public Object enter(String text) {
+    public Object enter(Object text) {
         inOpenedBrowser().enterInto(this, text);
         return null;
     }

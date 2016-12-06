@@ -58,13 +58,8 @@ public class Finder<T, E extends UIElement> {
         return elements.getUIElements(found);
     }
 
-    public boolean containsAll() {
-        try {
-            get();
-            return true;
-        } catch (NoSuchElementException ex) {
-            return false;
-        }
+    public boolean allContains() {
+        return getAll().size() == elements.size();
     }
 
     public Finder<T, E> by(Find by) {
