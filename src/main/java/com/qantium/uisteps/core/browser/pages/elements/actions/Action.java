@@ -4,7 +4,6 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
@@ -13,8 +12,8 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
  */
 public abstract class Action<T> {
 
-    private int timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-    private int pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+    private int timeout = Integer.parseInt(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
+    private int pollingTime = Integer.parseInt(WEBDRIVER_TIMEOUTS_POLLING.getValue());
 
     protected abstract UIObject getUIObject();
 

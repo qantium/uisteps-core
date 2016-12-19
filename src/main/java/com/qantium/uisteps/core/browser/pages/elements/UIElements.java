@@ -27,7 +27,6 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
@@ -42,8 +41,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     private final Class<E> elementType;
     private ArrayList<E> elements;
-    private long timeout = Long.parseLong(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-    private long pollingTime = Long.parseLong(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+    private long timeout = Long.parseLong(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
+    private long pollingTime = Long.parseLong(WEBDRIVER_TIMEOUTS_POLLING.getValue());
 
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
@@ -255,7 +254,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return new HowCondition(finder);
     }
 
-    public HowCondition<Boolean, E> containsAll() {
+    public HowCondition<Boolean, E> allContains() {
         Finder finder = new FinderContainsAll(this);
         return new HowCondition(finder);
     }

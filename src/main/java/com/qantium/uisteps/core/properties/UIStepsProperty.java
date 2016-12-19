@@ -19,6 +19,7 @@ import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.lifecycle.Execute;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.substring;
 
 /**
  * Contains settings that can be set before test running
@@ -38,10 +39,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * </p>
  * List of properties:
  * <ul>
- * <li>properties.path</li>
+ * <li>setup.props.file</li>
  * <li>webdriver.driver</li>
  * <li>webdriver.remote.url</li>
  * <li>webdriver.base.url.host</li>
+ * <li>webdriver.base.url.port</li>
  * <li>webdriver.base.url.protocol</li>
  * <li>webdriver.base.url.user</li>
  * <li>webdriver.base.url.password</li>
@@ -85,19 +87,11 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * </ul>
  *
  * @author Anton Solyankin
- * @see com.qantium.uisteps.core.properties.UIStepsProperties
  */
 public enum UIStepsProperty implements IUIStepsProperty {
 
-    /**
-     * Set "properties.path" to specify in what file alternative properties are
-     * set. Path can be relative or absolute
-     */
-    /**
-     * Set "properties.path" to specify in what file alternative properties are
-     * set. Path can be relative or absolute
-     */
-    PROPERTIES_PATH,
+    SETUP_PROPS_FILE(PROPS_FILE_PATH),
+
     WEBDRIVER_DRIVER("firefox"),
     /**
      * Set "webdriver.remote.url" to specify url for remote driver
@@ -110,6 +104,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * @see com.qantium.uisteps.core.browser.pages.UrlFactory
      */
     WEBDRIVER_BASE_URL_HOST,
+    WEBDRIVER_BASE_URL_PORT,
     /**
      * Set "webdriver.base.url.protocol" to specify base protocol for page url
      *
@@ -271,27 +266,16 @@ public enum UIStepsProperty implements IUIStepsProperty {
 
     private final String defaultValue;
 
-    UIStepsProperty(String defaultValue) {
-        String key = this.toString();
-
-        if(isEmpty(System.getProperty(key)) && !isEmpty(defaultValue)) {
-            System.setProperty(key, defaultValue);
-        }
-
-        this.defaultValue = defaultValue;
-    }
-
     UIStepsProperty() {
         this("");
+    }
+
+    UIStepsProperty(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     @Override
     public String getDefaultValue() {
         return defaultValue;
-    }
-
-    @Override
-    public String toString() {
-        return name().toLowerCase().replace("_", ".");
     }
 }

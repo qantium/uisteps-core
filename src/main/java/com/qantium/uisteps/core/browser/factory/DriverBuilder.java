@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.Map;
 
 import static com.google.common.collect.Maps.newHashMap;
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -38,22 +37,22 @@ public class DriverBuilder {
     private boolean maxHeight;
 
     public DriverBuilder() {
-        setDriver(getProperty(WEBDRIVER_DRIVER));
-        setProxy(getProperty(WEBDRIVER_PROXY));
-        setHub(getProperty(WEBDRIVER_REMOTE_URL));
+        setDriver(WEBDRIVER_DRIVER.getValue());
+        setProxy(WEBDRIVER_PROXY.getValue());
+        setHub(WEBDRIVER_REMOTE_URL.getValue());
 
         width = initWidth();
         height = initHeight();
 
-        capabilities.put(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, getProperty(WEBDRIVER_UNEXPECTED_ALERT_BEHAVIOUR));
+        capabilities.put(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, WEBDRIVER_UNEXPECTED_ALERT_BEHAVIOUR.getValue());
     }
 
     private int initWidth() {
-        return initSize(getProperty(BROWSER_WIDTH), true);
+        return initSize(BROWSER_WIDTH.getValue(), true);
     }
 
     private int initHeight() {
-        return initSize(getProperty(BROWSER_HEIGHT), false);
+        return initSize(BROWSER_HEIGHT.getValue(), false);
     }
 
     private int initSize(String property, boolean width) {
@@ -205,7 +204,9 @@ public class DriverBuilder {
             case OPERA:
                 return DesiredCapabilities.opera();
             case IEXPLORER:
-                return DesiredCapabilities.internetExplorer();
+                DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+                return capabilities;
             case EDGE:
                 return DesiredCapabilities.internetExplorer();
             case SAFARI:

@@ -24,7 +24,6 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.STORAGE_DIR;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 
@@ -34,7 +33,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
  */
 public class Storage {
 
-    private String dir = getProperty(USER_DIR) + getProperty(STORAGE_DIR);
+    private String dir = USER_DIR.getValue() + STORAGE_DIR.getValue();
 
     public Storage toDir(String dir) {
         this.dir = dir;

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.META_INFO_REGEXP;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.META_PARAM_REGEXP;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -23,7 +22,7 @@ public class MetaInfo {
     public MetaInfo(String title) {
         this.title = title;
         titleWithoutMeta = title;
-        Pattern pattern = Pattern.compile(getProperty(META_INFO_REGEXP));
+        Pattern pattern = Pattern.compile(META_INFO_REGEXP.getValue());
         Matcher matcher = pattern.matcher(title);
 
         if (matcher.find()) {
@@ -35,7 +34,7 @@ public class MetaInfo {
 
     private void parseMetaData() {
 
-        Pattern pattern = Pattern.compile(getProperty(META_PARAM_REGEXP));
+        Pattern pattern = Pattern.compile(META_PARAM_REGEXP.getValue());
         Matcher matcher = pattern.matcher(meta);
         while (matcher.find()) {
             String key = matcher.group(1).trim();

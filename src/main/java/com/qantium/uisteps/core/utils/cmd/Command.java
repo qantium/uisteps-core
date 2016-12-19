@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Anton Solyankin
  */
-public class Command implements Runnable{
+public class Command implements Runnable {
 
     private final List<String> stdoutLog = new ArrayList();
     private final List<String> stdoutError = new ArrayList();

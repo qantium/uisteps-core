@@ -15,21 +15,22 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.properties.UIStepsProperties;
+
+import com.qantium.uisteps.core.properties.IUIStepsProperty;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  *
- * @author ASolyankin
+ * @author Anton Solyankin
  */
 public class UrlFactory {
 
@@ -37,18 +38,20 @@ public class UrlFactory {
     private final String PARAM_REGEXP;
     private final String PARAM_VALUE_REGEXP;
     private final String BASE_HOST;
+    private final String BASE_PORT;
     private final String BASE_PROTOCOL;
     private final String BASE_USER;
     private final String BASE_PASSWORD;
 
     public UrlFactory() {
-        HOST = getProperty(BASE_URL_HOST);
-        PARAM_REGEXP = getProperty(BASE_URL_PARAM_REGEXP);
-        PARAM_VALUE_REGEXP = getProperty(BASE_URL_PARAM_VALUE_REGEXP);
-        BASE_HOST = getProperty(WEBDRIVER_BASE_URL_HOST);
-        BASE_PROTOCOL = getProperty(WEBDRIVER_BASE_URL_PROTOCOL);
-        BASE_USER = getProperty(WEBDRIVER_BASE_URL_USER);
-        BASE_PASSWORD = getProperty(WEBDRIVER_BASE_URL_PASSWORD);
+        HOST = BASE_URL_HOST.getValue();
+        PARAM_REGEXP = BASE_URL_PARAM_REGEXP.getValue();
+        PARAM_VALUE_REGEXP = BASE_URL_PARAM_VALUE_REGEXP.getValue();
+        BASE_HOST = WEBDRIVER_BASE_URL_HOST.getValue();
+        BASE_PORT = WEBDRIVER_BASE_URL_PORT.getValue();
+        BASE_PROTOCOL = WEBDRIVER_BASE_URL_PROTOCOL.getValue();
+        BASE_USER = WEBDRIVER_BASE_URL_USER.getValue();
+        BASE_PASSWORD = WEBDRIVER_BASE_URL_PASSWORD.getValue();
     }
 
     public Url getUrlOf(Page page) {
@@ -105,7 +108,7 @@ public class UrlFactory {
         process(url, page, paramsMap);
         
         processParams(url, paramsMap);
-        processParams(url, UIStepsProperties.getProperties());
+        processParams(url, IUIStepsProperty.PROPERTIES);
         
         if (!params.isEmpty()) {
             processParams(url, params);
@@ -201,6 +204,10 @@ public class UrlFactory {
 
         if (isEmpty(url.getHost())) {
             url.setHost(BASE_HOST);
+        }
+
+        if (url.getPort() == -1 && isNotEmpty(BASE_PORT)) {
+            url.setPort(Integer.parseInt(BASE_PORT));
         }
 
         if (isEmpty(url.getProtocol())) {

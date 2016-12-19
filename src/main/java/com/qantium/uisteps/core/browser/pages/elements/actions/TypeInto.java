@@ -3,7 +3,6 @@ package com.qantium.uisteps.core.browser.pages.elements.actions;
 import com.qantium.uisteps.core.browser.pages.elements.TextField;
 import org.openqa.selenium.WebElement;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.NULL_VALUE;
 
 /**
@@ -11,7 +10,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.NULL_VALUE;
  */
 public class TypeInto extends UIElementAction {
     private final Object text;
-    private final String nullValue = getProperty(NULL_VALUE);
+    private final String nullValue = NULL_VALUE.getValue();
 
     public TypeInto(TextField input, Object text) {
         super(input);

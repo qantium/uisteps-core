@@ -32,7 +32,6 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SCREENSHOTS_TAKE_FAKE;
 
 /**
@@ -113,7 +112,7 @@ public class Photographer implements IPhotographer {
                 return new Screenshot(new Robot().createScreenCapture(new java.awt.Rectangle(Toolkit.getDefaultToolkit().getScreenSize())));
             }
         } catch (Exception ex) {
-            if ("true".equals(getProperty(SCREENSHOTS_TAKE_FAKE).toLowerCase())) {
+            if (SCREENSHOTS_TAKE_FAKE.isTrue()) {
                 InputStream resource = getClass().getResourceAsStream("/fake_screenshot.png");
                 return Screenshot.getFrom(resource);
             } else {

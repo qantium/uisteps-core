@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SCREENSHOTS_DIR;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 
@@ -35,7 +34,7 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.USER_DIR;
 public class Screenshot {
 
     private BufferedImage image;
-    private String dir = getProperty(USER_DIR) + getProperty(SCREENSHOTS_DIR);
+    private String dir = USER_DIR.getValue() + SCREENSHOTS_DIR.getValue();
 
     public Screenshot(BufferedImage image) {
         this.image = image;

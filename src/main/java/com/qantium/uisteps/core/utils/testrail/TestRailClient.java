@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 
@@ -26,9 +25,9 @@ public class TestRailClient {
     public static TestRailClient instance;
 
     public static TestRailClient getInstance() {
-        String host = getProperty(TESTRAIL_HOST);
-        String login = getProperty(TESTRAIL_LOGIN);
-        String password = getProperty(TESTRAIL_PASSWORD);
+        String host = TESTRAIL_HOST.getValue();
+        String login = TESTRAIL_LOGIN.getValue();
+        String password = TESTRAIL_PASSWORD.getValue();
 
         return getInstance(host, login, password);
     }
@@ -77,7 +76,7 @@ public class TestRailClient {
             try {
                 RestApiRequest request = api.createRequest("/get_statuses");
                 return request.get().toJSONArray();
-            } catch (RestApiException ex) {
+            } catch (RestApiException | JSONException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -86,7 +85,7 @@ public class TestRailClient {
             try {
                 RestApiRequest request = api.createRequest("/get_user_by_email&email=" + email);
                 return request.get().toJSONObject();
-            } catch (RestApiException ex) {
+            } catch (RestApiException | JSONException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -95,7 +94,7 @@ public class TestRailClient {
             try {
                 RestApiRequest request = api.createRequest("/get_users");
                 return request.get().toJSONArray();
-            } catch (RestApiException ex) {
+            } catch (RestApiException | JSONException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -108,9 +107,13 @@ public class TestRailClient {
 
     public class Cases {
         public TestRailCase getById(int id) throws RestApiException {
-            RestApiRequest request = api.createRequest("/get_case/" + id);
-            JSONObject description = request.get().toJSONObject();
-            return new TestRailCase(description);
+            try {
+                RestApiRequest request = api.createRequest("/get_case/" + id);
+                JSONObject description = request.get().toJSONObject();
+                return new TestRailCase(description);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         public List<TestRailCase> getFrom(TestRailProject project) throws RestApiException {
@@ -121,17 +124,16 @@ public class TestRailClient {
 
             StringBuilder req = new StringBuilder("/get_cases/" + project.getId());
 
-            for(Map.Entry<String, Object> filter: filters.entrySet()) {
+            for (Map.Entry<String, Object> filter : filters.entrySet()) {
                 req.append("&")
                         .append(filter.getKey())
                         .append("=")
                         .append(filter.getValue());
             }
-
-            RestApiRequest request = api.createRequest(req.toString());
-            JSONArray json = request.get().toJSONArray();
-
             try {
+                RestApiRequest request = api.createRequest(req.toString());
+                JSONArray json = request.get().toJSONArray();
+
                 List<TestRailCase> cases = new ArrayList();
 
                 for (int i = 0; i < json.length(); i++) {
@@ -152,9 +154,13 @@ public class TestRailClient {
     public class Tests {
 
         public TestRailTest getById(int id) throws RestApiException {
-            RestApiRequest request = api.createRequest("/get_test/" + id);
-            JSONObject description = request.get().toJSONObject();
-            return new TestRailTest(description);
+            try {
+                RestApiRequest request = api.createRequest("/get_test/" + id);
+                JSONObject description = request.get().toJSONObject();
+                return new TestRailTest(description);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         public List<TestRailTest> getFrom(TestRailRun run) throws RestApiException {
@@ -182,16 +188,24 @@ public class TestRailClient {
     public class Runs {
 
         public TestRailRun getById(int id) throws RestApiException {
-            RestApiRequest request = api.createRequest("/get_run/" + id);
-            JSONObject description = request.get().toJSONObject();
-            return new TestRailRun(description);
+            try {
+                RestApiRequest request = api.createRequest("/get_run/" + id);
+                JSONObject description = request.get().toJSONObject();
+                return new TestRailRun(description);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }
 
         public TestRailRun add(TestRailProject project, JSONObject json) throws RestApiException {
-            RestApiRequest request = api.createRequest("/add_run/" + project.getId());
-            JSONObject description = request.post(json).toJSONObject();
-            return new TestRailRun(description);
+            try {
+                RestApiRequest request = api.createRequest("/add_run/" + project.getId());
+                JSONObject description = request.post(json).toJSONObject();
+                return new TestRailRun(description);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         public void update(TestRailProject project, JSONObject json) throws RestApiException {
@@ -200,9 +214,13 @@ public class TestRailClient {
         }
 
         public TestRailRun close(int id) throws RestApiException {
-            RestApiRequest request = api.createRequest("/close_run/" + id);
-            JSONObject description = request.post("").toJSONObject();
-            return new TestRailRun(description);
+            try {
+                RestApiRequest request = api.createRequest("/close_run/" + id);
+                JSONObject description = request.post("").toJSONObject();
+                return new TestRailRun(description);
+            } catch (JSONException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

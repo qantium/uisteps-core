@@ -48,7 +48,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -832,7 +831,7 @@ public class Browser implements IBrowser {
             return getDriver().getPageSource();
         } catch (Exception ex) {
 
-            if ("true".equals(getProperty(SOURCE_TAKE_FAKE).toLowerCase())) {
+            if (SOURCE_TAKE_FAKE.isTrue()) {
                 return "CANNOT TAKE PAGE SOURCE!";
             } else {
                 throw ex;

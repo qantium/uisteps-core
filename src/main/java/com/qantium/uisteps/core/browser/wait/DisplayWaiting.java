@@ -4,7 +4,6 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
@@ -12,9 +11,9 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
  */
 public class DisplayWaiting {
 
-    private long delay = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_DELAY));;
-    private long timeout = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT));
-    private long pollingTime = Integer.parseInt(getProperty(WEBDRIVER_TIMEOUTS_POLLING));
+    private long delay = WEBDRIVER_TIMEOUTS_DELAY.getIntValue();
+    private long timeout = WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getIntValue();
+    private long pollingTime = WEBDRIVER_TIMEOUTS_POLLING.getIntValue();
     private boolean not;
     private final UIObject uiObject;
 
@@ -97,7 +96,7 @@ public class DisplayWaiting {
             }
         } catch (NoBrowserException | UnhandledAlertException ex) {
             throw ex;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             return not;
         }
     }

@@ -42,13 +42,14 @@ import java.util.Set;
  */
 public class User implements BrowserActions, IBrowserManager {
 
-    private final IBrowserManager browserManager;// = new BrowserManager();
-    private final Storage storage;// = new Storage();
+    private final IBrowserManager browserManager;
+    private final Storage storage;
 
     public User(IBrowserManager browserManager, Storage storage) {
         this.browserManager = browserManager;
         this.storage = storage;
     }
+
     public User() {
         this(new BrowserManager(), new Storage());
     }

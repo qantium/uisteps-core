@@ -1,7 +1,5 @@
 package com.qantium.uisteps.core.utils.testrail;
 
-import java.util.Map;
-
 /**
  * Created by Anton Solyankin
  */

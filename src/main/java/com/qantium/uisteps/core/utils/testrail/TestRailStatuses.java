@@ -1,10 +1,9 @@
 package com.qantium.uisteps.core.utils.testrail;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperties.getProperty;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_STATUSES;
-
 import java.util.*;
 import java.util.function.Consumer;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.TESTRAIL_STATUSES;
 
 /**
  * Created Anton Solyankin
@@ -41,7 +40,7 @@ public class TestRailStatuses implements Iterable {
     }
 
     private static Map<String, TestRailStatus> getStatuses() {
-        return getStatuses(getProperty(TESTRAIL_STATUSES));
+        return getStatuses(TESTRAIL_STATUSES.getValue());
     }
 
     private static Map<String, TestRailStatus> getStatuses(String statuses) {
