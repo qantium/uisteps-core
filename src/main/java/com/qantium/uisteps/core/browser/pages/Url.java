@@ -23,14 +23,25 @@ public class Url {
     }
 
     public Url(String url) throws MalformedURLException {
-        this(new URL(url));
-        
-        if(StringUtils.contains(url, "#")) {
-            postfix += url.substring(url.indexOf("#"));
-        }
+        init(url);
     }
 
     public Url(URL url) {
+        init(url);
+    }
+
+    protected Url init(String urlString) throws MalformedURLException {
+        URL url = new URL(urlString);
+
+        init(url);
+
+        if(StringUtils.contains(urlString, "#")) {
+            postfix += urlString.substring(urlString.indexOf("#"));
+        }
+        return this;
+    }
+
+    protected Url init(URL url) {
         protocol = url.getProtocol();
         port = url.getPort();
 
@@ -53,134 +64,135 @@ public class Url {
         if (url.getFile() != null) {
             postfix = url.getFile();
         }
+        return this;
     }
 
     public String getProtocol() {
         return protocol;
     }
 
-    public <T extends Url> T setProtocol(String value) {
+    public Url setProtocol(String value) {
 
         if(StringUtils.isEmpty(value)) {
             protocol = "";
         } else {
             protocol = value;
         }
-        return (T) this;
+        return this;
     }
 
     public String getUser() {
         return user;
     }
 
-    public <T extends Url> T setUser(String value) {
+    public Url setUser(String value) {
 
         if(StringUtils.isEmpty(value)) {
             user = "";
         } else {
             user = value;
         }
-        return (T) this;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public <T extends Url> T setPassword(String value) {
+    public Url setPassword(String value) {
         
         if(StringUtils.isEmpty(value)) {
             password = "";
         } else {
             password = value;
         }
-        return (T) this;
+        return this;
     }
 
     public String getHost() {
         return host;
     }
 
-    public <T extends Url> T setHost(String value) {
+    public Url setHost(String value) {
 
         if(StringUtils.isEmpty(value)) {
             host = "";
         } else {
             host = value;
         }
-        return (T) this;
+        return this;
     }
 
     public Integer getPort() {
         return port;
     }
 
-    public <T extends Url> T setPort(Integer value) {
+    public Url setPort(Integer value) {
 
         if (value != null) {
             port = value;
         }
-        return (T) this;
+        return this;
     }
 
     public String getPrefix() {
         return prefix;
     }
 
-    public <T extends Url> T setPrefix(String value) {
+    public Url setPrefix(String value) {
         
         if(StringUtils.isEmpty(value)) {
             prefix = "";
         } else {
             prefix = value;
         }
-        return (T) this;
+        return this;
     }
     
-    public <T extends Url> T appendPrefix(String value) {
+    public Url appendPrefix(String value) {
 
         if (value != null) {
             prefix += value;
         }
-        return (T) this;
+        return this;
     }
 
-    public <T extends Url> T prependPrefix(String value) {
+    public Url prependPrefix(String value) {
 
         if (value != null) {
             prefix = value + prefix;
         }
-        return (T) this;
+        return this;
     }
 
     public String getPostfix() {
         return postfix;
     }
 
-    public <T extends Url> T setPostfix(String value) {
+    public Url setPostfix(String value) {
 
         if (value != null) {
             postfix = value;
         }
-        return (T) this;
+        return this;
     }
 
-    public <T extends Url> T appendPostfix(String value) {
+    public Url appendPostfix(String value) {
         
         if(StringUtils.isEmpty(value)) {
             postfix = "";
         } else {
             postfix = value;
         }
-        return (T) this;
+        return this;
     }
 
-    public <T extends Url> T prependPostfix(String value) {
+    public Url prependPostfix(String value) {
 
         if (value != null) {
             postfix = value + postfix;
         }
-        return (T) this;
+        return this;
     }
 
     @Override

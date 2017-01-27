@@ -21,8 +21,11 @@ import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.finder.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -41,9 +44,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     private final Class<E> elementType;
     private ArrayList<E> elements;
-    private long timeout = Long.parseLong(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
-    private long pollingTime = Long.parseLong(WEBDRIVER_TIMEOUTS_POLLING.getValue());
-
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
@@ -101,55 +101,27 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     public UIElements<E> refresh() {
 
-        long timeDelta;
-        long startTime = System.currentTimeMillis();
-        int size = 0;
-        int counter = 0;
-        Exception exception;
-
-        By locator = getLocator();
-        Class<E> elementType = getElementType();
-        List<WebElement> webElements = new ArrayList();
-
-        do {
-            try {
-                webElements = getSearchContext().findElements(locator);
-                exception = null;
-            } catch (Exception ex) {
-                exception = ex;
-            }
-
-            if (counter++ > 0 && size == webElements.size()) {
-                break;
-            }
-
-            size = webElements.size();
-            long currentTime = System.currentTimeMillis();
-            timeDelta = currentTime - startTime;
-            sleep(pollingTime);
-
-        } while (timeDelta <= timeout);
-
-        if (exception != null) {
-            throw new NoSuchElementException("Cannot find elements by locator " + getLocator() + "\nCause: , exception");
-        }
-
+        Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
         elements = new ArrayList();
 
-        for (WebElement wrappedElement : webElements) {
-            E uiElement = get(elementType, locator);
-            uiElement.setWrappedElement(wrappedElement);
-            elements.add(uiElement);
-        }
-        return this;
-    }
+        while (iterator.hasNext()) {
+            try {
+                for (WebElement wrappedElement : getSearchContext().findElements(iterator.next())) {
+                    E uiElement = get(getElementType(), getLocators());
+                    uiElement.setWrappedElement(wrappedElement);
 
-    private void sleep(long pollingTime) {
-        try {
-            Thread.sleep(pollingTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                    if(!elements.contains(uiElement)) {
+                        elements.add(uiElement);
+                    }
+                }
+            } catch (Exception ex) {
+                if (!iterator.hasNext()) {
+                    throw ex;
+                }
+            }
         }
+
+        return this;
     }
 
     public E get(int index) {

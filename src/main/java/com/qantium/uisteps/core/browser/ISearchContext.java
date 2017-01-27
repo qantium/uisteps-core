@@ -10,16 +10,14 @@ import org.openqa.selenium.By;
  */
 public interface ISearchContext {
 
-    <T extends UIObject> T onDisplayed(T uiObject);
+    UIElement onDisplayed(By... locator);
 
-    UIElement onDisplayed(By locator);
+    <T extends UIObject> T onDisplayed(T uiObject);
 
     <T extends UIObject> T onDisplayed(Class<T> uiObject);
 
-    <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator);
+    <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locator);
 
-    <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject);
-
-    <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator);
+    <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locator);
 
 }

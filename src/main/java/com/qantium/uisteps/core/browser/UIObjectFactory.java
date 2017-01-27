@@ -7,6 +7,7 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.name.NameConverter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
 
@@ -30,55 +31,51 @@ public class UIObjectFactory implements IUIObjectFactory {
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return getAll(uiObject, locatorFactory.getLocator(uiObject));
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
-        return getAll(uiObject, null, locator);
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By... locators) {
+        return getAll(uiObject, null, locators);
     }
 
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context) {
         UIElements<T> uiElements = new UIElements(uiObject);
-        return get(uiElements, context, null);
+        return get(uiElements, context);
     }
 
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context, By locator) {
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context, By... locators) {
         UIElements<T> uiElements = new UIElements(uiObject);
-        return get(uiElements, context, locator);
+        return get(uiElements, context, locators);
     }
 
     @Override
-    public UIElement get(By locator) {
-        return get(UIElement.class, locator);
+    public UIElement get(By... locators) {
+        if(ArrayUtils.isEmpty(locators)) {
+            throw new IllegalArgumentException("Locator is not set!");
+        }
+        return get(UIElement.class, locators);
     }
 
     @Override
     public <T extends UIObject> T get(Class<T> uiObject) {
-        return get(uiObject, null, null);
+        return get(uiObject, null);
     }
 
     @Override
-    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
-        return get(uiObject, null, locator);
+    public <T extends UIElement> T get(Class<T> uiObject, By... locators) {
+        return get(uiObject, null, locators);
     }
 
-    public <T extends HtmlObject> T get(Class<T> uiObject, HtmlObject context) {
-        return get(uiObject, context, null);
-    }
 
-    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By locator) {
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
         T uiObjectInstance = getInstanceOf(uiObject);
-        return get(uiObjectInstance, context, locator);
+        return get(uiObjectInstance, context, locators);
     }
 
-    private <T extends UIObject> T get(T uiObject, HtmlObject context, By locator) {
+    private <T extends UIObject> T get(T uiObject, HtmlObject context, By... locators) {
 
         uiObject.setBrowser(browser);
 
         if (uiObject instanceof UIElement) {
-            initAsUIElement((UIElement) uiObject, context, locator);
+            initAsUIElement((UIElement) uiObject, context, locators);
         }
 
         if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
@@ -104,7 +101,7 @@ public class UIObjectFactory implements IUIObjectFactory {
                             }
                         }
 
-                        get(uiElement, fieldContext, locatorFactory.getLocator(field));
+                        get(uiElement, fieldContext, locatorFactory.getLocators(field));
                     }
                 }
             } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -114,7 +111,7 @@ public class UIObjectFactory implements IUIObjectFactory {
         return uiObject;
     }
 
-    private <T extends UIElement> void initAsUIElement(T uiObject, HtmlObject context, By locator) {
+    private <T extends UIElement> void initAsUIElement(T uiObject, HtmlObject context, By... locators) {
 
         if (doNotUseContextFor(uiObject.getClass())) {
             context = null;
@@ -122,12 +119,12 @@ public class UIObjectFactory implements IUIObjectFactory {
             context = getContext(uiObject.getClass().getAnnotation(Context.class));
         }
 
-        if (locator == null) {
-            locator = getLocator(uiObject);
+        if (ArrayUtils.isEmpty(locators)) {
+            locators = getLocator(uiObject);
         }
 
         uiObject.setContext(context);
-        uiObject.setLocator(locator);
+        uiObject.setLocators(locators);
     }
 
     private <T extends UIElement> boolean doNotUseContextFor(Class<T> uiObject) {
@@ -142,9 +139,9 @@ public class UIObjectFactory implements IUIObjectFactory {
         }
     }
 
-    private By getLocator(UIElement uiElement) {
+    private By[] getLocator(UIElement uiElement) {
         try {
-            return locatorFactory.getLocator(uiElement);
+            return locatorFactory.getLocators(uiElement);
         } catch (IllegalArgumentException ex) {
             return null;
         }

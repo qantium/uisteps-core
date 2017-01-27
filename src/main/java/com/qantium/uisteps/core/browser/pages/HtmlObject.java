@@ -45,8 +45,8 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     }
 
     @Override
-    public UIElement onDisplayed(By locator) {
-        return onDisplayed(get(locator));
+    public UIElement onDisplayed(By... locators) {
+        return onDisplayed(get(locators));
     }
 
     @Override
@@ -55,23 +55,23 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     }
 
     @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
-        return onDisplayed(get(uiObject, locator));
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locators) {
+        return onDisplayed(get(uiObject, locators));
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject) {
-        return onDisplayed(getAll(uiObject));
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
+        return onDisplayed(getAll(uiObject, locators));
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator) {
-        return onDisplayed(getAll(uiObject, locator));
-    }
-
-    @Override
-    public UIElement get(By locator) {
+    public UIElement get(By... locator) {
         return getUIObjectFactory().get(UIElement.class, getChildContext(), locator);
+    }
+
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
+        return getUIObjectFactory().get(uiObject, context, locators);
     }
 
     @Override
@@ -86,7 +86,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     }
 
     @Override
-    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
+    public <T extends UIElement> T get(Class<T> uiObject, By... locator) {
         return getUIObjectFactory().get(uiObject, getChildContext(), locator);
     }
 
@@ -95,13 +95,8 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return getUIObjectFactory().getAll(uiObject, getChildContext());
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
-        return getUIObjectFactory().getAll(uiObject, getChildContext(), locator);
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By... locators) {
+        return getUIObjectFactory().getAll(uiObject, getChildContext(), locators);
     }
 
     public abstract Screenshot takeScreenshot();

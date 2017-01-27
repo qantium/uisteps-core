@@ -18,13 +18,14 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.properties.IUIStepsProperty;
 
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -74,7 +75,7 @@ public class UrlFactory {
 
     public Url getUrlOf(Page page, String[] params) {
 
-        if (!isEmpty(params)) {
+        if (isNotEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
             parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
@@ -89,7 +90,7 @@ public class UrlFactory {
 
     public Url getUrlOf(Class<? extends Page> page, String[] params) {
 
-        if (!isEmpty(params)) {
+        if (isNotEmpty(params)) {
             Map<String, String> paramsMap = new HashMap();
             parseParams(params, paramsMap);
             return getUrlOf(page, paramsMap);
@@ -102,18 +103,21 @@ public class UrlFactory {
         return getUrlOf(page, new Url(), params);
     }
 
-    protected Url getUrlOf(Class<? extends Page> page, Url url, Map<String, String> params) {
-        Map<String, String> paramsMap = new HashMap();
+    protected Url getUrlOf(Class<? extends Page> page, Url url, Map<String, String> params)  {
 
+        Map<String, String> paramsMap = new HashMap();
         process(url, page, paramsMap);
-        
-        processParams(url, paramsMap);
-        processParams(url, IUIStepsProperty.PROPERTIES);
-        
-        if (!params.isEmpty()) {
-            processParams(url, params);
+
+        for(Map.Entry prop: IUIStepsProperty.PROPERTIES.entrySet()) {
+            paramsMap.put(prop.getKey().toString(), prop.getValue().toString());
         }
-        
+
+        if (params != null) {
+            for(Map.Entry<String, String> prop: params.entrySet()) {
+                paramsMap.put(prop.getKey(), prop.getValue());
+            }
+        }
+        processParams(url, paramsMap);
         return url;
     }
 
@@ -135,7 +139,10 @@ public class UrlFactory {
             } else {
                 throw new IllegalArgumentException("Parameter " + param + " has illegal format! Must be name=value");
             }
-            params.put(paramName, paramValue);
+
+            if(!params.containsKey(paramName)) {
+                params.put(paramName, paramValue);
+            }
         }
     }
 
@@ -154,31 +161,36 @@ public class UrlFactory {
 
             String protocol = baseUrlAnnotation.protocol();
             String host = baseUrlAnnotation.host();
+            int port = baseUrlAnnotation.port();
             String user = baseUrlAnnotation.user();
             String password = baseUrlAnnotation.password();
             String urlValue = baseUrlAnnotation.value();
             String[] urlParams = baseUrlAnnotation.params();
-            if (!isEmpty(protocol)) {
+            if (isNotEmpty(protocol)) {
                 url.setProtocol(protocol);
             }
 
-            if (!isEmpty(host)) {
+            if (isNotEmpty(host)) {
                 url.setHost(host);
             }
 
-            if (!isEmpty(user)) {
+            if (port > -1 ) {
+                url.setPort(port);
+            }
+
+            if (isNotEmpty(user)) {
                 url.setUser(user);
             }
 
-            if (!isEmpty(password)) {
+            if (isNotEmpty(password)) {
                 url.setPassword(password);
             }
 
-            if (!isEmpty(urlParams)) {
+            if (isNotEmpty(urlParams)) {
                 parseParams(urlParams, params);
             }
 
-            if (!isEmpty(urlValue)) {
+            if (isNotEmpty(urlValue)) {
                 if (urlValue.contains(HOST)) {
                     Pattern pattern = Pattern.compile("(.*)" + HOST + "(.*)");
                     Matcher matcher = pattern.matcher(urlValue);
@@ -188,11 +200,11 @@ public class UrlFactory {
                         
                         String postfix = matcher.group(2);
                         
-                        if (!isEmpty(prefix)) {
+                        if (isNotEmpty(prefix)) {
                             url.prependPrefix(prefix);
                         }
 
-                        if (!isEmpty(postfix)) {
+                        if (isNotEmpty(postfix)) {
                             url.appendPostfix(postfix);
                         }
                     }
@@ -224,8 +236,13 @@ public class UrlFactory {
     }
 
     protected void processParams(Url url, Map params) {
-        url.setPrefix(processParams(url.getPrefix(), params));
-        url.setPostfix(processParams(url.getPostfix(), params));
+
+        String urlString = processParams(url.toString(), params);
+        try {
+            url.init(urlString);
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     protected String processParams(String input, Map params) {

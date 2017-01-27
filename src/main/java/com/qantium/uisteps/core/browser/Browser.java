@@ -33,6 +33,7 @@ import com.qantium.uisteps.core.screenshots.Photographer;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import com.qantium.uisteps.core.then.Then;
 import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
@@ -49,7 +50,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
-import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
@@ -231,7 +231,7 @@ public class Browser implements IBrowser {
         }
         pageInstance.setUrl(pageUrl);
 
-        if (!isEmpty(params)) {
+        if (ArrayUtils.isNotEmpty(params)) {
             pageUrl = urlFactory.getUrlOf(pageInstance, params);
             pageInstance.setUrl(pageUrl);
         }
@@ -760,8 +760,8 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public UIElement onDisplayed(By locator) {
-        return onDisplayed(get(locator));
+    public UIElement onDisplayed(By... locator) {
+        return onDisplayed(UIElement.class);
     }
 
     @Override
@@ -770,17 +770,12 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locator) {
         return onDisplayed(get(uiObject, locator));
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject) {
-        return onDisplayed(getAll(uiObject));
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator) {
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locator) {
         return onDisplayed(getAll(uiObject, locator));
     }
 
@@ -840,17 +835,12 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return uiObjectFactory.getAll(uiObject);
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By... locator) {
         return uiObjectFactory.getAll(uiObject, locator);
     }
 
     @Override
-    public UIElement get(By locator) {
+    public UIElement get(By... locator) {
         return uiObjectFactory.get(locator);
     }
 
@@ -859,9 +849,15 @@ public class Browser implements IBrowser {
         return uiObjectFactory.get(uiObject);
     }
 
+
     @Override
-    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
+    public <T extends UIElement> T get(Class<T> uiObject, By... locator) {
         return uiObjectFactory.get(uiObject, locator);
+    }
+
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
+        return uiObjectFactory.get(uiObject, context, locators);
     }
 
     @Override

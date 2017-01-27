@@ -2,11 +2,12 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Anton Solyankin
@@ -14,7 +15,7 @@ import java.util.Objects;
 @NotInit
 public class UIElement extends HtmlObject implements WrapsElement {
 
-    private By locator;
+    private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
 
@@ -25,15 +26,22 @@ public class UIElement extends HtmlObject implements WrapsElement {
     @Override
     public WebElement getWrappedElement() {
 
-        if(wrappedElement != null) {
+        if (wrappedElement != null) {
             return wrappedElement;
         }
 
-        if (getLocator() != null) {
-            return getSearchContext().findElement(getLocator());
-        } else {
-            throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
+        Iterator<By> iterator = Arrays.asList(locators).iterator();
+
+        while (iterator.hasNext()) {
+            try {
+                return getSearchContext().findElement(iterator.next());
+            } catch (Exception ex) {
+                if (!iterator.hasNext()) {
+                    throw ex;
+                }
+            }
         }
+        throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
     }
 
     @Override
@@ -64,18 +72,12 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return context;
     }
 
-    public By getLocator() {
-        return locator;
+    public By[] getLocators() {
+        return locators;
     }
 
-    /**
-     * Internal method
-     *
-     * @param locator for element search
-     * @throws IllegalStateException if locator is already set
-     */
-    public void setLocator(By locator) {
-        this.locator = locator;
+    public void setLocators(By... locators) {
+        this.locators = locators;
     }
 
     @Override
@@ -111,7 +113,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 contextStr.append(" => ");
             }
         }
-        contextStr.append(getLocator());
+        contextStr.append(getLocators());
         return contextStr.toString();
     }
 
@@ -138,13 +140,29 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
         final UIElement other = (UIElement) obj;
 
-        return Objects.equals(this.getLocator(), other.getLocator()) && Objects.equals(this.context, other.context);
+        if(!(Objects.equals(this.getLocators(), other.getLocators()) && Objects.equals(this.context, other.context))) {
+            return false;
+        }
+
+        if(!(getWrappedElement() != null && other.getWrappedElement() != null && getPosition().equals(other.getPosition()))) {
+            return false;
+        }
+
+        if(getWrappedElement() != null &&  other.getWrappedElement() == null)  {
+            return false;
+        }
+
+        if(getWrappedElement() == null &&  other.getWrappedElement() != null)  {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.getLocator());
+        hash = 97 * hash + Objects.hashCode(this.getLocators());
         hash = 97 * hash + Objects.hashCode(this.context);
         return hash;
     }

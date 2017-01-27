@@ -18,11 +18,9 @@ package com.qantium.uisteps.core.user;
 import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.browser.factory.Driver;
 import com.qantium.uisteps.core.browser.factory.DriverBuilder;
-import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIObject;
-import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;
@@ -374,8 +372,8 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
-    public UIElement onDisplayed(By locator) {
-        return inOpenedBrowser().onDisplayed(locator);
+    public UIElement onDisplayed(By... locators) {
+        return inOpenedBrowser().onDisplayed(locators);
     }
 
     @Override
@@ -384,18 +382,13 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().onDisplayed(uiObject, locator);
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locators) {
+        return inOpenedBrowser().onDisplayed(uiObject, locators);
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onAllDisplayed(uiObject);
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().onAllDisplayed(uiObject, locator);
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
+        return inOpenedBrowser().onAllDisplayed(uiObject, locators);
     }
 
     @Override
@@ -404,18 +397,13 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject) {
-        return inOpenedBrowser().getAll(uiObject);
+    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By... locators) {
+        return inOpenedBrowser().getAll(uiObject, locators);
     }
 
     @Override
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().getAll(uiObject, locator);
-    }
-
-    @Override
-    public UIElement get(By locator) {
-        return inOpenedBrowser().get(locator);
+    public UIElement get(By... locators) {
+        return inOpenedBrowser().get(locators);
     }
 
     @Override
@@ -424,8 +412,13 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
-    public <T extends UIElement> T get(Class<T> uiObject, By locator) {
-        return inOpenedBrowser().get(uiObject, locator);
+    public <T extends UIElement> T get(Class<T> uiObject, By... locators) {
+        return inOpenedBrowser().get(uiObject, locators);
+    }
+
+    @Override
+    public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
+        return inOpenedBrowser().get(uiObject, context, locators);
     }
 
     @Override

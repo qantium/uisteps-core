@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author A.Solyankin
+ * @author Anton Solyankin
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -30,6 +30,7 @@ public @interface BaseUrl {
     String value() default "";
     String protocol() default "";
     String host() default "";
+    int port() default -1;
     String user() default "";
     String password() default "";
     String[] params() default {};

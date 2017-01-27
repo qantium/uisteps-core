@@ -15,53 +15,74 @@
  */
 package com.qantium.uisteps.core.browser;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Anton Solyankin
  */
 public class LocatorFactory {
 
-    public By getLocator(Class<?> uiObject) {
-
-        if (uiObject == Object.class) {
-            throw new IllegalArgumentException("Cannot find locator for " + uiObject);
-        }
-
-        if (uiObject.isAnnotationPresent(FindBy.class)) {
-            return getLocator(uiObject.getAnnotation(FindBy.class));
-        }
-
-        try {
-            return getLocator(uiObject.getSuperclass());
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException(ex + " for " + uiObject);
-        }
-    }
-
-    public By getLocator(Field field) {
+    public By[] getLocators(Field field) {
         try {
             if (field.isAnnotationPresent(FindBy.class)) {
-                return getLocator(field.getAnnotation(FindBy.class));
+                return new By[]{getLocator(field.getAnnotation(FindBy.class))};
+            } else if (field.isAnnotationPresent(FindBys.class)) {
+                return getLocators(field.getAnnotation(FindBys.class));
             } else {
-                return getLocator(field.getType());
+                return getLocators(field.getType());
             }
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ex + " for " + field);
         }
     }
 
-    public By getLocator(Object uiObject) {
+    public By[] getLocators(Class<?> uiObject) {
+
+
+        if (uiObject == Object.class) {
+            throw new IllegalArgumentException("Cannot find locator for " + uiObject);
+        }
+
+        if (uiObject.isAnnotationPresent(FindBy.class)) {
+            return new By[]{getLocator(uiObject.getAnnotation(FindBy.class))};
+        } else if (uiObject.isAnnotationPresent(FindBys.class)) {
+            return getLocators(uiObject.getAnnotation(FindBys.class));
+        }
+
         try {
-            return getLocator(uiObject.getClass());
+            return getLocators(uiObject.getSuperclass());
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(ex + " for " + uiObject);
         }
+    }
+
+    public By[] getLocators(Object uiObject) {
+        try {
+            return getLocators(uiObject.getClass());
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex + " for " + uiObject);
+        }
+    }
+
+
+    public By[] getLocators(FindBys findBys) {
+        By[] bys = new By[findBys.value().length];
+
+        for(FindBy findBy: findBys.value()) {
+            By by = getLocator(findBy);
+            ArrayUtils.add(bys, by);
+        }
+        return bys;
     }
 
     public By getLocator(FindBy findBy) {
