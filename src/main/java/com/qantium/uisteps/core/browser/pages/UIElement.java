@@ -167,6 +167,8 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return hash;
     }
 
+
+
     //Elements
     public String getText() {
         return inOpenedBrowser().getTextFrom(this);

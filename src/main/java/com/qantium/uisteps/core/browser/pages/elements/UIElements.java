@@ -20,6 +20,7 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.finder.*;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.ListUtils;
@@ -92,36 +93,47 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return (E[]) getElements().<E>toArray();
     }
 
-    protected List<E> getElements() {
+    private List<E> getElements() {
+
         if (elements == null) {
-            refresh();
+            return elements;
         }
+
+        elements = new ArrayList();
+
+        int counter = 0;
+
+        do {
+            Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
+            while (iterator.hasNext()) {
+                try {
+                    for (WebElement wrappedElement : getSearchContext().findElements(iterator.next())) {
+                        E uiElement = get(getElementType(), getLocators());
+                        uiElement.setWrappedElement(wrappedElement);
+
+                        if (!elements.contains(uiElement)) {
+                            elements.add(uiElement);
+                        }
+                    }
+                } catch (Exception ex) {
+                    if (!iterator.hasNext() && elements.isEmpty()) {
+                        throw ex;
+                    }
+                }
+            }
+            sleep();
+        } while (counter++ == 0);
+
         return elements;
     }
 
-    public UIElements<E> refresh() {
-
-        Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
-        elements = new ArrayList();
-
-        while (iterator.hasNext()) {
-            try {
-                for (WebElement wrappedElement : getSearchContext().findElements(iterator.next())) {
-                    E uiElement = get(getElementType(), getLocators());
-                    uiElement.setWrappedElement(wrappedElement);
-
-                    if(!elements.contains(uiElement)) {
-                        elements.add(uiElement);
-                    }
-                }
-            } catch (Exception ex) {
-                if (!iterator.hasNext()) {
-                    throw ex;
-                }
-            }
+    private void sleep() {
+        long pollingTime = Long.parseLong(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING.getValue());
+        try {
+            Thread.sleep(pollingTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        return this;
     }
 
     public E get(int index) {
