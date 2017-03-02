@@ -95,7 +95,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     private List<E> getElements() {
 
-        if (elements == null) {
+        if (elements != null) {
             return elements;
         }
 
