@@ -106,14 +106,15 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         do {
             Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
             while (iterator.hasNext()) {
+                By locator = iterator.next();
                 try {
-                    for (WebElement wrappedElement : getSearchContext().findElements(iterator.next())) {
-                        E uiElement = get(getElementType(), getLocators());
+                    for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
+                        E uiElement = get(getElementType(), locator);
                         uiElement.setWrappedElement(wrappedElement);
 
-                        if (!elements.contains(uiElement)) {
+                      //  if (!elements.contains(uiElement)) {
                             elements.add(uiElement);
-                        }
+                       // }
                     }
                 } catch (Exception ex) {
                     if (!iterator.hasNext() && elements.isEmpty()) {
