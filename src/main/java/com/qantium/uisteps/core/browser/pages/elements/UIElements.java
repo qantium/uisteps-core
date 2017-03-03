@@ -100,41 +100,23 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
 
         elements = new ArrayList();
-
-        int counter = 0;
-
-        do {
-            Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
-            while (iterator.hasNext()) {
-                By locator = iterator.next();
-                try {
-                    for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
-                        E uiElement = get(getElementType(), locator);
-                        uiElement.setWrappedElement(wrappedElement);
-
-                      //  if (!elements.contains(uiElement)) {
-                            elements.add(uiElement);
-                       // }
-                    }
-                } catch (Exception ex) {
-                    if (!iterator.hasNext() && elements.isEmpty()) {
-                        throw ex;
-                    }
+        Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
+        while (iterator.hasNext()) {
+            By locator = iterator.next();
+            try {
+                for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
+                    E uiElement = get(getElementType(), locator);
+                    uiElement.setWrappedElement(wrappedElement);
+                    elements.add(uiElement);
+                }
+            } catch (Exception ex) {
+                if (!iterator.hasNext() && elements.isEmpty()) {
+                    throw ex;
                 }
             }
-            sleep();
-        } while (counter++ == 0);
+        }
 
         return elements;
-    }
-
-    private void sleep() {
-        long pollingTime = Long.parseLong(UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING.getValue());
-        try {
-            Thread.sleep(pollingTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public E get(int index) {
