@@ -113,7 +113,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 contextStr.append(" => ");
             }
         }
-        contextStr.append(getLocators());
+        contextStr.append(Arrays.asList(getLocators()));
         return contextStr.toString();
     }
 
