@@ -76,12 +76,15 @@ public class LocatorFactory {
 
 
     public By[] getLocators(FindBys findBys) {
-        By[] bys = new By[findBys.value().length];
 
-        for(FindBy findBy: findBys.value()) {
-            By by = getLocator(findBy);
-            ArrayUtils.add(bys, by);
+        FindBy[] findBysValue = findBys.value();
+
+        By[] bys = new By[findBysValue.length];
+
+        for(int i = 0; i < findBysValue.length; i++) {
+            bys[i] = getLocator(findBysValue[i]);
         }
+
         return bys;
     }
 
