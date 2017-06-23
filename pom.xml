@@ -6,7 +6,7 @@
     <artifactId>uisteps-core</artifactId>
     <name>${project.artifactId}</name>
     <description>Framework based on Selenium</description>
-    <version>4.1.7</version>
+    <version>4.1.8</version>
     <packaging>jar</packaging>
 
     <url>https://github.com/qantium/uisteps-core</url>
@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <selenium.version>2.53.1</selenium.version>
+        <selenium.version>3.4.0</selenium.version>
     </properties>
 
     <licenses>
