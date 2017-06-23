@@ -7,7 +7,8 @@ import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.utils.grid.client.GridClient;
 import com.qantium.uisteps.core.utils.grid.client.NodeType;
 import com.qantium.uisteps.core.utils.grid.servlets.files.GetFileServlet;
-import org.bouncycastle.util.encoders.Base64;
+import org.webbitserver.helpers.Base64;
+
 
 import java.io.File;
 import java.io.IOException;
