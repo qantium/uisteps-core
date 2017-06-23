@@ -3,7 +3,6 @@ package com.qantium.uisteps.core.browser.pages.elements.finder;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.MethodNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,17 +86,20 @@ public class Finder<T, E extends UIElement> {
 
         error.append("Cannot find element by ").append(by.name().toLowerCase());
 
-        if (!StringUtils.isEmpty(attribute)) {
+        if (StringUtils.isNotEmpty(attribute)) {
             error.append(" ").append(attribute);
         }
 
-        error.append(" ").append(how)
-                .append(" ").append(values);
+        error.append(" ").append(how);
+
+        for (String value : values) {
+            error.append(" ").append(value);
+        }
 
         return error.toString();
     }
 
-    protected T find()  {
+    protected T find() {
         throw new UnsupportedOperationException("This method must be overridden!");
     }
 
