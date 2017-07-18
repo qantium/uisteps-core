@@ -47,9 +47,9 @@ public interface BrowserActions extends IWindowManager, IThen, ScriptExecutor, I
     void moveWindowTo(int newX, int newY);
 
     //Navigation
-    public void goBack();
+    void goBack();
 
-    public void goForward();
+    void goForward();
 
     //Window size
     void maximizeWindow();

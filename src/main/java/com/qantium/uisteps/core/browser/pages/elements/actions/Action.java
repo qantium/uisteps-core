@@ -12,8 +12,13 @@ import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIME
  */
 public abstract class Action<T> {
 
-    private int timeout = Integer.parseInt(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
-    private int pollingTime = Integer.parseInt(WEBDRIVER_TIMEOUTS_POLLING.getValue());
+    private final int timeout;
+    private final int pollingTime;
+
+    public Action(int timeout, int pollingTime) {
+        this.timeout = timeout;
+        this.pollingTime = pollingTime;
+    }
 
     protected abstract UIObject getUIObject();
 
@@ -21,16 +26,8 @@ public abstract class Action<T> {
         return timeout;
     }
 
-    public void withTimeout(int timeout) {
-        this.timeout = timeout;
-    }
-
     public int getPollingTime() {
         return pollingTime;
-    }
-
-    public void pollingEvery(int pollingTime) {
-        this.pollingTime = pollingTime;
     }
 
     public T perform(Object... args) throws ActionException {

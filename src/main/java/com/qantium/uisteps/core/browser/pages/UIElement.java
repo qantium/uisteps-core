@@ -1,6 +1,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.pages.elements.actions.Action;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
@@ -8,6 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 import java.util.*;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
 
 /**
  * @author Anton Solyankin
@@ -18,6 +22,29 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
+    private int timeout = Integer.parseInt(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
+    private int pollingTime = Integer.parseInt(WEBDRIVER_TIMEOUTS_POLLING.getValue());
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public UIElement withTimeout(int timeout) {
+        this.timeout = timeout;
+        return this;
+    }
+
+    public UIElement immediately(){
+        return withTimeout(0);
+    }
+
+    public int getPollingTime() {
+        return pollingTime;
+    }
+
+    public void pollingEvery(int pollingTime) {
+        this.pollingTime = pollingTime;
+    }
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
