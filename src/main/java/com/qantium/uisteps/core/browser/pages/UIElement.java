@@ -42,8 +42,9 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return pollingTime;
     }
 
-    public void pollingEvery(int pollingTime) {
+    public UIElement pollingEvery(int pollingTime) {
         this.pollingTime = pollingTime;
+        return this;
     }
 
     public void setWrappedElement(WebElement wrappedElement) {
