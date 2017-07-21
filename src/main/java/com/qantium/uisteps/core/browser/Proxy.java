@@ -17,12 +17,15 @@ package com.qantium.uisteps.core.browser;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.proxy.CaptureType;
 
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.EnumSet;
+import java.util.HashSet;
 
 /**
- *
  * @author A.Solyankin
  */
 public class Proxy {
@@ -30,7 +33,7 @@ public class Proxy {
     private final BrowserMobProxyServer mobProxy;
     private org.openqa.selenium.Proxy seleniumProxy;
     private final InetAddress ip;
-    private final Integer port;
+    private Integer port;
 
     public static class ProxyBuilder {
 
@@ -72,14 +75,34 @@ public class Proxy {
         if (seleniumProxy == null) {
 
             if (!mobProxy.isStarted()) {
-                if (ip != null && port != null) {
+
+                if (ip != null && port != null && port >= 0) {
                     mobProxy.start(port, this.ip);
                 } else if (port != null) {
-                    mobProxy.start(port);
+
+                    if (port < 0) {
+                        port = 0;
+
+                        while (true) {
+                            try {
+                                mobProxy.start(port);
+                                break;
+                            } catch (Exception ex) {
+                                if (BindException.class.equals(ex.getCause().getClass())) {
+                                    port++;
+                                } else {
+                                    throw ex;
+                                }
+                            }
+                        }
+                    } else {
+                        mobProxy.start(port);
+                    }
                 } else {
                     mobProxy.start();
                 }
             }
+            mobProxy.setHarCaptureTypes(CaptureType.values());
             mobProxy.newHar();
             seleniumProxy = ClientUtil.createSeleniumProxy(mobProxy);
         }

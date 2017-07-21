@@ -21,6 +21,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Created by Anton Solyankin
@@ -170,14 +171,14 @@ public class DriverBuilder {
 
     public DriverBuilder setProxy(String proxy) {
 
-        if (!isEmpty(proxy)) {
+        if (isNotEmpty(proxy)) {
 
             String[] address = proxy.split(":");
 
             String ip = null;
             Integer port = null;
 
-            if (address.length > 0 && !isEmpty(address[0])) {
+            if (address.length > 0 && isNotEmpty(address[0])) {
                 ip = address[0];
             }
 

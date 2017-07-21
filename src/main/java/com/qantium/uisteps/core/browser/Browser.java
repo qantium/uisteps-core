@@ -67,12 +67,7 @@ public class Browser implements IBrowser {
     private Photographer photographer;
 
     public Browser() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                close();
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> close()));
     }
 
     public void setDriver(WebDriver driver) {
