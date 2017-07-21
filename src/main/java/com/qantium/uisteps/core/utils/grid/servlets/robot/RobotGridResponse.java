@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.utils.grid.servlets.robot;
 
 import com.qantium.uisteps.core.utils.grid.servlets.GridResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

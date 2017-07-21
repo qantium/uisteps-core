@@ -160,12 +160,13 @@ public class Browser implements IBrowser {
 
     @Override
     public void close() {
-        if (driver != null) {
-            driver.quit();
+
+        if (proxy != null && !proxy.isStopped()) {
+            proxy.stop();
         }
 
-        if (proxy != null) {
-            proxy.stop();
+        if (driver != null) {
+            driver.quit();
         }
     }
 

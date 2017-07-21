@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 import com.qantium.uisteps.core.browser.pages.elements.TextField;
-import org.openqa.selenium.WebElement;
 
 /**
  * Created by Anton Solyankin

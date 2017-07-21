@@ -18,9 +18,6 @@ package com.qantium.uisteps.core.properties;
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.lifecycle.Execute;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.substring;
-
 /**
  * Contains settings that can be set before test running
  * <p>
@@ -59,6 +56,7 @@ import static org.apache.commons.lang3.StringUtils.substring;
  * <li>webdriver.unexpected.alert.behaviour</li>
  * <li>user.dir</li>
  * <li>home.dir</li>
+ * <li>har.take</li>
  * <li>source.take</li>
  * <li>source.take.fake</li>
  * <li>source.take.dir</li>
@@ -194,7 +192,6 @@ public enum UIStepsProperty implements IUIStepsProperty {
     /**
      * Set "screenshots.fake" to true, to get fake screenshot if driver is died
      */
-
     SCREENSHOTS_TAKE_FAKE("true"),
     SCREENSHOTS_DIR (HOME_DIR.getDefaultValue()),
     /**

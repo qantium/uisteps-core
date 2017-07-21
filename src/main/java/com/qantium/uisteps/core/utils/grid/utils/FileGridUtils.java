@@ -9,7 +9,6 @@ import com.qantium.uisteps.core.utils.grid.client.NodeType;
 import com.qantium.uisteps.core.utils.grid.servlets.files.GetFileServlet;
 import org.webbitserver.helpers.Base64;
 
-
 import java.io.File;
 import java.io.IOException;
 

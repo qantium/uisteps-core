@@ -20,7 +20,6 @@ import com.qantium.uisteps.core.browser.factory.Driver;
 import com.qantium.uisteps.core.browser.factory.DriverBuilder;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
-import com.qantium.uisteps.core.properties.UIStepsProperty;
 import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.screenshots.Ignored;
 import com.qantium.uisteps.core.screenshots.Screenshot;

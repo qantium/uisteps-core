@@ -20,13 +20,13 @@ import java.net.URL;
  */
 public interface IBrowser extends BrowserActions, SearchContext, Named {
 
-    public BrowserMobProxyServer getProxy();
+    BrowserMobProxyServer getProxy();
 
-    public void setProxy(BrowserMobProxyServer proxy);
+    void setProxy(BrowserMobProxyServer proxy);
 
-    public String getHub();
+    String getHub();
 
-    public void setHub(String hub);
+    void setHub(String hub);
 
     boolean isAlive();
 
