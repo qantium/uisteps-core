@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static java.lang.Long.parseLong;
 
 /**
  * @author Anton Solyankin
@@ -22,30 +23,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
-    private int timeout = Integer.parseInt(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
-    private int pollingTime = Integer.parseInt(WEBDRIVER_TIMEOUTS_POLLING.getValue());
-
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public UIElement withTimeout(int timeout) {
-        this.timeout = timeout;
-        return this;
-    }
-
-    public UIElement immediately(){
-        return withTimeout(0);
-    }
-
-    public int getPollingTime() {
-        return pollingTime;
-    }
-
-    public UIElement pollingEvery(int pollingTime) {
-        this.pollingTime = pollingTime;
-        return this;
-    }
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;

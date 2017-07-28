@@ -34,6 +34,10 @@ public class DisplayWaiting {
         return setNot(true);
     }
 
+    public DisplayWaiting  immediately() {
+        return withTimeout(0);
+    }
+
     public DisplayWaiting withTimeout(long timeout) {
         this.timeout = timeout;
         return this;
@@ -62,18 +66,19 @@ public class DisplayWaiting {
     }
 
     public boolean perform(long startTime) {
-        perform(startTime, getDelay(), !isNot());
+        perform(startTime, getTimeout(), !isNot());
         return perform(startTime, getTimeout(), isNot());
     }
 
 
     private boolean perform(long startTime, long timeout, boolean not) {
         long timeDelta;
+        sleep(getDelay());
 
         do {
             try {
                 if (!isSuccessful(not)) {
-                    sleep();
+                    sleep(getPollingTime());
                 } else {
                     return true;
                 }
@@ -102,9 +107,9 @@ public class DisplayWaiting {
     }
 
 
-    private void sleep() {
+    private void sleep(long timeout) {
         try {
-            Thread.sleep(getPollingTime());
+            Thread.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

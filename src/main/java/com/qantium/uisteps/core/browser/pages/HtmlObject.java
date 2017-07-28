@@ -22,12 +22,15 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static java.lang.Long.parseLong;
+
 /**
  * @author Anton Solyankin
  */
 
 public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
-
 
     @Override
     public Object executeScript(String script, Object... args) {

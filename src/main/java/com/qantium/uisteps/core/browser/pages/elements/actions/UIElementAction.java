@@ -10,7 +10,7 @@ public abstract class UIElementAction<T, E extends UIElement> extends Action<T> 
     private final E uiElement;
 
     public UIElementAction(E uiElement) {
-        super(uiElement.getTimeout(), uiElement.getPollingTime());
+        super(uiElement.getTimeout(), uiElement.getPollingTime(), uiElement.getDelay());
         this.uiElement = uiElement;
     }
 

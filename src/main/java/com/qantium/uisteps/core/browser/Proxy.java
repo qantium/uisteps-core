@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.browser;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.CaptureType;
+import org.openqa.selenium.net.PortProber;
 
 import java.net.BindException;
 import java.net.InetAddress;
@@ -76,28 +77,12 @@ public class Proxy {
 
             if (!mobProxy.isStarted()) {
 
-                if (ip != null && port != null && port >= 0) {
-                    mobProxy.start(port, this.ip);
-                } else if (port != null) {
-
-                    if (port < 0) {
-                        port = 0;
-
-                        while (true) {
-                            try {
-                                mobProxy.start(port);
-                                break;
-                            } catch (Exception ex) {
-                                if (BindException.class.equals(ex.getCause().getClass())) {
-                                    port++;
-                                } else {
-                                    throw ex;
-                                }
-                            }
-                        }
-                    } else {
-                        mobProxy.start(port);
-                    }
+                if (ip != null && port != null) {
+                    mobProxy.start(port, ip);
+                } else if (ip == null && port != null) {
+                    mobProxy.start(port);
+                } else if(ip != null && port == null) {
+                    mobProxy.start(PortProber.findFreePort(), ip);
                 } else {
                     mobProxy.start();
                 }

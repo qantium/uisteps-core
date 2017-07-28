@@ -4,26 +4,34 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
+
 /**
  * Created by Anton Solyankin
  */
 public abstract class Action<T> {
 
-    private final int timeout;
-    private final int pollingTime;
+    private final long timeout;
+    private final long pollingTime;
+    private final long delay;
 
-    public Action(int timeout, int pollingTime) {
+    public Action(long timeout, long pollingTime, long delay) {
         this.timeout = timeout;
         this.pollingTime = pollingTime;
+        this.delay = delay;
     }
 
     protected abstract UIObject getUIObject();
 
-    public int getTimeout() {
+    public long getTimeout() {
         return timeout;
     }
 
-    public int getPollingTime() {
+    public long getDelay() {
+        return delay;
+    }
+
+    public long getPollingTime() {
         return pollingTime;
     }
 
@@ -33,6 +41,8 @@ public abstract class Action<T> {
         ActionException exception;
         long timeDelta;
 
+        sleep(getDelay());
+
         do {
             try {
                 return apply(args);
@@ -40,7 +50,7 @@ public abstract class Action<T> {
                 exception = new ActionException(this, ex);
                 break;
             } catch (Exception ex) {
-                sleep();
+                sleep(getPollingTime());
                 exception = new ActionException(this, ex);
             }
 
@@ -51,9 +61,9 @@ public abstract class Action<T> {
         throw new ActionException(this, exception);
     }
 
-    private void sleep() {
+    private void sleep(long timeout) {
         try {
-            Thread.sleep(getPollingTime());
+            Thread.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

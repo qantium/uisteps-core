@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.factory;
 
 import com.opera.core.systems.OperaDesktopDriver;
 import com.qantium.uisteps.core.browser.Proxy;
+import com.qantium.uisteps.core.lifecycle.Execute;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -171,7 +172,7 @@ public class DriverBuilder {
 
     public DriverBuilder setProxy(String proxy) {
 
-        if (isNotEmpty(proxy)) {
+        if (!Execute.NONE.name().equals(HAR_TAKE) && isNotEmpty(proxy)) {
 
             String[] address = proxy.split(":");
 
@@ -183,7 +184,12 @@ public class DriverBuilder {
             }
 
             if (address.length > 1) {
-                port = Integer.parseInt(address[1]);
+
+                if(isEmpty(address[1])) {
+                    port = null;
+                } else {
+                    port = Integer.parseInt(address[1]);
+                }
             }
             setProxy(new Proxy.ProxyBuilder().setIp(ip).setPort(port).build());
         }
@@ -206,7 +212,7 @@ public class DriverBuilder {
                 return DesiredCapabilities.opera();
             case IEXPLORER:
                 DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-                capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+                capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 return capabilities;
             case EDGE:
                 return DesiredCapabilities.internetExplorer();

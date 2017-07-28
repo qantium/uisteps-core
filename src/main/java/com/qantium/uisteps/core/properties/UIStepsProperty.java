@@ -15,8 +15,15 @@
  */
 package com.qantium.uisteps.core.properties;
 
+import com.qantium.uisteps.core.browser.Proxy;
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
+import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.lifecycle.Execute;
+
+import java.net.MalformedURLException;
+import java.util.function.Supplier;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Contains settings that can be set before test running
@@ -134,12 +141,29 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * <li>localhost</li>
      * <li>localhost:7777</li>
      * <li>127.0.0.1:7777</li>
-     * <li>:7777</li>
      * </ul>
      *
      * @see BrowserFactory
      */
-    WEBDRIVER_PROXY,
+    WEBDRIVER_PROXY(() -> {
+
+        String ip = "localhost";
+        String port = "";
+
+        String webdriverRemoteUrl = WEBDRIVER_REMOTE_URL.getValue();
+
+        if (isNotEmpty(webdriverRemoteUrl)) {
+
+            try {
+                Url url =  new Url(webdriverRemoteUrl);
+                ip = url.getHost();
+            } catch (MalformedURLException ex) {
+                throw new IllegalArgumentException(ex.getMessage(), ex.getCause());
+            }
+        }
+
+        return ip + ":" + port;
+    }),
     /**
      * Set "webdriver.timeouts.implicitlywait" to specify implicitly wait in milliseconds
      * timeouts
@@ -184,6 +208,8 @@ public enum UIStepsProperty implements IUIStepsProperty {
     SOURCE_TAKE(Execute.FOR_FAILURES.name()),
     SOURCE_TAKE_FAKE("true"),
     SOURCE_DIR(HOME_DIR.getDefaultValue()),
+
+    HAR_TAKE(Execute.NONE.name()),
     /**
      * Set "screenshots.take" to specify when to take screenshots
      */
@@ -265,6 +291,10 @@ public enum UIStepsProperty implements IUIStepsProperty {
 
     UIStepsProperty() {
         this("");
+    }
+
+    UIStepsProperty(Supplier<String> supplier) {
+        this(supplier.get());
     }
 
     UIStepsProperty(String defaultValue) {

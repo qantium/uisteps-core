@@ -7,6 +7,10 @@ import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static java.lang.Long.parseLong;
 import static org.codehaus.plexus.util.StringUtils.isEmpty;
 
 /**
@@ -18,6 +22,25 @@ public abstract class AbstractUIObject implements UIObject {
     private String name;
     private IBrowser browser;
     private final DisplayWaiting displayWaiting = new DisplayWaiting(this);
+    private long timeout = parseLong(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
+    private long pollingTime = parseLong(WEBDRIVER_TIMEOUTS_POLLING.getValue());
+    private long delay = parseLong(WEBDRIVER_TIMEOUTS_DELAY.getValue());
+
+    public <T extends AbstractUIObject> T immediately(){
+        return withTimeout(0);
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public long getPollingTime() {
+        return pollingTime;
+    }
+
+    public long getDelay() {
+        return delay;
+    }
 
     public IBrowser inOpenedBrowser() {
         return browser;
@@ -68,19 +91,22 @@ public abstract class AbstractUIObject implements UIObject {
         }
     }
 
-    public AbstractUIObject withDelay(long delay) {
+    public <T extends AbstractUIObject> T withDelay(long delay) {
+        this.delay = delay;
         getDisplayWaiting().withDelay(delay);
-        return this;
+        return (T) this;
     }
 
-    public AbstractUIObject withTimeout(long timeout) {
+    public <T extends AbstractUIObject> T withTimeout(long timeout) {
+        this.timeout = timeout;
         getDisplayWaiting().withTimeout(timeout);
-        return this;
+        return (T) this;
     }
 
-    public AbstractUIObject pollingEvery(long pollingTime) {
+    public <T extends AbstractUIObject> T pollingEvery(long pollingTime) {
+        this.pollingTime = pollingTime;
         getDisplayWaiting().pollingEvery(pollingTime);
-        return this;
+        return (T) this;
     }
 
     private DisplayWaiting getDisplayWaiting() {
