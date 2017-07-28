@@ -174,7 +174,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
      * timeouts
      */
     WEBDRIVER_TIMEOUTS_POLLING("250"),
-    WEBDRIVER_TIMEOUTS_DELAY("250"),
+    WEBDRIVER_TIMEOUTS_DELAY("0"),
     /**
      * Examples:
      * <ul>

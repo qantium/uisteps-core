@@ -110,7 +110,10 @@ public abstract class AbstractUIObject implements UIObject {
     }
 
     private DisplayWaiting getDisplayWaiting() {
-        return displayWaiting;
+        return displayWaiting
+                .withDelay(getDelay())
+                .withTimeout(getTimeout())
+                .pollingEvery(getPollingTime());
     }
 
     @Override
