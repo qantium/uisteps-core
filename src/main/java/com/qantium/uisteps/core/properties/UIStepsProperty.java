@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.properties;
 
-import com.qantium.uisteps.core.browser.Proxy;
 import com.qantium.uisteps.core.browser.factory.BrowserFactory;
 import com.qantium.uisteps.core.browser.pages.Url;
 import com.qantium.uisteps.core.lifecycle.Execute;

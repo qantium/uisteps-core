@@ -20,11 +20,8 @@ import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.proxy.CaptureType;
 import org.openqa.selenium.net.PortProber;
 
-import java.net.BindException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.EnumSet;
-import java.util.HashSet;
 
 /**
  * @author A.Solyankin

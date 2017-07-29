@@ -10,10 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
-import static java.lang.Long.parseLong;
-
 /**
  * @author Anton Solyankin
  */
@@ -172,8 +168,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
         hash = 97 * hash + Objects.hashCode(this.context);
         return hash;
     }
-
-
 
     //Elements
     public String getText() {

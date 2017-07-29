@@ -22,6 +22,7 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 
 import java.lang.reflect.Field;
+import java.util.function.Supplier;
 
 /**
  * @author Anton Solyankin
@@ -42,8 +43,12 @@ public class LocatorFactory {
         }
     }
 
-    public By[] getLocators(Class<?> uiObject) {
 
+    public By[] getLocators(Supplier<By[]> supplier) {
+        return supplier.get();
+    }
+
+    public By[] getLocators(Class<?> uiObject) {
 
         if (uiObject == Object.class) {
             throw new IllegalArgumentException("Cannot find locator for " + uiObject);

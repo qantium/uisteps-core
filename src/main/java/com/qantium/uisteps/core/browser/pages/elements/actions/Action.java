@@ -4,8 +4,6 @@ import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
-
 /**
  * Created by Anton Solyankin
  */

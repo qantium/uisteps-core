@@ -7,9 +7,7 @@ import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_DELAY;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT;
-import static com.qantium.uisteps.core.properties.UIStepsProperty.WEBDRIVER_TIMEOUTS_POLLING;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 import static java.lang.Long.parseLong;
 import static org.codehaus.plexus.util.StringUtils.isEmpty;
 
