@@ -54,6 +54,7 @@ public abstract class Action<T> {
 
             long currentTime = System.currentTimeMillis();
             timeDelta = currentTime - startTime;
+
         } while (timeDelta <= getTimeout());
 
         throw new ActionException(this, exception);

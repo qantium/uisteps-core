@@ -66,7 +66,6 @@ public class DisplayWaiting {
     }
 
     public boolean perform(long startTime) {
-        perform(startTime, getTimeout(), !isNot());
         return perform(startTime, getTimeout(), isNot());
     }
 
@@ -77,10 +76,10 @@ public class DisplayWaiting {
 
         do {
             try {
-                if (!isSuccessful(not)) {
-                    sleep(getPollingTime());
-                } else {
+                if (isSuccessful(not)) {
                     return true;
+                } else {
+                    sleep(getPollingTime());
                 }
                 long currentTime = System.currentTimeMillis();
                 timeDelta = currentTime - startTime;
