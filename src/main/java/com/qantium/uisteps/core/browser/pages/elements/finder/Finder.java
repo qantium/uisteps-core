@@ -1,12 +1,15 @@
 package com.qantium.uisteps.core.browser.pages.elements.finder;
 
+import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
-import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.UnhandledAlertException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Created by Anton Solyankin
@@ -24,21 +27,51 @@ public class Finder<T, E extends UIElement> {
     }
 
     public E get() {
-        for (E element : elements) {
-            for (String value : values) {
-                if (how.isFound(by.get(element, attribute), value)) {
-                    return element;
+        long startTime = System.currentTimeMillis();
+        long timeDelta;
+        sleep(elements.getDelay());
+
+        do {
+            try {
+                for (E element : elements) {
+                    for (String value : values) {
+                        if (how.isFound(by.get(element, attribute), value)) {
+                            return element;
+                        }
+                    }
                 }
+            } catch (NoBrowserException | UnhandledAlertException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                sleep(elements.getPollingTime());
             }
+            long currentTime = System.currentTimeMillis();
+            timeDelta = currentTime - startTime;
+        } while (timeDelta <= elements.getTimeout());
+
+        throw new NoSuchElementException(getError());
+    }
+
+    private void sleep(long timeout) {
+        try {
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        String error = getError();
-        throw new NoSuchElementException(error);
     }
 
     public boolean contains() {
         try {
             get();
             return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    public boolean waitUntilIsDisplayed() {
+        try {
+            return get().isCurrentlyDisplayed();
         } catch (NoSuchElementException ex) {
             return false;
         }
@@ -86,7 +119,7 @@ public class Finder<T, E extends UIElement> {
 
         error.append("Cannot find element by ").append(by.name().toLowerCase());
 
-        if (StringUtils.isNotEmpty(attribute)) {
+        if (isNotEmpty(attribute)) {
             error.append(" ").append(attribute);
         }
 

@@ -45,7 +45,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             throw new IllegalArgumentException("UIElements cannot contain other elements with type " + elementType);
         }
         this.elementType = elementType;
-
     }
 
     public UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
@@ -90,13 +89,21 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
         if (elements != null) {
             return elements;
+        } else {
+            refresh();
+            return elements;
         }
+    }
 
-        elements = new ArrayList();
+    public <T extends UIElements<E>> T refresh() {
+        elements = new ArrayList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
+
         while (iterator.hasNext()) {
-            By locator = iterator.next();
+
             try {
+                By locator = iterator.next();
+
                 for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
                     E uiElement = get(getElementType(), locator);
                     uiElement.setWrappedElement(wrappedElement);
@@ -109,7 +116,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             }
         }
 
-        return elements;
+        return (T) this;
     }
 
     public E get(int index) {
@@ -167,7 +174,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             proxyIndexes.add(index);
         }
 
-        List<E> proxyList = new ArrayList();
+        List<E> proxyList = new ArrayList<>();
         for (int i = 0; i < proxyIndexes.size(); i++) {
 
             if (!proxyIndexes.contains(i)) {
@@ -201,6 +208,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     public HowCondition<E, E> get() {
         FinderGet finder = new FinderGet(this);
+        return new HowCondition(finder);
+    }
+
+    public HowCondition<Boolean, E> isDisplayed() {
+        FinderIsDisplayed finder = new FinderIsDisplayed(this);
         return new HowCondition(finder);
     }
 

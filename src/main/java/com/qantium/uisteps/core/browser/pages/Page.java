@@ -84,4 +84,9 @@ public class Page extends HtmlObject {
     public boolean isCurrentlyDisplayed() {
         return executeScript("return document.readyState").equals("complete");
     }
+
+    @Override
+    public String getText() {
+        return get(UIElement.class, By.tagName("body")).getText();
+    }
 }

@@ -42,7 +42,6 @@ public class TextField extends UIElement implements Fillable {
     }
 
     public Object enter(Object text) {
-        System.out.println("************************************************************ " + text);
         inOpenedBrowser().enterInto(this, text);
         return null;
     }

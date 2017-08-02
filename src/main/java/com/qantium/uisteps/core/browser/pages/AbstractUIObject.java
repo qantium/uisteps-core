@@ -114,6 +114,8 @@ public abstract class AbstractUIObject implements UIObject {
                 .pollingEvery(getPollingTime());
     }
 
+    public abstract String getText();
+
     @Override
     public boolean isNotCurrentlyDisplayed() {
         return !isCurrentlyDisplayed();

@@ -35,7 +35,6 @@ public abstract class Action<T> {
 
     public T perform(Object... args) throws ActionException {
         long startTime = System.currentTimeMillis();
-        getUIObject().afterInitialization();
         ActionException exception;
         long timeDelta;
 
@@ -57,7 +56,7 @@ public abstract class Action<T> {
 
         } while (timeDelta <= getTimeout());
 
-        throw new ActionException(this, exception);
+        throw exception;
     }
 
     private void sleep(long timeout) {
