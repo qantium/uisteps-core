@@ -172,7 +172,7 @@ public class DriverBuilder {
 
     public DriverBuilder setProxy(String proxy) {
 
-        if (!Execute.NONE.name().equals(HAR_TAKE) && isNotEmpty(proxy)) {
+        if (!Execute.NONE.name().equals(HAR_TAKE.getValue()) && isNotEmpty(proxy)) {
 
             String[] address = proxy.split(":");
 

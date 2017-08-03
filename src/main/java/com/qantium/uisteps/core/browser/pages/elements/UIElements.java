@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
-import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
@@ -51,11 +50,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this(elementType);
         this.elements = new ArrayList();
         this.elements.addAll(elements);
-    }
-
-    @Override
-    public void setBrowser(IBrowser browser) {
-        super.setBrowser(browser);
     }
 
     @Override
@@ -234,5 +228,16 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public Finder<?, E> by(Find by) {
         return new Finder(this).by(by);
     }
+
+    @Override
+    public void setWrappedElement(WebElement wrappedElement) {
+        throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
+    @Override
+    public WebElement getWrappedElement() {
+        throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
 
 }

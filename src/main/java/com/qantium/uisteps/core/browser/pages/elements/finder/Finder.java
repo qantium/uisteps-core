@@ -44,6 +44,7 @@ public class Finder<T, E extends UIElement> {
                 throw ex;
             } catch (Exception ex) {
                 sleep(elements.getPollingTime());
+                elements.refresh();
             }
             long currentTime = System.currentTimeMillis();
             timeDelta = currentTime - startTime;
@@ -69,7 +70,7 @@ public class Finder<T, E extends UIElement> {
         }
     }
 
-    public boolean waitUntilIsDisplayed() {
+    protected boolean waitUntilIsDisplayed() {
         try {
             return get().isCurrentlyDisplayed();
         } catch (NoSuchElementException ex) {
