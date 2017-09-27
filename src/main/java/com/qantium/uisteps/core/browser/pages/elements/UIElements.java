@@ -25,6 +25,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Contains elements of one type
@@ -238,6 +239,12 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public WebElement getWrappedElement() {
         throw new UnsupportedOperationException("This operation is not supported for UIElements");
     }
+
+
+    //TODO:
+//    default <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+//        return onDisplayed(uiObject, supplier.get());
+//    }
 
 
 }

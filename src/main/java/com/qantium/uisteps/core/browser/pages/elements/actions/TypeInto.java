@@ -45,6 +45,6 @@ public class TypeInto extends UIElementAction {
 
     @Override
     public String toString() {
-        return "enter \"" + getText() + "\" into \"" + getUIObject() + "\"";
+        return "type \"" + getText() + "\" into \"" + getUIObject() + "\"";
     }
 }

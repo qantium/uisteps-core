@@ -20,14 +20,19 @@ public interface ISearchContext {
 
     <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locator);
 
-    default <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return onDisplayed(uiObject, supplier.get());
-    }
+    <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier);
+
+    //TODO:
+//    default <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+//        return onDisplayed(uiObject, supplier.get());
+//    }
 
     <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locator);
+//
+//    default <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+//        return onAllDisplayed(uiObject, supplier.get());
+//    }
 
-    default <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return onAllDisplayed(uiObject, supplier.get());
-    }
+    <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier);
 
 }

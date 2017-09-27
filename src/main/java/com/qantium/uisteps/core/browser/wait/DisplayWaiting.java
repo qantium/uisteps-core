@@ -34,7 +34,7 @@ public class DisplayWaiting {
         return setNot(true);
     }
 
-    public DisplayWaiting  immediately() {
+    public DisplayWaiting immediately() {
         return withTimeout(0);
     }
 
@@ -65,33 +65,36 @@ public class DisplayWaiting {
         return delay;
     }
 
-    public boolean perform(long startTime) {
-        return perform(startTime, getTimeout(), isNot());
-    }
+    public final static ThreadLocal<Long> startTime = new ThreadLocal<>().withInitial(() -> -1L);
+    private boolean initWaiting;
 
-
-    private boolean perform(long startTime, long timeout, boolean not) {
-        long timeDelta;
+    public boolean perform() {
         sleep(getDelay());
 
-        do {
+        if (startTime.get() < 0) {
+            initWaiting = true;
+            startTime.set(System.currentTimeMillis());
+        }
+
+        while (System.currentTimeMillis() - startTime.get() <= getTimeout()) {
             try {
-                if (isSuccessful(not)) {
+                if (isSuccessful(isNot())) {
+                    initWaiting();
                     return true;
                 } else {
                     sleep(getPollingTime());
                 }
-                long currentTime = System.currentTimeMillis();
-                timeDelta = currentTime - startTime;
             } catch (NoBrowserException | UnhandledAlertException ex) {
                 break;
             }
-        } while (timeDelta <= timeout);
-
+        }
+        initWaiting();
         return false;
     }
 
+
     private boolean isSuccessful(boolean not) {
+
         try {
             if (not) {
                 return uiObject.isNotCurrentlyDisplayed();
@@ -105,6 +108,12 @@ public class DisplayWaiting {
         }
     }
 
+    private void initWaiting() {
+        if (initWaiting) {
+            initWaiting = false;
+            startTime.set(-1L);
+        }
+    }
 
     private void sleep(long timeout) {
         try {

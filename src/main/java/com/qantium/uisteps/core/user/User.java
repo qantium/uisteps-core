@@ -33,6 +33,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * @author Anton Solyankin
@@ -386,8 +387,18 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+        return inOpenedBrowser().onDisplayed(uiObject, supplier);
+    }
+
+    @Override
     public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
         return inOpenedBrowser().onAllDisplayed(uiObject, locators);
+    }
+
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+        return inOpenedBrowser().onAllDisplayed(uiObject, supplier);
     }
 
     @Override

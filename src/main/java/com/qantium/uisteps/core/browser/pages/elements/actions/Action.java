@@ -2,7 +2,10 @@ package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
+
+import static com.qantium.uisteps.core.browser.wait.DisplayWaiting.startTime;
 
 /**
  * Created by Anton Solyankin
@@ -33,30 +36,45 @@ public abstract class Action<T> {
         return pollingTime;
     }
 
+    private boolean initAction;
+
     public T perform(Object... args) throws ActionException {
-        long startTime = System.currentTimeMillis();
-        ActionException exception;
-        long timeDelta;
+
+        if (startTime.get() < 0) {
+            initAction = true;
+            startTime.set(System.currentTimeMillis());
+        }
+
+        ActionException exception = new ActionException(this, new TimeoutException("Timeout " + getTimeout() + " is exceeded"));
 
         sleep(getDelay());
 
-        do {
+        while (System.currentTimeMillis() - startTime.get() <= getTimeout()) {
             try {
-                return apply(args);
+                T result = apply(args);
+                initAction();
+                return result;
             } catch (NoBrowserException | UnhandledAlertException ex) {
                 exception = new ActionException(this, ex);
                 break;
             } catch (Exception ex) {
-                sleep(getPollingTime());
-                exception = new ActionException(this, ex);
+                exception = errorHandler(ex);
             }
-
-            long currentTime = System.currentTimeMillis();
-            timeDelta = currentTime - startTime;
-
-        } while (timeDelta <= getTimeout());
-
+        }
+        initAction();
         throw exception;
+    }
+
+    private void initAction() {
+        if (initAction) {
+            initAction = false;
+            startTime.set(-1L);
+        }
+    }
+
+    protected ActionException errorHandler(Exception ex) {
+        sleep(getPollingTime());
+        return new ActionException(this, ex);
     }
 
     private void sleep(long timeout) {

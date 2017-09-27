@@ -18,4 +18,10 @@ public abstract class UIElementAction<T, E extends UIElement> extends Action<T> 
     protected E getUIObject() {
         return uiElement;
     }
+
+    @Override
+    protected ActionException errorHandler(Exception ex) {
+        getUIObject().scrollWindowTo();
+        return super.errorHandler(ex);
+    }
 }

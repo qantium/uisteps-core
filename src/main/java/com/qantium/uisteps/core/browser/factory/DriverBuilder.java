@@ -209,7 +209,7 @@ public class DriverBuilder {
             case CHROME:
                 return DesiredCapabilities.chrome();
             case OPERA:
-                return DesiredCapabilities.opera();
+                return DesiredCapabilities.operaBlink();
             case IEXPLORER:
                 DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
                 capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);

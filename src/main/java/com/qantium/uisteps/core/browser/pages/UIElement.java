@@ -27,7 +27,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     @Override
     public WebElement getWrappedElement() {
 
-        if (wrappedElement != null) {
+        if (checkWrappedElement()) {
             return wrappedElement;
         }
 
@@ -43,6 +43,21 @@ public class UIElement extends HtmlObject implements WrapsElement {
             }
         }
         throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
+    }
+
+    private boolean checkWrappedElement() {
+
+        boolean OK = wrappedElement != null;
+
+        if (OK) {
+            try {
+                wrappedElement.getLocation();
+            } catch (Exception ex) {
+                OK = false;
+            }
+
+        }
+        return OK;
     }
 
     @Override
@@ -142,19 +157,19 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
         final UIElement other = (UIElement) obj;
 
-        if(!(Objects.equals(this.getLocators(), other.getLocators()) && Objects.equals(this.context, other.context))) {
+        if (!(Objects.equals(this.getLocators(), other.getLocators()) && Objects.equals(this.context, other.context))) {
             return false;
         }
 
-        if(!(getWrappedElement() != null && other.getWrappedElement() != null && getPosition().equals(other.getPosition()))) {
+        if (!(getWrappedElement() != null && other.getWrappedElement() != null && getPosition().equals(other.getPosition()))) {
             return false;
         }
 
-        if(getWrappedElement() != null &&  other.getWrappedElement() == null)  {
+        if (getWrappedElement() != null && other.getWrappedElement() == null) {
             return false;
         }
 
-        if(getWrappedElement() == null &&  other.getWrappedElement() != null)  {
+        if (getWrappedElement() == null && other.getWrappedElement() != null) {
             return false;
         }
 
@@ -231,6 +246,17 @@ public class UIElement extends HtmlObject implements WrapsElement {
         inOpenedBrowser().moveMouseOver(this, xOffset, yOffset);
         return null;
     }
+
+    public <T extends UIElement> T scrollWindowtByOffset(int x, int y) {
+        inOpenedBrowser().scrollWindowToTargetByOffset(this, x, y);
+        return (T) this;
+    }
+
+    public <T extends UIElement> T scrollWindowTo() {
+        inOpenedBrowser().scrollWindowToTarget(this);
+        return (T) this;
+    }
+
 
     //Tags
     public String getTagName() {

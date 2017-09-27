@@ -22,6 +22,8 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
+import java.util.function.Supplier;
+
 /**
  * @author Anton Solyankin
  */
@@ -61,6 +63,16 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     @Override
     public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
         return onDisplayed(getAll(uiObject, locators));
+    }
+
+    @Override
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+        return onDisplayed(uiObject, supplier.get());
+    }
+
+    @Override
+    public <E extends UIElement> UIElements<E> onAllDisplayed(Class<E> uiObject, Supplier<By[]> supplier) {
+        return onAllDisplayed(uiObject, supplier.get());
     }
 
     @Override

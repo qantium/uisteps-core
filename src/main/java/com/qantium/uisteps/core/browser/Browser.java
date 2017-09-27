@@ -48,6 +48,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -81,7 +82,7 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public URL getNodeUrl()  {
+    public URL getNodeUrl() {
 
         RestApiRequest request = null;
 
@@ -100,7 +101,7 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public URL getHubUrl()  {
+    public URL getHubUrl() {
         String hub = getHub();
         if (isEmpty(hub)) {
             throw new IllegalStateException("A hub is not set for browser " + this);
@@ -112,7 +113,6 @@ public class Browser implements IBrowser {
             }
         }
     }
-
 
 
     @Override
@@ -771,8 +771,18 @@ public class Browser implements IBrowser {
     }
 
     @Override
+    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+        return onDisplayed(get(uiObject, supplier.get()));
+    }
+
+    @Override
     public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locator) {
         return onDisplayed(getAll(uiObject, locator));
+    }
+
+    @Override
+    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
+        return onDisplayed(getAll(uiObject, supplier.get()));
     }
 
     //Screenshots

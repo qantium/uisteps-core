@@ -24,7 +24,7 @@ public abstract class AbstractUIObject implements UIObject {
     private long pollingTime = parseLong(WEBDRIVER_TIMEOUTS_POLLING.getValue());
     private long delay = parseLong(WEBDRIVER_TIMEOUTS_DELAY.getValue());
 
-    public <T extends AbstractUIObject> T immediately(){
+    public <T extends AbstractUIObject> T immediately() {
         return withTimeout(0);
     }
 
@@ -69,12 +69,12 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public final boolean waitUntilIsDisplayed() {
-        return getDisplayWaiting().perform(System.currentTimeMillis());
+        return getDisplayWaiting().perform();
     }
 
     @Override
     public final boolean waitUntilIsNotDisplayed() {
-        return getDisplayWaiting().not().perform(System.currentTimeMillis());
+        return getDisplayWaiting().not().perform();
     }
 
     @Override
@@ -84,7 +84,7 @@ public abstract class AbstractUIObject implements UIObject {
 
     @Override
     public void afterInitialization() {
-        if(!waitUntilIsDisplayed()) {
+        if (!waitUntilIsDisplayed()) {
             throw new IsNotDisplayedException(this);
         }
     }

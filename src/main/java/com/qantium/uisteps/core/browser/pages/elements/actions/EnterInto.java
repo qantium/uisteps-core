@@ -23,4 +23,9 @@ public class EnterInto extends TypeInto {
     protected boolean textIsNotEmpty() {
         return  !getNullValue().equals(getText());
     }
+
+    @Override
+    public String toString() {
+        return "enter \"" + getText() + "\" into \"" + getUIObject() + "\"";
+    }
 }
