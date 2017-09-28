@@ -1,21 +1,23 @@
 package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import org.openqa.selenium.WebElement;
 
 /**
  * Created by Anton Solyankin
  */
-public class GetText extends UIElementAction<String, UIElement> {
+public class GetTextFrom extends UIElementAction<String, UIElement> {
 
-
-    public GetText(UIElement uiElement) {
+    public GetTextFrom(UIElement uiElement) {
         super(uiElement);
     }
 
     @Override
     protected String apply(Object... args) {
-        if ("input".equals(getUIObject().getTagName())) {
-            String enteredText = getUIObject().getAttribute("value");
+        WebElement wrappedElement = getUIObject().getWrappedElement();
+
+        if ("input".equals(wrappedElement.getTagName())) {
+            String enteredText = wrappedElement.getAttribute("value");
 
             if (enteredText != null) {
                 return enteredText;
@@ -23,12 +25,7 @@ public class GetText extends UIElementAction<String, UIElement> {
                 return "";
             }
         } else {
-            return getUIObject().getWrappedElement().getText();
+            return wrappedElement.getText();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "get text from \"" + getUIObject() + "\"";
     }
 }

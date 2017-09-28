@@ -24,6 +24,8 @@ public abstract class Action<T> {
 
     protected abstract UIObject getUIObject();
 
+    protected abstract T apply(Object... args);
+
     public long getTimeout() {
         return timeout;
     }
@@ -40,14 +42,14 @@ public abstract class Action<T> {
 
     public T perform(Object... args) throws ActionException {
 
+        sleep(getDelay());
+
         if (startTime.get() < 0) {
             initAction = true;
             startTime.set(System.currentTimeMillis());
         }
 
         ActionException exception = new ActionException(this, new TimeoutException("Timeout " + getTimeout() + " is exceeded"));
-
-        sleep(getDelay());
 
         while (System.currentTimeMillis() - startTime.get() <= getTimeout()) {
             try {
@@ -85,6 +87,5 @@ public abstract class Action<T> {
         }
     }
 
-    protected abstract T apply(Object... args);
 
 }

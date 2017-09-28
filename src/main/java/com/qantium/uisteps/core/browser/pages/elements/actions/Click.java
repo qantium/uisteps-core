@@ -17,9 +17,4 @@ public class Click extends UIElementAction {
         getUIObject().getWrappedElement().click();
         return null;
     }
-
-    @Override
-    public String toString() {
-        return "click \"" + getUIObject() + "\"";
-    }
 }

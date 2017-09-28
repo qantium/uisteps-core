@@ -32,6 +32,8 @@ public class Finder<T, E extends UIElement> {
 
     public E get() {
 
+        sleep(elements.getDelay());
+
         if (startTime.get() < 0) {
             initFinder = true;
             startTime.set(System.currentTimeMillis());
@@ -40,8 +42,6 @@ public class Finder<T, E extends UIElement> {
         if (System.currentTimeMillis() - startTime.get() > elements.getTimeout()) {
             throw new TimeoutException("Timeout " + elements.getTimeout() + " is exceeded");
         }
-
-        sleep(elements.getDelay());
 
         while (System.currentTimeMillis() - startTime.get() <= elements.getTimeout()) {
             try {
@@ -54,6 +54,7 @@ public class Finder<T, E extends UIElement> {
                     }
                 }
             } catch (NoBrowserException | UnhandledAlertException ex) {
+                initFinder();
                 throw ex;
             } catch (Exception ex) {
                 sleep(elements.getPollingTime());
