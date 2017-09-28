@@ -25,7 +25,6 @@ import org.openqa.selenium.WebElement;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Contains elements of one type
@@ -37,7 +36,7 @@ import java.util.function.Supplier;
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable, Iterable<E> {
 
     private final Class<E> elementType;
-    private ArrayList<E> elements;
+    private List<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
@@ -48,9 +47,20 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
+        this(elementType, elements, true);
+    }
+
+    private UIElements(Class<E> elementType, List<E> elements, boolean initContext) throws IllegalArgumentException {
         this(elementType);
-        this.elements = new ArrayList();
-        this.elements.addAll(elements);
+        this.elements = elements;
+
+        if(initContext) {
+            for (int index = 0; index < this.elements.size(); index++) {
+                E element = this.elements.get(index);
+                element.setContextList(this);
+                element.setContextListIndex(index);
+            }
+        }
     }
 
     @Override
@@ -94,6 +104,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         elements = new ArrayList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
 
+        int index = 0;
+
         while (iterator.hasNext()) {
 
             try {
@@ -103,6 +115,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                     E uiElement = get(getElementType(), locator);
                     uiElement.setWrappedElement(wrappedElement);
                     elements.add(uiElement);
+                    uiElement.setContextList(this);
+                    uiElement.setContextListIndex(index++);
                 }
             } catch (Exception ex) {
                 if (!iterator.hasNext() && elements.isEmpty()) {
@@ -147,7 +161,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     public UIElements<E> subList(int fromIndex, int toIndex) {
         List<E> subList = clone().getElements().subList(fromIndex, toIndex);
-        return getUIElements(subList);
+        return new UIElements(elementType, subList, false);
     }
 
     public E getFirst() {
@@ -177,7 +191,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             }
         }
 
-        return getUIElements(proxyList);
+        return new UIElements(elementType, elements, false);
     }
 
     public UIElements<E> getUIElements(List<E> elements) {
@@ -207,12 +221,12 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public HowCondition<Boolean, E> isDisplayed() {
-        FinderIsDisplayed finder = new FinderIsDisplayed(this);
+        Finder finder = new FinderIsDisplayed(this);
         return new HowCondition(finder);
     }
 
     public HowCondition<UIElements<E>, E> getAll() {
-        FinderGetAll finder = new FinderGetAll(this);
+        Finder finder = new FinderGetAll(this);
         return new HowCondition(finder);
     }
 
@@ -239,12 +253,4 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public WebElement getWrappedElement() {
         throw new UnsupportedOperationException("This operation is not supported for UIElements");
     }
-
-
-    //TODO:
-//    default <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-//        return onDisplayed(uiObject, supplier.get());
-//    }
-
-
 }

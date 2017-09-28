@@ -3,12 +3,14 @@ package com.qantium.uisteps.core.browser.pages.elements.finder;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.qantium.uisteps.core.browser.wait.DisplayWaiting.startTime;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
@@ -26,16 +28,27 @@ public class Finder<T, E extends UIElement> {
         this.elements = elements;
     }
 
+    private boolean initFinder;
+
     public E get() {
-        long startTime = System.currentTimeMillis();
-        long timeDelta;
+
+        if (startTime.get() < 0) {
+            initFinder = true;
+            startTime.set(System.currentTimeMillis());
+        }
+
+        if (System.currentTimeMillis() - startTime.get() > elements.getTimeout()) {
+            throw new TimeoutException("Timeout " + elements.getTimeout() + " is exceeded");
+        }
+
         sleep(elements.getDelay());
 
-        do {
+        while (System.currentTimeMillis() - startTime.get() <= elements.getTimeout()) {
             try {
                 for (E element : elements) {
                     for (String value : values) {
                         if (how.isFound(by.get(element, attribute), value)) {
+                            initFinder();
                             return element;
                         }
                     }
@@ -46,12 +59,44 @@ public class Finder<T, E extends UIElement> {
                 sleep(elements.getPollingTime());
                 elements.refresh();
             }
-            long currentTime = System.currentTimeMillis();
-            timeDelta = currentTime - startTime;
-        } while (timeDelta <= elements.getTimeout());
-
+        }
+        initFinder();
         throw new NoSuchElementException(getError());
     }
+
+    private void initFinder() {
+        if (initFinder) {
+            initFinder = false;
+            startTime.set(-1L);
+        }
+    }
+
+//    public E get() {
+//        long startTime = System.currentTimeMillis();
+//        long timeDelta;
+//        sleep(elements.getDelay());
+//
+//        do {
+//            try {
+//                for (E element : elements) {
+//                    for (String value : values) {
+//                        if (how.isFound(by.get(element, attribute), value)) {
+//                            return element;
+//                        }
+//                    }
+//                }
+//            } catch (NoBrowserException | UnhandledAlertException ex) {
+//                throw ex;
+//            } catch (Exception ex) {
+//                sleep(elements.getPollingTime());
+//                elements.refresh();
+//            }
+//            long currentTime = System.currentTimeMillis();
+//            timeDelta = currentTime - startTime;
+//        } while (timeDelta <= elements.getTimeout());
+//
+//        throw new NoSuchElementException(getError());
+//    }
 
     private void sleep(long timeout) {
         try {

@@ -14,6 +14,19 @@ public class FinderGet<E extends UIElement> extends Finder<E, E> {
 
     @Override
     protected E find() {
-        return get();
+        E element = get();
+        element.setFinder(this);
+        return element;
+    }
+
+    public FinderGet<E> clone(UIElements<E> elements) {
+
+        FinderGet cloned = new FinderGet(elements);
+        cloned.by = by;
+        cloned.how = how;
+        cloned.values = values;
+        cloned.attribute = attribute;
+
+        return new FinderGet(elements);
     }
 }

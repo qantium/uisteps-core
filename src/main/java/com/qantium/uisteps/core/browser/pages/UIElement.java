@@ -1,14 +1,14 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.finder.FinderGet;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Anton Solyankin
@@ -19,9 +19,24 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
+    private UIElements contextList;
+    private int contextListIndex;
+    private FinderGet finder;
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
+    }
+
+    public void setContextList(UIElements contextList) {
+        this.contextList = contextList;
+    }
+
+    public void setContextListIndex(int contextListIndex) {
+        this.contextListIndex = contextListIndex;
+    }
+
+    public void setFinder(FinderGet finder) {
+        this.finder = finder;
     }
 
     @Override
@@ -31,18 +46,51 @@ public class UIElement extends HtmlObject implements WrapsElement {
             return wrappedElement;
         }
 
-        Iterator<By> iterator = Arrays.asList(locators).iterator();
+        if(contextList != null) {
+            if(finder != null) {
+                UIElement elem = finder.clone(contextList.clone().refresh()).get().withDelay(0).immediately();
+                wrappedElement = elem.getWrappedElement();
+            } else {
+                Iterator<By> iterator = Arrays.asList(contextList.getLocators()).iterator();
 
-        while (iterator.hasNext()) {
-            try {
-                return getSearchContext().findElement(iterator.next());
-            } catch (Exception ex) {
-                if (!iterator.hasNext()) {
-                    throw ex;
+                List<WebElement> elements = new ArrayList<>();
+
+                while (iterator.hasNext()) {
+
+                    try {
+                        By locator = iterator.next();
+                        for (WebElement element : getSearchContext().findElements(locator)) {
+                            elements.add(element);
+                        }
+                    } catch (Exception ex) {
+                        if (!iterator.hasNext() && elements.isEmpty()) {
+                            throw ex;
+                        }
+                    }
+                }
+
+                if (contextList.size() != elements.size()) {
+                    throw new IllegalArgumentException("Size of contextList '" + contextList + "' was changed from " + contextList.size() + " to " + elements.size());
+                }
+
+                wrappedElement = elements.get(contextListIndex);
+            }
+            return wrappedElement;
+        } else {
+            Iterator<By> iterator = Arrays.asList(locators).iterator();
+
+            while (iterator.hasNext()) {
+                try {
+                    wrappedElement =  getSearchContext().findElement(iterator.next());
+                    return wrappedElement;
+                } catch (Exception ex) {
+                    if (!iterator.hasNext()) {
+                        throw ex;
+                    }
                 }
             }
+            throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
         }
-        throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
     }
 
     private boolean checkWrappedElement() {

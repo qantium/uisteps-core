@@ -35,19 +35,17 @@ public class UIObjectFactory implements IUIObjectFactory {
         return getAll(uiObject, null, locators);
     }
 
-    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context) {
-        UIElements<T> uiElements = new UIElements(uiObject);
-        return get(uiElements, context);
-    }
-
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context, By... locators) {
         UIElements<T> uiElements = new UIElements(uiObject);
+        if (ArrayUtils.isEmpty(locators)) {
+            locators = locatorFactory.getLocators(uiObject);
+        }
         return get(uiElements, context, locators);
     }
 
     @Override
     public UIElement get(By... locators) {
-        if(ArrayUtils.isEmpty(locators)) {
+        if (ArrayUtils.isEmpty(locators)) {
             throw new IllegalArgumentException("Locator is not set!");
         }
         return get(UIElement.class, locators);
