@@ -5,7 +5,6 @@ import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.finder.FinderGet;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 import java.util.*;

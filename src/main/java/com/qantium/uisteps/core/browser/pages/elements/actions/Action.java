@@ -2,7 +2,6 @@ package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIObject;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.browser.wait.DisplayWaiting.startTime;
@@ -49,7 +48,7 @@ public abstract class Action<T> {
             startTime.set(System.currentTimeMillis());
         }
 
-        ActionException exception = new ActionException(this, new TimeoutException("Timeout " + getTimeout() + " is exceeded"));
+        ActionException exception = new ActionException(this, new IllegalStateException("Timeout " + getTimeout() + " is exceeded"));
 
         while (System.currentTimeMillis() - startTime.get() <= getTimeout()) {
             try {

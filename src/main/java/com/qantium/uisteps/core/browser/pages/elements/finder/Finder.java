@@ -3,7 +3,6 @@ package com.qantium.uisteps.core.browser.pages.elements.finder;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class Finder<T, E extends UIElement> {
         }
 
         if (System.currentTimeMillis() - startTime.get() > elements.getTimeout()) {
-            throw new TimeoutException("Timeout " + elements.getTimeout() + " is exceeded");
+            throw new IllegalStateException("Timeout " + elements.getTimeout() + " is exceeded");
         }
 
         while (System.currentTimeMillis() - startTime.get() <= elements.getTimeout()) {
