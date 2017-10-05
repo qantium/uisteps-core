@@ -558,7 +558,7 @@ public class Browser implements IBrowser {
 
     @Override
     public String getTextFrom(UIElement element) {
-        return new GetText(element).perform();
+        return new GetTextFrom(element).perform();
     }
 
     //Select
@@ -607,7 +607,7 @@ public class Browser implements IBrowser {
 
     @Override
     public void scrollWindowToTarget(UIElement element) {
-        executeScript("arguments[0].scrollIntoView();", element.getWrappedElement());
+        new ScrollTo(element).perform();
     }
 
     @Override

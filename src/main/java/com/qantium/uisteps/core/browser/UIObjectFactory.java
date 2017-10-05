@@ -35,12 +35,6 @@ public class UIObjectFactory implements IUIObjectFactory {
         return getAll(uiObject, null, locators);
     }
 
-//    public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context) {
-//        UIElements<T> uiElements = new UIElements(uiObject);
-//        By[] locators = locatorFactory.getLocators(uiObject);
-//        return get(uiElements, context, locators);
-//    }
-
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, HtmlObject context, By... locators) {
         UIElements<T> uiElements = new UIElements(uiObject);
         if (ArrayUtils.isEmpty(locators)) {
