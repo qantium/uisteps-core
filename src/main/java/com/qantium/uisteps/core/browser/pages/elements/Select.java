@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
  * @author ASolyankin
  */
 @NotInit
-public class Select extends UIElement implements Fillable {
+public class Select extends UIElement {
 
     public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
         return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());
@@ -186,10 +185,6 @@ public class Select extends UIElement implements Fillable {
 
         public By selectBy() {
             return by;
-        }
-
-        public String getValue() {
-            return value;
         }
 
         public String getName() {

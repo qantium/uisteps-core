@@ -63,6 +63,8 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void typeInto(TextField input, Object text);
 
+    void sendKeys(UIElement element, CharSequence... keysToSend);
+
     void clear(TextField input);
 
      void enterInto(TextField input, Object text);
@@ -72,6 +74,8 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
     String getAttribute(UIElement element, String attribute);
 
     String getCSSPropertyOf(UIElement element, String cssProperty);
+
+    String getHtmlOf(UIElement element);
 
     Point getPositionOf(UIElement element);
 

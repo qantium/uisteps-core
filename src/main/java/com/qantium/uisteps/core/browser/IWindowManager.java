@@ -7,6 +7,8 @@ public interface IWindowManager {
 
     void openNewWindow();
 
+    void closeWindow();
+
     void switchToNextWindow();
 
     void switchToPreviousWindow();

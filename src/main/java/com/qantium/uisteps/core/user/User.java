@@ -437,6 +437,16 @@ public class User implements BrowserActions, IBrowserManager {
     }
 
     @Override
+    public void closeWindow() {
+
+        if (inOpenedBrowser().getCountOfWindows() < 2) {
+            browserManager.closeCurrentBrowser();
+        } else {
+            inOpenedBrowser().closeWindow();
+        }
+    }
+
+    @Override
     public void switchToNextWindow() {
         inOpenedBrowser().switchToNextWindow();
     }

@@ -28,4 +28,9 @@ public class Button extends UIElement {
     public boolean isEnabled() {
         return getWrappedElement().isEnabled();
     }
+
+    @Override
+    public String getValue() {
+        return getText();
+    }
 }

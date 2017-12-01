@@ -88,6 +88,10 @@ public interface IUIStepsProperty {
         return Integer.parseInt(getValue());
     }
 
+    default Long getLongValue() {
+        return Long.parseLong(getValue());
+    }
+
     default String getValue() {
         String value = getFromSystem();
 

@@ -7,7 +7,11 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
+import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.openqa.selenium.By.ByXPath;
 
 /**
  * @author Anton Solyankin
@@ -39,57 +43,67 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     @Override
+    public Object setValue(Object value) {
+        if(value == null) {
+            inOpenedBrowser().click(this);
+        } else {
+            inOpenedBrowser().sendKeys(this, value.toString());
+        }
+        return null;
+    }
+
+    @Override
     public WebElement getWrappedElement() {
 
-        if (checkWrappedElement()) {
-            return wrappedElement;
-        }
+        if (!checkWrappedElement()) {
+            if (contextList != null) {
+                if (finder != null) {
+                    UIElement elem = finder.clone(contextList.clone().refresh()).get().withDelay(0).immediately();
+                    wrappedElement = elem.getWrappedElement();
+                } else {
+                    Iterator<By> iterator = Arrays.asList(contextList.getLocators()).iterator();
 
-        if(contextList != null) {
-            if(finder != null) {
-                UIElement elem = finder.clone(contextList.clone().refresh()).get().withDelay(0).immediately();
-                wrappedElement = elem.getWrappedElement();
+                    List<WebElement> elements = new ArrayList<>();
+
+                    while (iterator.hasNext()) {
+
+                        try {
+                            By locator = iterator.next();
+                            for (WebElement element : getSearchContext().findElements(locator)) {
+                                elements.add(element);
+                            }
+                        } catch (Exception ex) {
+                            if (!iterator.hasNext() && elements.isEmpty()) {
+                                throw ex;
+                            }
+                        }
+                    }
+
+                    if (contextList.size() != elements.size()) {
+                        throw new IllegalArgumentException("Size of contextList '" + contextList + "' was changed from " + contextList.size() + " to " + elements.size());
+                    }
+
+                    wrappedElement = elements.get(contextListIndex);
+                }
             } else {
-                Iterator<By> iterator = Arrays.asList(contextList.getLocators()).iterator();
-
-                List<WebElement> elements = new ArrayList<>();
+                Iterator<By> iterator = Arrays.asList(locators).iterator();
 
                 while (iterator.hasNext()) {
-
                     try {
-                        By locator = iterator.next();
-                        for (WebElement element : getSearchContext().findElements(locator)) {
-                            elements.add(element);
-                        }
+                        wrappedElement = getSearchContext().findElement(iterator.next());
+                        break;
                     } catch (Exception ex) {
-                        if (!iterator.hasNext() && elements.isEmpty()) {
+                        if (!iterator.hasNext()) {
                             throw ex;
                         }
                     }
                 }
-
-                if (contextList.size() != elements.size()) {
-                    throw new IllegalArgumentException("Size of contextList '" + contextList + "' was changed from " + contextList.size() + " to " + elements.size());
-                }
-
-                wrappedElement = elements.get(contextListIndex);
+                throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
             }
-            return wrappedElement;
-        } else {
-            Iterator<By> iterator = Arrays.asList(locators).iterator();
-
-            while (iterator.hasNext()) {
-                try {
-                    wrappedElement =  getSearchContext().findElement(iterator.next());
-                    return wrappedElement;
-                } catch (Exception ex) {
-                    if (!iterator.hasNext()) {
-                        throw ex;
-                    }
-                }
-            }
-            throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
         }
+
+        new UIElementDecorator(this, wrappedElement).execute();
+        return wrappedElement;
     }
 
     private boolean checkWrappedElement() {
@@ -140,7 +154,28 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     public void setLocators(By... locators) {
-        this.locators = locators;
+        this.locators = checkForRootXpath(locators);
+    }
+
+    private By[] checkForRootXpath(By[] locators) {
+
+        if (locators == null) {
+            return locators;
+        } else {
+            return Arrays.asList(locators).stream().map((locator) -> {
+                if (context != null && (locator instanceof ByXPath)) {
+                    try {
+                        Field xpathField = ByXPath.class.getDeclaredField("xpathExpression");
+                        xpathField.setAccessible(true);
+                        String xpath = (String) xpathField.get(locator);
+                        xpathField.set(locator, xpath.replaceAll("^//", ".//").replaceAll("^/", ""));
+                    } catch (IllegalAccessException | NoSuchFieldException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                return locator;
+            }).collect(Collectors.toList()).toArray(new By[locators.length]);
+        }
     }
 
     @Override
@@ -304,7 +339,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return (T) this;
     }
 
-
     //Tags
     public String getTagName() {
         return inOpenedBrowser().getTagNameOf(this);
@@ -316,6 +350,10 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     public String getCSSProperty(String cssProperty) {
         return inOpenedBrowser().getCSSPropertyOf(this, cssProperty);
+    }
+
+    public String getHtml() {
+        return inOpenedBrowser().getHtmlOf(this);
     }
 
     public Point getPosition() {

@@ -39,4 +39,9 @@ public class Image extends UIElement {
     public int getHeight() {
         return getWrappedElement().getSize().height;
     }
+
+    @Override
+    public String getValue() {
+        return getSource();
+    }
 }

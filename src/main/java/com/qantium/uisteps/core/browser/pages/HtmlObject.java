@@ -22,6 +22,14 @@ import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.function.Supplier;
 
 /**
@@ -29,6 +37,62 @@ import java.util.function.Supplier;
  */
 
 public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
+
+    private MemberCollector fieldCollector;
+
+    public Object fill(LinkedHashMap<String, Object> values) {
+
+        HashMap<String, Queue<AccessibleObject>> members = new HashMap<>(getFieldCollector().getMembers());
+        values.entrySet().stream().forEach(entry -> {
+
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    if (!members.containsKey(key)) {
+                        throw new NoSuchElementException(this + " does not contain element with name " + key);
+                    }
+
+                    AccessibleObject member = members.get(key).remove();
+                    member.setAccessible(true);
+                    HtmlObject htmlObject = getHtmlObjectFrom(member);
+
+                    if (value instanceof LinkedHashMap) {
+                        htmlObject.fill((LinkedHashMap) value);
+                    } else {
+                        htmlObject.setValue(value);
+                    }
+                }
+        );
+        return null;
+    }
+
+    abstract Object setValue(Object value);
+
+    public Object getValue() {
+        return getText();
+    }
+
+    private MemberCollector getFieldCollector() {
+        if (fieldCollector == null) {
+            fieldCollector = new MemberCollector(this);
+        }
+        return fieldCollector;
+    }
+
+    private HtmlObject getHtmlObjectFrom(AccessibleObject member) {
+        try {
+            if (member instanceof Field) {
+                Field field = (Field) member;
+                return (HtmlObject) field.get(this);
+
+            } else {
+                Method method = (Method) member;
+                return (HtmlObject) method.invoke(this);
+            }
+        } catch (IllegalAccessException | InvocationTargetException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
     @Override
     public Object executeScript(String script, Object... args) {

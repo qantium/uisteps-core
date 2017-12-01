@@ -260,6 +260,15 @@ public class Browser implements IBrowser {
     }
 
     @Override
+    public void closeWindow() {
+        if(getWindowManager().getCountOfWindows() < 2) {
+            close();
+        } else {
+            getWindowManager().closeWindow();
+        }
+    }
+
+    @Override
     public void switchToNextWindow() {
         getWindowManager().switchToNextWindow();
     }
@@ -488,6 +497,11 @@ public class Browser implements IBrowser {
     }
 
     @Override
+    public void sendKeys(UIElement element, CharSequence... keysToSend) {
+        new SendKeys(element, keysToSend);
+    }
+
+    @Override
     public void clear(TextField input) {
         new Clear(input).perform();
     }
@@ -505,12 +519,17 @@ public class Browser implements IBrowser {
 
     @Override
     public String getAttribute(UIElement element, String attribute) {
-        return element.getWrappedElement().getAttribute(attribute);
+        return new GetAttributeFrom(element, attribute).perform();
     }
 
     @Override
     public String getCSSPropertyOf(UIElement element, String cssProperty) {
-        return element.getWrappedElement().getCssValue(cssProperty);
+        return new GetCSSPropertyFrom(element, cssProperty).perform();
+    }
+
+    @Override
+    public String getHtmlOf(UIElement element) {
+        return new GetHtmlFrom(element).perform();
     }
 
     @Override

@@ -53,4 +53,13 @@ public class HowCondition<T, E extends UIElement> {
     protected Finder<T, E> getFinder() {
         return finder;
     }
+
+    public HowCondition<T, E> not() {
+        return not(true);
+    }
+
+    public HowCondition<T, E> not(boolean not) {
+        finder.not(not);
+        return this;
+    }
 }

@@ -54,7 +54,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this(elementType);
         this.elements = elements;
 
-        if(initContext) {
+        if (initContext) {
             for (int index = 0; index < this.elements.size(); index++) {
                 E element = this.elements.get(index);
                 element.setContextList(this);
@@ -252,5 +252,73 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     public WebElement getWrappedElement() {
         throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
+    @Override
+    public String getText() {
+        return getText("");
+    }
+
+    public String getText(String separator) {
+        StringBuffer text = new StringBuffer();
+        boolean first = true;
+
+        for (E element : getElements()) {
+            if (first) {
+                first = false;
+            } else {
+                text.append(separator);
+            }
+            text.append(element.getText());
+        }
+
+        return text.toString();
+    }
+
+    @Override
+    public String getValue() {
+        return getText();
+    }
+
+    @Override
+    public Object fill(LinkedHashMap<String, Object> values) {
+
+        Iterator<E> elementsIterator = getElements().iterator();
+
+        values.entrySet().stream().forEach(entry -> {
+
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    E element = elementsIterator.next();
+                    String oldName = element.getName();
+                    element.withName(key);
+
+                    if (value instanceof LinkedHashMap) {
+                        element.fill((LinkedHashMap) value);
+                    } else {
+                        element.setValue(value);
+                    }
+                    element.withName(oldName);
+                }
+        );
+        return null;
+    }
+
+    @Override
+    public Object setValue(Object values) {
+        if (values instanceof Iterable) {
+
+            Iterator valueIterator = ((Iterable) values).iterator();
+            Iterator<E> elementsIterator = iterator();
+
+            while (valueIterator.hasNext()) {
+                E element = elementsIterator.next();
+                element.setValue(valueIterator.next());
+            }
+        } else {
+            getFirst().setValue(values);
+        }
+        return null;
     }
 }

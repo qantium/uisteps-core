@@ -88,6 +88,8 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * <li>com.qantium.uisteps.core.storage.dir</li>
  * <li>retry.attempts</li>
  * <li>retry.withDelay</li>
+ * <li>element.decorator.use</li>
+ * <li>element.decorator.border<</li>
  * </ul>
  *
  * @author Anton Solyankin
@@ -284,7 +286,10 @@ public enum UIStepsProperty implements IUIStepsProperty {
     /**
      * Set "retry.withDelay" to specify withDelay time before retry test in milliseconds
      */
-    RETRY_DELAY("0");
+    RETRY_DELAY("0"),
+
+    ELEMENT_DECORATOR_USE(Boolean.FALSE.toString()),
+    ELEMENT_DECORATOR_BORDER("2px solid red");
 
     private final String defaultValue;
 

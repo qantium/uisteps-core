@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
  */
 public class Table<R extends Table.Row> extends UIElement {
 
-
     private final Class<R> row;
     private By cellLocator;
     private By rowLocator;
@@ -26,6 +25,11 @@ public class Table<R extends Table.Row> extends UIElement {
     public Table<R> setRowLocator(By rowLocator) {
         this.rowLocator = rowLocator;
         return this;
+    }
+
+    @Override
+    public String getValue() {
+        return getRows().getText();
     }
 
     public UIElements<R> getRows() {

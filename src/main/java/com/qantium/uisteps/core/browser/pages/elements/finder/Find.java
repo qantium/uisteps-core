@@ -14,25 +14,25 @@ public enum Find {
         @Override
         public String get(UIElement element, String attribute) {
             verifyIsNotEmpty(attribute);
-            return element.getWrappedElement().getAttribute(attribute);
+            return element.getAttribute(attribute);
         }
     }, CSS {
         @Override
         public String get(UIElement element, String attribute) {
             verifyIsNotEmpty(attribute);
-            return element.getWrappedElement().getCssValue(attribute);
+            return element.getCSSProperty(attribute);
         }
     }, TEXT {
         @Override
         public String get(UIElement element, String attribute) {
             verifyIsEmpty(attribute);
-            return element.getWrappedElement().getText();
+            return element.getText();
         }
     }, HTML {
         @Override
         public String get(UIElement element, String attribute) {
             verifyIsEmpty(attribute);
-            return element.getWrappedElement().getAttribute("innerHtml");
+            return element.getHtml();
         }
     };
 

@@ -17,12 +17,11 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 /**
  * @author ASolyankin
  */
 @NotInit
-public class CheckBox extends UIElement implements Fillable {
+public class CheckBox extends UIElement {
 
     public Object select() {
         return inOpenedBrowser().select(this);
