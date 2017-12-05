@@ -260,24 +260,27 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public String getText(String separator) {
+
         StringBuffer text = new StringBuffer();
         boolean first = true;
 
-        for (E element : getElements()) {
+        for (Object value : getValue()) {
             if (first) {
                 first = false;
             } else {
                 text.append(separator);
             }
-            text.append(element.getText());
+            text.append(value);
         }
 
         return text.toString();
     }
 
     @Override
-    public String getValue() {
-        return getText();
+    public List<Object> getValue() {
+        List<Object> values = new ArrayList<>();
+        getElements().stream().forEach((element) -> values.add(element.getValue()));
+        return values;
     }
 
     @Override
@@ -313,8 +316,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             Iterator<E> elementsIterator = iterator();
 
             while (valueIterator.hasNext()) {
-                E element = elementsIterator.next();
-                element.setValue(valueIterator.next());
+                try {
+                    elementsIterator.next().setValue(valueIterator.next());
+                } catch (NoSuchElementException ex) {
+                    throw new IllegalArgumentException("The size of UIElements '" + this + "' less then size of values " + values);
+                }
             }
         } else {
             getFirst().setValue(values);

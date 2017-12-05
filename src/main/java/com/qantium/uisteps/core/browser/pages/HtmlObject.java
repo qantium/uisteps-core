@@ -26,10 +26,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -39,6 +36,18 @@ import java.util.function.Supplier;
 public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
 
     private MemberCollector fieldCollector;
+
+    public Object fill(String key, Object... values) {
+        LinkedHashMap<String, Object> valueMap = new LinkedHashMap<>();
+        if(values == null || values.length == 0) {
+            valueMap.put(key, null);
+        } else if(values.length == 1) {
+            valueMap.put(key, values[0]);
+        } else {
+            valueMap.put(key, Arrays.asList(values));
+        }
+        return fill(valueMap);
+    }
 
     public Object fill(LinkedHashMap<String, Object> values) {
 
@@ -52,8 +61,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
                         throw new NoSuchElementException(this + " does not contain element with name " + key);
                     }
 
-                    AccessibleObject member = members.get(key).remove();
-                    member.setAccessible(true);
+                    AccessibleObject member = members.get(key).peek();
                     HtmlObject htmlObject = getHtmlObjectFrom(member);
 
                     if (value instanceof LinkedHashMap) {
@@ -64,6 +72,42 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
                 }
         );
         return null;
+    }
+
+    public List<Object> getValue(String key) {
+        return getValue(Arrays.asList(key)).get(key);
+    }
+
+    public LinkedHashMap<String, List<Object>> getValue(List<String> keys) {
+        HashMap<String, Queue<AccessibleObject>> members = new HashMap<>(getFieldCollector().getMembers());
+        LinkedHashMap<String, List<Object>> values = new LinkedHashMap<>();
+
+        keys.stream().forEach(key -> {
+            if (members.containsKey(key)) {
+
+                members.get(key).forEach((member) -> {
+
+                    HtmlObject htmlObject = getHtmlObjectFrom(member);
+
+                    List<Object> valueList;
+                    if (values.containsKey(key)) {
+                        valueList = values.get(key);
+                    } else {
+                        valueList = new ArrayList<>();
+                        values.put(key, valueList);
+                    }
+                    Object value = htmlObject.getValue();
+                    valueList.add(value);
+
+
+                });
+
+            } else {
+                throw new NoSuchElementException(this + " does not contain element with name " + key);
+            }
+        });
+
+        return values;
     }
 
     abstract Object setValue(Object value);
@@ -81,6 +125,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     private HtmlObject getHtmlObjectFrom(AccessibleObject member) {
         try {
+            member.setAccessible(true);
             if (member instanceof Field) {
                 Field field = (Field) member;
                 return (HtmlObject) field.get(this);

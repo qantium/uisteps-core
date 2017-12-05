@@ -9,7 +9,7 @@ import java.util.*;
 public class MemberCollector {
 
     private final HtmlObject uiObject;
-    private Map<String, Queue<AccessibleObject>> members;
+    private HashMap<String, Queue<AccessibleObject>> members;
 
     public MemberCollector(HtmlObject uiObject) {
         this.uiObject = uiObject;
@@ -20,6 +20,7 @@ public class MemberCollector {
             members = new HashMap<>();
             collectMembers(uiObject.getClass());
         }
+
         return members;
     }
 

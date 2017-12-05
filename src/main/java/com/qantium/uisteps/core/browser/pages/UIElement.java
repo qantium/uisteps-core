@@ -4,6 +4,7 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.finder.FinderGet;
 import com.qantium.uisteps.core.screenshots.Screenshot;
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -86,6 +87,10 @@ public class UIElement extends HtmlObject implements WrapsElement {
                     wrappedElement = elements.get(contextListIndex);
                 }
             } else {
+                if(ArrayUtils.isEmpty(locators)) {
+                    throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
+                }
+
                 Iterator<By> iterator = Arrays.asList(locators).iterator();
 
                 while (iterator.hasNext()) {
@@ -98,7 +103,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
                         }
                     }
                 }
-                throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
             }
         }
 

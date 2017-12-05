@@ -113,7 +113,7 @@ public class Select extends UIElement {
     }
 
     public enum By {
-        VALUE, VISIBLE_VALUE, INDEX;
+        VALUE, VISIBLE_VALUE, INDEX
     }
 
     public boolean isEnabled() {
