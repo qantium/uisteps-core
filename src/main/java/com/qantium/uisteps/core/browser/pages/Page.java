@@ -96,7 +96,7 @@ public class Page extends HtmlObject {
     }
 
     @Override
-    public List<WebElement> getValue() throws UnsupportedOperationException {
+    public List<WebElement> getContent() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Pages do not support getValue method");
     }
 }

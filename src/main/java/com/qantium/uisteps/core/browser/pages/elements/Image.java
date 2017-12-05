@@ -41,7 +41,7 @@ public class Image extends UIElement {
     }
 
     @Override
-    public String getValue() {
+    public String getContent() {
         return getSource();
     }
 }

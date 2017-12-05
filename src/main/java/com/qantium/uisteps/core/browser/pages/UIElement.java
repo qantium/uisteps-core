@@ -44,7 +44,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
         if(value == null) {
             inOpenedBrowser().click(this);
         } else {

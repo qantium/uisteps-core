@@ -289,7 +289,7 @@ public enum UIStepsProperty implements IUIStepsProperty {
     RETRY_DELAY("0"),
 
     ELEMENT_DECORATOR_USE(Boolean.FALSE.toString()),
-    ELEMENT_DECORATOR_BORDER("2px solid red");
+    ELEMENT_DECORATOR_STYLE("border: 2px solid red");
 
     private final String defaultValue;
 

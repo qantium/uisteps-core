@@ -29,9 +29,4 @@ public class Button extends UIElement {
         return getWrappedElement().isEnabled();
     }
 
-    @Override
-    public String getValue() {
-        return getText();
-    }
-
 }

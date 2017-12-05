@@ -99,7 +99,7 @@ public class Select extends UIElement {
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
         try {
             return selectByIndex((Integer) value);
         } catch (Exception ex) {
@@ -108,7 +108,7 @@ public class Select extends UIElement {
     }
 
     @Override
-    public List<WebElement> getValue() {
+    public List<WebElement> getContent() {
         return getAllSelectedOptions();
     }
 

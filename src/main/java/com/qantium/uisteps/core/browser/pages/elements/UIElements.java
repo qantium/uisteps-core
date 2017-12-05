@@ -264,7 +264,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         StringBuffer text = new StringBuffer();
         boolean first = true;
 
-        for (Object value : getValue()) {
+        for (Object value : getContent()) {
             if (first) {
                 first = false;
             } else {
@@ -277,14 +277,14 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public List<Object> getValue() {
+    public List<Object> getContent() {
         List<Object> values = new ArrayList<>();
-        getElements().stream().forEach((element) -> values.add(element.getValue()));
+        getElements().stream().forEach((element) -> values.add(element.getContent()));
         return values;
     }
 
     @Override
-    public Object fill(LinkedHashMap<String, Object> values) {
+    protected Object setValue(LinkedHashMap<String, Object> values) {
 
         Iterator<E> elementsIterator = getElements().iterator();
 
@@ -297,10 +297,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                     String oldName = element.getName();
                     element.withName(key);
 
-                    if (value instanceof LinkedHashMap) {
-                        element.fill((LinkedHashMap) value);
+                    if (value instanceof Iterable) {
+                        setContent(value);
                     } else {
-                        element.setValue(value);
+                        element.setContent(value);
                     }
                     element.withName(oldName);
                 }
@@ -309,7 +309,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public Object setValue(Object values) {
+    protected Object setValue(Object values) {
         if (values instanceof Iterable) {
 
             Iterator valueIterator = ((Iterable) values).iterator();
@@ -317,13 +317,13 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
             while (valueIterator.hasNext()) {
                 try {
-                    elementsIterator.next().setValue(valueIterator.next());
+                    elementsIterator.next().setContent(valueIterator.next());
                 } catch (NoSuchElementException ex) {
                     throw new IllegalArgumentException("The size of UIElements '" + this + "' less then size of values " + values);
                 }
             }
         } else {
-            getFirst().setValue(values);
+            getFirst().setContent(values);
         }
         return null;
     }

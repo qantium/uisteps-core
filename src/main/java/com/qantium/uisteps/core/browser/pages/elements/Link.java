@@ -13,9 +13,4 @@ public class Link extends UIElement {
     public String getReference() {
         return getWrappedElement().getAttribute("href");
     }
-
-    @Override
-    public String getValue() {
-        return getReference();
-    }
 }

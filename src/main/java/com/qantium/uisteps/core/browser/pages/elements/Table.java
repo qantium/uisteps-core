@@ -3,6 +3,8 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.By;
 
+import java.util.List;
+
 /**
  * Created by Anton Solyankin
  */
@@ -28,8 +30,8 @@ public class Table<R extends Table.Row> extends UIElement {
     }
 
     @Override
-    public String getValue() {
-        return getRows().getText();
+    public List<Object>  getContent() {
+        return getRows().getContent();
     }
 
     public UIElements<R> getRows() {

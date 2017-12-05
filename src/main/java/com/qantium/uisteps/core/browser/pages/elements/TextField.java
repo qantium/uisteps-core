@@ -46,8 +46,7 @@ public class TextField extends UIElement {
     }
 
     @Override
-    public Object setValue(Object value) {
-
+    protected Object setValue(Object value) {
         if (value == null) {
             return clear();
         }
@@ -59,10 +58,5 @@ public class TextField extends UIElement {
         } else {
             return enter(text);
         }
-    }
-
-    @Override
-    public String getValue() {
-        return getText();
     }
 }

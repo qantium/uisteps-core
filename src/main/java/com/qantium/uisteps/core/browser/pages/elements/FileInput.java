@@ -41,12 +41,7 @@ public class FileInput extends UIElement {
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
         return setFileToUpload(value.toString());
-    }
-
-    @Override
-    public String getValue() {
-        return getText();
     }
 }

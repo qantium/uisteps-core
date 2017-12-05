@@ -48,7 +48,7 @@ public class CheckBox extends UIElement {
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
 
         if(value == null) {
             throw new NullPointerException("Cannot set null value to " + this);
@@ -62,7 +62,7 @@ public class CheckBox extends UIElement {
     }
 
     @Override
-    public Boolean getValue() {
+    public Boolean getContent() {
         return isSelected();
     }
 }
