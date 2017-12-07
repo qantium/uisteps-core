@@ -36,10 +36,6 @@ public class FileInput extends UIElement {
         return null;
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     @Override
     protected Object setValue(Object value) {
         return setFileToUpload(value.toString());

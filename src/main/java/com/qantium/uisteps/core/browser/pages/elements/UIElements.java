@@ -117,6 +117,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                     elements.add(uiElement);
                     uiElement.setContextList(this);
                     uiElement.setContextListIndex(index++);
+                    uiElement.withName(uiElement.getContent().toString());
                 }
             } catch (Exception ex) {
                 if (!iterator.hasNext() && elements.isEmpty()) {

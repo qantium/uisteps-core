@@ -41,10 +41,6 @@ public class TextField extends UIElement {
         return null;
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     @Override
     protected Object setValue(Object value) {
         if (value == null) {

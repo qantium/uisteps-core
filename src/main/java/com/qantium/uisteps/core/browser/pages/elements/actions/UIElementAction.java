@@ -9,14 +9,13 @@ import com.qantium.uisteps.core.name.NameConverter;
  */
 public abstract class UIElementAction<T, E extends UIElement> extends Action<T> {
 
-    private final E uiElement;
+    protected final E uiElement;
 
     public UIElementAction(E uiElement) {
         super(uiElement.getTimeout(), uiElement.getPollingTime(), uiElement.getDelay());
         this.uiElement = uiElement;
     }
 
-    @Override
     protected E getUIObject() {
         return uiElement;
     }
@@ -24,7 +23,7 @@ public abstract class UIElementAction<T, E extends UIElement> extends Action<T> 
     @Override
     protected ActionException errorHandler(Exception ex) {
         try {
-            new ScrollTo(getUIObject()).perform();
+            getUIObject().scrollWindowTo();
         } catch (Exception e) {
         }
         return super.errorHandler(ex);

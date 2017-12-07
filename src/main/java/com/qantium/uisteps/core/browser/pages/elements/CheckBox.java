@@ -31,12 +31,8 @@ public class CheckBox extends UIElement {
         return inOpenedBrowser().deselect(this);
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     public boolean isSelected() {
-        return getWrappedElement().isSelected();
+        return inOpenedBrowser().isSelected(this);
     }
 
     public Object select(boolean flag) {

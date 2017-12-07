@@ -18,6 +18,8 @@ package com.qantium.uisteps.core.browser.pages;
 import com.google.gson.Gson;
 import com.qantium.uisteps.core.browser.*;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
+import com.qantium.uisteps.core.browser.pages.elements.actions.UIElementActions;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.io.Charsets;
@@ -339,5 +341,4 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     protected <T extends UIObject> HtmlObject getChildContext() {
         return this;
     }
-
 }

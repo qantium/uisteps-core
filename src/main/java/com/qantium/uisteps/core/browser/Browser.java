@@ -21,7 +21,7 @@ import com.qantium.net.rest.RestApiRequest;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.*;
 import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
-import com.qantium.uisteps.core.browser.pages.elements.actions.*;
+import com.qantium.uisteps.core.browser.pages.elements.actions.CheckBoxSelect;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -37,7 +37,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.security.Credentials;
@@ -50,6 +49,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static com.qantium.uisteps.core.properties.UIStepsProperty.NULL_VALUE;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -261,7 +261,7 @@ public class Browser implements IBrowser {
 
     @Override
     public void closeWindow() {
-        if(getWindowManager().getCountOfWindows() < 2) {
+        if (getWindowManager().getCountOfWindows() < 2) {
             close();
         } else {
             getWindowManager().closeWindow();
@@ -387,149 +387,172 @@ public class Browser implements IBrowser {
         return getDriver().manage().getCookies();
     }
 
-    private Actions getActions() {
-        return new Actions(getDriver());
-    }
-
     //Elements
     @Override
     public void click() {
-        getActions().click().perform();
+        perform(actions -> actions.click());
     }
 
     @Override
     public void clickAndHold() {
-        getActions().clickAndHold().perform();
+        perform(actions -> actions.clickAndHold());
     }
 
     @Override
     public void clickAndHold(UIElement element) {
-        getActions().clickAndHold(element.getWrappedElement()).perform();
+        perform(actions -> actions.clickAndHold(element.getWrappedElement()));
     }
 
     @Override
     public void doubleClick() {
-        getActions().doubleClick().perform();
+        perform(actions -> actions.doubleClick());
     }
 
     @Override
     public void doubleClick(UIElement element) {
-        getActions().doubleClick(element.getWrappedElement()).perform();
+        perform(element, actions -> actions.doubleClick(element.getWrappedElement()));
     }
 
     @Override
     public void contextClick() {
-        getActions().contextClick().perform();
+        perform(actions -> actions.contextClick());
     }
 
     @Override
     public void contextClick(UIElement element) {
-        getActions().contextClick(element.getWrappedElement()).perform();
+        perform(element, actions -> actions.contextClick(element.getWrappedElement()));
     }
 
     @Override
     public void releaseMouse() {
-        getActions().release().perform();
+        perform(actions -> actions.release());
     }
 
     @Override
     public void releaseMouse(UIElement element) {
-        getActions().release(element.getWrappedElement()).perform();
+        perform(element, actions -> actions.release(element.getWrappedElement()));
     }
 
     @Override
     public void dragAndDrop(UIElement source, UIElement target) {
-        getActions().dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform();
+        perform(source, actions -> actions.dragAndDrop(source.getWrappedElement(), target.getWrappedElement()));
     }
 
     public void dragAndDrop(UIElement element, int xOffset, int yOffset) {
-        getActions().dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform();
+        perform(element, actions -> actions.dragAndDropBy(element.getWrappedElement(), xOffset, yOffset));
     }
 
     @Override
     public void keyDown(Keys theKey) {
-        getActions().keyDown(theKey).perform();
+        perform(actions -> actions.keyDown(theKey));
     }
 
     @Override
     public void keyDown(UIElement element, Keys theKey) {
-        getActions().keyDown(element.getWrappedElement(), theKey).perform();
+        perform(element, actions -> actions.keyDown(element.getWrappedElement(), theKey));
     }
 
     @Override
     public void keyUp(Keys theKey) {
-        getActions().keyUp(theKey).perform();
+        perform(actions -> actions.keyUp(theKey));
     }
 
     @Override
     public void keyUp(UIElement element, Keys theKey) {
-        getActions().keyUp(element.getWrappedElement(), theKey).perform();
+        perform(element, actions -> actions.keyUp(element.getWrappedElement(), theKey));
     }
 
     @Override
     public void click(UIElement element) {
-        new Click(element).perform();
+        perform(element, actions -> actions.click(element.getWrappedElement()));
     }
 
     @Override
     public void clickOnPoint(UIElement element, int x, int y) {
-        getActions().moveToElement(element.getWrappedElement(), x, y).click().build().perform();
+        perform(element, actions -> actions.moveToElement(element.getWrappedElement(), x, y).click());
     }
 
     @Override
     public void moveMouseByOffset(int xOffset, int yOffset) {
-        getActions().moveByOffset(xOffset, yOffset).perform();
+        perform(actions -> actions.moveByOffset(xOffset, yOffset));
     }
 
     @Override
     public void moveMouseOver(UIElement element, int xOffset, int yOffset) {
-        getActions().moveToElement(element.getWrappedElement(), xOffset, yOffset).perform();
+        perform(element, actions -> actions.moveToElement(element.getWrappedElement(), xOffset, yOffset));
     }
 
     @Override
     public void moveMouseOver(UIElement element) {
-        getActions().moveToElement(element.getWrappedElement()).perform();
+        perform(element, actions -> actions.moveToElement(element.getWrappedElement()));
     }
 
     @Override
     public void typeInto(TextField input, Object text) {
-        new TypeInto(input, text).perform();
+        perform(input, () -> {
+            WebElement webElement = input.getWrappedElement();
+            String keys = text == null ? NULL_VALUE.getValue() : text.toString();
+
+            if (!NULL_VALUE.getValue().equals(keys)) {
+                webElement.sendKeys(keys);
+            }
+            return null;
+        });
     }
 
     @Override
     public void sendKeys(UIElement element, CharSequence... keysToSend) {
-        new SendKeys(element, keysToSend);
+        perform(element, () -> {
+            CharSequence[] keys = keysToSend == null ? new CharSequence[0] : keysToSend;
+            if (ArrayUtils.isNotEmpty(keys)) {
+                WebElement webElement = element.getWrappedElement();
+                webElement.sendKeys(keys);
+            }
+            return null;
+        });
     }
 
     @Override
     public void clear(TextField input) {
-        new Clear(input).perform();
+        perform(input, () -> {
+            input.getWrappedElement().clear();
+            return null;
+        });
     }
 
     @Override
     public void enterInto(TextField input, Object text) {
-        new EnterInto(input, text).perform();
+        if (text != null && !NULL_VALUE.getValue().equals(text.toString())) {
+            clear(input);
+        }
+        typeInto(input, text);
     }
 
     //Tags
     @Override
     public String getTagNameOf(UIElement element) {
-        return element.getWrappedElement().getTagName();
+        return (String) perform(element, () -> element.getWrappedElement().getTagName());
     }
 
     @Override
     public String getAttribute(UIElement element, String attribute) {
-        return new GetAttributeFrom(element, attribute).perform();
+        return (String) perform(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return wrappedElement.getAttribute(attribute);
+        });
     }
 
     @Override
     public String getCSSPropertyOf(UIElement element, String cssProperty) {
-        return new GetCSSPropertyFrom(element, cssProperty).perform();
+        return (String) perform(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return wrappedElement.getCssValue(cssProperty);
+        });
     }
 
     @Override
     public String getHtmlOf(UIElement element) {
-        return new GetHtmlFrom(element).perform();
+        return getAttribute(element, "innerHtml");
     }
 
     @Override
@@ -575,9 +598,30 @@ public class Browser implements IBrowser {
         return element.getWrappedElement().getSize();
     }
 
+
     @Override
     public String getTextFrom(UIElement element) {
-        return new GetTextFrom(element).perform();
+        return (String) perform(element, () -> {
+
+            WebElement wrappedElement = element.getWrappedElement();
+            if ("input".equals(wrappedElement.getTagName())) {
+                String enteredText = wrappedElement.getAttribute("value");
+                return enteredText == null ? "" : enteredText;
+            } else {
+                return wrappedElement.getText();
+            }
+
+        });
+    }
+
+    @Override
+    public boolean isSelected(UIElement element) {
+        return (boolean) perform(element, () -> element.getWrappedElement().isSelected());
+    }
+
+    @Override
+    public boolean isEnabled(UIElement element) {
+        return (boolean) perform(element, () -> element.getWrappedElement().isEnabled());
     }
 
     //Select
@@ -588,12 +632,20 @@ public class Browser implements IBrowser {
 
     @Override
     public void deselectAllValuesFrom(Select select) {
-        select.getWrappedSelect().deselectAll();
+        select.deselectAll();
     }
 
     @Override
     public void deselect(Option option) {
         option.deselect();
+    }
+
+    @Override
+    public boolean isMultiple(Select select) {
+        return (boolean) perform(select, () -> {
+            String value = getAttribute(select, "multiple");
+            return value != null && !"false".equals(value);
+        });
     }
 
     //Radio button
@@ -604,18 +656,19 @@ public class Browser implements IBrowser {
     //CheckBox
 
     @Override
-    public boolean select(CheckBox checkBox, boolean select) {
-        return new CheckBoxSelect(checkBox).perform(select);
-    }
-
-    @Override
     public boolean select(CheckBox checkBox) {
         return select(checkBox, true);
     }
 
+
     @Override
     public boolean deselect(CheckBox checkBox) {
         return select(checkBox, false);
+    }
+
+    @Override
+    public boolean select(CheckBox checkBox, boolean select) {
+        return new CheckBoxSelect(checkBox).perform(select);
     }
 
     //Scroll window
@@ -626,7 +679,10 @@ public class Browser implements IBrowser {
 
     @Override
     public void scrollWindowToTarget(UIElement element) {
-        new ScrollTo(element).perform();
+        perform(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return element.inOpenedBrowser().executeScript("arguments[0].scrollIntoView();", wrappedElement);
+        });
     }
 
     @Override
@@ -679,11 +735,10 @@ public class Browser implements IBrowser {
 
     @Override
     public void scroll(UIElement scroll, int x, int y) {
-        getActions()
+        perform(scroll, actions -> actions
                 .clickAndHold(scroll.getWrappedElement())
                 .moveByOffset(x, y)
-                .release()
-                .perform();
+                .release());
     }
 
 

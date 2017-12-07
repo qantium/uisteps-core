@@ -34,6 +34,12 @@ public enum Find {
             verifyIsEmpty(attribute);
             return element.getHtml();
         }
+    }, TAG_NAME {
+        @Override
+        public String get(UIElement element, String attribute) {
+            verifyIsEmpty(attribute);
+            return element.getTagName();
+        }
     };
 
     protected void verifyIsNotEmpty(String attribute) {

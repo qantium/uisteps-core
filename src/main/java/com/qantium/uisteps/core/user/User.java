@@ -38,7 +38,7 @@ import java.util.function.Supplier;
 /**
  * @author Anton Solyankin
  */
-public class User implements BrowserActions, IBrowserManager {
+public class User implements DriverActions, IBrowserManager {
 
     private final IBrowserManager browserManager;
     private final Storage storage;

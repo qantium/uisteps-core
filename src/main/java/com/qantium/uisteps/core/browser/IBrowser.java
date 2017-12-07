@@ -2,6 +2,9 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.*;
+import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
+import com.qantium.uisteps.core.browser.pages.elements.actions.UIElementActions;
+import com.qantium.uisteps.core.browser.pages.elements.actions.ActionExecutor;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -18,7 +21,7 @@ import java.net.URL;
 /**
  * Created by Anton Solyankin
  */
-public interface IBrowser extends BrowserActions, SearchContext, Named {
+public interface IBrowser extends DriverActions, SearchContext, Named {
 
     BrowserMobProxyServer getProxy();
 
@@ -53,6 +56,20 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void keyUp(UIElement element, Keys theKey);
 
+    default void keyPress(UIElement element, Keys theKey) {
+        keyDown(element, theKey);
+        keyUp(element, theKey);
+    }
+
+    void keyDown(Keys theKey);
+
+    void keyUp(Keys theKey);
+
+    default void keyPress(Keys theKey) {
+        keyDown(theKey);
+        keyUp(theKey);
+    }
+
     void click(UIElement element);
 
     void clickOnPoint(UIElement element, int x, int y);
@@ -67,7 +84,7 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void clear(TextField input);
 
-     void enterInto(TextField input, Object text);
+    void enterInto(TextField input, Object text);
 
     String getTagNameOf(UIElement element);
 
@@ -89,12 +106,18 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     String getTextFrom(UIElement input);
 
+    boolean isSelected(UIElement element);
+
+    boolean isEnabled(UIElement element);
+
     //Select
     void select(Select.Option option);
 
     void deselectAllValuesFrom(Select select);
 
     void deselect(Select.Option option);
+
+    boolean isMultiple(Select select);
 
     //Radio button
     boolean select(RadioButton button);
@@ -138,4 +161,15 @@ public interface IBrowser extends BrowserActions, SearchContext, Named {
 
     void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password);
 
+    default void perform(BrowserActions actions) {
+        actions.perform(this);
+    }
+
+    default void perform(UIElement element, UIElementActions actions) {
+        actions.perform(element);
+    }
+
+    default Object perform(UIElement element, ActionExecutor action) {
+        return action.perform(element);
+    }
 }

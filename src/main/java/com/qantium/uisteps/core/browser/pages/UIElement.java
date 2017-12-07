@@ -45,7 +45,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     protected Object setValue(Object value) {
-        if(value == null) {
+        if (value == null) {
             inOpenedBrowser().click(this);
         } else {
             inOpenedBrowser().sendKeys(this, value.toString());
@@ -87,7 +87,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
                     wrappedElement = elements.get(contextListIndex);
                 }
             } else {
-                if(ArrayUtils.isEmpty(locators)) {
+                if (ArrayUtils.isEmpty(locators)) {
                     throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
                 }
 
@@ -394,4 +394,9 @@ public class UIElement extends HtmlObject implements WrapsElement {
             return false;
         }
     }
+
+    public boolean isEnabled() {
+        return inOpenedBrowser().isEnabled(this);
+    }
+
 }

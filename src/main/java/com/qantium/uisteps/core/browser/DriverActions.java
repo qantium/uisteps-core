@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by Anton Solyankin
  */
-public interface BrowserActions extends IWindowManager, IThen, ScriptExecutor, IUIObjectFactory, ISearchContext, IPhotographer {
+public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IUIObjectFactory, ISearchContext, IPhotographer {
 
     WebDriver getDriver();
 
