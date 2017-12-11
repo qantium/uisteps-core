@@ -32,7 +32,7 @@ import java.util.List;
  */
 @NotInit
 @FindBy(tagName = "select")
-@Select.OptionsBy(@FindBy(css = ""))
+@Select.OptionsBy(@FindBy(css = "option"))
 public class Select extends UIElement {
 
     private By[] optionsLocator = {By.tagName("option")};
