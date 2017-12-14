@@ -17,7 +17,6 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -25,11 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  * @author Anton Solyankin
  */
 @NotInit
-public class TextField extends UIElement implements Fillable {
-
-    public Object sendKeys(Object keys) {
-        return type(keys);
-    }
+public class TextField extends UIElement {
 
     public Object type(Object keys) {
         inOpenedBrowser().typeInto(this, keys);
@@ -46,13 +41,8 @@ public class TextField extends UIElement implements Fillable {
         return null;
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     @Override
-    public Object setValue(Object value) {
-
+    protected Object setValue(Object value) {
         if (value == null) {
             return clear();
         }
@@ -64,10 +54,5 @@ public class TextField extends UIElement implements Fillable {
         } else {
             return enter(text);
         }
-    }
-
-    @Override
-    public Object getValue() {
-        return getText();
     }
 }

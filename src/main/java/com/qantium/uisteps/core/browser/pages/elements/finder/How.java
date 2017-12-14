@@ -44,6 +44,7 @@ public enum How {
 
     private boolean ignoreCase;
 
+
     public How ignoringCase() {
         return ignoreCase(true);
     }

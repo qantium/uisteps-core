@@ -54,7 +54,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this(elementType);
         this.elements = elements;
 
-        if(initContext) {
+        if (initContext) {
             for (int index = 0; index < this.elements.size(); index++) {
                 E element = this.elements.get(index);
                 element.setContextList(this);
@@ -117,6 +117,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                     elements.add(uiElement);
                     uiElement.setContextList(this);
                     uiElement.setContextListIndex(index++);
+                    uiElement.withName(uiElement.getContent().toString());
                 }
             } catch (Exception ex) {
                 if (!iterator.hasNext() && elements.isEmpty()) {
@@ -252,5 +253,79 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     public WebElement getWrappedElement() {
         throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
+    @Override
+    public String getText() {
+        return getText("");
+    }
+
+    public String getText(String separator) {
+
+        StringBuffer text = new StringBuffer();
+        boolean first = true;
+
+        for (Object value : getContent()) {
+            if (first) {
+                first = false;
+            } else {
+                text.append(separator);
+            }
+            text.append(value);
+        }
+
+        return text.toString();
+    }
+
+    @Override
+    public List<Object> getContent() {
+        List<Object> values = new ArrayList<>();
+        getElements().stream().forEach((element) -> values.add(element.getContent()));
+        return values;
+    }
+
+    @Override
+    protected Object setValue(LinkedHashMap<String, Object> values) {
+
+        Iterator<E> elementsIterator = getElements().iterator();
+
+        values.entrySet().stream().forEach(entry -> {
+
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    E element = elementsIterator.next();
+                    String oldName = element.getName();
+                    element.withName(key);
+
+                    if (value instanceof Iterable) {
+                        setContent(value);
+                    } else {
+                        element.setContent(value);
+                    }
+                    element.withName(oldName);
+                }
+        );
+        return null;
+    }
+
+    @Override
+    protected Object setValue(Object values) {
+        if (values instanceof Iterable) {
+
+            Iterator valueIterator = ((Iterable) values).iterator();
+            Iterator<E> elementsIterator = iterator();
+
+            while (valueIterator.hasNext()) {
+                try {
+                    elementsIterator.next().setContent(valueIterator.next());
+                } catch (NoSuchElementException ex) {
+                    throw new IllegalArgumentException("The size of UIElements '" + this + "' less then size of values " + values);
+                }
+            }
+        } else {
+            getFirst().setContent(values);
+        }
+        return null;
     }
 }

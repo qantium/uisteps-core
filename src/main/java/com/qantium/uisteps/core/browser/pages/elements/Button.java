@@ -25,7 +25,4 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 @NotInit
 public class Button extends UIElement {
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
 }

@@ -14,22 +14,16 @@ public class CheckBoxSelect extends UIElementAction<Boolean, CheckBox> {
 
     @Override
     protected Boolean apply(Object... args) {
-        boolean select = (Boolean) args[0];
-
-        if(select) {
-            return select();
-        } else {
-            return deselect();
-        }
+        return (Boolean) args[0] ? select() : deselect();
     }
 
     private boolean select() {
-        if(!getUIObject().isSelected()) {
+        if(getUIObject().isSelected()) {
+            return false;
+        } else {
             WebElement wrappedElement = getUIObject().getWrappedElement();
             wrappedElement.click();
             return true;
-        } else {
-            return false;
         }
     }
 
@@ -43,8 +37,4 @@ public class CheckBoxSelect extends UIElementAction<Boolean, CheckBox> {
         }
     }
 
-    @Override
-    public String toString() {
-        return "select \"" + getUIObject() + "\"";
-    }
 }

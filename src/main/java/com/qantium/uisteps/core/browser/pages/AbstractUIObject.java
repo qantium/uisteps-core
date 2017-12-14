@@ -8,7 +8,6 @@ import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.then.Then;
 
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
-import static java.lang.Long.parseLong;
 import static org.codehaus.plexus.util.StringUtils.isEmpty;
 
 /**
@@ -20,9 +19,9 @@ public abstract class AbstractUIObject implements UIObject {
     private String name;
     private IBrowser browser;
     private final DisplayWaiting displayWaiting = new DisplayWaiting(this);
-    private long timeout = parseLong(WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getValue());
-    private long pollingTime = parseLong(WEBDRIVER_TIMEOUTS_POLLING.getValue());
-    private long delay = parseLong(WEBDRIVER_TIMEOUTS_DELAY.getValue());
+    private long timeout = WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getLongValue();
+    private long pollingTime = WEBDRIVER_TIMEOUTS_POLLING.getLongValue();
+    private long delay = WEBDRIVER_TIMEOUTS_DELAY.getLongValue();
 
     public <T extends AbstractUIObject> T immediately() {
         return withTimeout(0);

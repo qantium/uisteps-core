@@ -15,41 +15,77 @@
  */
 package com.qantium.uisteps.core.browser.pages.elements;
 
+import com.qantium.uisteps.core.browser.LocatorFactory;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
+import org.apache.commons.lang3.ArrayUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
+import java.lang.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author ASolyankin
  */
 @NotInit
-public class Select extends UIElement implements Fillable {
+@FindBy(tagName = "select")
+@Select.OptionsBy(@FindBy(css = "option"))
+public class Select extends UIElement {
 
-    public ru.yandex.qatools.htmlelements.element.Select getWrappedSelect() {
-        return new ru.yandex.qatools.htmlelements.element.Select(getWrappedElement());
+    private By[] optionsLocator = {By.tagName("option")};
+
+    public Select withOptionsLocator(By... optionsLocator) {
+        if (ArrayUtils.isEmpty(optionsLocator)) {
+            throw new IllegalArgumentException("Options locator list is empty");
+        }
+        this.optionsLocator = optionsLocator;
+        return this;
+    }
+
+    protected By[] getOptionsLocator() {
+        if (getClass().isAnnotationPresent(Select.OptionsBy.class)) {
+            FindBy[] selectOptionsBy = getClass().getAnnotation(OptionsBy.class).value();
+            List<By> locators = new ArrayList<>();
+            LocatorFactory locatorFactory = new LocatorFactory();
+
+            for (FindBy findBy : selectOptionsBy) {
+                locators.add(locatorFactory.getLocator(findBy));
+            }
+            optionsLocator = locators.toArray(new By[selectOptionsBy.length]);
+        }
+
+        return optionsLocator;
+    }
+
+    public Options getOptions() {
+        return get(Options.class, getOptionsLocator());
     }
 
     public boolean isMultiple() {
-        return getWrappedSelect().isMultiple();
+        return inOpenedBrowser().isMultiple(this);
     }
 
-    public List<WebElement> getOptions() {
-        return getWrappedSelect().getOptions();
-    }
-
+    @Override
     public List<WebElement> getAllSelectedOptions() {
         return getWrappedSelect().getAllSelectedOptions();
     }
 
+    @Override
     public WebElement getFirstSelectedOption() {
         return getWrappedSelect().getFirstSelectedOption();
     }
 
     public boolean hasSelectedOption() {
-        return getWrappedSelect().hasSelectedOption();
+        for (WebElement option : getOptions()) {
+            if (option.isSelected()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Object select(Option option) {
@@ -61,18 +97,22 @@ public class Select extends UIElement implements Fillable {
         return select(new Option(this, value, by));
     }
 
+    @Override
     public Object selectByIndex(int index) {
         return select(new Option(this, index));
     }
 
+    @Override
     public Object selectByValue(String value) {
         return select(value, By.VALUE);
     }
 
+    @Override
     public Object selectByVisibleText(String value) {
         return select(value, By.VISIBLE_VALUE);
     }
 
+    @Override
     public Object deselectAll() {
         inOpenedBrowser().deselectAllValuesFrom(this);
         return null;
@@ -87,20 +127,23 @@ public class Select extends UIElement implements Fillable {
         return deselect(new Option(this, value, by));
     }
 
+    @Override
     public Object deselectByIndex(int index) {
         return deselect(new Option(this, index));
     }
 
+    @Override
     public Object deselectByValue(String value) {
         return deselect(value, By.VALUE);
     }
 
+    @Override
     public Object deselectByVisibleText(String value) {
         return deselect(value, By.VISIBLE_VALUE);
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
         try {
             return selectByIndex((Integer) value);
         } catch (Exception ex) {
@@ -109,27 +152,33 @@ public class Select extends UIElement implements Fillable {
     }
 
     @Override
-    public List<WebElement> getValue() {
+    public List<WebElement> getContent() {
         return getAllSelectedOptions();
     }
 
-    public enum By {
-        VALUE, VISIBLE_VALUE, INDEX;
+//    public enum By {
+//        VALUE, VISIBLE_VALUE, INDEX
+//    }
+
+    @NotInit
+    public static class Options extends UIElements<Option> {
+
+        public Options() {
+            super(Option.class);
+        }
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
-    public class Option {
+    @NotInit
+    public static class Option extends Button {
 
         private String name = "option";
         private final Select select;
-        private final ru.yandex.qatools.htmlelements.element.Select wrappedSelect;
+        private final org.openqa.selenium.support.ui.Select wrappedSelect;
         private final String value;
         private final By by;
 
         public Option(Select select, String value, By by) {
+            getWrappedElement().getTagName()
             this.select = select;
             wrappedSelect = select.getWrappedSelect();
             this.value = value;
@@ -188,10 +237,6 @@ public class Select extends UIElement implements Fillable {
             return by;
         }
 
-        public String getValue() {
-            return value;
-        }
-
         public String getName() {
             return name;
         }
@@ -219,5 +264,12 @@ public class Select extends UIElement implements Fillable {
         public boolean isSelected() {
             return getWrappedElement().isSelected();
         }
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Inherited
+    public @interface OptionsBy {
+        FindBy[] value();
     }
 }

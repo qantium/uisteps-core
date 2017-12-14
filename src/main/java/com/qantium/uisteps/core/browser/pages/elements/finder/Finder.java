@@ -22,12 +22,20 @@ public class Finder<T, E extends UIElement> {
     protected How how;
     protected String[] values;
     protected String attribute;
+    private boolean initFinder;
+    private boolean not;
 
     public Finder(UIElements<E> elements) {
         this.elements = elements;
     }
 
-    private boolean initFinder;
+    public void not() {
+        not(true);
+    }
+
+    public void not(boolean not) {
+        this.not = not;
+    }
 
     public E get() {
 
@@ -46,7 +54,9 @@ public class Finder<T, E extends UIElement> {
             try {
                 for (E element : elements) {
                     for (String value : values) {
-                        if (how.isFound(by.get(element, attribute), value)) {
+                        boolean isFound = how.isFound(by.get(element, attribute), value);
+
+                        if ((!not && isFound) || (not && !isFound)) {
                             initFinder();
                             return element;
                         }
@@ -71,33 +81,6 @@ public class Finder<T, E extends UIElement> {
         }
     }
 
-//    public E get() {
-//        long startTime = System.currentTimeMillis();
-//        long timeDelta;
-//        sleep(elements.getDelay());
-//
-//        do {
-//            try {
-//                for (E element : elements) {
-//                    for (String value : values) {
-//                        if (how.isFound(by.get(element, attribute), value)) {
-//                            return element;
-//                        }
-//                    }
-//                }
-//            } catch (NoBrowserException | UnhandledAlertException ex) {
-//                throw ex;
-//            } catch (Exception ex) {
-//                sleep(elements.getPollingTime());
-//                elements.refresh();
-//            }
-//            long currentTime = System.currentTimeMillis();
-//            timeDelta = currentTime - startTime;
-//        } while (timeDelta <= elements.getTimeout());
-//
-//        throw new NoSuchElementException(getError());
-//    }
-
     private void sleep(long timeout) {
         try {
             Thread.sleep(timeout);
@@ -111,15 +94,19 @@ public class Finder<T, E extends UIElement> {
             get();
             return true;
         } catch (NoSuchElementException ex) {
-            return false;
+            return not;
         }
     }
 
     protected boolean waitUntilIsDisplayed() {
         try {
-            return get().isCurrentlyDisplayed();
+            if (not) {
+                return get().isNotCurrentlyDisplayed();
+            } else {
+                return get().isCurrentlyDisplayed();
+            }
         } catch (NoSuchElementException ex) {
-            return false;
+            return not;
         }
     }
 
@@ -128,7 +115,9 @@ public class Finder<T, E extends UIElement> {
 
         for (E element : elements) {
             for (String value : values) {
-                if (how.isFound(by.get(element, attribute), value)) {
+
+                boolean isFound = how.isFound(by.get(element, attribute), value);
+                if ((!not && isFound) || (not && !isFound)) {
                     found.add(element);
                 }
             }
@@ -137,7 +126,11 @@ public class Finder<T, E extends UIElement> {
     }
 
     public boolean allContains() {
-        return getAll().size() == elements.size();
+        if (not) {
+            return getAll().size() != elements.size();
+        } else {
+            return getAll().size() == elements.size();
+        }
     }
 
     public Finder<T, E> by(Find by) {

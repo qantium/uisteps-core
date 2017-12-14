@@ -1,5 +1,8 @@
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.pages.Page;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
+import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -15,7 +18,7 @@ public class WindowManager implements IWindowManager {
     /**
      * Index of available window
      */
-    private int currentWindowIndex;
+    private int currentWindowIndex = 0;
     private final WebDriver driver;
 
     public WindowManager(WebDriver driver) {
@@ -27,6 +30,18 @@ public class WindowManager implements IWindowManager {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("window.open()");
         switchToNextWindow();
+    }
+
+    @Override
+    public void closeWindow() {
+        driver.close();
+
+        if (hasPreviousWindow()) {
+            switchToPreviousWindow();
+        } else  {
+            currentWindowIndex--;
+            switchToNextWindow();
+        }
     }
 
     @Override
@@ -46,7 +61,17 @@ public class WindowManager implements IWindowManager {
 
     @Override
     public void switchToWindowByIndex(int index) throws NoWindowException, IndexOutOfBoundsException {
+        currentWindowIndex = index;
+
         Set<String> handles = driver.getWindowHandles();
+
+        long startTime = System.currentTimeMillis();
+        long timeout = UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getLongValue();
+        while (System.currentTimeMillis() - startTime <= timeout) {
+            if (!handles.isEmpty() && index >= 0 && index < handles.size()) {
+                break;
+            }
+        }
 
         if (handles.isEmpty()) {
             throw new NoWindowException();
@@ -57,7 +82,16 @@ public class WindowManager implements IWindowManager {
         }
 
         driver.switchTo().window((String) handles.toArray()[index]);
-        currentWindowIndex = index;
+        startTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - startTime <= timeout) {
+            if (((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete")) {
+                return;
+            }
+        }
+
+        throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
+
     }
 
     @Override

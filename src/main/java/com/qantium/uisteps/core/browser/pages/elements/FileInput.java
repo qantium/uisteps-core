@@ -17,38 +17,27 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit
-public class FileInput extends UIElement implements Fillable {
+public class FileInput extends UIElement {
 
     public ru.yandex.qatools.htmlelements.element.FileInput getWrappedFileInput() {
         return new ru.yandex.qatools.htmlelements.element.FileInput(getWrappedElement());
     }
 
     public Object setFileToUpload(String filePath) {
-        if(filePath == null) {
+        if (filePath == null) {
             throw new NullPointerException("Cannot set file with null path to " + this);
         }
         inOpenedBrowser().setFileToUpload(this, filePath);
         return null;
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
         return setFileToUpload(value.toString());
-    }
-
-    @Override
-    public Object getValue() {
-        return getText();
     }
 }

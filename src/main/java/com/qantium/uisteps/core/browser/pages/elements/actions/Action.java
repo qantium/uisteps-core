@@ -1,10 +1,10 @@
 package com.qantium.uisteps.core.browser.pages.elements.actions;
 
 import com.qantium.uisteps.core.browser.NoBrowserException;
-import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.UnhandledAlertException;
 
 import static com.qantium.uisteps.core.browser.wait.DisplayWaiting.startTime;
+import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
  * Created by Anton Solyankin
@@ -15,13 +15,20 @@ public abstract class Action<T> {
     private final long pollingTime;
     private final long delay;
 
+    public Action() {
+        this(
+                WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getLongValue(),
+                WEBDRIVER_TIMEOUTS_POLLING.getLongValue(),
+                WEBDRIVER_TIMEOUTS_DELAY.getLongValue()
+        );
+    }
+
     public Action(long timeout, long pollingTime, long delay) {
         this.timeout = timeout;
         this.pollingTime = pollingTime;
         this.delay = delay;
     }
 
-    protected abstract UIObject getUIObject();
 
     protected abstract T apply(Object... args);
 

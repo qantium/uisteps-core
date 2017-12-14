@@ -75,7 +75,6 @@ public class LocatorFactory {
         }
     }
 
-
     public By[] getLocators(FindBys findBys) {
 
         FindBy[] findBysValue = findBys.value();

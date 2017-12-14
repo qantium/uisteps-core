@@ -16,6 +16,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -88,5 +89,15 @@ public class Page extends HtmlObject {
     @Override
     public String getText() {
         return get(UIElement.class, By.tagName("body")).getText();
+    }
+
+    @Override
+    protected Object setValue(Object value) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Pages do not support setValue method");
+    }
+
+    @Override
+    public List<WebElement> getContent() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Pages do not support getValue method");
     }
 }

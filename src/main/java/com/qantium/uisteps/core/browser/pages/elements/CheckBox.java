@@ -17,12 +17,11 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.form.Fillable;
 /**
  * @author ASolyankin
  */
 @NotInit
-public class CheckBox extends UIElement implements Fillable {
+public class CheckBox extends UIElement {
 
     public Object select() {
         return inOpenedBrowser().select(this);
@@ -32,12 +31,8 @@ public class CheckBox extends UIElement implements Fillable {
         return inOpenedBrowser().deselect(this);
     }
 
-    public boolean isEnabled() {
-        return getWrappedElement().isEnabled();
-    }
-
     public boolean isSelected() {
-        return getWrappedElement().isSelected();
+        return inOpenedBrowser().isSelected(this);
     }
 
     public Object select(boolean flag) {
@@ -49,7 +44,7 @@ public class CheckBox extends UIElement implements Fillable {
     }
 
     @Override
-    public Object setValue(Object value) {
+    protected Object setValue(Object value) {
 
         if(value == null) {
             throw new NullPointerException("Cannot set null value to " + this);
@@ -63,7 +58,7 @@ public class CheckBox extends UIElement implements Fillable {
     }
 
     @Override
-    public Boolean getValue() {
+    public Boolean getContent() {
         return isSelected();
     }
 }

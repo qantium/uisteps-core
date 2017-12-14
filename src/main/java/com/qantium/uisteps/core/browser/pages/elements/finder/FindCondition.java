@@ -31,6 +31,10 @@ public class FindCondition<T, E extends UIElement> {
         return getFinder().by(ATTRIBUTE).attribute(attribute).values(values).find();
     }
 
+    public T tagName(String attribute, String... values) {
+        return getFinder().by(TAG_NAME).attribute(attribute).values(values).find();
+    }
+
     public Finder<T, E> getFinder() {
         return how.getFinder();
     }

@@ -11,6 +11,6 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 public class Link extends UIElement {
 
     public String getReference() {
-        return getWrappedElement().getAttribute("href");
+        return inOpenedBrowser().getAttribute(this, "href");
     }
 }

@@ -3,11 +3,12 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.By;
 
+import java.util.List;
+
 /**
  * Created by Anton Solyankin
  */
 public class Table<R extends Table.Row> extends UIElement {
-
 
     private final Class<R> row;
     private By cellLocator;
@@ -28,17 +29,37 @@ public class Table<R extends Table.Row> extends UIElement {
         return this;
     }
 
+    @Override
+    public List<Object> getContent() {
+        return getRows().getContent();
+    }
+
+    @Override
+    protected Object setValue(Object value) {
+        return getRows().setValue(value);
+    }
+
+    @Override
+    public Object setContent(String key, Object... values) {
+        return getRows().setContent(key, values);
+    }
+
+    @Override
+    public Object setContent(Object value) {
+        return getRows().setContent(value);
+    }
+
     public UIElements<R> getRows() {
         UIElements<R> rows;
 
-        if(rowLocator != null) {
+        if (rowLocator != null) {
             rows = getAll(row, rowLocator);
         } else {
             rows = getAll(row);
         }
 
-        if(cellLocator != null) {
-            for(R row: rows) {
+        if (cellLocator != null) {
+            for (R row : rows) {
                 row.setCellLocator(cellLocator);
             }
         }
@@ -61,12 +82,31 @@ public class Table<R extends Table.Row> extends UIElement {
         }
 
         public UIElements<C> getCells() {
-            if(cellLocator != null) {
+            if (cellLocator != null) {
                 return getAll(cell, cellLocator);
             } else {
                 return getAll(cell);
             }
+        }
 
+        @Override
+        public List<Object> getContent() {
+            return getCells().getContent();
+        }
+
+        @Override
+        protected Object setValue(Object value) {
+            return getCells().setValue(value);
+        }
+
+        @Override
+        public Object setContent(String key, Object... values) {
+            return getCells().setContent(key, values);
+        }
+
+        @Override
+        public Object setContent(Object value) {
+            return getCells().setContent(value);
         }
     }
 }
