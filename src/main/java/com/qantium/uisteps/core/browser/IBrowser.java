@@ -1,10 +1,11 @@
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.*;
+import com.qantium.uisteps.core.browser.pages.elements.actions.ActionExecutor;
 import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
 import com.qantium.uisteps.core.browser.pages.elements.actions.UIElementActions;
-import com.qantium.uisteps.core.browser.pages.elements.actions.ActionExecutor;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
@@ -17,6 +18,9 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Anton Solyankin
@@ -104,20 +108,175 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     Dimension getSizeOf(UIElement element);
 
-    String getTextFrom(UIElement input);
+    String getTextFrom(AbstractUIObject uiObject);
 
-    boolean isSelected(UIElement element);
+    default boolean isSelected(UIElement element) {
+        return perform(element, () -> element.getWrappedElement().isSelected());
+    }
 
-    boolean isEnabled(UIElement element);
+    default boolean isEnabled(UIElement element) {
+        return perform(element, () -> element.getWrappedElement().isEnabled());
+    }
+
+    default boolean isNotSelected(UIElement element) {
+        return perform(element, () -> !element.getWrappedElement().isSelected());
+    }
+
+    default boolean isNotEnabled(UIElement element) {
+        return perform(element, () -> !element.getWrappedElement().isEnabled());
+    }
 
     //Select
-    void select(Select.Option option);
+    default Group<TextBlock> getSelectedOptions(Select select) {
+        return perform(select, () -> {
+            List<TextBlock> elements = select.stream()
+                    .filter(option -> isSelected(option)).collect(Collectors.toList());
+            return select.getGroup(elements);
+        });
+    }
 
-    void deselectAllValuesFrom(Select select);
+    default Group<TextBlock> getNotSelectedOptions(Select select) {
+        return perform(select, () -> {
+            List<TextBlock> elements = select.stream()
+                    .filter(option -> isNotSelected(option)).collect(Collectors.toList());
+            return select.getGroup(elements);
+        });
+    }
 
-    void deselect(Select.Option option);
+    default void selectFirstByVisibleValue(Select select, String... values) {
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getContent()))
+                        .findFirst().ifPresent(option -> {
+                    if (isSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
 
-    boolean isMultiple(Select select);
+    default void selectAllByVisibleValue(Select select, String... values) {
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getContent())
+                                && isNotSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void selectFirstByValue(Select select, String... values) {
+
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value")))
+                        .findFirst().ifPresent(option -> {
+                    if (isSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void selectAllByValue(Select select, String... values) {
+        perform(select, () -> {
+            Arrays.asList(values).stream().forEach(value -> select.stream()
+                    .filter(option -> value.equals(option.getAttribute("value"))
+                            && isNotSelected(option))
+                    .forEach(option -> option.click()));
+            return null;
+        });
+    }
+
+    default void selectAll(Select select) {
+        perform(select, () -> {
+            select.stream().filter(option -> isNotSelected(option))
+                    .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void deselectAll(Select select) {
+        perform(select, () -> {
+            select.stream().filter(option -> isSelected(option))
+                    .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void selectByIndex(Select select, Integer... indexes) {
+        perform(select, () -> {
+            for (int index : indexes) {
+                TextBlock option = select.get(index);
+                if (isNotSelected(option)) option.click();
+            }
+            return null;
+        });
+    }
+
+    default void deselectByIndex(Select select, Integer... indexes) {
+        perform(select, () -> {
+            for (int index : indexes) {
+                TextBlock option = select.get(index);
+                if (isSelected(option)) option.click();
+            }
+            return null;
+        });
+    }
+
+    default void deselectFirstByVisibleValue(Select select, String... values) {
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getContent()))
+                        .findFirst().ifPresent(option -> {
+                    if (isNotSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void deselectAllByVisibleValue(Select select, String... values) {
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getContent()) && isSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void deselectFirstByValue(Select select, String... values) {
+
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value")))
+                        .findFirst().ifPresent(option -> {
+                    if (isNotSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void deselectAllByValue(Select select, String... values) {
+        perform(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value"))
+                                && isSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default boolean isMultiple(Select select) {
+        return perform(select, () -> {
+            String value = getAttribute(select, "multiple");
+            return value != null && !"false".equals(value);
+        });
+    }
 
     //Radio button
     boolean select(RadioButton button);
@@ -169,7 +328,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
         actions.perform(element);
     }
 
-    default Object perform(UIElement element, ActionExecutor action) {
+    default <T> T perform(AbstractUIObject element, ActionExecutor<T> action) {
         return action.perform(element);
     }
 }

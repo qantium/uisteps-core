@@ -8,10 +8,10 @@ import java.util.*;
 
 public class MemberCollector {
 
-    private final HtmlObject uiObject;
+    private final AbstractUIObject uiObject;
     private HashMap<String, Queue<AccessibleObject>> members;
 
-    public MemberCollector(HtmlObject uiObject) {
+    public MemberCollector(AbstractUIObject uiObject) {
         this.uiObject = uiObject;
     }
 
@@ -28,23 +28,27 @@ public class MemberCollector {
         if (!uiObject.isAnnotationPresent(NotInit.class) && HtmlObject.class.isAssignableFrom(uiObject)) {
             Arrays.asList(uiObject.getDeclaredFields()).stream()
                     .forEach(field -> {
-                                if (field.isAnnotationPresent(Name.class)
-                                        && HtmlObject.class.isAssignableFrom(field.getType())) {
-                                    String name = field.getAnnotation(Name.class).value();
-                                    putMember(name, field);
-                                }
-                            }
-                    );
+                        String name;
+                        if (field.isAnnotationPresent(Name.class)
+                                && HtmlObject.class.isAssignableFrom(field.getType())) {
+                            name = field.getAnnotation(Name.class).value();
+                        } else {
+                            name = field.getName();
+                        }
+                        putMember(name, field);
+                    });
 
             Arrays.asList(uiObject.getDeclaredMethods()).stream()
                     .forEach(method -> {
-                                if (method.isAnnotationPresent(Name.class)
-                                        && HtmlObject.class.isAssignableFrom(method.getReturnType())) {
-                                    String name = method.getAnnotation(Name.class).value();
-                                    putMember(name, method);
-                                }
-                            }
-                    );
+                        String name;
+                        if (method.isAnnotationPresent(Name.class)
+                                && HtmlObject.class.isAssignableFrom(method.getReturnType())) {
+                            name = method.getAnnotation(Name.class).value();
+                        } else {
+                            name = method.getName();
+                        }
+                        putMember(name, method);
+                    });
             collectMembers(uiObject.getSuperclass());
         }
     }

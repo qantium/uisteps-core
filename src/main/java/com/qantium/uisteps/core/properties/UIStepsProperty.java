@@ -84,7 +84,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * <li>testrail.run</li>
  * <li>testrail.statuses</li>
  * <li>testrail.outcome.file</li>
- * <li>run.groups</li>
+ * <li>run.tables</li>
  * <li>com.qantium.uisteps.core.storage.dir</li>
  * <li>retry.attempts</li>
  * <li>retry.withDelay</li>

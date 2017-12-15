@@ -24,7 +24,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private HtmlObject context;
     private WebElement wrappedElement;
     private UIElements contextList;
-    private int contextListIndex;
+    private Integer contextListIndex;
     private FinderGet finder;
 
     public void setWrappedElement(WebElement wrappedElement) {
@@ -37,6 +37,15 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     public void setContextListIndex(int contextListIndex) {
         this.contextListIndex = contextListIndex;
+    }
+
+    public Integer getContextListIndex() {
+        return contextListIndex;
+    }
+
+
+    public UIElements getContextList() {
+        return contextList;
     }
 
     public void setFinder(FinderGet finder) {
@@ -58,8 +67,9 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
         if (!checkWrappedElement()) {
             if (contextList != null) {
+                contextList.refresh();
                 if (finder != null) {
-                    UIElement elem = finder.clone(contextList.clone().refresh()).get().withDelay(0).immediately();
+                    UIElement elem = finder.get().withDelay(0);
                     wrappedElement = elem.getWrappedElement();
                 } else {
                     Iterator<By> iterator = Arrays.asList(contextList.getLocators()).iterator();
@@ -80,7 +90,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
                         }
                     }
 
-                    if (contextList.size() != elements.size()) {
+                    if (contextListIndex contextList.size() != elements.size()) {
                         throw new IllegalArgumentException("Size of contextList '" + contextList + "' was changed from " + contextList.size() + " to " + elements.size());
                     }
 
@@ -120,7 +130,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
             } catch (Exception ex) {
                 OK = false;
             }
-
         }
         return OK;
     }
@@ -180,11 +189,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 return locator;
             }).collect(Collectors.toList()).toArray(new By[locators.length]);
         }
-    }
-
-    @Override
-    public String toString() {
-        return getName();
     }
 
     public String getContextString() {
@@ -399,4 +403,16 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return inOpenedBrowser().isEnabled(this);
     }
 
+    public <T extends UIElement> T as(Class<T> type) {
+        T as = inOpenedBrowser().get(type, context, locators)
+                .withName(getName())
+                .withTimeout(getTimeout())
+                .pollingEvery(getPollingTime())
+                .withDelay(getDelay());
+        as.setWrappedElement(wrappedElement);
+        as.setContextList(contextList);
+        as.setContextListIndex(contextListIndex);
+        as.setFinder(finder);
+        return as;
+    }
 }

@@ -16,13 +16,13 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -46,7 +46,7 @@ public class Page extends HtmlObject {
         return inOpenedBrowser().getCurrentTitle();
     }
 
-    public <T extends Page> T setUrl(Url url) {
+    public <T extends Page> T withUrl(Url url) {
         this.url = url;
         return (T) this;
     }
@@ -93,11 +93,12 @@ public class Page extends HtmlObject {
 
     @Override
     protected Object setValue(Object value) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Pages do not support setValue method");
+        if (value instanceof LinkedHashMap) {
+            return setValue((LinkedHashMap<String, Object>) value);
+        } else {
+            throw new UnsupportedOperationException("Pages do not support setValue method");
+        }
     }
 
-    @Override
-    public List<WebElement> getContent() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Pages do not support getValue method");
-    }
+
 }

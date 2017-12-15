@@ -1,19 +1,21 @@
 package com.qantium.uisteps.core.browser.pages.elements.actions;
 
-import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
 
-public interface ActionExecutor {
+public interface ActionExecutor<T> {
 
-    default Object perform(UIElement element) throws ActionException {
+    default T perform(AbstractUIObject element) throws ActionException {
 
-        return new Action(element.getTimeout(), element.getPollingTime(), element.getDelay()) {
+        element.afterInitialization();
+
+        return new Action<T>(element.getTimeout(), element.getPollingTime(), element.getDelay()) {
 
             @Override
-            protected Object apply(Object... args) {
+            protected T apply(Object... args) {
                 return execute();
             }
         }.perform();
     }
 
-    Object execute();
+    T execute();
 }

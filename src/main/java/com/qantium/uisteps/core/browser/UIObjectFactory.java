@@ -2,14 +2,16 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.context.Context;
 import com.qantium.uisteps.core.browser.context.UseContext;
-import com.qantium.uisteps.core.browser.pages.HtmlObject;
-import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.UIObject;
+import com.qantium.uisteps.core.browser.pages.*;
+import com.qantium.uisteps.core.browser.pages.elements.Group;
+import com.qantium.uisteps.core.browser.pages.elements.Table;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.name.NameConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
@@ -82,24 +84,50 @@ public class UIObjectFactory implements IUIObjectFactory {
                 for (Field field : getUIObjectFields(uiObject)) {
 
                     if (field.get(uiObject) == null) {
-                        UIElement uiElement = getInstanceOf((Class<UIElement>) field.getType());
+                        Class<?> fieldType = field.getType();
+
+                        AbstractUIObject uiElement;
+
+
+                        if (UIElement.class.isAssignableFrom(fieldType)) {
+                            uiElement = getInstanceOf((Class<UIElement>) field.getType());
+                        } else if (Alert.class.isAssignableFrom(fieldType)) {
+                            uiElement = getInstanceOf((Class<Alert>) field.getType());
+                        } else if (Page.class.isAssignableFrom(fieldType)) {
+                            uiElement = getInstanceOf((Class<Page>) field.getType());
+                        } else {
+                            throw new IllegalStateException("Unknown type \"" + fieldType + "\" to init");
+                        }
 
                         uiElement.setName(NameConverter.humanize(field));
                         field.set(uiObject, uiElement);
-                        HtmlObject fieldContext = (HtmlObject) uiObject;
+                        if (uiObject instanceof HtmlObject) {
 
-                        if (contextPresentsIn(field)) {
-                            fieldContext = getContextOf(field);
-                        } else if (useContextOf(field)) {
+                            HtmlObject fieldContext = (HtmlObject) uiObject;
 
-                            if (contextPresentsIn(field.getClass())) {
-                                fieldContext = getContextOf(field.getClass());
-                            } else {
-                                throw new RuntimeException("Context is not set for " + field);
+                            if (contextPresentsIn(field)) {
+                                fieldContext = getContextOf(field);
+                            } else if (useContextOf(field)) {
+
+                                if (contextPresentsIn(field.getClass())) {
+                                    fieldContext = getContextOf(field.getClass());
+                                } else {
+                                    throw new RuntimeException("Context is not set for " + field);
+                                }
                             }
+
+                            get(uiElement, fieldContext, locatorFactory.getLocators(field));
                         }
 
-                        get(uiElement, fieldContext, locatorFactory.getLocators(field));
+                        if (uiElement instanceof Group) {
+                            Group group = (Group) uiElement;
+                            initGroupElementsLocator(group, field);
+                        }
+
+                        if (uiElement instanceof Table) {
+                            Table table = (Table) uiElement;
+                            initHeaderOf(table, field);
+                        }
                     }
                 }
             } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -123,10 +151,54 @@ public class UIObjectFactory implements IUIObjectFactory {
 
         uiObject.setContext(context);
         uiObject.setLocators(locators);
+
+        if (uiObject instanceof Group) {
+            Group group = (Group) uiObject;
+            initGroupElementsLocator(group, group.getClass());
+        }
+
+        if (uiObject instanceof Table) {
+            Table table = (Table) uiObject;
+            initHeaderOf(table, table.getClass());
+        }
+    }
+
+    private void initGroupElementsLocator(Group group, AnnotatedElement annotatedElement) {
+        By[] elementsLocator = group.getElementsLocator();
+
+        if (elementsLocator == null && annotatedElement.isAnnotationPresent(Group.Elements.class)) {
+            FindBy[] groupElementsBy = annotatedElement.getAnnotation(Group.Elements.class).value();
+            elementsLocator = locatorFactory.getLocators(groupElementsBy);
+            group.withElementsLocator(elementsLocator);
+        }
+    }
+
+
+    private void initHeaderOf(Table table, AnnotatedElement annotatedElement) {
+
+        if (table.headerIsNotInit()) {
+            if (annotatedElement.isAnnotationPresent(Table.HeaderIsFirstRow.class)) {
+                boolean headerIsFirstRow = annotatedElement.getAnnotation(Table.HeaderIsFirstRow.class).value();
+                table.headerIsFirstRow(headerIsFirstRow);
+            }
+        }
+
+        if (table.headerIsNotInit()) {
+            By[] headerLocator = table.getHeaderLocator();
+
+            if (headerLocator == null && annotatedElement.isAnnotationPresent(Table.Header.class)) {
+                Table.Header header = annotatedElement.getAnnotation(Table.Header.class);
+                FindBy[] headerBy = header.value();
+
+                headerLocator = locatorFactory.getLocators(headerBy);
+                table.withHeaderLocator(headerLocator);
+            }
+        }
     }
 
     private <T extends UIElement> boolean doNotUseContextFor(Class<T> uiObject) {
-        return uiObject.isAnnotationPresent(UseContext.class) && uiObject.getAnnotation(UseContext.class).value() == false;
+        return uiObject.isAnnotationPresent(UseContext.class)
+                && uiObject.getAnnotation(UseContext.class).value() == false;
     }
 
     private <T extends UIObject> T getInstanceOf(Class<T> uiObject) {

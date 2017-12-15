@@ -34,6 +34,7 @@ public abstract class UIElementAction<T, E extends UIElement> extends Action<T> 
         return NameConverter.humanize(this.getClass()) + " \"" + getUIObject() + "\"";
     }
 
+    @Override
     public T perform(Object... args) throws ActionException {
 
         IBrowser browser = uiElement.inOpenedBrowser();

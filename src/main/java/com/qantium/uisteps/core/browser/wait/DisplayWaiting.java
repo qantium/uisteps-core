@@ -65,18 +65,17 @@ public class DisplayWaiting {
         return delay;
     }
 
-    public final static ThreadLocal<Long> startTime = new ThreadLocal<>().withInitial(() -> -1L);
     private boolean initWaiting;
 
     public boolean perform() {
         sleep(getDelay());
 
-        if (startTime.get() < 0) {
+        if (Waiter.startTime.get() < 0) {
             initWaiting = true;
-            startTime.set(System.currentTimeMillis());
+            Waiter.startTime.set(System.currentTimeMillis());
         }
 
-        while (System.currentTimeMillis() - startTime.get() <= getTimeout()) {
+        while (System.currentTimeMillis() - Waiter.startTime.get() <= getTimeout()) {
             try {
                 if (isSuccessful(isNot())) {
                     initWaiting();
@@ -111,7 +110,7 @@ public class DisplayWaiting {
     private void initWaiting() {
         if (initWaiting) {
             initWaiting = false;
-            startTime.set(-1L);
+            Waiter.startTime.set(-1L);
         }
     }
 

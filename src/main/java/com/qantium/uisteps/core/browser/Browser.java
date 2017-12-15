@@ -20,7 +20,6 @@ import com.qantium.net.rest.RestApi;
 import com.qantium.net.rest.RestApiRequest;
 import com.qantium.uisteps.core.browser.pages.*;
 import com.qantium.uisteps.core.browser.pages.elements.*;
-import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
 import com.qantium.uisteps.core.browser.pages.elements.actions.CheckBoxSelect;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
@@ -37,6 +36,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
+import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.security.Credentials;
@@ -225,11 +225,11 @@ public class Browser implements IBrowser {
         } else {
             pageUrl = urlFactory.getUrlOf(pageInstance);
         }
-        pageInstance.setUrl(pageUrl);
+        pageInstance.withUrl(pageUrl);
 
         if (ArrayUtils.isNotEmpty(params)) {
             pageUrl = urlFactory.getUrlOf(pageInstance, params);
-            pageInstance.setUrl(pageUrl);
+            pageInstance.withUrl(pageUrl);
         }
 
         return open(pageInstance);
@@ -600,52 +600,31 @@ public class Browser implements IBrowser {
 
 
     @Override
-    public String getTextFrom(UIElement element) {
-        return (String) perform(element, () -> {
+    public String getTextFrom(AbstractUIObject uiObject) {
+        return perform(uiObject, () -> {
 
-            WebElement wrappedElement = element.getWrappedElement();
-            if ("input".equals(wrappedElement.getTagName())) {
-                String enteredText = wrappedElement.getAttribute("value");
-                return enteredText == null ? "" : enteredText;
+            if (uiObject instanceof WrapsElement) {
+                WebElement wrappedElement = ((WrapsElement) uiObject).getWrappedElement();
+                if ("input".equals(wrappedElement.getTagName())) {
+                    String enteredText = wrappedElement.getAttribute("value");
+                    return enteredText == null ? "" : enteredText;
+                } else {
+                    return wrappedElement.getText();
+                }
             } else {
-                return wrappedElement.getText();
+                return uiObject.getText();
             }
-
         });
     }
 
     @Override
     public boolean isSelected(UIElement element) {
-        return (boolean) perform(element, () -> element.getWrappedElement().isSelected());
+        return perform(element, () -> element.getWrappedElement().isSelected());
     }
 
     @Override
     public boolean isEnabled(UIElement element) {
-        return (boolean) perform(element, () -> element.getWrappedElement().isEnabled());
-    }
-
-    //Select
-    @Override
-    public void select(Option option) {
-        option.select();
-    }
-
-    @Override
-    public void deselectAllValuesFrom(Select select) {
-        select.deselectAll();
-    }
-
-    @Override
-    public void deselect(Option option) {
-        option.deselect();
-    }
-
-    @Override
-    public boolean isMultiple(Select select) {
-        return (boolean) perform(select, () -> {
-            String value = getAttribute(select, "multiple");
-            return value != null && !"false".equals(value);
-        });
+        return perform(element, () -> element.getWrappedElement().isEnabled());
     }
 
     //Radio button
@@ -751,24 +730,35 @@ public class Browser implements IBrowser {
     //Alert
     @Override
     public void accept(Alert alert) {
-        alert.getWrappedAlert().accept();
+        perform(alert, () -> {
+            alert.getWrappedAlert().accept();
+            return null;
+        });
     }
 
     @Override
     public void dismiss(ConfirmAlert confirm) {
-        confirm.getWrappedAlert().dismiss();
+        perform(confirm, () -> {
+            confirm.getWrappedAlert().dismiss();
+            return null;
+        });
     }
 
     @Override
     public PromtAlert enterInto(PromtAlert promt, String text) {
-        promt.getWrappedAlert().sendKeys(text);
-        return promt;
+        return (PromtAlert) perform(promt, () -> {
+            promt.getWrappedAlert().sendKeys(text);
+            return promt;
+        });
     }
 
     @Override
     public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
-        Credentials credentials = new UserAndPassword(login, password);
-        authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
+        perform(authenticationAlert, () -> {
+            Credentials credentials = new UserAndPassword(login, password);
+            authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
+            return null;
+        });
     }
 
     @Override

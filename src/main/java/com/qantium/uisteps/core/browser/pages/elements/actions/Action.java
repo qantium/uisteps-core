@@ -3,7 +3,7 @@ package com.qantium.uisteps.core.browser.pages.elements.actions;
 import com.qantium.uisteps.core.browser.NoBrowserException;
 import org.openqa.selenium.UnhandledAlertException;
 
-import static com.qantium.uisteps.core.browser.wait.DisplayWaiting.startTime;
+import static com.qantium.uisteps.core.browser.wait.Waiter.startTime;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.*;
 
 /**
@@ -92,6 +92,4 @@ public abstract class Action<T> {
             e.printStackTrace();
         }
     }
-
-
 }

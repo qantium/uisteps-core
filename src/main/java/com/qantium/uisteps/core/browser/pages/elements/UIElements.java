@@ -18,13 +18,13 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.finder.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Contains elements of one type
@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable, Iterable<E> {
 
     private final Class<E> elementType;
-    private List<E> elements;
+    private LinkedList<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
@@ -46,11 +46,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this.elementType = elementType;
     }
 
-    public UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
+    public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
         this(elementType, elements, true);
     }
 
-    private UIElements(Class<E> elementType, List<E> elements, boolean initContext) throws IllegalArgumentException {
+    private UIElements(Class<E> elementType, LinkedList<E> elements, boolean initContext) throws IllegalArgumentException {
         this(elementType);
         this.elements = elements;
 
@@ -61,6 +61,19 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                 element.setContextListIndex(index);
             }
         }
+    }
+
+    public int getIndexOf(Object content) {
+        int index = -1;
+        Iterator<E> iterator = iterator();
+
+        while (iterator.hasNext()) {
+            if (content.equals(iterator.next().getContent())) {
+                return ++index;
+            }
+        }
+
+        throw new NoSuchElementException("Cannot find element by content: " + content);
     }
 
     @Override
@@ -81,6 +94,14 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getElements().isEmpty();
     }
 
+    public boolean waitUntilIsNotEmpty() {
+        return waitUntilIsDisplayed();
+    }
+
+    public boolean waitUntilIsEmpty() {
+        return waitUntilIsNotDisplayed();
+    }
+
     @Override
     public boolean isCurrentlyDisplayed() {
         return !isEmpty();
@@ -90,9 +111,9 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return (E[]) getElements().<E>toArray();
     }
 
-    private List<E> getElements() {
+    private LinkedList<E> getElements() {
 
-        if (elements != null) {
+        if (elements != null && elements.isEmpty()) {
             return elements;
         } else {
             refresh();
@@ -100,8 +121,12 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
     }
 
+    public Stream<E> stream() {
+        return new Stream(getElements().stream());
+    }
+
     public <T extends UIElements<E>> T refresh() {
-        elements = new ArrayList<>();
+        elements = new LinkedList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
 
         int index = 0;
@@ -138,6 +163,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getElements().iterator();
     }
 
+    public Iterator<E> descendingIterator() {
+        return getElements().descendingIterator();
+    }
+
     @Override
     public void forEach(Consumer<? super E> action) {
         getElements().forEach(action);
@@ -161,20 +190,19 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public UIElements<E> subList(int fromIndex, int toIndex) {
-        List<E> subList = clone().getElements().subList(fromIndex, toIndex);
+        LinkedList<E> subList = new LinkedList<>(clone().getElements().subList(fromIndex, toIndex));
         return new UIElements(elementType, subList, false);
     }
 
     public E getFirst() {
-        return get(0);
+        return getElements().getFirst();
     }
 
     public E getLast() {
-        return get(size() - 1);
+        return getElements().getFirst();
     }
 
     public UIElements<E> except(Integer... indexes) {
-
         Set<Integer> proxyIndexes = new HashSet();
 
         for (int index : indexes) {
@@ -184,7 +212,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             proxyIndexes.add(index);
         }
 
-        List<E> proxyList = new ArrayList<>();
+        LinkedList<E> proxyList = new LinkedList<>();
         for (int i = 0; i < proxyIndexes.size(); i++) {
 
             if (!proxyIndexes.contains(i)) {
@@ -192,16 +220,16 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             }
         }
 
-        return new UIElements(elementType, elements, false);
+        return new UIElements(elementType, proxyList, false);
     }
 
-    public UIElements<E> getUIElements(List<E> elements) {
+    public UIElements<E> getUIElements(LinkedList<E> elements) {
         return new UIElements(elementType, elements);
     }
 
     @Override
     public UIElements<E> clone() {
-        ArrayList<E> cloned = (ArrayList<E>) ((ArrayList<E>) getElements()).clone();
+        LinkedList<E> cloned = (LinkedList<E>) ((LinkedList<E>) getElements()).clone();
         return getUIElements(cloned);
     }
 
@@ -214,35 +242,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     protected HtmlObject getChildContext() {
         return getContext();
-    }
-
-    public HowCondition<E, E> get() {
-        FinderGet finder = new FinderGet(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> isDisplayed() {
-        Finder finder = new FinderIsDisplayed(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<UIElements<E>, E> getAll() {
-        Finder finder = new FinderGetAll(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> contains() {
-        Finder finder = new FinderContains(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> allContains() {
-        Finder finder = new FinderContainsAll(this);
-        return new HowCondition(finder);
-    }
-
-    public Finder<?, E> by(Find by) {
-        return new Finder(this).by(by);
     }
 
     @Override
@@ -273,7 +272,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             }
             text.append(value);
         }
-
         return text.toString();
     }
 
@@ -286,7 +284,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     @Override
     protected Object setValue(LinkedHashMap<String, Object> values) {
-
         Iterator<E> elementsIterator = getElements().iterator();
 
         values.entrySet().stream().forEach(entry -> {
@@ -328,4 +325,97 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
         return null;
     }
+
+    @Override
+    public <T extends UIElement> T as(Class<T> type) {
+        T as = super.as(type);
+        if (as instanceof UIElements) {
+            UIElements uiElements = (UIElements) as;
+            uiElements.elements = elements;
+        }
+        return as;
+    }
+
+
+    public static class Stream<E extends UIElement> {
+
+        private final java.util.stream.Stream<E> stream;
+
+        public Stream(java.util.stream.Stream<E> stream) {
+            this.stream = stream;
+        }
+
+        private Stream<E> stream(java.util.stream.Stream<E> stream) {
+            return new Stream<>(stream);
+        }
+
+        public Stream<E> filter(Predicate<? super E> predicate) {
+            return stream(stream.filter(predicate));
+        }
+
+        public Stream<E> sorted(Comparator<? super E> comparator) {
+            return stream(stream.sorted(comparator));
+        }
+
+        public Stream<E> peek(Consumer<? super E> action) {
+            return stream(stream.peek(action));
+        }
+
+        public Stream<E> limit(long maxSize) {
+            return stream(stream.limit(maxSize));
+        }
+
+        public Stream<E> skip(long n) {
+            return stream(stream.skip(n));
+        }
+
+        public void forEach(Consumer<? super E> action) {
+            stream.forEach(action);
+        }
+
+        public Optional<E> min(Comparator<? super E> comparator) {
+            return stream.min(comparator);
+        }
+
+        public Optional<E> max(Comparator<? super E> comparator) {
+            return stream.max(comparator);
+        }
+
+        public long count() {
+            return stream.count();
+        }
+
+        public boolean anyMatch(Predicate<? super E> predicate) {
+            return stream.anyMatch(predicate);
+        }
+
+        public boolean allMatch(Predicate<? super E> predicate) {
+            return stream.allMatch(predicate);
+        }
+
+        public boolean noneMatch(Predicate<? super E> predicate) {
+            return stream.noneMatch(predicate);
+        }
+
+        public Optional<E> findFirst() {
+            return stream.findFirst();
+        }
+
+        public Optional<E> findAny() {
+            return stream.findAny();
+        }
+
+        public Iterator<E> iterator() {
+            return stream.iterator();
+        }
+
+        public Stream<E> onClose(Runnable closeHandler) {
+            return stream(stream.onClose(closeHandler));
+        }
+
+        public void close() {
+            stream.close();
+        }
+    }
+
 }
