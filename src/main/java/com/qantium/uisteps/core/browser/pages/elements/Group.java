@@ -1,26 +1,23 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.finder.Find;
-import com.qantium.uisteps.core.browser.pages.elements.finder.Finder;
-import com.qantium.uisteps.core.browser.pages.elements.finder.HowCondition;
+import com.qantium.uisteps.core.browser.wait.TimeoutBuilder;
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
+import java.io.File;
 import java.lang.annotation.*;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 @NotInit
 public class Group<E extends UIElement> extends UIElement {
 
     private final Class<E> elementType;
     private By[] elementsLocator;
+    @NotInit
     private UIElements<E> elements;
 
     public Group(Class<E> elementType, By... elementsLocator) throws IllegalArgumentException {
@@ -31,7 +28,7 @@ public class Group<E extends UIElement> extends UIElement {
     @Override
     public <T extends UIElement> T as(Class<T> type) {
         T as = super.as(type);
-        if(as instanceof Group) {
+        if (as instanceof Group) {
             Group group = (Group) as;
             group.withElementsLocator(elementsLocator);
             group.elements = elements;
@@ -40,7 +37,7 @@ public class Group<E extends UIElement> extends UIElement {
     }
 
     private UIElements<E> getElements() {
-        if(elements == null) {
+        if (elements == null) {
             elements = getAll(elementType, getElementsLocator());
         }
         return elements;
@@ -67,7 +64,7 @@ public class Group<E extends UIElement> extends UIElement {
         return getElements().isEmpty();
     }
 
-    public Stream<E> stream() {
+    public UIElements.Stream<E> stream() {
         return getElements().stream();
     }
 
@@ -96,52 +93,65 @@ public class Group<E extends UIElement> extends UIElement {
         return getElements().size();
     }
 
-    public UIElements<E> exceptFirst() {
-        return getElements().exceptFirst();
+
+    @Override
+    protected Object setValue(LinkedHashMap<String, Object> values) {
+        return getElements().setValue(values);
     }
 
-    public UIElements<E> exceptLast() {
-        return getElements().exceptLast();
+    @Override
+    protected Object setValue(Object values) {
+        return getElements().setValue(values);
     }
 
-    public UIElements<E> subList(int fromIndex, int toIndex) {
-        return getElements().subList(fromIndex, toIndex);
+    @Override
+    public Object setContent(String key, Object... values) {
+        return getElements().setContent(key, values);
     }
 
-    public E getFirst() {
-        return getElements().getFirst();
+    @Override
+    public Object setContent(File file) {
+        return getElements().setContent(file);
     }
 
-    public E getLast() {
-        return getElements().getLast();
+    @Override
+    public boolean hasContent(File file) {
+        return getElements().hasContent(file);
     }
 
-    public UIElements<E> except(Integer... indexes) {
-        return getElements().except(indexes);
+    @Override
+    public Object setContent(Object value) {
+        return getElements().setContent(value);
     }
 
-    public HowCondition<E, E> get() {
-        return getElements().get();
+    @Override
+    public boolean hasContent(Object content) {
+        return getElements().hasContent(content);
     }
 
-    public HowCondition<Boolean, E> isDisplayed() {
-        return getElements().isDisplayed();
+    @Override
+    public Object setContent(JSONObject json) {
+        return getElements().setContent(json);
     }
 
-    public HowCondition<UIElements<E>, E> getAll() {
-        return getElements().getAll();
+    @Override
+    public boolean hasContent(JSONObject json) {
+        return getElements().hasContent(json);
     }
 
-    public HowCondition<Boolean, E> contains() {
-        return getElements().contains();
+    @Override
+    public JSONObject getJsonContent() {
+        return getElements().getJsonContent();
     }
 
-    public HowCondition<Boolean, E> allContains() {
-        return getElements().allContains();
+    @Override
+    public JSONObject getJsonContent(String... keys) {
+        return getElements().getJsonContent(keys);
     }
 
-    public Finder<?, E> by(Find by) {
-        return getElements().by(by);
+    @Override
+    public LinkedHashMap<String, Object> getContent(String... keys) {
+        return getElements().getContent(keys);
     }
 
     @Override
@@ -154,33 +164,13 @@ public class Group<E extends UIElement> extends UIElement {
     }
 
     @Override
-    public <T extends AbstractUIObject> T immediately() {
-        return getElements().immediately();
-    }
-
-    @Override
-    public long getTimeout() {
-        return getElements().getTimeout();
-    }
-
-    @Override
-    public long getPollingTime() {
-        return getElements().getPollingTime();
-    }
-
-    @Override
-    public long getDelay() {
-        return getElements().getDelay();
-    }
-
-    @Override
-    public <T extends AbstractUIObject> T pollingEvery(long pollingTime) {
-        return getElements().pollingEvery(pollingTime);
+    public TimeoutBuilder getTimeoutBuilder() {
+        return getElements().getTimeoutBuilder();
     }
 
     public Group<E> getGroup(List<E> elements) {
         Group<E> group = as(getClass());
-        group.elements = getElements().getUIElements(elements);
+        group.elements = getElements().getUIElements(new LinkedList<>(elements));
         return group;
     }
 

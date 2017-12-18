@@ -80,18 +80,18 @@ public abstract class Waiter<R> extends TimeoutBuilder {
         return new WaitingException(this, ex);
     }
 
+    private static class CheckResultException extends RuntimeException {
+
+        public CheckResultException(Object result) {
+            super("For check result waiting result \"" + result + "\" must be boolean");
+        }
+    }
+
     private void sleep(long timeout) {
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    private class CheckResultException extends RuntimeException {
-
-        public CheckResultException(Object result) {
-            super("For check result waiting result \"" + result + "\" must be boolean");
         }
     }
 }

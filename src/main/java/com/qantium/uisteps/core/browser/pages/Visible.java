@@ -5,10 +5,6 @@ package com.qantium.uisteps.core.browser.pages;
  */
 public interface Visible {
 
-    boolean waitUntilIsDisplayed();
-
-    boolean waitUntilIsNotDisplayed();
-
     boolean isCurrentlyDisplayed();
 
     boolean isNotCurrentlyDisplayed();

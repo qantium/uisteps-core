@@ -25,6 +25,9 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+
+import static com.qantium.uisteps.core.browser.wait.Waiting.isFalse;
 
 /**
  * Contains elements of one type
@@ -47,19 +50,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
-        this(elementType, elements, true);
-    }
-
-    private UIElements(Class<E> elementType, LinkedList<E> elements, boolean initContext) throws IllegalArgumentException {
         this(elementType);
         this.elements = elements;
 
-        if (initContext) {
-            for (int index = 0; index < this.elements.size(); index++) {
-                E element = this.elements.get(index);
-                element.setContextList(this);
-                element.setContextListIndex(index);
-            }
+        for (E element : elements) {
+            element.isListItem();
         }
     }
 
@@ -74,6 +69,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
 
         throw new NoSuchElementException("Cannot find element by content: " + content);
+    }
+
+    public E get(int index) {
+        isFalse(this, () -> isEmpty());
+        return getElements().get(index);
     }
 
     @Override
@@ -94,55 +94,43 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getElements().isEmpty();
     }
 
-    public boolean waitUntilIsNotEmpty() {
-        return waitUntilIsDisplayed();
-    }
-
-    public boolean waitUntilIsEmpty() {
-        return waitUntilIsNotDisplayed();
-    }
-
     @Override
     public boolean isCurrentlyDisplayed() {
         return !isEmpty();
     }
 
-    protected E[] toArray() {
+    private E[] toArray() {
         return (E[]) getElements().<E>toArray();
     }
 
     private LinkedList<E> getElements() {
-
-        if (elements != null && elements.isEmpty()) {
-            return elements;
-        } else {
+        if (elements == null || elements.isEmpty()) {
             refresh();
-            return elements;
         }
+
+        return elements;
     }
 
     public Stream<E> stream() {
+        isFalse(this, () -> isEmpty());
         return new Stream(getElements().stream());
     }
 
     public <T extends UIElements<E>> T refresh() {
         elements = new LinkedList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
-
-        int index = 0;
-
         while (iterator.hasNext()) {
 
             try {
                 By locator = iterator.next();
-
                 for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
-                    E uiElement = get(getElementType(), locator);
-                    uiElement.setWrappedElement(wrappedElement);
-                    elements.add(uiElement);
-                    uiElement.setContextList(this);
-                    uiElement.setContextListIndex(index++);
-                    uiElement.withName(uiElement.getContent().toString());
+                    if (wrappedElement.isDisplayed()) {
+                        E uiElement = get(getElementType(), locator);
+                        uiElement.isListItem();
+                        uiElement.setWrappedElement(wrappedElement);
+                        elements.add(uiElement);
+                        uiElement.withName(uiElement.getContent().toString());
+                    }
                 }
             } catch (Exception ex) {
                 if (!iterator.hasNext() && elements.isEmpty()) {
@@ -154,9 +142,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return (T) this;
     }
 
-    public E get(int index) {
-        return getElements().get(index);
-    }
 
     @Override
     public Iterator<E> iterator() {
@@ -181,47 +166,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getElements().size();
     }
 
-    public UIElements<E> exceptFirst() {
-        return except(0);
-    }
-
-    public UIElements<E> exceptLast() {
-        return except(-1);
-    }
-
-    public UIElements<E> subList(int fromIndex, int toIndex) {
-        LinkedList<E> subList = new LinkedList<>(clone().getElements().subList(fromIndex, toIndex));
-        return new UIElements(elementType, subList, false);
-    }
-
-    public E getFirst() {
-        return getElements().getFirst();
-    }
-
-    public E getLast() {
-        return getElements().getFirst();
-    }
-
-    public UIElements<E> except(Integer... indexes) {
-        Set<Integer> proxyIndexes = new HashSet();
-
-        for (int index : indexes) {
-            if (index < 0) {
-                index = size() - 1;
-            }
-            proxyIndexes.add(index);
-        }
-
-        LinkedList<E> proxyList = new LinkedList<>();
-        for (int i = 0; i < proxyIndexes.size(); i++) {
-
-            if (!proxyIndexes.contains(i)) {
-                proxyList.add(getElements().get(i));
-            }
-        }
-
-        return new UIElements(elementType, proxyList, false);
-    }
 
     public UIElements<E> getUIElements(LinkedList<E> elements) {
         return new UIElements(elementType, elements);
@@ -278,13 +222,13 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     public List<Object> getContent() {
         List<Object> values = new ArrayList<>();
-        getElements().stream().forEach((element) -> values.add(element.getContent()));
+        stream().forEach((element) -> values.add(element.getContent()));
         return values;
     }
 
     @Override
     protected Object setValue(LinkedHashMap<String, Object> values) {
-        Iterator<E> elementsIterator = getElements().iterator();
+        Iterator<E> elementsIterator = iterator();
 
         values.entrySet().stream().forEach(entry -> {
 
@@ -321,7 +265,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                 }
             }
         } else {
-            getFirst().setContent(values);
+            stream().findFirst().get().setContent(values);
         }
         return null;
     }
@@ -335,7 +279,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
         return as;
     }
-
 
     public static class Stream<E extends UIElement> {
 
@@ -415,6 +358,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
         public void close() {
             stream.close();
+        }
+
+        public <R, A> R collect(Collector<? super E, A, R> collector) {
+            return stream.collect(collector);
         }
     }
 

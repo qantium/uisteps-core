@@ -50,7 +50,7 @@ public class Table<E extends Table.Row> extends Group<E> {
 
     public E getHeader() {
         if (headerIsFirstRow) {
-            return getFirst();
+            return get(0);
         } else {
             return get(getElementType(), headerLocator);
         }

@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.properties.UIStepsProperty;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -64,14 +65,7 @@ public class WindowManager implements IWindowManager {
         currentWindowIndex = index;
 
         Set<String> handles = driver.getWindowHandles();
-
-        long startTime = System.currentTimeMillis();
-        long timeout = UIStepsProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT.getLongValue();
-        while (System.currentTimeMillis() - startTime <= timeout) {
-            if (!handles.isEmpty() && index >= 0 && index < handles.size()) {
-                break;
-            }
-        }
+        Waiting.waitUntil(() -> !handles.isEmpty() && index >= 0 && index < handles.size());
 
         if (handles.isEmpty()) {
             throw new NoWindowException();
@@ -82,15 +76,11 @@ public class WindowManager implements IWindowManager {
         }
 
         driver.switchTo().window((String) handles.toArray()[index]);
-        startTime = System.currentTimeMillis();
 
-        while (System.currentTimeMillis() - startTime <= timeout) {
-            if (((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete")) {
-                return;
-            }
+        if(Waiting.isFalse(() -> (
+                (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"))) {
+            throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
         }
-
-        throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
 
     }
 

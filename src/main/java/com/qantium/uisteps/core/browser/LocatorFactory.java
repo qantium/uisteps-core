@@ -15,17 +15,15 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.pages.elements.finder.Find;
-import static org.codehaus.plexus.util.StringUtils.isNotEmpty;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
+
+import static org.codehaus.plexus.util.StringUtils.isNotEmpty;
 
 /**
  * @author Anton Solyankin

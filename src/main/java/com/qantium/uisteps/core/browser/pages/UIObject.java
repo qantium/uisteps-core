@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.browser.pages;
 import com.qantium.uisteps.core.browser.IBrowser;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
+import com.qantium.uisteps.core.browser.wait.WithTimeout;
 import com.qantium.uisteps.core.name.Named;
 import com.qantium.uisteps.core.then.IThen;
 import com.qantium.uisteps.core.then.Then;
@@ -31,13 +32,11 @@ import com.qantium.uisteps.core.then.Then;
  * @see UIElements
  */
 @NotInit
-public interface UIObject extends Named, Visible, IThen {
+public interface UIObject extends Named, Visible, IThen, WithTimeout {
 
     void setBrowser(IBrowser browser);
 
     IBrowser inOpenedBrowser();
 
     <T extends UIObject> Then<T> then(Class<T> uiObject);
-
-    void afterInitialization();
 }

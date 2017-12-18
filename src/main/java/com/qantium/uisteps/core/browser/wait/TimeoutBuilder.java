@@ -33,20 +33,20 @@ public class TimeoutBuilder implements WithTimeout {
     }
 
     @Override
-    public <T extends TimeoutBuilder> T withDelay(long delay) {
+    public TimeoutBuilder withDelay(long delay) {
         this.delay = delay;
-        return (T) this;
+        return this;
     }
 
     @Override
-    public <T extends TimeoutBuilder> T withTimeout(long timeout) {
+    public TimeoutBuilder withTimeout(long timeout) {
         this.timeout = timeout;
-        return (T) this;
+        return this;
     }
 
     @Override
-    public <T extends TimeoutBuilder> T pollingEvery(long pollingTime) {
+    public TimeoutBuilder pollingEvery(long pollingTime) {
         this.pollingTime = pollingTime;
-        return (T) this;
+        return this;
     }
 }

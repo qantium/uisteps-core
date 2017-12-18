@@ -1,5 +1,7 @@
 package com.qantium.uisteps.core.browser.wait;
 
+import static com.qantium.uisteps.core.browser.wait.TimeoutBuilder.defaultTimeouts;
+
 public interface WithTimeout {
 
     TimeoutBuilder getTimeoutBuilder();
@@ -16,18 +18,26 @@ public interface WithTimeout {
         return getTimeoutBuilder().getDelay();
     }
 
-    default <T extends TimeoutBuilder> T withDelay(long delay) {
+    default <T extends WithTimeout> T withDelay(long delay) {
         getTimeoutBuilder().withDelay(delay);
         return (T) this;
     }
 
-    default <T extends TimeoutBuilder> T withTimeout(long timeout) {
+    default <T extends WithTimeout> T withTimeout(long timeout) {
         getTimeoutBuilder().withTimeout(timeout);
         return (T) this;
     }
 
-    default <T extends TimeoutBuilder> T pollingEvery(long pollingTime) {
+    default <T extends WithTimeout> T pollingEvery(long pollingTime) {
         getTimeoutBuilder().pollingEvery(pollingTime);
+        return (T) this;
+    }
+
+    default <T extends WithTimeout> T flushTimeout() {
+        TimeoutBuilder defaultTimeouts = defaultTimeouts();
+        getTimeoutBuilder().withTimeout(defaultTimeouts.getTimeout());
+        getTimeoutBuilder().pollingEvery(defaultTimeouts.getPollingTime());
+        getTimeoutBuilder().withDelay(defaultTimeouts.getDelay());
         return (T) this;
     }
 }

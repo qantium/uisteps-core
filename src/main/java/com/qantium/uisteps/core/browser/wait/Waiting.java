@@ -4,7 +4,21 @@ import java.util.function.Supplier;
 
 import static com.qantium.uisteps.core.browser.wait.TimeoutBuilder.defaultTimeouts;
 
-public class Waitings {
+public class Waiting {
+
+    public static void wait(Runnable runnable) {
+        wait(defaultTimeouts(), runnable);
+    }
+
+    public static void wait(WithTimeout timeouts, Runnable runnable) {
+        new Waiter<Void>(timeouts) {
+            @Override
+            protected Void run() {
+                runnable.run();
+                return null;
+            }
+        }.perform();
+    }
 
     public static <T> T wait(Supplier<T> supplier) {
         return wait(defaultTimeouts(), supplier);
@@ -58,7 +72,7 @@ public class Waitings {
             return new Waiter<Boolean>(timeouts) {
                 @Override
                 protected Boolean run() {
-                    return supplier.get();
+                    return !supplier.get();
                 }
             }.checkResult();
         } catch (Exception ex) {

@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  * @author Anton Solyankin
  */
 
-public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, ISearchContext, SearchContext, WithSearchContext {
+public abstract class HtmlObject extends AbstractUIObject implements ScriptExecutor, IUIObjectFactory, SearchContext, WithSearchContext {
 
     @Override
     public Object executeScript(String script, Object... args) {
@@ -38,41 +38,6 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     @Override
     public Object executeAsyncScript(String script, Object... args) {
         return inOpenedBrowser().executeAsyncScript(script, args);
-    }
-
-    @Override
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    @Override
-    public UIElement onDisplayed(By... locators) {
-        return onDisplayed(get(locators));
-    }
-
-    @Override
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return onDisplayed(get(uiObject));
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locators) {
-        return onDisplayed(get(uiObject, locators));
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
-        return onDisplayed(getAll(uiObject, locators));
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return onDisplayed(uiObject, supplier.get());
-    }
-
-    @Override
-    public <E extends UIElement> UIElements<E> onAllDisplayed(Class<E> uiObject, Supplier<By[]> supplier) {
-        return onAllDisplayed(uiObject, supplier.get());
     }
 
     @Override

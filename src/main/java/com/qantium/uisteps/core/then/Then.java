@@ -15,22 +15,21 @@
  */
 package com.qantium.uisteps.core.then;
 
-import com.qantium.uisteps.core.browser.ISearchContext;
+import com.qantium.uisteps.core.browser.IUIObjectFactory;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.UIObject;
 import org.openqa.selenium.By;
 
 /**
- *
  * @author Anton Solyankin
  */
 public class Then<T extends UIObject> {
 
     private final Class<T> uiObject;
     private By locator;
-    private ISearchContext context;
+    private IUIObjectFactory context;
 
-    public Then(Class<T> uiObject, ISearchContext context) {
+    public Then(Class<T> uiObject, IUIObjectFactory context) {
         this.context = context;
         this.uiObject = uiObject;
     }
@@ -40,16 +39,16 @@ public class Then<T extends UIObject> {
         return this;
     }
 
-    public Then<T> inContext(ISearchContext context) {
+    public Then<T> inContext(IUIObjectFactory context) {
         this.context = context;
         return this;
     }
 
     public T then() {
-        if(locator != null) {
-            return (T) context.onDisplayed((Class<UIElement>) uiObject, locator);
+        if (locator != null) {
+            return (T) context.get((Class<UIElement>) uiObject, locator);
         } else {
-            return context.onDisplayed(uiObject);
+            return context.get(uiObject);
         }
     }
 }
