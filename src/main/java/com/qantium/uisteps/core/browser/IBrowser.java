@@ -271,7 +271,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
         Waiting.wait(select, () -> {
             for (String value : values)
                 select.stream()
-                        .filter(option -> value.equals(option.getContent()))
+                        .filter(option -> value.equals(option.getText()))
                         .findFirst().ifPresent(option -> {
                     if (isSelected(option)) option.click();
                 });
@@ -283,7 +283,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
         Waiting.wait(select, () -> {
             for (String value : values)
                 select.stream()
-                        .filter(option -> value.equals(option.getContent())
+                        .filter(option -> value.equals(option.getText())
                                 && isNotSelected(option))
                         .forEach(option -> option.click());
             return null;
@@ -353,7 +353,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
         Waiting.wait(select, () -> {
             for (String value : values)
                 select.stream()
-                        .filter(option -> value.equals(option.getContent()))
+                        .filter(option -> value.equals(option.getText()))
                         .findFirst().ifPresent(option -> {
                     if (isNotSelected(option)) option.click();
                 });
@@ -365,7 +365,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
         Waiting.wait(select, () -> {
             for (String value : values)
                 select.stream()
-                        .filter(option -> value.equals(option.getContent()) && isSelected(option))
+                        .filter(option -> value.equals(option.getText()) && isSelected(option))
                         .forEach(option -> option.click());
             return null;
         });

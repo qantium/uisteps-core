@@ -22,10 +22,6 @@ public class Alert extends AbstractUIObject {
         return inOpenedBrowser().getTextFrom(this);
     }
 
-    @Override
-    protected Object setValue(Object value) {
-        return accept();
-    }
 
     public org.openqa.selenium.Alert getWrappedAlert() {
         if (wrappedAlert == null) {

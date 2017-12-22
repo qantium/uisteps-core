@@ -35,17 +35,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
         this.wrappedElement = wrappedElement;
     }
 
-
-    @Override
-    protected Object setValue(Object value) {
-        if (value == null) {
-            click();
-        } else {
-            inOpenedBrowser().sendKeys(this, value.toString());
-        }
-        return null;
-    }
-
     @Override
     public WebElement getWrappedElement() {
         if (!checkWrappedElement()) {
@@ -368,3 +357,4 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return as;
     }
 }
+

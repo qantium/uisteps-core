@@ -99,12 +99,4 @@ public class Select extends TextGroup {
         return inOpenedBrowser().isMultiple(this);
     }
 
-    @Override
-    protected Object setValue(Object value) {
-        try {
-            return selectByIndex((Integer) value);
-        } catch (Exception ex) {
-            return selectFirstByVisibleValue(value.toString());
-        }
-    }
 }

@@ -24,7 +24,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
     }
 
     public R checkResult() throws WaitingException {
-       return perform(true);
+        return perform(true);
     }
 
     private R perform(boolean checkResult) throws WaitingException {
@@ -42,9 +42,9 @@ public abstract class Waiter<R> extends TimeoutBuilder {
             try {
                 R result = run();
 
-                if(checkResult) {
-                    if(result instanceof Boolean && result != null) {
-                        if(!Boolean.TRUE.equals(result)) {
+                if (checkResult) {
+                    if (result instanceof Boolean && result != null) {
+                        if (!Boolean.TRUE.equals(result)) {
                             sleep(getPollingTime());
                             continue;
                         }
@@ -57,7 +57,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
             } catch (CheckResultException ex) {
                 flushWaiter();
                 throw ex;
-            } catch (NoBrowserException | UnhandledAlertException ex) {
+            } catch (NoBrowserException | UnhandledAlertException | IllegalArgumentException ex) {
                 flushWaiter();
                 throw new WaitingException(this, ex);
             } catch (Exception ex) {

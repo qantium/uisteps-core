@@ -58,19 +58,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         }
     }
 
-    public int getIndexOf(Object content) {
-        int index = -1;
-        Iterator<E> iterator = iterator();
-
-        while (iterator.hasNext()) {
-            if (content.equals(iterator.next().getContent())) {
-                return ++index;
-            }
-        }
-
-        throw new NoSuchElementException("Cannot find element by content: " + content);
-    }
-
     public E get(int index) {
         isFalse(this, () -> isEmpty());
         return getElements().get(index);
@@ -129,7 +116,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                         uiElement.isListItem();
                         uiElement.setWrappedElement(wrappedElement);
                         elements.add(uiElement);
-                        uiElement.withName(uiElement.getContent().toString());
                     }
                 }
             } catch (Exception ex) {
@@ -173,7 +159,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
     @Override
     public UIElements<E> clone() {
-        LinkedList<E> cloned = (LinkedList<E>) ((LinkedList<E>) getElements()).clone();
+        LinkedList<E> cloned = (LinkedList<E>) getElements().clone();
         return getUIElements(cloned);
     }
 
@@ -208,66 +194,15 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         StringBuffer text = new StringBuffer();
         boolean first = true;
 
-        for (Object value : getContent()) {
+        for (E value : getElements()) {
             if (first) {
                 first = false;
             } else {
                 text.append(separator);
             }
-            text.append(value);
+            text.append(value.getText());
         }
         return text.toString();
-    }
-
-    @Override
-    public List<Object> getContent() {
-        List<Object> values = new ArrayList<>();
-        stream().forEach((element) -> values.add(element.getContent()));
-        return values;
-    }
-
-    @Override
-    protected Object setValue(LinkedHashMap<String, Object> values) {
-        Iterator<E> elementsIterator = iterator();
-
-        values.entrySet().stream().forEach(entry -> {
-
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-
-                    E element = elementsIterator.next();
-                    String oldName = element.getName();
-                    element.withName(key);
-
-                    if (value instanceof Iterable) {
-                        setContent(value);
-                    } else {
-                        element.setContent(value);
-                    }
-                    element.withName(oldName);
-                }
-        );
-        return null;
-    }
-
-    @Override
-    protected Object setValue(Object values) {
-        if (values instanceof Iterable) {
-
-            Iterator valueIterator = ((Iterable) values).iterator();
-            Iterator<E> elementsIterator = iterator();
-
-            while (valueIterator.hasNext()) {
-                try {
-                    elementsIterator.next().setContent(valueIterator.next());
-                } catch (NoSuchElementException ex) {
-                    throw new IllegalArgumentException("The size of UIElements '" + this + "' less then size of values " + values);
-                }
-            }
-        } else {
-            stream().findFirst().get().setContent(values);
-        }
-        return null;
     }
 
     @Override

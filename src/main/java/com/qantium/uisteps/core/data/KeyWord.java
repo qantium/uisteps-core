@@ -1,4 +1,4 @@
-package com.qantium.uisteps.core.name;
+package com.qantium.uisteps.core.data;
 
 
 import java.lang.annotation.*;
@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Inherited
-public @interface Name {
+public @interface KeyWord {
     String value();
 }

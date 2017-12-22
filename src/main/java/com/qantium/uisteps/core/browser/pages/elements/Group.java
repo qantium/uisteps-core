@@ -3,17 +3,18 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.wait.TimeoutBuilder;
-import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
-import java.io.File;
 import java.lang.annotation.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Spliterator;
 import java.util.function.Consumer;
 
 @NotInit
-public class Group<E extends UIElement> extends UIElement {
+public class Group<E extends UIElement> extends UIElement implements Iterable<E> {
 
     private final Class<E> elementType;
     private By[] elementsLocator;
@@ -45,10 +46,6 @@ public class Group<E extends UIElement> extends UIElement {
 
     protected Class<E> getElementType() {
         return elementType;
-    }
-
-    public int getIndexOf(Object content) {
-        return getElements().getIndexOf(content);
     }
 
     public <T extends Group> T withElementsLocator(By... elementLocator) {
@@ -91,67 +88,6 @@ public class Group<E extends UIElement> extends UIElement {
 
     public int size() {
         return getElements().size();
-    }
-
-
-    @Override
-    protected Object setValue(LinkedHashMap<String, Object> values) {
-        return getElements().setValue(values);
-    }
-
-    @Override
-    protected Object setValue(Object values) {
-        return getElements().setValue(values);
-    }
-
-    @Override
-    public Object setContent(String key, Object... values) {
-        return getElements().setContent(key, values);
-    }
-
-    @Override
-    public Object setContent(File file) {
-        return getElements().setContent(file);
-    }
-
-    @Override
-    public boolean hasContent(File file) {
-        return getElements().hasContent(file);
-    }
-
-    @Override
-    public Object setContent(Object value) {
-        return getElements().setContent(value);
-    }
-
-    @Override
-    public boolean hasContent(Object content) {
-        return getElements().hasContent(content);
-    }
-
-    @Override
-    public Object setContent(JSONObject json) {
-        return getElements().setContent(json);
-    }
-
-    @Override
-    public boolean hasContent(JSONObject json) {
-        return getElements().hasContent(json);
-    }
-
-    @Override
-    public JSONObject getJsonContent() {
-        return getElements().getJsonContent();
-    }
-
-    @Override
-    public JSONObject getJsonContent(String... keys) {
-        return getElements().getJsonContent(keys);
-    }
-
-    @Override
-    public LinkedHashMap<String, Object> getContent(String... keys) {
-        return getElements().getContent(keys);
     }
 
     @Override

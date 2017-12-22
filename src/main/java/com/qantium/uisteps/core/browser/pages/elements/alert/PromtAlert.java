@@ -12,11 +12,4 @@ public class PromtAlert extends ConfirmAlert {
         return inOpenedBrowser().enterInto(this, text);
     }
 
-    @Override
-    protected Object setValue(Object value) {
-        if (value != null) {
-            return enter(value.toString());
-        }
-        return accept();
-    }
 }

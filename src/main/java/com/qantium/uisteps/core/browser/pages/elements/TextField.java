@@ -41,8 +41,4 @@ public class TextField extends UIElement {
         return null;
     }
 
-    @Override
-    protected Object setValue(Object value) {
-        return enter(value);
-    }
 }

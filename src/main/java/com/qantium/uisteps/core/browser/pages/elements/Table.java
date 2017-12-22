@@ -65,8 +65,17 @@ public class Table<E extends Table.Row> extends Group<E> {
 
         public T getByName(String name) {
             Table table = (Table) getContext();
-            Row header = table.getHeader();
-            int index = header.getIndexOf(name);
+            Row<T> header = table.getHeader();
+
+            int index = -1;
+
+            for (int i = 0; i < header.size(); i++) {
+                if (header.get(i).getText().equals(name)) {
+                    index = i;
+                    break;
+                }
+            }
+
             return get(index);
         }
     }

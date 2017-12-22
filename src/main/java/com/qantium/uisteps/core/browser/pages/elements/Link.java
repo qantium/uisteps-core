@@ -13,4 +13,5 @@ public class Link extends UIElement {
     public String getReference() {
         return inOpenedBrowser().getAttribute(this, "href");
     }
+
 }

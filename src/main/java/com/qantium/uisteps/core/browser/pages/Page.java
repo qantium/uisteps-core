@@ -90,15 +90,4 @@ public class Page extends HtmlObject {
     public String getText() {
         return get(UIElement.class, By.tagName("body")).getText();
     }
-
-    @Override
-    protected Object setValue(Object value) throws UnsupportedOperationException {
-        if (value instanceof LinkedHashMap) {
-            return setValue((LinkedHashMap<String, Object>) value);
-        } else {
-            throw new UnsupportedOperationException("Pages do not support setValue method");
-        }
-    }
-
-
 }
