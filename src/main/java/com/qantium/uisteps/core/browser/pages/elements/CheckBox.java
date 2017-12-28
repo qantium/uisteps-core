@@ -43,22 +43,4 @@ public class CheckBox extends UIElement {
         return select(Boolean.valueOf(flag));
     }
 
-    @Override
-    protected Object setValue(Object value) {
-
-        if(value == null) {
-            throw new NullPointerException("Cannot set null value to " + this);
-        }
-
-        try {
-            return select((Boolean) value);
-        } catch (Exception ex) {
-            return select(value.toString());
-        }
-    }
-
-    @Override
-    public Boolean getContent() {
-        return isSelected();
-    }
 }

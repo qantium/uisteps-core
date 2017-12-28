@@ -1,112 +1,110 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
+import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
+import java.lang.annotation.*;
 
 /**
  * Created by Anton Solyankin
  */
-public class Table<R extends Table.Row> extends UIElement {
+@NotInit
+@FindBy(tagName = "table")
+@Group.Elements(@FindBy(tagName = "tr"))
+@Table.Header(@FindBy(css = "tr th"))
+public class Table<E extends Table.Row> extends Group<E> {
 
-    private final Class<R> row;
-    private By cellLocator;
-    private By rowLocator;
+    private boolean headerIsFirstRow;
+    private boolean headerIsNotInit = true;
+    private By[] headerLocator;
 
-
-    public Table(Class<R> row) {
-        this.row = row;
+    public Table(Class<E> cellType) throws IllegalArgumentException {
+        super(cellType);
     }
 
-    public Table<R> setCellLocator(By cellLocator) {
-        this.cellLocator = cellLocator;
+    public boolean headerIsFirstRow() {
+        return headerIsFirstRow;
+    }
+
+    public boolean headerIsNotInit() {
+        return headerIsNotInit;
+    }
+
+    public Table<E> headerIsFirstRow(boolean headerIsFirstRow) {
+        this.headerIsFirstRow = headerIsFirstRow;
+        headerIsNotInit = false;
         return this;
     }
 
-    public Table<R> setRowLocator(By rowLocator) {
-        this.rowLocator = rowLocator;
+    public By[] getHeaderLocator() {
+        return headerLocator;
+    }
+
+    public Table<E> withHeaderLocator(By[] headerLocator) {
+        this.headerLocator = headerLocator;
+        headerIsNotInit = false;
         return this;
     }
 
-    @Override
-    public List<Object> getContent() {
-        return getRows().getContent();
-    }
-
-    @Override
-    protected Object setValue(Object value) {
-        return getRows().setValue(value);
-    }
-
-    @Override
-    public Object setContent(String key, Object... values) {
-        return getRows().setContent(key, values);
-    }
-
-    @Override
-    public Object setContent(Object value) {
-        return getRows().setContent(value);
-    }
-
-    public UIElements<R> getRows() {
-        UIElements<R> rows;
-
-        if (rowLocator != null) {
-            rows = getAll(row, rowLocator);
+    public E getHeader() {
+        if (headerIsFirstRow) {
+            return get(0);
         } else {
-            rows = getAll(row);
+            return get(getElementType(), headerLocator);
         }
-
-        if (cellLocator != null) {
-            for (R row : rows) {
-                row.setCellLocator(cellLocator);
-            }
-        }
-
-        return rows;
     }
 
-    public static class Row<C extends UIElement> extends UIElement {
+    @Group.Elements(@FindBy(tagName = "td"))
+    public static class Row<T extends UIElement> extends Group<T> {
 
-        private final Class<C> cell;
-        private By cellLocator;
-
-        public Row(Class<C> cell) {
-            this.cell = cell;
+        public Row(Class<T> elementType) throws IllegalArgumentException {
+            super(elementType);
         }
 
-        public Row<C> setCellLocator(By cellLocator) {
-            this.cellLocator = cellLocator;
-            return this;
-        }
+        public T getByName(String name) {
+            Table table = (Table) getContext();
+            Row<T> header = table.getHeader();
 
-        public UIElements<C> getCells() {
-            if (cellLocator != null) {
-                return getAll(cell, cellLocator);
-            } else {
-                return getAll(cell);
+            int index = -1;
+
+            for (int i = 0; i < header.size(); i++) {
+                if (header.get(i).getText().equals(name)) {
+                    index = i;
+                    break;
+                }
             }
-        }
 
-        @Override
-        public List<Object> getContent() {
-            return getCells().getContent();
+            return get(index);
         }
+    }
 
-        @Override
-        protected Object setValue(Object value) {
-            return getCells().setValue(value);
+    @Override
+    public <T extends UIElement> T as(Class<T> type) {
+        T as = super.as(type);
+        if (as instanceof Table) {
+            Table table = (Table) as;
+            table.headerIsFirstRow = headerIsFirstRow;
+            table.headerIsNotInit = headerIsNotInit;
+            table.headerLocator = headerLocator;
         }
+        return as;
+    }
 
-        @Override
-        public Object setContent(String key, Object... values) {
-            return getCells().setContent(key, values);
-        }
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE, ElementType.FIELD})
+    @Inherited
+    public @interface Header {
+        FindBy[] value() default @FindBy();
 
-        @Override
-        public Object setContent(Object value) {
-            return getCells().setContent(value);
-        }
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE, ElementType.FIELD})
+    @Inherited
+    public @interface HeaderIsFirstRow {
+        boolean value() default true;
     }
 }
+

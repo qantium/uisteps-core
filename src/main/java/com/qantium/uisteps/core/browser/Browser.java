@@ -19,13 +19,7 @@ package com.qantium.uisteps.core.browser;
 import com.qantium.net.rest.RestApi;
 import com.qantium.net.rest.RestApiRequest;
 import com.qantium.uisteps.core.browser.pages.*;
-import com.qantium.uisteps.core.browser.pages.elements.*;
-import com.qantium.uisteps.core.browser.pages.elements.Select.Option;
-import com.qantium.uisteps.core.browser.pages.elements.actions.CheckBoxSelect;
-import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
-import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
-import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
-import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
+import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.name.NameConverter;
 import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.screenshots.Ignored;
@@ -36,20 +30,17 @@ import net.lightbody.bmp.BrowserMobProxyServer;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.security.Credentials;
-import org.openqa.selenium.security.UserAndPassword;
 import ru.yandex.qatools.ashot.coordinates.Coords;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Supplier;
 
-import static com.qantium.uisteps.core.properties.UIStepsProperty.NULL_VALUE;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.SOURCE_TAKE_FAKE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -124,16 +115,6 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public boolean isAlive() {
-        try {
-            driver.getWindowHandles().size();
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    @Override
     public BrowserMobProxyServer getProxy() {
         return proxy;
     }
@@ -165,16 +146,6 @@ public class Browser implements IBrowser {
         }
     }
 
-    @Override
-    public List<WebElement> findElements(By locator) {
-        return getDriver().findElements(locator);
-    }
-
-    @Override
-    public WebElement findElement(By locator) {
-        return getDriver().findElement(locator);
-    }
-
     //Open
     @Override
     public Page openUrl(String url) {
@@ -191,31 +162,6 @@ public class Browser implements IBrowser {
     }
 
     @Override
-    public Page open(Url url) {
-        return open(url, null);
-    }
-
-    @Override
-    public Page open(Url url, String[] params) {
-        return open(Page.class, url, params);
-    }
-
-    @Override
-    public <T extends Page> T open(Class<T> page, Url url) {
-        return open(page, url, null);
-    }
-
-    @Override
-    public <T extends Page> T open(Class<T> page, String[] params) {
-        return open(page, null, params);
-    }
-
-    @Override
-    public <T extends Page> T open(Class<T> page) {
-        return open(page, null, null);
-    }
-
-    @Override
     public <T extends Page> T open(Class<T> page, Url url, String[] params) {
         T pageInstance = uiObjectFactory.get(page);
         Url pageUrl;
@@ -225,32 +171,14 @@ public class Browser implements IBrowser {
         } else {
             pageUrl = urlFactory.getUrlOf(pageInstance);
         }
-        pageInstance.setUrl(pageUrl);
+        pageInstance.withUrl(pageUrl);
 
         if (ArrayUtils.isNotEmpty(params)) {
             pageUrl = urlFactory.getUrlOf(pageInstance, params);
-            pageInstance.setUrl(pageUrl);
+            pageInstance.withUrl(pageUrl);
         }
 
         return open(pageInstance);
-    }
-
-    @Override
-    public <T extends Page> T open(T page) {
-        Url url = page.getUrl();
-        getDriver().get(url.toString());
-        page.afterInitialization();
-        return page;
-    }
-
-    @Override
-    public String getCurrentUrl() {
-        return getDriver().getCurrentUrl();
-    }
-
-    @Override
-    public String getCurrentTitle() {
-        return getDriver().getTitle();
     }
 
     //Window
@@ -308,479 +236,6 @@ public class Browser implements IBrowser {
         return getWindowManager().getCurrentWindowIndex();
     }
 
-    //Window position
-    @Override
-    public Point getWindowPosition() {
-        return getDriver().manage().window().getPosition();
-    }
-
-    @Override
-    public void setWindowPosition(int newX, int newY) {
-        getDriver().manage().window().setPosition(new Point(newX, newY));
-    }
-
-    @Override
-    public void moveWindowBy(int xOffset, int yOffset) {
-        getDriver().manage().window().getPosition().moveBy(xOffset, yOffset);
-    }
-
-    @Override
-    public void moveWindowTo(int newX, int newY) {
-        getDriver().manage().window().getPosition().moveBy(newX, newY);
-    }
-
-    //Navigation
-    @Override
-    public void goBack() {
-        getDriver().navigate().back();
-    }
-
-    @Override
-    public void goForward() {
-        getDriver().navigate().forward();
-    }
-
-    //Window size
-    @Override
-    public void maximizeWindow() {
-        getDriver().manage().window().maximize();
-    }
-
-    @Override
-    public Dimension getWindowSize() {
-        return getDriver().manage().window().getSize();
-    }
-
-    @Override
-    public void setWindowSize(int width, int height) {
-        getDriver().manage().window().setSize(new Dimension(width, height));
-    }
-
-    @Override
-    public void setWindowWidth(int width) {
-        setWindowSize(width, getWindowSize().getHeight());
-    }
-
-    @Override
-    public void setWindowHeight(int height) {
-        setWindowSize(getWindowSize().getWidth(), height);
-
-    }
-
-    @Override
-    public void refreshPage() {
-        getDriver().navigate().refresh();
-    }
-
-    @Override
-    public void deleteAllCookies() {
-        getDriver().manage().deleteAllCookies();
-    }
-
-    @Override
-    public void deleteCookie(String name) {
-        getDriver().manage().deleteCookieNamed(name);
-    }
-
-    @Override
-    public Set<Cookie> getCookies() {
-        return getDriver().manage().getCookies();
-    }
-
-    //Elements
-    @Override
-    public void click() {
-        perform(actions -> actions.click());
-    }
-
-    @Override
-    public void clickAndHold() {
-        perform(actions -> actions.clickAndHold());
-    }
-
-    @Override
-    public void clickAndHold(UIElement element) {
-        perform(actions -> actions.clickAndHold(element.getWrappedElement()));
-    }
-
-    @Override
-    public void doubleClick() {
-        perform(actions -> actions.doubleClick());
-    }
-
-    @Override
-    public void doubleClick(UIElement element) {
-        perform(element, actions -> actions.doubleClick(element.getWrappedElement()));
-    }
-
-    @Override
-    public void contextClick() {
-        perform(actions -> actions.contextClick());
-    }
-
-    @Override
-    public void contextClick(UIElement element) {
-        perform(element, actions -> actions.contextClick(element.getWrappedElement()));
-    }
-
-    @Override
-    public void releaseMouse() {
-        perform(actions -> actions.release());
-    }
-
-    @Override
-    public void releaseMouse(UIElement element) {
-        perform(element, actions -> actions.release(element.getWrappedElement()));
-    }
-
-    @Override
-    public void dragAndDrop(UIElement source, UIElement target) {
-        perform(source, actions -> actions.dragAndDrop(source.getWrappedElement(), target.getWrappedElement()));
-    }
-
-    public void dragAndDrop(UIElement element, int xOffset, int yOffset) {
-        perform(element, actions -> actions.dragAndDropBy(element.getWrappedElement(), xOffset, yOffset));
-    }
-
-    @Override
-    public void keyDown(Keys theKey) {
-        perform(actions -> actions.keyDown(theKey));
-    }
-
-    @Override
-    public void keyDown(UIElement element, Keys theKey) {
-        perform(element, actions -> actions.keyDown(element.getWrappedElement(), theKey));
-    }
-
-    @Override
-    public void keyUp(Keys theKey) {
-        perform(actions -> actions.keyUp(theKey));
-    }
-
-    @Override
-    public void keyUp(UIElement element, Keys theKey) {
-        perform(element, actions -> actions.keyUp(element.getWrappedElement(), theKey));
-    }
-
-    @Override
-    public void click(UIElement element) {
-        perform(element, actions -> actions.click(element.getWrappedElement()));
-    }
-
-    @Override
-    public void clickOnPoint(UIElement element, int x, int y) {
-        perform(element, actions -> actions.moveToElement(element.getWrappedElement(), x, y).click());
-    }
-
-    @Override
-    public void moveMouseByOffset(int xOffset, int yOffset) {
-        perform(actions -> actions.moveByOffset(xOffset, yOffset));
-    }
-
-    @Override
-    public void moveMouseOver(UIElement element, int xOffset, int yOffset) {
-        perform(element, actions -> actions.moveToElement(element.getWrappedElement(), xOffset, yOffset));
-    }
-
-    @Override
-    public void moveMouseOver(UIElement element) {
-        perform(element, actions -> actions.moveToElement(element.getWrappedElement()));
-    }
-
-    @Override
-    public void typeInto(TextField input, Object text) {
-        perform(input, () -> {
-            WebElement webElement = input.getWrappedElement();
-            String keys = text == null ? NULL_VALUE.getValue() : text.toString();
-
-            if (!NULL_VALUE.getValue().equals(keys)) {
-                webElement.sendKeys(keys);
-            }
-            return null;
-        });
-    }
-
-    @Override
-    public void sendKeys(UIElement element, CharSequence... keysToSend) {
-        perform(element, () -> {
-            CharSequence[] keys = keysToSend == null ? new CharSequence[0] : keysToSend;
-            if (ArrayUtils.isNotEmpty(keys)) {
-                WebElement webElement = element.getWrappedElement();
-                webElement.sendKeys(keys);
-            }
-            return null;
-        });
-    }
-
-    @Override
-    public void clear(TextField input) {
-        perform(input, () -> {
-            input.getWrappedElement().clear();
-            return null;
-        });
-    }
-
-    @Override
-    public void enterInto(TextField input, Object text) {
-        if (text != null && !NULL_VALUE.getValue().equals(text.toString())) {
-            clear(input);
-        }
-        typeInto(input, text);
-    }
-
-    //Tags
-    @Override
-    public String getTagNameOf(UIElement element) {
-        return (String) perform(element, () -> element.getWrappedElement().getTagName());
-    }
-
-    @Override
-    public String getAttribute(UIElement element, String attribute) {
-        return (String) perform(element, () -> {
-            WebElement wrappedElement = element.getWrappedElement();
-            return wrappedElement.getAttribute(attribute);
-        });
-    }
-
-    @Override
-    public String getCSSPropertyOf(UIElement element, String cssProperty) {
-        return (String) perform(element, () -> {
-            WebElement wrappedElement = element.getWrappedElement();
-            return wrappedElement.getCssValue(cssProperty);
-        });
-    }
-
-    @Override
-    public String getHtmlOf(UIElement element) {
-        return getAttribute(element, "innerHtml");
-    }
-
-    @Override
-    public Point getPositionOf(UIElement element) {
-        return element.getWrappedElement().getLocation();
-    }
-
-    @Override
-    public Point getMiddlePositionOf(UIElement element) {
-        Point position = getPositionOf(element);
-        Dimension size = getSizeOf(element);
-
-        int x = position.x + size.width / 2;
-        int y = position.y + size.height / 2;
-
-        return new Point(x, y);
-    }
-
-    @Override
-    public Point getRelativePositionOf(UIElement element, UIElement target) {
-        Point elementPosition = getPositionOf(element);
-        Point targetPosition = getPositionOf(target);
-
-        int x = elementPosition.x - targetPosition.x;
-        int y = elementPosition.y - targetPosition.y;
-
-        return new Point(x, y);
-    }
-
-    @Override
-    public Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
-        Point elementPosition = getMiddlePositionOf(element);
-        Point targetPosition = getMiddlePositionOf(target);
-
-        int x = elementPosition.x - targetPosition.x;
-        int y = elementPosition.y - targetPosition.y;
-
-        return new Point(x, y);
-    }
-
-    @Override
-    public Dimension getSizeOf(UIElement element) {
-        return element.getWrappedElement().getSize();
-    }
-
-
-    @Override
-    public String getTextFrom(UIElement element) {
-        return (String) perform(element, () -> {
-
-            WebElement wrappedElement = element.getWrappedElement();
-            if ("input".equals(wrappedElement.getTagName())) {
-                String enteredText = wrappedElement.getAttribute("value");
-                return enteredText == null ? "" : enteredText;
-            } else {
-                return wrappedElement.getText();
-            }
-
-        });
-    }
-
-    @Override
-    public boolean isSelected(UIElement element) {
-        return (boolean) perform(element, () -> element.getWrappedElement().isSelected());
-    }
-
-    @Override
-    public boolean isEnabled(UIElement element) {
-        return (boolean) perform(element, () -> element.getWrappedElement().isEnabled());
-    }
-
-    //Select
-    @Override
-    public void select(Option option) {
-        option.select();
-    }
-
-    @Override
-    public void deselectAllValuesFrom(Select select) {
-        select.deselectAll();
-    }
-
-    @Override
-    public void deselect(Option option) {
-        option.deselect();
-    }
-
-    @Override
-    public boolean isMultiple(Select select) {
-        return (boolean) perform(select, () -> {
-            String value = getAttribute(select, "multiple");
-            return value != null && !"false".equals(value);
-        });
-    }
-
-    //Radio button
-    @Override
-    public boolean select(RadioButton button) {
-        return new CheckBoxSelect(button).perform(true);
-    }
-    //CheckBox
-
-    @Override
-    public boolean select(CheckBox checkBox) {
-        return select(checkBox, true);
-    }
-
-
-    @Override
-    public boolean deselect(CheckBox checkBox) {
-        return select(checkBox, false);
-    }
-
-    @Override
-    public boolean select(CheckBox checkBox, boolean select) {
-        return new CheckBoxSelect(checkBox).perform(select);
-    }
-
-    //Scroll window
-    @Override
-    public void scrollWindowByOffset(int x, int y) {
-        executeScript("window.scrollBy(" + x + "," + y + ");");
-    }
-
-    @Override
-    public void scrollWindowToTarget(UIElement element) {
-        perform(element, () -> {
-            WebElement wrappedElement = element.getWrappedElement();
-            return element.inOpenedBrowser().executeScript("arguments[0].scrollIntoView();", wrappedElement);
-        });
-    }
-
-    @Override
-    public void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
-        WebElement target = element.getWrappedElement();
-        Point location = target.getLocation();
-
-        int xLocation = location.x + x;
-        int yLocation = location.y + y;
-        String script = "window.scroll(arguments[0],arguments[1]);";
-
-        executeScript(script, xLocation, yLocation);
-    }
-
-    //Scroll
-    @Override
-    public void scrollToTarget(UIElement scroll, UIElement target) {
-        Point scrollPosition = getPositionOf(scroll);
-        Point targetPosition = getPositionOf(target);
-        int targetX = targetPosition.x - scrollPosition.x;
-        int targetY = targetPosition.y - scrollPosition.y;
-        scroll(scroll, targetX, targetY);
-    }
-
-    @Override
-    public void verticalScrollToTarget(UIElement scroll, UIElement target) {
-        Point targetPosition = getPositionOf(target);
-        Point scrollPosition = getPositionOf(scroll);
-        verticalScroll(scroll, targetPosition.y - scrollPosition.y);
-    }
-
-    @Override
-    public void horizontalScrollToTarget(UIElement scroll, UIElement target) {
-        Point targetPosition = getPositionOf(target);
-        Point scrollPosition = getPositionOf(scroll);
-        horizontalScroll(scroll, targetPosition.x - scrollPosition.x);
-    }
-
-    @Override
-    public void horizontalScroll(UIElement scroll, int pixels) {
-        Point position = getPositionOf(scroll);
-        scroll(scroll, pixels, position.y);
-    }
-
-    @Override
-    public void verticalScroll(UIElement scroll, int pixels) {
-        Point position = getPositionOf(scroll);
-        scroll(scroll, position.x, pixels);
-    }
-
-    @Override
-    public void scroll(UIElement scroll, int x, int y) {
-        perform(scroll, actions -> actions
-                .clickAndHold(scroll.getWrappedElement())
-                .moveByOffset(x, y)
-                .release());
-    }
-
-
-    //FileInput
-    @Override
-    public void setFileToUpload(FileInput fileInput, String filePath) {
-        fileInput.getWrappedFileInput().setFileToUpload(filePath);
-    }
-
-    //Alert
-    @Override
-    public void accept(Alert alert) {
-        alert.getWrappedAlert().accept();
-    }
-
-    @Override
-    public void dismiss(ConfirmAlert confirm) {
-        confirm.getWrappedAlert().dismiss();
-    }
-
-    @Override
-    public PromtAlert enterInto(PromtAlert promt, String text) {
-        promt.getWrappedAlert().sendKeys(text);
-        return promt;
-    }
-
-    @Override
-    public void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
-        Credentials credentials = new UserAndPassword(login, password);
-        authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
-    }
-
-    @Override
-    public Object executeAsyncScript(String script, Object... args) {
-        return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
-    }
-
-    @Override
-    public Object executeScript(String script, Object... args) {
-        return ((JavascriptExecutor) getDriver()).executeScript(script, args);
-    }
-
     @Override
     public String getName() {
         return name;
@@ -813,50 +268,6 @@ public class Browser implements IBrowser {
         }
 
         return browserName.toString();
-    }
-
-    //onDisplayed
-    @Override
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        T uiObjectInstance;
-
-        if (this.equals(uiObject.inOpenedBrowser())) {
-            uiObjectInstance = uiObject;
-        } else {
-            uiObjectInstance = get((Class<T>) uiObject.getClass());
-        }
-        uiObjectInstance.afterInitialization();
-        return uiObjectInstance;
-    }
-
-    @Override
-    public UIElement onDisplayed(By... locator) {
-        return onDisplayed(UIElement.class);
-    }
-
-    @Override
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return onDisplayed(get(uiObject));
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locator) {
-        return onDisplayed(get(uiObject, locator));
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return onDisplayed(get(uiObject, supplier.get()));
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locator) {
-        return onDisplayed(getAll(uiObject, locator));
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return onDisplayed(getAll(uiObject, supplier.get()));
     }
 
     //Screenshots

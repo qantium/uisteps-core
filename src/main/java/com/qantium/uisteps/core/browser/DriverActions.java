@@ -2,16 +2,18 @@ package com.qantium.uisteps.core.browser;
 
 import com.qantium.uisteps.core.browser.pages.Page;
 import com.qantium.uisteps.core.browser.pages.Url;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.IPhotographer;
 import com.qantium.uisteps.core.then.IThen;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.Set;
 
 /**
  * Created by Anton Solyankin
  */
-public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IUIObjectFactory, ISearchContext, IPhotographer {
+public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IUIObjectFactory, IPhotographer {
 
     WebDriver getDriver();
 
@@ -19,71 +21,152 @@ public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IU
 
     Page openUrl(String url, String[] params);
 
-    Page open(Url url);
+    default Page open(Url url) {
+        return open(url, null);
+    }
 
-    Page open(Url url, String[] params);
+    default Page open(Url url, String[] params) {
+        return open(Page.class, url, params);
+    }
 
-    <T extends Page> T open(Class<T> page, Url url);
+    default <T extends Page> T open(Class<T> page, Url url) {
+        return open(page, url, null);
+    }
 
-    <T extends Page> T open(Class<T> page, String[] params);
+    default <T extends Page> T open(Class<T> page, String[] params) {
+        return open(page, null, params);
+    }
+
+    default <T extends Page> T open(Class<T> page) {
+        return open(page, null, null);
+    }
 
     <T extends Page> T open(Class<T> page, Url url, String[] params);
 
-    <T extends Page> T open(Class<T> page);
+    default <T extends Page> T open(T page) {
+        Url url = page.getUrl();
+        getDriver().get(url.toString());
+        Waiting.waitUntil(page, () -> page.isCurrentlyDisplayed());
+        return page;
+    }
 
-    <T extends Page> T open(T page);
+    default String getCurrentUrl() {
+        return getDriver().getCurrentUrl();
+    }
 
-    String getCurrentUrl();
-
-    String getCurrentTitle();
+    default String getCurrentTitle() {
+        return getDriver().getTitle();
+    }
 
     //Window position
-    Point getWindowPosition();
+    default Point getWindowPosition() {
+        return getDriver().manage().window().getPosition();
+    }
 
-    void setWindowPosition(int newX, int newY);
+    default void setWindowPosition(int newX, int newY) {
+        getDriver().manage().window().setPosition(new Point(newX, newY));
+    }
 
-    void moveWindowBy(int xOffset, int yOffset);
+    default void moveWindowBy(int xOffset, int yOffset) {
+        getDriver().manage().window().getPosition().moveBy(xOffset, yOffset);
+    }
 
-    void moveWindowTo(int newX, int newY);
+    default void moveWindowTo(int newX, int newY) {
+        getDriver().manage().window().getPosition().moveBy(newX, newY);
+    }
 
     //Navigation
-    void goBack();
+    default void goBack() {
+        getDriver().navigate().back();
+    }
 
-    void goForward();
+    default void goForward() {
+        getDriver().navigate().forward();
+    }
 
     //Window size
-    void maximizeWindow();
+    default void maximizeWindow() {
+        getDriver().manage().window().maximize();
+    }
 
-    Dimension getWindowSize();
+    default Dimension getWindowSize() {
+        return getDriver().manage().window().getSize();
+    }
 
-    void setWindowSize(int width, int height);
+    default void setWindowSize(int width, int height) {
+        getDriver().manage().window().setSize(new Dimension(width, height));
+    }
 
-    void setWindowWidth(int width);
+    default void setWindowWidth(int width) {
+        setWindowSize(width, getWindowSize().getHeight());
+    }
 
-    void setWindowHeight(int height);
+    default void setWindowHeight(int height) {
+        setWindowSize(getWindowSize().getWidth(), height);
+    }
 
-    void refreshPage();
+    default void refreshPage() {
+        getDriver().navigate().refresh();
+    }
 
-    void deleteAllCookies();
+    default void deleteAllCookies() {
+        getDriver().manage().deleteAllCookies();
+    }
 
-    void deleteCookie(String name);
+    default void deleteCookie(String name) {
+        getDriver().manage().deleteCookieNamed(name);
+    }
 
-    Set<Cookie> getCookies();
+    default Set<Cookie> getCookies() {
+        return getDriver().manage().getCookies();
+    }
 
-    //RobotActions
-    void click();
+    default void click() {
+        Waiting.wait(() -> new Actions(getDriver()).click().perform());
+    }
 
-    void clickAndHold();
+    default void clickAndHold() {
+        Waiting.wait(() -> new Actions(getDriver()).clickAndHold().perform());
+    }
 
-    void doubleClick();
+    default void doubleClick() {
+        Waiting.wait(() -> new Actions(getDriver()).doubleClick().perform());
+    }
 
-    void contextClick();
+    default void contextClick() {
+        Waiting.wait(() -> new Actions(getDriver()).contextClick().perform());
+    }
 
-    void releaseMouse();
+    default void releaseMouse() {
+        Waiting.wait(() -> new Actions(getDriver()).release().perform());
+    }
 
-    void keyDown(Keys theKey);
+    default void keyDown(Keys theKey) {
+        Waiting.wait(() -> new Actions(getDriver()).keyDown(theKey).perform());
+    }
 
-    void keyUp(Keys theKey);
+    default void keyUp(Keys theKey) {
+        Waiting.wait(() -> new Actions(getDriver()).keyUp(theKey).perform());
+    }
 
-    void moveMouseByOffset(int xOffset, int yOffset);
+    default void keyPress(Keys theKey) {
+        keyDown(theKey);
+        keyUp(theKey);
+    }
+
+    default void moveMouseByOffset(int xOffset, int yOffset) {
+        Waiting.wait(() -> new Actions(getDriver()).moveByOffset(xOffset, yOffset).perform());
+    }
+
+
+    @Override
+    default Object executeAsyncScript(String script, Object... args) {
+        return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
+    }
+
+    @Override
+    default Object executeScript(String script, Object... args) {
+        return ((JavascriptExecutor) getDriver()).executeScript(script, args);
+    }
+
 }

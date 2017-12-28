@@ -35,9 +35,4 @@ public class FileInput extends UIElement {
         inOpenedBrowser().setFileToUpload(this, filePath);
         return null;
     }
-
-    @Override
-    protected Object setValue(Object value) {
-        return setFileToUpload(value.toString());
-    }
 }

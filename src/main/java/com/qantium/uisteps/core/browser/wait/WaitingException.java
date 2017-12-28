@@ -5,19 +5,17 @@ package com.qantium.uisteps.core.browser.wait;
  */
 public class WaitingException extends RuntimeException {
 
-    public WaitingException(String message) {
-        super(message);
+    public WaitingException(TimeoutBuilder timeouts) {
+        super(getMessage(timeouts));
     }
 
-    public WaitingException(String message, Throwable cause) {
-        super(message, cause);
+    public WaitingException(TimeoutBuilder timeouts, Throwable cause) {
+        super(getMessage(timeouts), cause);
     }
 
-    public WaitingException(long timeout, long pollingTime) {
-        this("DisplayWaiting timeout " + timeout + " ms polling every " + pollingTime + " ms had been exceeded!");
-    }
-
-    public WaitingException(long timeout, long pollingTime, Throwable cause) {
-        this(new WaitingException(timeout, pollingTime).getMessage(), cause);
+    private static String getMessage(TimeoutBuilder timeouts) {
+        return "Waiting timeout " + timeouts.getTimeout()
+                + " ms polling every " + timeouts.getPollingTime() + " ms with delay "
+                + timeouts.getDelay() + " ms had been exceeded!";
     }
 }

@@ -84,12 +84,12 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * <li>testrail.run</li>
  * <li>testrail.statuses</li>
  * <li>testrail.outcome.file</li>
- * <li>run.groups</li>
- * <li>com.qantium.uisteps.core.storage.dir</li>
+ * <li>run.tables</li>
+ * <li>storage.dir</li>
  * <li>retry.attempts</li>
  * <li>retry.withDelay</li>
  * <li>element.decorator.use</li>
- * <li>element.decorator.border<</li>
+ * <li>element.decorator.style<</li>
  * </ul>
  *
  * @author Anton Solyankin

@@ -41,18 +41,4 @@ public class TextField extends UIElement {
         return null;
     }
 
-    @Override
-    protected Object setValue(Object value) {
-        if (value == null) {
-            return clear();
-        }
-
-        String text = value.toString();
-
-        if (isEmpty(text)) {
-            return clear();
-        } else {
-            return enter(text);
-        }
-    }
 }

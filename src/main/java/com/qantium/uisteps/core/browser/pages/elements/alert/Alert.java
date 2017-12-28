@@ -13,24 +13,21 @@ public class Alert extends AbstractUIObject {
     private org.openqa.selenium.Alert wrappedAlert;
 
 
-    public void accept() {
+    public Object accept() {
         inOpenedBrowser().accept(this);
+        return null;
     }
 
     public String getText() {
-        return getWrappedAlert().getText();
+        return inOpenedBrowser().getTextFrom(this);
     }
 
+
     public org.openqa.selenium.Alert getWrappedAlert() {
-        if(wrappedAlert == null) {
+        if (wrappedAlert == null) {
             wrappedAlert = inOpenedBrowser().getDriver().switchTo().alert();
         }
         return wrappedAlert;
-    }
-
-    @Override
-    public String toString() {
-        return getWrappedAlert().getText();
     }
 
     @Override

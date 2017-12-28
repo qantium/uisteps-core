@@ -18,13 +18,16 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.pages.elements.finder.*;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+
+import static com.qantium.uisteps.core.browser.wait.Waiting.isFalse;
 
 /**
  * Contains elements of one type
@@ -36,7 +39,7 @@ import java.util.function.Consumer;
 public class UIElements<E extends UIElement> extends UIElement implements Cloneable, Iterable<E> {
 
     private final Class<E> elementType;
-    private List<E> elements;
+    private LinkedList<E> elements;
 
     public UIElements(Class<E> elementType) throws IllegalArgumentException {
 
@@ -46,21 +49,18 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this.elementType = elementType;
     }
 
-    public UIElements(Class<E> elementType, List<E> elements) throws IllegalArgumentException {
-        this(elementType, elements, true);
-    }
-
-    private UIElements(Class<E> elementType, List<E> elements, boolean initContext) throws IllegalArgumentException {
+    public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
         this(elementType);
         this.elements = elements;
 
-        if (initContext) {
-            for (int index = 0; index < this.elements.size(); index++) {
-                E element = this.elements.get(index);
-                element.setContextList(this);
-                element.setContextListIndex(index);
-            }
+        for (E element : elements) {
+            element.isListItem();
         }
+    }
+
+    public E get(int index) {
+        isFalse(this, () -> isEmpty());
+        return getElements().get(index);
     }
 
     @Override
@@ -86,38 +86,37 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return !isEmpty();
     }
 
-    protected E[] toArray() {
+    private E[] toArray() {
         return (E[]) getElements().<E>toArray();
     }
 
-    private List<E> getElements() {
-
-        if (elements != null) {
-            return elements;
-        } else {
+    private LinkedList<E> getElements() {
+        if (elements == null || elements.isEmpty()) {
             refresh();
-            return elements;
         }
+
+        return elements;
+    }
+
+    public Stream<E> stream() {
+        isFalse(this, () -> isEmpty());
+        return new Stream(getElements().stream());
     }
 
     public <T extends UIElements<E>> T refresh() {
-        elements = new ArrayList<>();
+        elements = new LinkedList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
-
-        int index = 0;
-
         while (iterator.hasNext()) {
 
             try {
                 By locator = iterator.next();
-
                 for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
-                    E uiElement = get(getElementType(), locator);
-                    uiElement.setWrappedElement(wrappedElement);
-                    elements.add(uiElement);
-                    uiElement.setContextList(this);
-                    uiElement.setContextListIndex(index++);
-                    uiElement.withName(uiElement.getContent().toString());
+                    if (wrappedElement.isDisplayed()) {
+                        E uiElement = get(getElementType(), locator);
+                        uiElement.isListItem();
+                        uiElement.setWrappedElement(wrappedElement);
+                        elements.add(uiElement);
+                    }
                 }
             } catch (Exception ex) {
                 if (!iterator.hasNext() && elements.isEmpty()) {
@@ -129,13 +128,14 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return (T) this;
     }
 
-    public E get(int index) {
-        return getElements().get(index);
-    }
 
     @Override
     public Iterator<E> iterator() {
         return getElements().iterator();
+    }
+
+    public Iterator<E> descendingIterator() {
+        return getElements().descendingIterator();
     }
 
     @Override
@@ -152,56 +152,14 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         return getElements().size();
     }
 
-    public UIElements<E> exceptFirst() {
-        return except(0);
-    }
 
-    public UIElements<E> exceptLast() {
-        return except(-1);
-    }
-
-    public UIElements<E> subList(int fromIndex, int toIndex) {
-        List<E> subList = clone().getElements().subList(fromIndex, toIndex);
-        return new UIElements(elementType, subList, false);
-    }
-
-    public E getFirst() {
-        return get(0);
-    }
-
-    public E getLast() {
-        return get(size() - 1);
-    }
-
-    public UIElements<E> except(Integer... indexes) {
-
-        Set<Integer> proxyIndexes = new HashSet();
-
-        for (int index : indexes) {
-            if (index < 0) {
-                index = size() - 1;
-            }
-            proxyIndexes.add(index);
-        }
-
-        List<E> proxyList = new ArrayList<>();
-        for (int i = 0; i < proxyIndexes.size(); i++) {
-
-            if (!proxyIndexes.contains(i)) {
-                proxyList.add(getElements().get(i));
-            }
-        }
-
-        return new UIElements(elementType, elements, false);
-    }
-
-    public UIElements<E> getUIElements(List<E> elements) {
+    public UIElements<E> getUIElements(LinkedList<E> elements) {
         return new UIElements(elementType, elements);
     }
 
     @Override
     public UIElements<E> clone() {
-        ArrayList<E> cloned = (ArrayList<E>) ((ArrayList<E>) getElements()).clone();
+        LinkedList<E> cloned = (LinkedList<E>) getElements().clone();
         return getUIElements(cloned);
     }
 
@@ -214,35 +172,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     protected HtmlObject getChildContext() {
         return getContext();
-    }
-
-    public HowCondition<E, E> get() {
-        FinderGet finder = new FinderGet(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> isDisplayed() {
-        Finder finder = new FinderIsDisplayed(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<UIElements<E>, E> getAll() {
-        Finder finder = new FinderGetAll(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> contains() {
-        Finder finder = new FinderContains(this);
-        return new HowCondition(finder);
-    }
-
-    public HowCondition<Boolean, E> allContains() {
-        Finder finder = new FinderContainsAll(this);
-        return new HowCondition(finder);
-    }
-
-    public Finder<?, E> by(Find by) {
-        return new Finder(this).by(by);
     }
 
     @Override
@@ -265,67 +194,110 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         StringBuffer text = new StringBuffer();
         boolean first = true;
 
-        for (Object value : getContent()) {
+        for (E value : getElements()) {
             if (first) {
                 first = false;
             } else {
                 text.append(separator);
             }
-            text.append(value);
+            text.append(value.getText());
         }
-
         return text.toString();
     }
 
     @Override
-    public List<Object> getContent() {
-        List<Object> values = new ArrayList<>();
-        getElements().stream().forEach((element) -> values.add(element.getContent()));
-        return values;
-    }
-
-    @Override
-    protected Object setValue(LinkedHashMap<String, Object> values) {
-
-        Iterator<E> elementsIterator = getElements().iterator();
-
-        values.entrySet().stream().forEach(entry -> {
-
-                    String key = entry.getKey();
-                    Object value = entry.getValue();
-
-                    E element = elementsIterator.next();
-                    String oldName = element.getName();
-                    element.withName(key);
-
-                    if (value instanceof Iterable) {
-                        setContent(value);
-                    } else {
-                        element.setContent(value);
-                    }
-                    element.withName(oldName);
-                }
-        );
-        return null;
-    }
-
-    @Override
-    protected Object setValue(Object values) {
-        if (values instanceof Iterable) {
-
-            Iterator valueIterator = ((Iterable) values).iterator();
-            Iterator<E> elementsIterator = iterator();
-
-            while (valueIterator.hasNext()) {
-                try {
-                    elementsIterator.next().setContent(valueIterator.next());
-                } catch (NoSuchElementException ex) {
-                    throw new IllegalArgumentException("The size of UIElements '" + this + "' less then size of values " + values);
-                }
-            }
-        } else {
-            getFirst().setContent(values);
+    public <T extends UIElement> T as(Class<T> type) {
+        T as = super.as(type);
+        if (as instanceof UIElements) {
+            UIElements uiElements = (UIElements) as;
+            uiElements.elements = elements;
         }
-        return null;
+        return as;
     }
+
+    public static class Stream<E extends UIElement> {
+
+        private final java.util.stream.Stream<E> stream;
+
+        public Stream(java.util.stream.Stream<E> stream) {
+            this.stream = stream;
+        }
+
+        private Stream<E> stream(java.util.stream.Stream<E> stream) {
+            return new Stream<>(stream);
+        }
+
+        public Stream<E> filter(Predicate<? super E> predicate) {
+            return stream(stream.filter(predicate));
+        }
+
+        public Stream<E> sorted(Comparator<? super E> comparator) {
+            return stream(stream.sorted(comparator));
+        }
+
+        public Stream<E> peek(Consumer<? super E> action) {
+            return stream(stream.peek(action));
+        }
+
+        public Stream<E> limit(long maxSize) {
+            return stream(stream.limit(maxSize));
+        }
+
+        public Stream<E> skip(long n) {
+            return stream(stream.skip(n));
+        }
+
+        public void forEach(Consumer<? super E> action) {
+            stream.forEach(action);
+        }
+
+        public Optional<E> min(Comparator<? super E> comparator) {
+            return stream.min(comparator);
+        }
+
+        public Optional<E> max(Comparator<? super E> comparator) {
+            return stream.max(comparator);
+        }
+
+        public long count() {
+            return stream.count();
+        }
+
+        public boolean anyMatch(Predicate<? super E> predicate) {
+            return stream.anyMatch(predicate);
+        }
+
+        public boolean allMatch(Predicate<? super E> predicate) {
+            return stream.allMatch(predicate);
+        }
+
+        public boolean noneMatch(Predicate<? super E> predicate) {
+            return stream.noneMatch(predicate);
+        }
+
+        public Optional<E> findFirst() {
+            return stream.findFirst();
+        }
+
+        public Optional<E> findAny() {
+            return stream.findAny();
+        }
+
+        public Iterator<E> iterator() {
+            return stream.iterator();
+        }
+
+        public Stream<E> onClose(Runnable closeHandler) {
+            return stream(stream.onClose(closeHandler));
+        }
+
+        public void close() {
+            stream.close();
+        }
+
+        public <R, A> R collect(Collector<? super E, A, R> collector) {
+            return stream.collect(collector);
+        }
+    }
+
 }

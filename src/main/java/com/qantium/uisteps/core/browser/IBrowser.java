@@ -1,22 +1,28 @@
 package com.qantium.uisteps.core.browser;
 
+import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.pages.elements.*;
-import com.qantium.uisteps.core.browser.pages.elements.actions.BrowserActions;
-import com.qantium.uisteps.core.browser.pages.elements.actions.UIElementActions;
-import com.qantium.uisteps.core.browser.pages.elements.actions.ActionExecutor;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.AuthenticationAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.ConfirmAlert;
 import com.qantium.uisteps.core.browser.pages.elements.alert.PromtAlert;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.name.Named;
 import net.lightbody.bmp.BrowserMobProxyServer;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.SearchContext;
+import org.apache.commons.lang3.ArrayUtils;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.security.Credentials;
+import org.openqa.selenium.security.UserAndPassword;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.qantium.uisteps.core.properties.UIStepsProperty.NULL_VALUE;
 
 /**
  * Created by Anton Solyankin
@@ -31,7 +37,14 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     void setHub(String hub);
 
-    boolean isAlive();
+    default boolean isAlive() {
+        try {
+            getDriver().getWindowHandles().size();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 
     void close();
 
@@ -39,137 +52,486 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     URL getHubUrl();
 
+    @Override
+    default List<WebElement> findElements(By locator) {
+        return getDriver().findElements(locator);
+    }
+
+    @Override
+    default WebElement findElement(By locator) {
+        return getDriver().findElement(locator);
+    }
+
     //UIElement
-    void clickAndHold(UIElement element);
+    default void click(UIElement element) {
+        Waiting.wait(element, () -> element.getWrappedElement().click());
+    }
 
-    void doubleClick(UIElement element);
+    default void clickAndHold(UIElement element) {
+        Waiting.wait(element, () -> new Actions(getDriver())
+                .clickAndHold(element.getWrappedElement())
+                .perform());
+    }
 
-    void contextClick(UIElement element);
+    default void clickOnPoint(UIElement element, int x, int y) {
+        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), x, y).click().perform());
+    }
 
-    void releaseMouse(UIElement element);
+    default void doubleClick(UIElement element) {
+        Waiting.wait(element, () -> new Actions(getDriver()).doubleClick(element.getWrappedElement()).perform());
+    }
 
-    void dragAndDrop(UIElement source, UIElement target);
+    default void contextClick(UIElement element) {
+        Waiting.wait(element, () -> new Actions(getDriver()).contextClick(element.getWrappedElement()).perform());
+    }
 
-    void dragAndDrop(UIElement element, int xOffset, int yOffset);
+    default void releaseMouse(UIElement element) {
+        Waiting.wait(element, () -> new Actions(getDriver()).release(element.getWrappedElement()).perform());
+    }
 
-    void keyDown(UIElement element, Keys theKey);
+    default void dragAndDrop(UIElement source, UIElement target) {
+        Waiting.wait(source, () -> new Actions(getDriver()).dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform());
+    }
 
-    void keyUp(UIElement element, Keys theKey);
+    default void dragAndDrop(UIElement element, int xOffset, int yOffset) {
+        Waiting.wait(element, () -> new Actions(getDriver()).dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform());
+    }
+
+    default void keyDown(UIElement element, Keys theKey) {
+        Waiting.wait(element, () -> new Actions(getDriver()).keyDown(element.getWrappedElement(), theKey).perform());
+    }
+
+    default void keyUp(UIElement element, Keys theKey) {
+        Waiting.wait(element, () -> new Actions(getDriver()).keyUp(element.getWrappedElement(), theKey).perform());
+    }
 
     default void keyPress(UIElement element, Keys theKey) {
         keyDown(element, theKey);
         keyUp(element, theKey);
     }
 
-    void keyDown(Keys theKey);
-
-    void keyUp(Keys theKey);
-
-    default void keyPress(Keys theKey) {
-        keyDown(theKey);
-        keyUp(theKey);
+    default void moveMouseOver(UIElement element, int xOffset, int yOffset) {
+        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), xOffset, yOffset).perform());
     }
 
-    void click(UIElement element);
+    default void moveMouseOver(UIElement element) {
+        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement()).perform());
+    }
 
-    void clickOnPoint(UIElement element, int x, int y);
+    default void typeInto(TextField input, Object text) {
+        Waiting.wait(input, () -> {
+            WebElement webElement = input.getWrappedElement();
+            String keys = text == null ? NULL_VALUE.getValue() : text.toString();
 
-    void moveMouseOver(UIElement element, int xOffset, int yOffset);
+            if (!NULL_VALUE.getValue().equals(keys)) {
+                webElement.sendKeys(keys);
+            }
+        });
+    }
 
-    void moveMouseOver(UIElement element);
+    default void sendKeys(UIElement element, CharSequence... keysToSend) {
+        Waiting.wait(element, () -> {
+            CharSequence[] keys = keysToSend == null ? new CharSequence[0] : keysToSend;
+            if (ArrayUtils.isNotEmpty(keys)) {
+                WebElement webElement = element.getWrappedElement();
+                webElement.sendKeys(keys);
+            }
+        });
+    }
 
-    void typeInto(TextField input, Object text);
+    default void clear(TextField input) {
+        Waiting.wait(input, () -> input.getWrappedElement().clear());
+    }
 
-    void sendKeys(UIElement element, CharSequence... keysToSend);
+    default void enterInto(TextField input, Object text) {
+        if (text != null && !NULL_VALUE.getValue().equals(text.toString())) {
+            clear(input);
+        }
+        typeInto(input, text);
+    }
 
-    void clear(TextField input);
+    //Tags
+    default String getTagNameOf(UIElement element) {
+        return Waiting.wait(element, () -> element.getWrappedElement().getTagName());
+    }
 
-    void enterInto(TextField input, Object text);
+    default String getAttribute(UIElement element, String attribute) {
+        return Waiting.wait(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return wrappedElement.getAttribute(attribute);
+        });
+    }
 
-    String getTagNameOf(UIElement element);
+    default String getCSSPropertyOf(UIElement element, String cssProperty) {
+        return Waiting.wait(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return wrappedElement.getCssValue(cssProperty);
+        });
+    }
 
-    String getAttribute(UIElement element, String attribute);
+    default String getHtmlOf(UIElement element) {
+        return getAttribute(element, "innerHtml");
+    }
 
-    String getCSSPropertyOf(UIElement element, String cssProperty);
+    default Point getPositionOf(UIElement element) {
+        return Waiting.wait(element, () -> element.getWrappedElement().getLocation());
+    }
 
-    String getHtmlOf(UIElement element);
+    default Point getMiddlePositionOf(UIElement element) {
+        return Waiting.wait(element, () -> {
+            Point position = getPositionOf(element);
+            Dimension size = getSizeOf(element);
 
-    Point getPositionOf(UIElement element);
+            int x = position.x + size.width / 2;
+            int y = position.y + size.height / 2;
 
-    Point getMiddlePositionOf(UIElement element);
+            return new Point(x, y);
+        });
+    }
 
-    Point getRelativePositionOf(UIElement element, UIElement target);
+    default Point getRelativePositionOf(UIElement element, UIElement target) {
+        return Waiting.wait(element, () -> {
+            Point elementPosition = getPositionOf(element);
+            Point targetPosition = getPositionOf(target);
 
-    Point getRelativeMiddlePositionOf(UIElement element, UIElement target);
+            int x = elementPosition.x - targetPosition.x;
+            int y = elementPosition.y - targetPosition.y;
 
-    Dimension getSizeOf(UIElement element);
+            return new Point(x, y);
+        });
+    }
 
-    String getTextFrom(UIElement input);
+    default Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
+        return Waiting.wait(element, () -> {
+            Point elementPosition = getMiddlePositionOf(element);
+            Point targetPosition = getMiddlePositionOf(target);
 
-    boolean isSelected(UIElement element);
+            int x = elementPosition.x - targetPosition.x;
+            int y = elementPosition.y - targetPosition.y;
 
-    boolean isEnabled(UIElement element);
+            return new Point(x, y);
+        });
+    }
+
+    default Dimension getSizeOf(UIElement element) {
+        return Waiting.wait(element, () -> element.getWrappedElement().getSize());
+    }
+
+    default String getTextFrom(AbstractUIObject uiObject) {
+        return Waiting.wait(uiObject, () -> {
+
+            if (uiObject instanceof WrapsElement) {
+                WebElement wrappedElement = ((WrapsElement) uiObject).getWrappedElement();
+                if ("input".equals(wrappedElement.getTagName())) {
+                    String enteredText = wrappedElement.getAttribute("value");
+                    return enteredText == null ? "" : enteredText;
+                } else {
+                    return wrappedElement.getText();
+                }
+            } else {
+                return uiObject.getText();
+            }
+        });
+    }
+
+    default boolean isSelected(UIElement element) {
+        return Waiting.isTrue(element, () -> element.getWrappedElement().isSelected());
+    }
+
+    default boolean isEnabled(UIElement element) {
+        return Waiting.isTrue(element, () -> element.getWrappedElement().isEnabled());
+    }
+
+    default boolean isNotSelected(UIElement element) {
+        return Waiting.isFalse(element, () -> element.getWrappedElement().isSelected());
+    }
+
+    default boolean isNotEnabled(UIElement element) {
+        return Waiting.isFalse(element, () -> !element.getWrappedElement().isEnabled());
+    }
 
     //Select
-    void select(Select.Option option);
+    default Group<TextBlock> getSelectedOptions(Select select) {
+        return Waiting.wait(select, () -> {
+            List<TextBlock> elements = select.stream()
+                    .filter(option -> isSelected(option)).collect(Collectors.toList());
+            return select.getGroup(elements);
+        });
+    }
 
-    void deselectAllValuesFrom(Select select);
+    default Group<TextBlock> getNotSelectedOptions(Select select) {
+        return Waiting.wait(select, () -> {
+            List<TextBlock> elements = select.stream()
+                    .filter(option -> isNotSelected(option)).collect(Collectors.toList());
+            return select.getGroup(elements);
+        });
+    }
 
-    void deselect(Select.Option option);
+    default void selectFirstByVisibleValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getText()))
+                        .findFirst().ifPresent(option -> {
+                    if (isSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
 
-    boolean isMultiple(Select select);
+    default void selectAllByVisibleValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getText())
+                                && isNotSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
 
-    //Radio button
-    boolean select(RadioButton button);
+    default void selectFirstByValue(Select select, String... values) {
+
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value")))
+                        .findFirst().ifPresent(option -> {
+                    if (isSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void selectAllByValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            Arrays.asList(values).stream().forEach(value -> select.stream()
+                    .filter(option -> value.equals(option.getAttribute("value"))
+                            && isNotSelected(option))
+                    .forEach(option -> option.click()));
+            return null;
+        });
+    }
+
+    default void selectAll(Select select) {
+        Waiting.wait(select, () -> {
+            select.stream().filter(option -> isNotSelected(option))
+                    .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void deselectAll(Select select) {
+        Waiting.wait(select, () -> {
+            select.stream().filter(option -> isSelected(option))
+                    .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void selectByIndex(Select select, Integer... indexes) {
+        Waiting.wait(select, () -> {
+            for (int index : indexes) {
+                TextBlock option = select.get(index);
+                if (isNotSelected(option)) option.click();
+            }
+            return null;
+        });
+    }
+
+    default void deselectByIndex(Select select, Integer... indexes) {
+        Waiting.wait(select, () -> {
+            for (int index : indexes) {
+                TextBlock option = select.get(index);
+                if (isSelected(option)) option.click();
+            }
+            return null;
+        });
+    }
+
+    default void deselectFirstByVisibleValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getText()))
+                        .findFirst().ifPresent(option -> {
+                    if (isNotSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void deselectAllByVisibleValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getText()) && isSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default void deselectFirstByValue(Select select, String... values) {
+
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value")))
+                        .findFirst().ifPresent(option -> {
+                    if (isNotSelected(option)) option.click();
+                });
+            return null;
+        });
+    }
+
+    default void deselectAllByValue(Select select, String... values) {
+        Waiting.wait(select, () -> {
+            for (String value : values)
+                select.stream()
+                        .filter(option -> value.equals(option.getAttribute("value"))
+                                && isSelected(option))
+                        .forEach(option -> option.click());
+            return null;
+        });
+    }
+
+    default boolean isMultiple(Select select) {
+        return Waiting.wait(select, () -> {
+            String value = getAttribute(select, "multiple");
+            return value != null && !"false".equals(value);
+        });
+    }
 
     //CheckBox
-    boolean select(CheckBox checkBox);
+    default boolean select(CheckBox checkBox) {
+        return Waiting.wait(checkBox, () -> {
+            if (isSelected(checkBox)) {
+                return false;
+            } else {
+                WebElement wrappedElement = checkBox.getWrappedElement();
+                wrappedElement.click();
+                return true;
+            }
+        });
+    }
 
-    boolean deselect(CheckBox checkBox);
+    default boolean deselect(CheckBox checkBox) {
+        return Waiting.wait(checkBox, () -> {
+            if (isSelected(checkBox)) {
+                WebElement wrappedElement = checkBox.getWrappedElement();
+                wrappedElement.click();
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
 
-    boolean select(CheckBox checkBox, boolean select);
+    default boolean select(CheckBox checkBox, boolean select) {
+        return Waiting.wait(checkBox, () -> {
+            if (select) {
+                return select(checkBox);
+            } else {
+                return deselect(checkBox);
+            }
+        });
+    }
 
     //Scroll window
-    void scrollWindowByOffset(int x, int y);
+    default void scrollWindowByOffset(int x, int y) {
+        executeScript("window.scrollBy(" + x + "," + y + ");");
+    }
 
-    void scrollWindowToTarget(UIElement element);
+    default void scrollWindowToTarget(UIElement element) {
+        Waiting.wait(element, () -> {
+            WebElement wrappedElement = element.getWrappedElement();
+            return element.inOpenedBrowser().executeScript("arguments[0].scrollIntoView();", wrappedElement);
+        });
+    }
 
-    void scrollWindowToTargetByOffset(UIElement element, int x, int y);
+    default void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
+        Waiting.wait(element, () -> {
+            WebElement target = element.getWrappedElement();
+            Point location = target.getLocation();
+
+            int xLocation = location.x + x;
+            int yLocation = location.y + y;
+            String script = "window.scroll(arguments[0],arguments[1]);";
+
+            executeScript(script, xLocation, yLocation);
+        });
+    }
 
     //Scroll
-    void scrollToTarget(UIElement scroll, UIElement target);
+    default void scrollToTarget(UIElement scroll, UIElement target) {
+        Point scrollPosition = getPositionOf(scroll);
+        Point targetPosition = getPositionOf(target);
+        int targetX = targetPosition.x - scrollPosition.x;
+        int targetY = targetPosition.y - scrollPosition.y;
+        scroll(scroll, targetX, targetY);
+    }
 
-    void verticalScrollToTarget(UIElement scroll, UIElement target);
+    default void verticalScrollToTarget(UIElement scroll, UIElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        verticalScroll(scroll, targetPosition.y - scrollPosition.y);
+    }
 
-    void horizontalScrollToTarget(UIElement scroll, UIElement target);
+    default void horizontalScrollToTarget(UIElement scroll, UIElement target) {
+        Point targetPosition = getPositionOf(target);
+        Point scrollPosition = getPositionOf(scroll);
+        horizontalScroll(scroll, targetPosition.x - scrollPosition.x);
+    }
 
-    void horizontalScroll(UIElement scroll, int pixels);
+    default void horizontalScroll(UIElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, pixels, position.y);
+    }
 
-    void verticalScroll(UIElement scroll, int pixels);
+    default void verticalScroll(UIElement scroll, int pixels) {
+        Point position = getPositionOf(scroll);
+        scroll(scroll, position.x, pixels);
+    }
 
-    void scroll(UIElement scroll, int x, int y);
+    default void scroll(UIElement scroll, int x, int y) {
+        Waiting.wait(scroll, () -> new Actions(getDriver())
+                .clickAndHold(scroll.getWrappedElement())
+                .moveByOffset(x, y)
+                .release()
+                .perform());
+    }
 
     //FileInput
-    void setFileToUpload(FileInput fileInput, String filePath);
+    default void setFileToUpload(FileInput fileInput, String filePath) {
+        Waiting.wait(fileInput, () -> fileInput.getWrappedFileInput().setFileToUpload(filePath));
+    }
 
     //Alert
-    void accept(Alert alert);
-
-    void dismiss(ConfirmAlert confirm);
-
-    PromtAlert enterInto(PromtAlert promt, String text);
-
-    void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password);
-
-    default void perform(BrowserActions actions) {
-        actions.perform(this);
+    default void accept(Alert alert) {
+        Waiting.wait(alert, () -> {
+            alert.getWrappedAlert().accept();
+            return null;
+        });
     }
 
-    default void perform(UIElement element, UIElementActions actions) {
-        actions.perform(element);
+    default void dismiss(ConfirmAlert confirm) {
+        Waiting.wait(confirm, () -> {
+            confirm.getWrappedAlert().dismiss();
+            return null;
+        });
     }
 
-    default Object perform(UIElement element, ActionExecutor action) {
-        return action.perform(element);
+    default PromtAlert enterInto(PromtAlert promt, String text) {
+        return Waiting.wait(promt, () -> {
+            promt.getWrappedAlert().sendKeys(text);
+            return promt;
+        });
+    }
+
+    default void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
+        Waiting.wait(authenticationAlert, () -> {
+            Credentials credentials = new UserAndPassword(login, password);
+            authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
+        });
     }
 }

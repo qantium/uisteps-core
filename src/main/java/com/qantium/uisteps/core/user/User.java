@@ -367,41 +367,6 @@ public class User implements DriverActions, IBrowserManager {
     }
 
     @Override
-    public <T extends UIObject> T onDisplayed(T uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    @Override
-    public UIElement onDisplayed(By... locators) {
-        return inOpenedBrowser().onDisplayed(locators);
-    }
-
-    @Override
-    public <T extends UIObject> T onDisplayed(Class<T> uiObject) {
-        return inOpenedBrowser().onDisplayed(uiObject);
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, By... locators) {
-        return inOpenedBrowser().onDisplayed(uiObject, locators);
-    }
-
-    @Override
-    public <T extends UIElement> T onDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return inOpenedBrowser().onDisplayed(uiObject, supplier);
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, By... locators) {
-        return inOpenedBrowser().onAllDisplayed(uiObject, locators);
-    }
-
-    @Override
-    public <T extends UIElement> UIElements<T> onAllDisplayed(Class<T> uiObject, Supplier<By[]> supplier) {
-        return inOpenedBrowser().onAllDisplayed(uiObject, supplier);
-    }
-
-    @Override
     public <T extends UIObject> Then<T> then(Class<T> uiObject) {
         return inOpenedBrowser().then(uiObject);
     }

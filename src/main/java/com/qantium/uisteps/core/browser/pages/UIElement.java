@@ -1,15 +1,17 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.pages.elements.UIElements;
-import com.qantium.uisteps.core.browser.pages.elements.finder.FinderGet;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.internal.WrapsElement;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.openqa.selenium.By.ByXPath;
@@ -23,84 +25,32 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
-    private UIElements contextList;
-    private int contextListIndex;
-    private FinderGet finder;
+    private boolean isListItem;
+
+    public void isListItem() {
+        isListItem = true;
+    }
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
     }
 
-    public void setContextList(UIElements contextList) {
-        this.contextList = contextList;
-    }
-
-    public void setContextListIndex(int contextListIndex) {
-        this.contextListIndex = contextListIndex;
-    }
-
-    public void setFinder(FinderGet finder) {
-        this.finder = finder;
-    }
-
-    @Override
-    protected Object setValue(Object value) {
-        if (value == null) {
-            inOpenedBrowser().click(this);
-        } else {
-            inOpenedBrowser().sendKeys(this, value.toString());
-        }
-        return null;
-    }
-
     @Override
     public WebElement getWrappedElement() {
-
         if (!checkWrappedElement()) {
-            if (contextList != null) {
-                if (finder != null) {
-                    UIElement elem = finder.clone(contextList.clone().refresh()).get().withDelay(0).immediately();
-                    wrappedElement = elem.getWrappedElement();
-                } else {
-                    Iterator<By> iterator = Arrays.asList(contextList.getLocators()).iterator();
+            if (ArrayUtils.isEmpty(locators)) {
+                throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
+            }
 
-                    List<WebElement> elements = new ArrayList<>();
+            Iterator<By> iterator = Arrays.asList(locators).iterator();
 
-                    while (iterator.hasNext()) {
-
-                        try {
-                            By locator = iterator.next();
-                            for (WebElement element : getSearchContext().findElements(locator)) {
-                                elements.add(element);
-                            }
-                        } catch (Exception ex) {
-                            if (!iterator.hasNext() && elements.isEmpty()) {
-                                throw ex;
-                            }
-                        }
-                    }
-
-                    if (contextList.size() != elements.size()) {
-                        throw new IllegalArgumentException("Size of contextList '" + contextList + "' was changed from " + contextList.size() + " to " + elements.size());
-                    }
-
-                    wrappedElement = elements.get(contextListIndex);
-                }
-            } else {
-                if (ArrayUtils.isEmpty(locators)) {
-                    throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
-                }
-
-                Iterator<By> iterator = Arrays.asList(locators).iterator();
-
-                while (iterator.hasNext()) {
-                    try {
-                        wrappedElement = getSearchContext().findElement(iterator.next());
-                        break;
-                    } catch (Exception ex) {
-                        if (!iterator.hasNext()) {
-                            throw ex;
-                        }
+            while (iterator.hasNext()) {
+                try {
+                    wrappedElement = getSearchContext().findElement(iterator.next());
+                    break;
+                } catch (Exception ex) {
+                    if (!iterator.hasNext()) {
+                        throw ex;
                     }
                 }
             }
@@ -118,9 +68,11 @@ public class UIElement extends HtmlObject implements WrapsElement {
             try {
                 wrappedElement.getLocation();
             } catch (Exception ex) {
+                if (isListItem) {
+                    throw new RuntimeException("Element \"" + this + "\" is list item and is not displayed!");
+                }
                 OK = false;
             }
-
         }
         return OK;
     }
@@ -131,6 +83,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
         if (getContext() == null) {
             return inOpenedBrowser();
         } else {
+            Waiting.isTrue(getContext(), () -> getContext().isCurrentlyDisplayed());
             return getContext();
         }
     }
@@ -180,11 +133,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 return locator;
             }).collect(Collectors.toList()).toArray(new By[locators.length]);
         }
-    }
-
-    @Override
-    public String toString() {
-        return getName();
     }
 
     public String getContextString() {
@@ -399,4 +347,14 @@ public class UIElement extends HtmlObject implements WrapsElement {
         return inOpenedBrowser().isEnabled(this);
     }
 
+    public <T extends UIElement> T as(Class<T> type) {
+        T as = inOpenedBrowser().get(type, context, locators)
+                .withName(getName())
+                .withTimeout(getTimeout())
+                .pollingEvery(getPollingTime())
+                .withDelay(getDelay());
+        as.setWrappedElement(wrappedElement);
+        return as;
+    }
 }
+

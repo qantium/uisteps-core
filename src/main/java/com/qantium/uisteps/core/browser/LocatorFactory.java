@@ -15,7 +15,6 @@
  */
 package com.qantium.uisteps.core.browser;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -23,6 +22,8 @@ import org.openqa.selenium.support.How;
 
 import java.lang.reflect.Field;
 import java.util.function.Supplier;
+
+import static org.codehaus.plexus.util.StringUtils.isNotEmpty;
 
 /**
  * @author Anton Solyankin
@@ -76,13 +77,14 @@ public class LocatorFactory {
     }
 
     public By[] getLocators(FindBys findBys) {
+        return getLocators(findBys.value());
+    }
 
-        FindBy[] findBysValue = findBys.value();
+    public By[] getLocators(FindBy[] findBy) {
+        By[] bys = new By[findBy.length];
 
-        By[] bys = new By[findBysValue.length];
-
-        for(int i = 0; i < findBysValue.length; i++) {
-            bys[i] = getLocator(findBysValue[i]);
+        for(int i = 0; i < findBy.length; i++) {
+            bys[i] = getLocator(findBy[i]);
         }
 
         return bys;
@@ -97,21 +99,21 @@ public class LocatorFactory {
         How how;
         String using;
 
-        if (!StringUtils.isEmpty(using = findBy.className())) {
+        if (isNotEmpty(using = findBy.className())) {
             how = How.CLASS_NAME;
-        } else if (!StringUtils.isEmpty(using = findBy.css())) {
+        } else if (isNotEmpty(using = findBy.css())) {
             how = How.CSS;
-        } else if (!StringUtils.isEmpty(using = findBy.id())) {
+        } else if (isNotEmpty(using = findBy.id())) {
             how = How.ID;
-        } else if (!StringUtils.isEmpty(using = findBy.linkText())) {
+        } else if (isNotEmpty(using = findBy.linkText())) {
             how = How.LINK_TEXT;
-        } else if (!StringUtils.isEmpty(using = findBy.name())) {
+        } else if (isNotEmpty(using = findBy.name())) {
             how = How.NAME;
-        } else if (!StringUtils.isEmpty(using = findBy.partialLinkText())) {
+        } else if (isNotEmpty(using = findBy.partialLinkText())) {
             how = How.PARTIAL_LINK_TEXT;
-        } else if (!StringUtils.isEmpty(using = findBy.tagName())) {
+        } else if (isNotEmpty(using = findBy.tagName())) {
             how = How.TAG_NAME;
-        } else if (!StringUtils.isEmpty(using = findBy.xpath())) {
+        } else if (isNotEmpty(using = findBy.xpath())) {
             how = How.XPATH;
         } else {
             how = findBy.how();
