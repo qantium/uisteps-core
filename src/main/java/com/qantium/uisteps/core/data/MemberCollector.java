@@ -32,11 +32,8 @@ public class MemberCollector {
     }
 
     private void collectMembers(Class<?> uiObject) {
-
-        if (DataFillable.class.isAssignableFrom(uiObject)) {
-            asList(uiObject.getFields()).stream().forEach(field -> collect(field));
-            asList(uiObject.getMethods()).stream().forEach(method -> collect(method));
-        }
+        asList(uiObject.getFields()).stream().forEach(field -> collect(field));
+        asList(uiObject.getMethods()).stream().forEach(method -> collect(method));
     }
 
     private void collect(AccessibleObject member) {

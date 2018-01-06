@@ -17,11 +17,14 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.data.DataContainer;
+import com.qantium.uisteps.core.data.DataFillable;
+
 /**
  * @author ASolyankin
  */
 @NotInit
-public class CheckBox extends UIElement {
+public class CheckBox extends UIElement implements DataContainer, DataFillable {
 
     public Object select() {
         return inOpenedBrowser().select(this);
@@ -43,4 +46,13 @@ public class CheckBox extends UIElement {
         return select(Boolean.valueOf(flag));
     }
 
+    @Override
+    public String getData() {
+        return Boolean.toString(isSelected());
+    }
+
+    @Override
+    public void setData(Object rawData) {
+        select(rawData.toString());
+    }
 }

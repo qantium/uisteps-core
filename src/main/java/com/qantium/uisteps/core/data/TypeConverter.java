@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +21,24 @@ public class TypeConverter {
         return castedValues.toArray();
     }
 
-    public static Object convert(Class<?> type, Object value) throws JSONException {
+    public static Object convert(Class<?> type, Object value) {
 
-        if (value == null) {
-            return value;
+        if (value == null || value.equals(JSONObject.NULL)) {
+            return null;
+        } else if (type.isEnum()) {
+            return Enum.valueOf((Class<Enum>) type, value.toString());
+        } else if (type.equals(int.class) || type.equals(Integer.class)) {
+            return Integer.valueOf(value.toString());
+        } else if (type.equals(float.class) || type.equals(Float.class)) {
+            return Float.valueOf(value.toString());
+        } else if (type.equals(double.class) || type.equals(Double.class)) {
+            return Double.valueOf(value.toString());
+        } else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+            return Boolean.valueOf(value.toString());
+        } else if (type.equals(String.class)) {
+            return value.toString();
         } else {
-            if (type.isEnum()) {
-                return Enum.valueOf((Class<Enum>) type, value.toString());
-            } else if (type.equals(int.class) || type.equals(Integer.class)) {
-                return Integer.valueOf(value.toString());
-            } else if (type.equals(float.class) || type.equals(Float.class)) {
-                return Float.valueOf(value.toString());
-            } else if (type.equals(double.class) || type.equals(Double.class)) {
-                return Double.valueOf(value.toString());
-            } else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
-                return Boolean.valueOf(value.toString());
-            } else if (type.equals(String.class)) {
-                return value.toString();
-            } else {
-                throw new IllegalArgumentException("Cannot cast value \"" + value + "\" to type \"" + type + "\"");
-            }
+            throw new IllegalArgumentException("Cannot cast value \"" + value + "\" to type \"" + type + "\"");
         }
     }
 }

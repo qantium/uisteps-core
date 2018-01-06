@@ -26,6 +26,7 @@ public class Group<E extends UIElement> extends UIElement implements Iterable<E>
         this.elementsLocator = elementsLocator;
     }
 
+
     @Override
     public <T extends UIElement> T as(Class<T> type) {
         T as = super.as(type);

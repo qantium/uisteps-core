@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -59,8 +60,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public E get(int index) {
-        isFalse(this, () -> isEmpty());
-        return getElements().get(index);
+        return Waiting.wait(this, () -> getElements().get(index));
     }
 
     @Override

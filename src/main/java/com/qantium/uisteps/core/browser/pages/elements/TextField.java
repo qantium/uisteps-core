@@ -17,14 +17,14 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
+import com.qantium.uisteps.core.data.DataContainer;
+import com.qantium.uisteps.core.data.DataFillable;
 
 /**
  * @author Anton Solyankin
  */
 @NotInit
-public class TextField extends UIElement {
+public class TextField extends UIElement implements DataContainer, DataFillable {
 
     public Object type(Object keys) {
         inOpenedBrowser().typeInto(this, keys);
@@ -41,4 +41,13 @@ public class TextField extends UIElement {
         return null;
     }
 
+    @Override
+    public String getData() {
+        return getText();
+    }
+
+    @Override
+    public void setData(Object rawData) {
+        enter(rawData);
+    }
 }
