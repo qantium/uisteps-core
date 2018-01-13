@@ -13,11 +13,6 @@ public class TimeoutBuilder implements WithTimeout {
     }
 
     @Override
-    public TimeoutBuilder getTimeoutBuilder() {
-        return this;
-    }
-
-    @Override
     public long getTimeout() {
         return timeout;
     }
@@ -32,21 +27,26 @@ public class TimeoutBuilder implements WithTimeout {
         return delay;
     }
 
-    @Override
     public TimeoutBuilder withDelay(long delay) {
         this.delay = delay;
         return this;
     }
 
-    @Override
-    public TimeoutBuilder withTimeout(long timeout) {
+    public <T extends WithTimeout> T withTimeout(long timeout) {
         this.timeout = timeout;
-        return this;
+        return (T) this;
     }
 
-    @Override
-    public TimeoutBuilder pollingEvery(long pollingTime) {
+    public <T extends WithTimeout> T pollingEvery(long pollingTime) {
         this.pollingTime = pollingTime;
-        return this;
+        return (T) this;
+    }
+
+    public <T extends WithTimeout> T flushTimeouts() {
+        TimeoutBuilder defaultTimeouts = defaultTimeouts();
+        withTimeout(defaultTimeouts.getTimeout());
+        pollingEvery(defaultTimeouts.getPollingTime());
+        withDelay(defaultTimeouts.getDelay());
+        return (T) this;
     }
 }

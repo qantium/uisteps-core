@@ -22,7 +22,6 @@ public abstract class AbstractUIObject implements UIObject {
         return withTimeout(0);
     }
 
-
     public IBrowser inOpenedBrowser() {
         return browser;
     }
@@ -34,6 +33,41 @@ public abstract class AbstractUIObject implements UIObject {
 
     public <T extends AbstractUIObject> T withName(String name) {
         setName(name);
+        return (T) this;
+    }
+
+    @Override
+    public long getTimeout() {
+        return timeoutBuilder.getTimeout();
+    }
+
+    @Override
+    public long getPollingTime() {
+        return timeoutBuilder.getPollingTime();
+    }
+
+    @Override
+    public long getDelay() {
+        return timeoutBuilder.getDelay();
+    }
+
+    public <T extends AbstractUIObject> T withDelay(long delay) {
+        timeoutBuilder.withDelay(delay);
+        return (T) this;
+    }
+
+    public <T extends AbstractUIObject> T withTimeout(long timeout) {
+        timeoutBuilder.withTimeout(timeout);
+        return (T) this;
+    }
+
+    public <T extends AbstractUIObject> T pollingEvery(long pollingTime) {
+        timeoutBuilder.pollingEvery(pollingTime);
+        return (T) this;
+    }
+
+    public <T extends AbstractUIObject> T flushTimeouts() {
+        timeoutBuilder.flushTimeouts();
         return (T) this;
     }
 
@@ -55,17 +89,7 @@ public abstract class AbstractUIObject implements UIObject {
         return inOpenedBrowser().then(uiObject);
     }
 
-    @Override
-    public TimeoutBuilder getTimeoutBuilder() {
-        return timeoutBuilder;
-    }
-
     public abstract String getText();
-
-    @Override
-    public boolean isNotCurrentlyDisplayed() {
-        return !isCurrentlyDisplayed();
-    }
 
     @Override
     public String toString() {

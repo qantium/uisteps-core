@@ -1,7 +1,7 @@
 package com.qantium.uisteps.core.name;
 
-import com.qantium.uisteps.core.data.KeyWord;
 import org.apache.commons.lang.WordUtils;
+import ru.yandex.qatools.htmlelements.annotations.Name;
 
 import java.lang.reflect.Field;
 
@@ -12,8 +12,8 @@ public class NameConverter {
 
     public static String humanize(Class<?> klass) {
         String name;
-        if (klass.isAnnotationPresent(KeyWord.class)) {
-            name = splitCamelCase(klass.getAnnotation(KeyWord.class).value());
+        if (klass.isAnnotationPresent(Name.class)) {
+            name = splitCamelCase(klass.getAnnotation(Name.class).value());
         } else {
             name = splitCamelCase(klass.getSimpleName());
         }
@@ -25,8 +25,8 @@ public class NameConverter {
     }
 
     public static String humanize(Field field) {
-        if (field.isAnnotationPresent(KeyWord.class)) {
-            return splitCamelCase(field.getAnnotation(KeyWord.class).value());
+        if (field.isAnnotationPresent(Name.class)) {
+            return splitCamelCase(field.getAnnotation(Name.class).value());
         } else {
             return splitCamelCase(field.getName()).toLowerCase();
         }

@@ -64,45 +64,45 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     //UIElement
     default void click(UIElement element) {
-        Waiting.wait(element, () -> element.getWrappedElement().click());
+        Waiting.waitFor(element, () -> element.getWrappedElement().click());
     }
 
     default void clickAndHold(UIElement element) {
-        Waiting.wait(element, () -> new Actions(getDriver())
+        Waiting.waitFor(element, () -> new Actions(getDriver())
                 .clickAndHold(element.getWrappedElement())
                 .perform());
     }
 
     default void clickOnPoint(UIElement element, int x, int y) {
-        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), x, y).click().perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), x, y).click().perform());
     }
 
     default void doubleClick(UIElement element) {
-        Waiting.wait(element, () -> new Actions(getDriver()).doubleClick(element.getWrappedElement()).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).doubleClick(element.getWrappedElement()).perform());
     }
 
     default void contextClick(UIElement element) {
-        Waiting.wait(element, () -> new Actions(getDriver()).contextClick(element.getWrappedElement()).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).contextClick(element.getWrappedElement()).perform());
     }
 
     default void releaseMouse(UIElement element) {
-        Waiting.wait(element, () -> new Actions(getDriver()).release(element.getWrappedElement()).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).release(element.getWrappedElement()).perform());
     }
 
     default void dragAndDrop(UIElement source, UIElement target) {
-        Waiting.wait(source, () -> new Actions(getDriver()).dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform());
+        Waiting.waitFor(source, () -> new Actions(getDriver()).dragAndDrop(source.getWrappedElement(), target.getWrappedElement()).perform());
     }
 
     default void dragAndDrop(UIElement element, int xOffset, int yOffset) {
-        Waiting.wait(element, () -> new Actions(getDriver()).dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).dragAndDropBy(element.getWrappedElement(), xOffset, yOffset).perform());
     }
 
     default void keyDown(UIElement element, Keys theKey) {
-        Waiting.wait(element, () -> new Actions(getDriver()).keyDown(element.getWrappedElement(), theKey).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).keyDown(element.getWrappedElement(), theKey).perform());
     }
 
     default void keyUp(UIElement element, Keys theKey) {
-        Waiting.wait(element, () -> new Actions(getDriver()).keyUp(element.getWrappedElement(), theKey).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).keyUp(element.getWrappedElement(), theKey).perform());
     }
 
     default void keyPress(UIElement element, Keys theKey) {
@@ -111,15 +111,15 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void moveMouseOver(UIElement element, int xOffset, int yOffset) {
-        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), xOffset, yOffset).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement(), xOffset, yOffset).perform());
     }
 
     default void moveMouseOver(UIElement element) {
-        Waiting.wait(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement()).perform());
+        Waiting.waitFor(element, () -> new Actions(getDriver()).moveToElement(element.getWrappedElement()).perform());
     }
 
     default void typeInto(TextField input, Object text) {
-        Waiting.wait(input, () -> {
+        Waiting.waitFor(input, () -> {
             WebElement webElement = input.getWrappedElement();
             String keys = text == null ? NULL_VALUE.getValue() : text.toString();
 
@@ -130,7 +130,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void sendKeys(UIElement element, CharSequence... keysToSend) {
-        Waiting.wait(element, () -> {
+        Waiting.waitFor(element, () -> {
             CharSequence[] keys = keysToSend == null ? new CharSequence[0] : keysToSend;
             if (ArrayUtils.isNotEmpty(keys)) {
                 WebElement webElement = element.getWrappedElement();
@@ -140,7 +140,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void clear(TextField input) {
-        Waiting.wait(input, () -> input.getWrappedElement().clear());
+        Waiting.waitFor(input, () -> input.getWrappedElement().clear());
     }
 
     default void enterInto(TextField input, Object text) {
@@ -152,18 +152,18 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     //Tags
     default String getTagNameOf(UIElement element) {
-        return Waiting.wait(element, () -> element.getWrappedElement().getTagName());
+        return Waiting.waitFor(element, () -> element.getWrappedElement().getTagName());
     }
 
     default String getAttribute(UIElement element, String attribute) {
-        return Waiting.wait(element, () -> {
+        return Waiting.waitFor(element, () -> {
             WebElement wrappedElement = element.getWrappedElement();
             return wrappedElement.getAttribute(attribute);
         });
     }
 
     default String getCSSPropertyOf(UIElement element, String cssProperty) {
-        return Waiting.wait(element, () -> {
+        return Waiting.waitFor(element, () -> {
             WebElement wrappedElement = element.getWrappedElement();
             return wrappedElement.getCssValue(cssProperty);
         });
@@ -174,11 +174,11 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default Point getPositionOf(UIElement element) {
-        return Waiting.wait(element, () -> element.getWrappedElement().getLocation());
+        return Waiting.waitFor(element, () -> element.getWrappedElement().getLocation());
     }
 
     default Point getMiddlePositionOf(UIElement element) {
-        return Waiting.wait(element, () -> {
+        return Waiting.waitFor(element, () -> {
             Point position = getPositionOf(element);
             Dimension size = getSizeOf(element);
 
@@ -190,7 +190,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default Point getRelativePositionOf(UIElement element, UIElement target) {
-        return Waiting.wait(element, () -> {
+        return Waiting.waitFor(element, () -> {
             Point elementPosition = getPositionOf(element);
             Point targetPosition = getPositionOf(target);
 
@@ -202,7 +202,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default Point getRelativeMiddlePositionOf(UIElement element, UIElement target) {
-        return Waiting.wait(element, () -> {
+        return Waiting.waitFor(element, () -> {
             Point elementPosition = getMiddlePositionOf(element);
             Point targetPosition = getMiddlePositionOf(target);
 
@@ -214,11 +214,11 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default Dimension getSizeOf(UIElement element) {
-        return Waiting.wait(element, () -> element.getWrappedElement().getSize());
+        return Waiting.waitFor(element, () -> element.getWrappedElement().getSize());
     }
 
     default String getTextFrom(AbstractUIObject uiObject) {
-        return Waiting.wait(uiObject, () -> {
+        return Waiting.waitFor(uiObject, () -> {
 
             if (uiObject instanceof WrapsElement) {
                 WebElement wrappedElement = ((WrapsElement) uiObject).getWrappedElement();
@@ -235,24 +235,24 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default boolean isSelected(UIElement element) {
-        return Waiting.isTrue(element, () -> element.getWrappedElement().isSelected());
+        return Waiting.waitUntil(element, () -> element.getWrappedElement().isSelected());
     }
 
     default boolean isEnabled(UIElement element) {
-        return Waiting.isTrue(element, () -> element.getWrappedElement().isEnabled());
+        return Waiting.waitUntil(element, () -> element.getWrappedElement().isEnabled());
     }
 
     default boolean isNotSelected(UIElement element) {
-        return Waiting.isFalse(element, () -> element.getWrappedElement().isSelected());
+        return Waiting.waitUntilNot(element, () -> element.getWrappedElement().isSelected());
     }
 
     default boolean isNotEnabled(UIElement element) {
-        return Waiting.isFalse(element, () -> !element.getWrappedElement().isEnabled());
+        return Waiting.waitUntilNot(element, () -> !element.getWrappedElement().isEnabled());
     }
 
     //Select
     default Group<TextBlock> getSelectedOptions(Select select) {
-        return Waiting.wait(select, () -> {
+        return Waiting.waitFor(select, () -> {
             List<TextBlock> elements = select.stream()
                     .filter(option -> isSelected(option)).collect(Collectors.toList());
             return select.getGroup(elements);
@@ -260,7 +260,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default Group<TextBlock> getNotSelectedOptions(Select select) {
-        return Waiting.wait(select, () -> {
+        return Waiting.waitFor(select, () -> {
             List<TextBlock> elements = select.stream()
                     .filter(option -> isNotSelected(option)).collect(Collectors.toList());
             return select.getGroup(elements);
@@ -268,7 +268,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void selectFirstByVisibleValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getText()))
@@ -280,7 +280,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void selectAllByVisibleValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getText())
@@ -292,7 +292,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     default void selectFirstByValue(Select select, String... values) {
 
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getAttribute("value")))
@@ -304,7 +304,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void selectAllByValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             Arrays.asList(values).stream().forEach(value -> select.stream()
                     .filter(option -> value.equals(option.getAttribute("value"))
                             && isNotSelected(option))
@@ -314,7 +314,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void selectAll(Select select) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             select.stream().filter(option -> isNotSelected(option))
                     .forEach(option -> option.click());
             return null;
@@ -322,81 +322,74 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void deselectAll(Select select) {
-        Waiting.wait(select, () -> {
-            select.stream().filter(option -> isSelected(option))
-                    .forEach(option -> option.click());
-            return null;
-        });
+        Waiting.waitFor(select, () ->
+                select.stream().filter(option -> isSelected(option))
+                        .forEach(option -> option.click())
+        );
     }
 
     default void selectByIndex(Select select, Integer... indexes) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (int index : indexes) {
                 TextBlock option = select.get(index);
                 if (isNotSelected(option)) option.click();
             }
-            return null;
         });
     }
 
     default void deselectByIndex(Select select, Integer... indexes) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (int index : indexes) {
                 TextBlock option = select.get(index);
                 if (isSelected(option)) option.click();
             }
-            return null;
         });
     }
 
     default void deselectFirstByVisibleValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getText()))
                         .findFirst().ifPresent(option -> {
                     if (isNotSelected(option)) option.click();
                 });
-            return null;
         });
     }
 
     default void deselectAllByVisibleValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getText()) && isSelected(option))
                         .forEach(option -> option.click());
-            return null;
         });
     }
 
     default void deselectFirstByValue(Select select, String... values) {
 
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getAttribute("value")))
                         .findFirst().ifPresent(option -> {
                     if (isNotSelected(option)) option.click();
                 });
-            return null;
         });
     }
 
     default void deselectAllByValue(Select select, String... values) {
-        Waiting.wait(select, () -> {
+        Waiting.waitFor(select, () -> {
             for (String value : values)
                 select.stream()
                         .filter(option -> value.equals(option.getAttribute("value"))
                                 && isSelected(option))
                         .forEach(option -> option.click());
-            return null;
         });
     }
 
     default boolean isMultiple(Select select) {
-        return Waiting.wait(select, () -> {
+        return Waiting.waitFor(select, () -> {
             String value = getAttribute(select, "multiple");
             return value != null && !"false".equals(value);
         });
@@ -404,7 +397,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     //CheckBox
     default boolean select(CheckBox checkBox) {
-        return Waiting.wait(checkBox, () -> {
+        return Waiting.waitFor(checkBox, () -> {
             if (isSelected(checkBox)) {
                 return false;
             } else {
@@ -416,7 +409,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default boolean deselect(CheckBox checkBox) {
-        return Waiting.wait(checkBox, () -> {
+        return Waiting.waitFor(checkBox, () -> {
             if (isSelected(checkBox)) {
                 WebElement wrappedElement = checkBox.getWrappedElement();
                 wrappedElement.click();
@@ -428,7 +421,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default boolean select(CheckBox checkBox, boolean select) {
-        return Waiting.wait(checkBox, () -> {
+        return Waiting.waitFor(checkBox, () -> {
             if (select) {
                 return select(checkBox);
             } else {
@@ -443,14 +436,14 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void scrollWindowToTarget(UIElement element) {
-        Waiting.wait(element, () -> {
+        Waiting.waitFor(element, () -> {
             WebElement wrappedElement = element.getWrappedElement();
             return element.inOpenedBrowser().executeScript("arguments[0].scrollIntoView();", wrappedElement);
         });
     }
 
     default void scrollWindowToTargetByOffset(UIElement element, int x, int y) {
-        Waiting.wait(element, () -> {
+        Waiting.waitFor(element, () -> {
             WebElement target = element.getWrappedElement();
             Point location = target.getLocation();
 
@@ -494,7 +487,7 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default void scroll(UIElement scroll, int x, int y) {
-        Waiting.wait(scroll, () -> new Actions(getDriver())
+        Waiting.waitFor(scroll, () -> new Actions(getDriver())
                 .clickAndHold(scroll.getWrappedElement())
                 .moveByOffset(x, y)
                 .release()
@@ -503,33 +496,31 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     //FileInput
     default void setFileToUpload(FileInput fileInput, String filePath) {
-        Waiting.wait(fileInput, () -> fileInput.getWrappedFileInput().setFileToUpload(filePath));
+        Waiting.waitFor(fileInput, () -> fileInput.getWrappedFileInput().setFileToUpload(filePath));
     }
 
     //Alert
     default void accept(Alert alert) {
-        Waiting.wait(alert, () -> {
+        Waiting.waitFor(alert, () -> {
             alert.getWrappedAlert().accept();
-            return null;
         });
     }
 
     default void dismiss(ConfirmAlert confirm) {
-        Waiting.wait(confirm, () -> {
+        Waiting.waitFor(confirm, () -> {
             confirm.getWrappedAlert().dismiss();
-            return null;
         });
     }
 
     default PromtAlert enterInto(PromtAlert promt, String text) {
-        return Waiting.wait(promt, () -> {
+        return Waiting.waitFor(promt, () -> {
             promt.getWrappedAlert().sendKeys(text);
             return promt;
         });
     }
 
     default void authenticateUsing(AuthenticationAlert authenticationAlert, String login, String password) {
-        Waiting.wait(authenticationAlert, () -> {
+        Waiting.waitFor(authenticationAlert, () -> {
             Credentials credentials = new UserAndPassword(login, password);
             authenticationAlert.getWrappedAlert().authenticateUsing(credentials);
         });

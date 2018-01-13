@@ -16,7 +16,7 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.pages.elements.groups.TextGroup;
+import com.qantium.uisteps.core.browser.pages.elements.groups.TextBlockGroup;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -25,7 +25,7 @@ import org.openqa.selenium.support.FindBy;
 @NotInit
 @FindBy(tagName = "select")
 @Group.Elements(@FindBy(css = "option"))
-public class Select extends TextGroup {
+public class Select extends TextBlockGroup {
 
     public Group<TextBlock> getSelectedOptions() {
         return inOpenedBrowser().getSelectedOptions(this);

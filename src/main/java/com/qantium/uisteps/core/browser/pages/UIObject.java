@@ -32,7 +32,7 @@ import com.qantium.uisteps.core.then.Then;
  * @see UIElements
  */
 @NotInit
-public interface UIObject extends Named, Visible, IThen, WithTimeout {
+public interface UIObject extends Named, AsyncVisible, IThen, WithTimeout {
 
     void setBrowser(IBrowser browser);
 

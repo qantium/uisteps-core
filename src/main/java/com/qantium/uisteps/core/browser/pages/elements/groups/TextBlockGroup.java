@@ -5,9 +5,9 @@ import com.qantium.uisteps.core.browser.pages.elements.Group;
 import com.qantium.uisteps.core.browser.pages.elements.TextBlock;
 
 @NotInit
-public class TextGroup extends Group<TextBlock> {
+public class TextBlockGroup extends Group<TextBlock> {
 
-    public TextGroup() throws IllegalArgumentException {
+    public TextBlockGroup() throws IllegalArgumentException {
         super(TextBlock.class);
     }
 }

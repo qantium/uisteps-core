@@ -83,7 +83,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
         if (getContext() == null) {
             return inOpenedBrowser();
         } else {
-            Waiting.isTrue(getContext(), () -> getContext().isCurrentlyDisplayed());
+            Waiting.waitUntil(getContext(), (c) -> c.isDisplayed());
             return getContext();
         }
     }
@@ -335,7 +335,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     @Override
-    public boolean isCurrentlyDisplayed() {
+    public boolean isDisplayed() {
         try {
             return getWrappedElement().isDisplayed();
         } catch (Exception ex) {

@@ -1,8 +1,10 @@
 package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.pages.AbstractUIObject;
+import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.wait.TimeoutBuilder;
+import com.qantium.uisteps.core.browser.wait.WithTimeout;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @NotInit
 public class Group<E extends UIElement> extends UIElement implements Iterable<E> {
@@ -100,9 +103,76 @@ public class Group<E extends UIElement> extends UIElement implements Iterable<E>
         return getElements().getText(separator);
     }
 
+    public Iterator<E> descendingIterator() {
+        return getElements().descendingIterator();
+    }
+
+    public UIElements<E> getUIElements(LinkedList<E> elements) {
+        return getElements().getUIElements(elements);
+    }
+
     @Override
-    public TimeoutBuilder getTimeoutBuilder() {
-        return getElements().getTimeoutBuilder();
+    public HtmlObject getChildContext() {
+        return getElements().getChildContext();
+    }
+
+    public E getFirst() {
+        return getElements().getFirst();
+    }
+
+    public E getLast() {
+        return get(size() - 1);
+    }
+
+    public E findFirst(Predicate<E> predicate) {
+        return getElements().findFirst(predicate);
+    }
+
+    public boolean anyMatch(Predicate<E> predicate) {
+        return getElements().anyMatch(predicate);
+    }
+
+    public boolean allMatch(Predicate<E> predicate) {
+        return getElements().allMatch(predicate);
+    }
+
+    @Override
+    public long getTimeout() {
+        return getElements().getTimeout();
+    }
+
+    @Override
+    public long getPollingTime() {
+        return getElements().getPollingTime();
+    }
+
+    @Override
+    public long getDelay() {
+        return getElements().getDelay();
+    }
+
+    @Override
+    public <T extends AbstractUIObject> T withDelay(long delay) {
+        getElements().withDelay(delay);
+        return (T) this;
+    }
+
+    @Override
+    public <T extends AbstractUIObject> T withTimeout(long timeout) {
+        getElements().withTimeout(timeout);
+        return (T) this;
+    }
+
+    @Override
+    public <T extends AbstractUIObject> T pollingEvery(long pollingTime) {
+        getElements().pollingEvery(pollingTime);
+        return (T) this;
+    }
+
+    @Override
+    public <T extends AbstractUIObject> T flushTimeouts() {
+        getElements().flushTimeouts();
+        return (T) this;
     }
 
     public Group<E> getGroup(List<E> elements) {

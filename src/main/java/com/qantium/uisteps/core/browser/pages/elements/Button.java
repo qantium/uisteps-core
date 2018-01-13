@@ -17,23 +17,11 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.data.DataContainer;
-import com.qantium.uisteps.core.data.DataFillable;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit
-public class Button extends UIElement implements DataContainer, DataFillable {
+public class Button extends UIElement {
 
-    @Override
-    public String getData() {
-        return getText();
-    }
-
-    @Override
-    public void setData(Object rawData) {
-        click();
-    }
 }

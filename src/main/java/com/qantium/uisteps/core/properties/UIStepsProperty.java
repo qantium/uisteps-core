@@ -89,7 +89,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * <li>retry.attempts</li>
  * <li>retry.withDelay</li>
  * <li>element.decorator.use</li>
- * <li>element.decorator.style<</li>
+ * <li>element.decorator.style</li>
  * </ul>
  *
  * @author Anton Solyankin

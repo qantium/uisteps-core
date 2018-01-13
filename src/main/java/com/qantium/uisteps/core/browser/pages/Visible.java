@@ -5,7 +5,9 @@ package com.qantium.uisteps.core.browser.pages;
  */
 public interface Visible {
 
-    boolean isCurrentlyDisplayed();
+    boolean isDisplayed();
 
-    boolean isNotCurrentlyDisplayed();
+    default boolean isNotDisplayed() {
+        return !isDisplayed();
+    }
 }

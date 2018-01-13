@@ -50,13 +50,13 @@ public class Table<E extends Table.Row> extends Group<E> {
 
     public E getHeader() {
         if (headerIsFirstRow) {
-            return get(0);
+            return getFirst();
         } else {
             return get(getElementType(), headerLocator);
         }
     }
 
-    @Group.Elements(@FindBy(tagName = "td"))
+    @Group.Elements(@FindBy(tagName = "tr"))
     public static class Row<T extends UIElement> extends Group<T> {
 
         public Row(Class<T> elementType) throws IllegalArgumentException {
