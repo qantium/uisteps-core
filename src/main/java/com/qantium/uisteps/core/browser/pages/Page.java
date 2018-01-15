@@ -82,7 +82,7 @@ public class Page extends HtmlObject {
     }
 
     @Override
-    public boolean isCurrentlyDisplayed() {
+    public boolean isDisplayed() {
         return executeScript("return document.readyState").equals("complete");
     }
 

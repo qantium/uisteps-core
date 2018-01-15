@@ -46,7 +46,7 @@ public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IU
     default <T extends Page> T open(T page) {
         Url url = page.getUrl();
         getDriver().get(url.toString());
-        Waiting.waitUntil(page, () -> page.isCurrentlyDisplayed());
+        Waiting.waitUntil(page, (p) -> p.isDisplayed());
         return page;
     }
 
@@ -122,31 +122,31 @@ public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IU
     }
 
     default void click() {
-        Waiting.wait(() -> new Actions(getDriver()).click().perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).click().perform());
     }
 
     default void clickAndHold() {
-        Waiting.wait(() -> new Actions(getDriver()).clickAndHold().perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).clickAndHold().perform());
     }
 
     default void doubleClick() {
-        Waiting.wait(() -> new Actions(getDriver()).doubleClick().perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).doubleClick().perform());
     }
 
     default void contextClick() {
-        Waiting.wait(() -> new Actions(getDriver()).contextClick().perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).contextClick().perform());
     }
 
     default void releaseMouse() {
-        Waiting.wait(() -> new Actions(getDriver()).release().perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).release().perform());
     }
 
     default void keyDown(Keys theKey) {
-        Waiting.wait(() -> new Actions(getDriver()).keyDown(theKey).perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).keyDown(theKey).perform());
     }
 
     default void keyUp(Keys theKey) {
-        Waiting.wait(() -> new Actions(getDriver()).keyUp(theKey).perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).keyUp(theKey).perform());
     }
 
     default void keyPress(Keys theKey) {
@@ -155,7 +155,7 @@ public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IU
     }
 
     default void moveMouseByOffset(int xOffset, int yOffset) {
-        Waiting.wait(() -> new Actions(getDriver()).moveByOffset(xOffset, yOffset).perform());
+        Waiting.waitFor(() -> new Actions(getDriver()).moveByOffset(xOffset, yOffset).perform());
     }
 
 

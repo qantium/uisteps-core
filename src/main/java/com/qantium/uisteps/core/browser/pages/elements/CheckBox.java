@@ -17,6 +17,7 @@ package com.qantium.uisteps.core.browser.pages.elements;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+
 /**
  * @author ASolyankin
  */
@@ -42,5 +43,4 @@ public class CheckBox extends UIElement {
     public Object select(String flag) {
         return select(Boolean.valueOf(flag));
     }
-
 }

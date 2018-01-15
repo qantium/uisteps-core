@@ -31,7 +31,7 @@ public class SaveFileServlet extends GridServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        GridResponse griResponse = new RobotGridResponse();
+        GridResponse gridResponse = new RobotGridResponse();
 
         try {
             String requestString = getRequestString(request);
@@ -42,11 +42,11 @@ public class SaveFileServlet extends GridServlet {
             File file = new File(toPath);
             Files.write(Base64.decode(content), file);
         } catch (JSONException ex) {
-            griResponse.failed(ex);
+            gridResponse.failed(ex);
             ex.printStackTrace();
         } finally {
             PrintWriter out = response.getWriter();
-            out.print(griResponse);
+            out.print(gridResponse);
         }
     }
 }

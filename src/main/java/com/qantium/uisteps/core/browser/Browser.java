@@ -72,6 +72,10 @@ public class Browser implements IBrowser {
         return windowManager;
     }
 
+    public Photographer getPhotographer() {
+        return photographer;
+    }
+
     @Override
     public URL getNodeUrl() {
 

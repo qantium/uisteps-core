@@ -43,7 +43,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
                 R result = run();
 
                 if (checkResult) {
-                    if (result instanceof Boolean && result != null) {
+                    if (result instanceof Boolean) {
                         if (!Boolean.TRUE.equals(result)) {
                             sleep(getPollingTime());
                             continue;

@@ -1,7 +1,6 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntil;
 import static org.openqa.selenium.By.ByXPath;
 
 /**
@@ -25,11 +25,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
-    private boolean isListItem;
-
-    public void isListItem() {
-        isListItem = true;
-    }
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
@@ -41,13 +36,14 @@ public class UIElement extends HtmlObject implements WrapsElement {
             if (ArrayUtils.isEmpty(locators)) {
                 throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
             }
-
             Iterator<By> iterator = Arrays.asList(locators).iterator();
 
             while (iterator.hasNext()) {
                 try {
                     wrappedElement = getSearchContext().findElement(iterator.next());
-                    break;
+                    if (waitUntil(this, () -> wrappedElement.isDisplayed())) {
+                        break;
+                    }
                 } catch (Exception ex) {
                     if (!iterator.hasNext()) {
                         throw ex;
@@ -55,7 +51,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 }
             }
         }
-
         new UIElementDecorator(this, wrappedElement).execute();
         return wrappedElement;
     }
@@ -68,9 +63,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
             try {
                 wrappedElement.getLocation();
             } catch (Exception ex) {
-                if (isListItem) {
-                    throw new RuntimeException("Element \"" + this + "\" is list item and is not displayed!");
-                }
                 OK = false;
             }
         }
@@ -79,13 +71,10 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public SearchContext getSearchContext() {
-
-        if (getContext() == null) {
+        if (getContext() == null || getContext() instanceof Page) {
             return inOpenedBrowser();
-        } else {
-            Waiting.isTrue(getContext(), () -> getContext().isCurrentlyDisplayed());
-            return getContext();
         }
+        return getContext();
     }
 
     /**
@@ -335,7 +324,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     }
 
     @Override
-    public boolean isCurrentlyDisplayed() {
+    public boolean isDisplayed() {
         try {
             return getWrappedElement().isDisplayed();
         } catch (Exception ex) {

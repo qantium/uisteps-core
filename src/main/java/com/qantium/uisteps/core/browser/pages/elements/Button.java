@@ -19,7 +19,6 @@ import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.UIElement;
 
 /**
- *
  * @author ASolyankin
  */
 @NotInit

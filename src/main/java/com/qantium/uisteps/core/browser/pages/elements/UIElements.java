@@ -18,6 +18,7 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -27,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
-import static com.qantium.uisteps.core.browser.wait.Waiting.isFalse;
+import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntilNot;
 
 /**
  * Contains elements of one type
@@ -52,15 +53,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
         this(elementType);
         this.elements = elements;
-
-        for (E element : elements) {
-            element.isListItem();
-        }
     }
 
     public E get(int index) {
-        isFalse(this, () -> isEmpty());
-        return getElements().get(index);
+        return Waiting.waitFor(this, () -> getElements().get(index));
     }
 
     @Override
@@ -82,7 +78,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     @Override
-    public boolean isCurrentlyDisplayed() {
+    public boolean isDisplayed() {
         return !isEmpty();
     }
 
@@ -99,7 +95,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public Stream<E> stream() {
-        isFalse(this, () -> isEmpty());
+        waitUntilNot(this, () -> isEmpty());
         return new Stream(getElements().stream());
     }
 
@@ -113,7 +109,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                 for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
                     if (wrappedElement.isDisplayed()) {
                         E uiElement = get(getElementType(), locator);
-                        uiElement.isListItem();
                         uiElement.setWrappedElement(wrappedElement);
                         elements.add(uiElement);
                     }
@@ -213,6 +208,26 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
             uiElements.elements = elements;
         }
         return as;
+    }
+
+    public E getFirst() {
+        return get(0);
+    }
+
+    public E getLast() {
+        return get(size() - 1);
+    }
+
+    public E findFirst(Predicate<E> predicate) {
+        return Waiting.waitFor(this, () -> stream().filter(predicate).findFirst().get());
+    }
+
+    public boolean anyMatch(Predicate<E> predicate) {
+        return Waiting.waitFor(this, () -> stream().anyMatch(predicate));
+    }
+
+    public boolean allMatch(Predicate<E> predicate) {
+        return Waiting.waitFor(this, () -> stream().allMatch(predicate));
     }
 
     public static class Stream<E extends UIElement> {

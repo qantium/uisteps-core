@@ -31,7 +31,7 @@ public class Alert extends AbstractUIObject {
     }
 
     @Override
-    public boolean isCurrentlyDisplayed() {
+    public boolean isDisplayed() {
         try {
             getText();
             return true;
