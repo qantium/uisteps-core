@@ -53,7 +53,7 @@ public class Browser implements IBrowser {
     private String name;
     private IWindowManager windowManager;
     private UrlFactory urlFactory = new UrlFactory();
-    private IUIObjectFactory uiObjectFactory = new UIObjectFactory(this);
+    private UIObjectFactory uiObjectFactory = new UIObjectFactory(this);
     private BrowserMobProxyServer proxy;
     private String hub;
     private Photographer photographer;
@@ -167,13 +167,14 @@ public class Browser implements IBrowser {
 
     @Override
     public <T extends Page> T open(Class<T> page, Url url, String[] params) {
-        T pageInstance = uiObjectFactory.get(page);
+        T pageInstance = uiObjectFactory.getInstanceOf(page);
+
         Url pageUrl;
 
         if (url != null) {
             pageUrl = url;
         } else {
-            pageUrl = urlFactory.getUrlOf(pageInstance);
+            pageUrl = urlFactory.getUrlOf(page);
         }
         pageInstance.withUrl(pageUrl);
 
@@ -184,6 +185,7 @@ public class Browser implements IBrowser {
 
         return open(pageInstance);
     }
+
 
     //Window
     @Override
