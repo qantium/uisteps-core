@@ -219,7 +219,6 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
 
     default String getTextFrom(AbstractUIObject uiObject) {
         return Waiting.waitFor(uiObject, () -> {
-
             if (uiObject instanceof WrapsElement) {
                 WebElement wrappedElement = ((WrapsElement) uiObject).getWrappedElement();
                 if ("input".equals(wrappedElement.getTagName())) {

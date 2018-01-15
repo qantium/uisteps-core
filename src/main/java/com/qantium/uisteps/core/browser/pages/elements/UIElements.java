@@ -53,10 +53,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
         this(elementType);
         this.elements = elements;
-
-        for (E element : elements) {
-            element.isListItem();
-        }
     }
 
     public E get(int index) {
@@ -113,7 +109,6 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
                 for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
                     if (wrappedElement.isDisplayed()) {
                         E uiElement = get(getElementType(), locator);
-                        uiElement.isListItem();
                         uiElement.setWrappedElement(wrappedElement);
                         elements.add(uiElement);
                     }

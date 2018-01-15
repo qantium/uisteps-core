@@ -7,6 +7,7 @@ import com.qantium.uisteps.core.browser.pages.elements.Group;
 import com.qantium.uisteps.core.browser.pages.elements.Table;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.name.NameConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -18,6 +19,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntil;
 
 /**
  * Created by Anton Solyankin
@@ -133,6 +136,10 @@ public class UIObjectFactory implements IUIObjectFactory {
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 throw new RuntimeException(ex);
             }
+        }
+
+        if(!waitUntil(uiObject, () -> uiObject.isDisplayed())) {
+            throw new IsNotDisplayedException(uiObject);
         }
         return uiObject;
     }

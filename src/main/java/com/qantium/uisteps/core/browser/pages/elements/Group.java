@@ -113,7 +113,7 @@ public class Group<E extends UIElement> extends UIElement implements Iterable<E>
 
     @Override
     public HtmlObject getChildContext() {
-        return getElements().getChildContext();
+        return this;
     }
 
     public E getFirst() {

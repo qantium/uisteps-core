@@ -1,8 +1,8 @@
 package com.qantium.uisteps.core.browser.wait;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.Consumer;
 
 import static com.qantium.uisteps.core.browser.wait.TimeoutBuilder.defaultTimeouts;
 
