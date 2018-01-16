@@ -38,7 +38,7 @@ public class WindowManager implements IWindowManager {
 
         if (hasPreviousWindow()) {
             switchToPreviousWindow();
-        } else  {
+        } else {
             currentWindowIndex--;
             switchToNextWindow();
         }
@@ -76,7 +76,7 @@ public class WindowManager implements IWindowManager {
 
         driver.switchTo().window((String) handles.toArray()[index]);
 
-        if(Waiting.waitUntilNot(() -> (
+        if (Waiting.waitUntilNot(() -> (
                 (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"))) {
             throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
         }
@@ -101,5 +101,10 @@ public class WindowManager implements IWindowManager {
     @Override
     public int getCurrentWindowIndex() {
         return currentWindowIndex;
+    }
+
+    @Override
+    public String getCurrentWindowHash() {
+        return (String) driver.getWindowHandles().toArray()[currentWindowIndex];
     }
 }

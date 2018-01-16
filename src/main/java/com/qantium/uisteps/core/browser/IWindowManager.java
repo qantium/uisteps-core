@@ -24,4 +24,6 @@ public interface IWindowManager {
     int getCountOfWindows();
 
     int getCurrentWindowIndex();
+
+    String getCurrentWindowHash();
 }

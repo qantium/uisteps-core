@@ -1,6 +1,7 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
@@ -29,6 +30,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
     }
+    private static HtmlObject previousContext;
 
     @Override
     public WebElement getWrappedElement() {
@@ -37,13 +39,10 @@ public class UIElement extends HtmlObject implements WrapsElement {
                 throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
             }
             Iterator<By> iterator = Arrays.asList(locators).iterator();
-
             while (iterator.hasNext()) {
                 try {
                     wrappedElement = getSearchContext().findElement(iterator.next());
-                    if (waitUntil(this, () -> wrappedElement.isDisplayed())) {
-                        break;
-                    }
+                    break;
                 } catch (Exception ex) {
                     if (!iterator.hasNext()) {
                         throw ex;
@@ -71,8 +70,19 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public SearchContext getSearchContext() {
-        if (getContext() == null || getContext() instanceof Page) {
+        if (previousContext != null && getContext() != null && previousContext.getClass().equals(getContext().getClass())) {
+            previousContext = getContext();
+            return getContext();
+        }
+
+        previousContext = getContext();
+
+        if (getContext() == null) {
             return inOpenedBrowser();
+        }
+
+        if (waitUntil(this, () -> getContext().isDisplayed())) {
+            throw new IsNotDisplayedException(getContext());
         }
         return getContext();
     }

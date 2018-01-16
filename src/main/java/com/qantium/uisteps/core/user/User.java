@@ -452,6 +452,11 @@ public class User implements DriverActions, IBrowserManager {
     }
 
     @Override
+    public String getCurrentWindowHash() {
+        return inOpenedBrowser().getCurrentWindowHash();
+    }
+
+    @Override
     public Object executeAsyncScript(String script, Object... args) {
         return inOpenedBrowser().executeAsyncScript(script, args);
     }

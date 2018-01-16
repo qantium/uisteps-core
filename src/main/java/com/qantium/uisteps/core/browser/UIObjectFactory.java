@@ -66,7 +66,6 @@ public class UIObjectFactory implements IUIObjectFactory {
         return get(uiObject, null, locators);
     }
 
-
     @Override
     public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
         T uiObjectInstance = getInstanceOf(uiObject);
@@ -137,10 +136,6 @@ public class UIObjectFactory implements IUIObjectFactory {
                 throw new RuntimeException(ex);
             }
         }
-
-        if(!waitUntil(uiObject, () -> uiObject.isDisplayed())) {
-            throw new IsNotDisplayedException(uiObject);
-        }
         return uiObject;
     }
 
@@ -208,7 +203,7 @@ public class UIObjectFactory implements IUIObjectFactory {
                 && uiObject.getAnnotation(UseContext.class).value() == false;
     }
 
-    private <T extends UIObject> T getInstanceOf(Class<T> uiObject) {
+    protected  <T extends UIObject> T getInstanceOf(Class<T> uiObject) {
         try {
             return ConstructorUtils.invokeConstructor(uiObject);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
