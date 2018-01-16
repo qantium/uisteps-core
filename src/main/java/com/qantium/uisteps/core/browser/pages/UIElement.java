@@ -26,7 +26,7 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
-    private static ThreadLocal<HtmlObject> previousContext = new ThreadLocal<>();
+    private static ThreadLocal<Class<? extends HtmlObject>> previousContext = new ThreadLocal<>();
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
@@ -41,14 +41,14 @@ public class UIElement extends HtmlObject implements WrapsElement {
             Iterator<By> iterator = Arrays.asList(locators).iterator();
             while (iterator.hasNext()) {
                 By locator = iterator.next();
-                if(locator == null) {
+                if (locator == null) {
                     throw new IllegalArgumentException("Locator is null");
                 }
                 try {
                     SearchContext searchContext = getSearchContext();
                     wrappedElement = searchContext.findElement(locator);
                     break;
-                }  catch (Exception ex) {
+                } catch (Exception ex) {
                     if (!iterator.hasNext()) {
                         throw ex;
                     }
@@ -75,17 +75,20 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public SearchContext getSearchContext() {
-        if (previousContext.get() != null && getContext() != null && previousContext.get().getClass().equals(getContext().getClass())) {
-            previousContext.set(getContext());
+
+        if (previousContext.get() != null && getContext() != null && previousContext.get().equals(getContext().getClass())) {
+            previousContext.set(getContext().getClass());
             return getContext();
         }
-        previousContext.set(getContext());
+
+        previousContext.set(getContext().getClass());
         if (getContext() == null) {
             return inOpenedBrowser();
         }
         if (waitUntil(this, () -> getContext().isDisplayed())) {
             throw new IsNotDisplayedException(getContext());
         }
+
         return getContext();
     }
 

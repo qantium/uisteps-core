@@ -7,7 +7,6 @@ import com.qantium.uisteps.core.browser.pages.elements.Group;
 import com.qantium.uisteps.core.browser.pages.elements.Table;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
-import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.name.NameConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
@@ -19,8 +18,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntil;
 
 /**
  * Created by Anton Solyankin
@@ -81,61 +78,64 @@ public class UIObjectFactory implements IUIObjectFactory {
         }
 
         if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
-
-            try {
-                for (Field field : getUIObjectFields(uiObject)) {
-
-                    if (field.get(uiObject) == null) {
-                        Class<?> fieldType = field.getType();
-
-                        AbstractUIObject uiElement;
-
-                        if (UIElement.class.isAssignableFrom(fieldType)) {
-                            uiElement = getInstanceOf((Class<UIElement>) field.getType());
-                        } else if (Alert.class.isAssignableFrom(fieldType)) {
-                            uiElement = getInstanceOf((Class<Alert>) field.getType());
-                        } else if (Page.class.isAssignableFrom(fieldType)) {
-                            uiElement = getInstanceOf((Class<Page>) field.getType());
-                        } else {
-                            throw new IllegalStateException("Unknown type \"" + fieldType + "\" to init");
-                        }
-
-                        uiElement.setName(NameConverter.humanize(field));
-                        field.set(uiObject, uiElement);
-                        if (uiObject instanceof HtmlObject) {
-
-                            HtmlObject fieldContext = (HtmlObject) uiObject;
-
-                            if (contextPresentsIn(field)) {
-                                fieldContext = getContextOf(field);
-                            } else if (useContextOf(field)) {
-
-                                if (contextPresentsIn(field.getClass())) {
-                                    fieldContext = getContextOf(field.getClass());
-                                } else {
-                                    throw new RuntimeException("Context is not set for " + field);
-                                }
-                            }
-
-                            get(uiElement, fieldContext, locatorFactory.getLocators(field));
-                        }
-
-                        if (uiElement instanceof Group) {
-                            Group group = (Group) uiElement;
-                            initGroupElementsLocator(group, field);
-                        }
-
-                        if (uiElement instanceof Table) {
-                            Table table = (Table) uiElement;
-                            initHeaderOf(table, field);
-                        }
-                    }
-                }
-            } catch (IllegalArgumentException | IllegalAccessException ex) {
-                throw new RuntimeException(ex);
-            }
+            initFields(uiObject);
         }
         return uiObject;
+    }
+
+    public <T extends UIObject> void initFields(T uiObject) {
+        try {
+            for (Field field : getUIObjectFields(uiObject)) {
+
+                if (field.get(uiObject) == null) {
+                    Class<?> fieldType = field.getType();
+
+                    AbstractUIObject uiElement;
+
+                    if (UIElement.class.isAssignableFrom(fieldType)) {
+                        uiElement = getInstanceOf((Class<UIElement>) field.getType());
+                    } else if (Alert.class.isAssignableFrom(fieldType)) {
+                        uiElement = getInstanceOf((Class<Alert>) field.getType());
+                    } else if (Page.class.isAssignableFrom(fieldType)) {
+                        uiElement = getInstanceOf((Class<Page>) field.getType());
+                    } else {
+                        throw new IllegalStateException("Unknown type \"" + fieldType + "\" to init");
+                    }
+
+                    uiElement.setName(NameConverter.humanize(field));
+                    field.set(uiObject, uiElement);
+                    if (uiObject instanceof HtmlObject) {
+
+                        HtmlObject fieldContext = (HtmlObject) uiObject;
+
+                        if (contextPresentsIn(field)) {
+                            fieldContext = getContextOf(field);
+                        } else if (useContextOf(field)) {
+
+                            if (contextPresentsIn(field.getClass())) {
+                                fieldContext = getContextOf(field.getClass());
+                            } else {
+                                throw new RuntimeException("Context is not set for " + field);
+                            }
+                        }
+
+                        get(uiElement, fieldContext, locatorFactory.getLocators(field));
+                    }
+
+                    if (uiElement instanceof Group) {
+                        Group group = (Group) uiElement;
+                        initGroupElementsLocator(group, field);
+                    }
+
+                    if (uiElement instanceof Table) {
+                        Table table = (Table) uiElement;
+                        initHeaderOf(table, field);
+                    }
+                }
+            }
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private <T extends UIElement> void initAsUIElement(T uiObject, HtmlObject context, By... locators) {
@@ -202,7 +202,7 @@ public class UIObjectFactory implements IUIObjectFactory {
                 && uiObject.getAnnotation(UseContext.class).value() == false;
     }
 
-    protected  <T extends UIObject> T getInstanceOf(Class<T> uiObject) {
+    protected <T extends UIObject> T getInstanceOf(Class<T> uiObject) {
         try {
             return ConstructorUtils.invokeConstructor(uiObject);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {

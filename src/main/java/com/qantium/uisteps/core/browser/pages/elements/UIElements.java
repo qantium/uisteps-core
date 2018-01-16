@@ -21,6 +21,7 @@ import com.qantium.uisteps.core.browser.pages.UIElement;
 import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -68,6 +69,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     public WebElement findElement(By by) {
         return getSearchContext().findElement(by);
     }
+
 
     protected Class<E> getElementType() {
         return elementType;
@@ -167,6 +169,15 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     @Override
     protected HtmlObject getChildContext() {
         return getContext();
+    }
+
+    @Override
+    public SearchContext getSearchContext() {
+        if (getContext() == null) {
+            return inOpenedBrowser();
+        } else {
+            return getContext().getSearchContext();
+        }
     }
 
     @Override
