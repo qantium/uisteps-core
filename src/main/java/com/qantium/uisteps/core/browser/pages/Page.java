@@ -78,7 +78,7 @@ public class Page extends HtmlObject {
 
     @Override
     public SearchContext getSearchContext() {
-        return inOpenedBrowser().getDriver();
+        return inOpenedBrowser();
     }
 
     @Override

@@ -90,7 +90,6 @@ public class UIObjectFactory implements IUIObjectFactory {
 
                         AbstractUIObject uiElement;
 
-
                         if (UIElement.class.isAssignableFrom(fieldType)) {
                             uiElement = getInstanceOf((Class<UIElement>) field.getType());
                         } else if (Alert.class.isAssignableFrom(fieldType)) {
