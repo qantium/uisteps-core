@@ -136,10 +136,6 @@ public class UIObjectFactory implements IUIObjectFactory {
                 throw new RuntimeException(ex);
             }
         }
-
-        if(!waitUntil(uiObject, () -> uiObject.isDisplayed())) {
-            throw new IsNotDisplayedException(uiObject);
-        }
         return uiObject;
     }
 

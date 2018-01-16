@@ -243,6 +243,11 @@ public class Browser implements IBrowser {
     }
 
     @Override
+    public String getCurrentWindowHash() {
+        return getWindowManager().getCurrentWindowHash();
+    }
+
+    @Override
     public String getName() {
         return name;
     }
