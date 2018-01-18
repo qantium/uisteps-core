@@ -46,8 +46,7 @@ public interface DriverActions extends IWindowManager, IThen, ScriptExecutor, IU
     default <T extends Page> T open(T page) {
         Url url = page.getUrl();
         getDriver().get(url.toString());
-        Waiting.waitUntil(page, (p) -> p.isDisplayed());
-        return get(page.getClass()).withUrl(url);
+        return page;
     }
 
     default String getCurrentUrl() {

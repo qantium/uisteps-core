@@ -167,7 +167,7 @@ public class Browser implements IBrowser {
 
     @Override
     public <T extends Page> T open(Class<T> page, Url url, String[] params) {
-        T pageInstance = uiObjectFactory.getInstanceOf(page);
+        T pageInstance = get(page);
 
         Url pageUrl;
 

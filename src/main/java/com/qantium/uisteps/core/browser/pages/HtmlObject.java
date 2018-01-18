@@ -15,14 +15,15 @@
  */
 package com.qantium.uisteps.core.browser.pages;
 
-import com.qantium.uisteps.core.browser.*;
+import com.qantium.uisteps.core.browser.IUIObjectFactory;
+import com.qantium.uisteps.core.browser.ScriptExecutor;
+import com.qantium.uisteps.core.browser.UIObjectFactory;
+import com.qantium.uisteps.core.browser.WithSearchContext;
 import com.qantium.uisteps.core.browser.pages.elements.UIElements;
 import com.qantium.uisteps.core.browser.pages.elements.alert.Alert;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-
-import java.util.function.Supplier;
 
 /**
  * @author Anton Solyankin
@@ -79,7 +80,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     public abstract Screenshot takeScreenshot();
 
 
-    protected <T extends UIObject> HtmlObject getChildContext() {
+    protected HtmlObject getChildContext() {
         return this;
     }
 }
