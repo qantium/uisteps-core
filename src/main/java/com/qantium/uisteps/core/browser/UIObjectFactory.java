@@ -17,6 +17,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -72,7 +73,6 @@ public class UIObjectFactory implements IUIObjectFactory {
     private <T extends UIObject> T get(T uiObject, HtmlObject context, By... locators) {
 
         uiObject.setBrowser(browser);
-
         if (uiObject instanceof UIElement) {
             initAsUIElement((UIElement) uiObject, context, locators);
         }
@@ -166,8 +166,7 @@ public class UIObjectFactory implements IUIObjectFactory {
 
     private void initGroupElementsLocator(Group group, AnnotatedElement annotatedElement) {
         By[] elementsLocator = group.getElementsLocator();
-
-        if (elementsLocator == null && annotatedElement.isAnnotationPresent(Group.Elements.class)) {
+        if (ArrayUtils.isEmpty(elementsLocator) && annotatedElement.isAnnotationPresent(Group.Elements.class)) {
             FindBy[] groupElementsBy = annotatedElement.getAnnotation(Group.Elements.class).value();
             elementsLocator = locatorFactory.getLocators(groupElementsBy);
             group.withElementsLocator(elementsLocator);

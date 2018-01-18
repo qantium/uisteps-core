@@ -9,10 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.annotation.*;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -94,26 +91,12 @@ public class Group<E extends UIElement> extends UIElement implements Iterable<E>
         return getElements().size();
     }
 
-    @Override
-    public String getText() {
-        return getElements().getText();
-    }
-
     public String getText(String separator) {
         return getElements().getText(separator);
     }
 
     public Iterator<E> descendingIterator() {
         return getElements().descendingIterator();
-    }
-
-    public UIElements<E> getUIElements(LinkedList<E> elements) {
-        return getElements().getUIElements(elements);
-    }
-
-    @Override
-    public HtmlObject getChildContext() {
-        return this;
     }
 
     public E getFirst() {

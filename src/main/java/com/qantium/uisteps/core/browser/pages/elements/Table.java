@@ -6,6 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import java.lang.annotation.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Anton Solyankin
@@ -56,6 +60,49 @@ public class Table<E extends Table.Row> extends Group<E> {
         }
     }
 
+    public LinkedList<UIElement> getColumn(String name) {
+        if (!headerIsFirstRow) {
+            throw new IllegalArgumentException("There is no header in table " + this + ". Set headerIsFirstRow = true");
+        }
+
+        int index = getIndexOf(name);
+        return getColumn(index);
+    }
+
+    public LinkedList<UIElement> getColumn(int index) {
+
+        LinkedList<UIElement> column = new LinkedList<>();
+        stream().forEach(row -> {column.add(row.get(index));
+        });
+        if (headerIsFirstRow) {
+
+            column.remove(0);
+        }
+        return column;
+    }
+
+    public int getIndexOf(String name) {
+        if (!headerIsFirstRow) {
+            throw new IllegalArgumentException("There is no header in table " + this + ". Set headerIsFirstRow = true");
+        }
+
+        Iterator header = getHeader().iterator();
+        int index = -1;
+        boolean notFound = true;
+        while (header.hasNext()) {
+            index++;
+            if(((UIElement) header.next()).getText().equals(name)) {
+                notFound = false;
+                break;
+            }
+        }
+        if(notFound) {
+            throw new IllegalArgumentException("Table " + this + " doesn't contain header \"" + name + "\"");
+        }
+        return index;
+    }
+
+
     @Group.Elements(@FindBy(tagName = "tr"))
     public static class Row<T extends UIElement> extends Group<T> {
 
@@ -63,19 +110,9 @@ public class Table<E extends Table.Row> extends Group<E> {
             super(elementType);
         }
 
-        public T getByName(String name) {
+        public T getByHeader(String name) {
             Table table = (Table) getContext();
-            Row<T> header = table.getHeader();
-
-            int index = -1;
-
-            for (int i = 0; i < header.size(); i++) {
-                if (header.get(i).getText().equals(name)) {
-                    index = i;
-                    break;
-                }
-            }
-
+            int index = table.getIndexOf(name);
             return get(index);
         }
     }

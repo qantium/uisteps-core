@@ -38,6 +38,5 @@ public class UIElementDecorator {
         if (Boolean.valueOf(ELEMENT_DECORATOR_USE.getValue())) {
             uiElement.executeScript("arguments[0].style = '" + ELEMENT_DECORATOR_STYLE.getValue() + "';", wrappedElement);
         }
-
     }
 }

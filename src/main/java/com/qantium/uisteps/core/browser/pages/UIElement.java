@@ -56,6 +56,11 @@ public class UIElement extends HtmlObject implements WrapsElement {
             }
         }
         new UIElementDecorator(this, wrappedElement).execute();
+
+        if (!waitUntil(this, () -> wrappedElement.isDisplayed())) {
+            throw new IsNotDisplayedException(getContext());
+        }
+
         return wrappedElement;
     }
 
@@ -81,12 +86,11 @@ public class UIElement extends HtmlObject implements WrapsElement {
             return getContext();
         }
 
-        previousContext.set(getContext().getClass());
         if (getContext() == null) {
+            previousContext.set(null);
             return inOpenedBrowser();
-        }
-        if (waitUntil(this, () -> getContext().isDisplayed())) {
-            throw new IsNotDisplayedException(getContext());
+        } else {
+            previousContext.set(getContext().getClass());
         }
 
         return getContext();

@@ -18,7 +18,6 @@ package com.qantium.uisteps.core.browser.pages.elements;
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.pages.HtmlObject;
 import com.qantium.uisteps.core.browser.pages.UIElement;
-import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -29,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 
-import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntilNot;
+import static com.qantium.uisteps.core.browser.wait.Waiting.*;
 
 /**
  * Contains elements of one type
@@ -38,7 +37,7 @@ import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntilNot;
  * @author Anton Solyankin
  */
 @NotInit
-public class UIElements<E extends UIElement> extends UIElement implements Cloneable, Iterable<E> {
+public class UIElements<E extends UIElement> extends UIElement implements Iterable<E> {
 
     private final Class<E> elementType;
     private LinkedList<E> elements;
@@ -51,13 +50,13 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         this.elementType = elementType;
     }
 
-    public UIElements(Class<E> elementType, LinkedList<E> elements) throws IllegalArgumentException {
-        this(elementType);
+    private UIElements<E> withElements(LinkedList<E> elements) {
         this.elements = elements;
+        return this;
     }
 
     public E get(int index) {
-        return Waiting.waitFor(this, () -> getElements().get(index));
+        return waitFor(this, () -> getElements().get(index));
     }
 
     @Override
@@ -97,7 +96,10 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public Stream<E> stream() {
-        waitUntilNot(this, () -> isEmpty());
+        waitUntilNot(this, () -> {
+            refresh();
+            return isEmpty();
+        });
         return new Stream(getElements().stream());
     }
 
@@ -105,10 +107,9 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
         elements = new LinkedList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
         while (iterator.hasNext()) {
-
             try {
                 By locator = iterator.next();
-                for (WebElement wrappedElement : getSearchContext().findElements(locator)) {
+                for (WebElement wrappedElement : getContext().findElements(locator)) {
                     if (wrappedElement.isDisplayed()) {
                         E uiElement = get(getElementType(), locator);
                         uiElement.setWrappedElement(wrappedElement);
@@ -151,13 +152,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
 
 
     public UIElements<E> getUIElements(LinkedList<E> elements) {
-        return new UIElements(elementType, elements);
-    }
-
-    @Override
-    public UIElements<E> clone() {
-        LinkedList<E> cloned = (LinkedList<E>) getElements().clone();
-        return getUIElements(cloned);
+        if (getContext() == null) {
+            return inOpenedBrowser().getAll(elementType, getLocators()).withElements(elements);
+        } else {
+            return getContext().getAll(elementType, getLocators()).withElements(elements);
+        }
     }
 
     //Screenshots
@@ -230,15 +229,17 @@ public class UIElements<E extends UIElement> extends UIElement implements Clonea
     }
 
     public E findFirst(Predicate<E> predicate) {
-        return Waiting.waitFor(this, () -> stream().filter(predicate).findFirst().get());
+        return waitFor(this, () -> stream().filter(predicate).findFirst().get());
     }
 
     public boolean anyMatch(Predicate<E> predicate) {
-        return Waiting.waitFor(this, () -> stream().anyMatch(predicate));
+        Stream<E> stream = stream();
+        return waitUntil(this, () -> stream().anyMatch(predicate));
     }
 
     public boolean allMatch(Predicate<E> predicate) {
-        return Waiting.waitFor(this, () -> stream().allMatch(predicate));
+        Stream<E> stream = stream();
+        return waitUntil(this, () -> stream().allMatch(predicate));
     }
 
     public static class Stream<E extends UIElement> {

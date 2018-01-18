@@ -234,19 +234,19 @@ public interface IBrowser extends DriverActions, SearchContext, Named {
     }
 
     default boolean isSelected(UIElement element) {
-        return Waiting.waitUntil(element, () -> element.getWrappedElement().isSelected());
+        return element.getWrappedElement().isSelected();
     }
 
     default boolean isEnabled(UIElement element) {
-        return Waiting.waitUntil(element, () -> element.getWrappedElement().isEnabled());
+        return element.getWrappedElement().isEnabled();
     }
 
     default boolean isNotSelected(UIElement element) {
-        return Waiting.waitUntilNot(element, () -> element.getWrappedElement().isSelected());
+        return !element.getWrappedElement().isSelected();
     }
 
     default boolean isNotEnabled(UIElement element) {
-        return Waiting.waitUntilNot(element, () -> !element.getWrappedElement().isEnabled());
+        return !element.getWrappedElement().isEnabled();
     }
 
     //Select
