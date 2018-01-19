@@ -43,7 +43,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public UIElement get(By... locator) {
-        return getUIObjectFactory().get(UIElement.class, getChildContext(), locator);
+        return getUIObjectFactory().get(UIElement.class, context(), locator);
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
     @Override
     public <T extends UIObject> T get(Class<T> uiObject) {
         if (UIElement.class.isAssignableFrom(uiObject)) {
-            return (T) getUIObjectFactory().get((Class<UIElement>) uiObject, getChildContext());
+            return (T) getUIObjectFactory().get((Class<UIElement>) uiObject, context());
         } else if (Page.class.isAssignableFrom(uiObject) || Alert.class.isAssignableFrom(uiObject)) {
             return inOpenedBrowser().get(uiObject);
         } else {
@@ -64,7 +64,7 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public <T extends UIElement> T get(Class<T> uiObject, By... locator) {
-        return getUIObjectFactory().get(uiObject, getChildContext(), locator);
+        return getUIObjectFactory().get(uiObject, context(), locator);
     }
 
 
@@ -74,13 +74,13 @@ public abstract class HtmlObject extends AbstractUIObject implements ScriptExecu
 
     @Override
     public <T extends UIElement> UIElements<T> getAll(Class<T> uiObject, By... locators) {
-        return getUIObjectFactory().getAll(uiObject, getChildContext(), locators);
+        return getUIObjectFactory().getAll(uiObject, context(), locators);
     }
 
     public abstract Screenshot takeScreenshot();
 
 
-    protected HtmlObject getChildContext() {
+    protected HtmlObject context() {
         return this;
     }
 }

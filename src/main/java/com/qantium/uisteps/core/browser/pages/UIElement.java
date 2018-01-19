@@ -2,6 +2,7 @@ package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
 import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.*;
@@ -11,10 +12,8 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntil;
 import static org.openqa.selenium.By.ByXPath;
 
 /**
@@ -26,7 +25,6 @@ public class UIElement extends HtmlObject implements WrapsElement {
     private By[] locators;
     private HtmlObject context;
     private WebElement wrappedElement;
-    private static ThreadLocal<Class<? extends HtmlObject>> previousContext = new ThreadLocal<>();
 
     public void setWrappedElement(WebElement wrappedElement) {
         this.wrappedElement = wrappedElement;
@@ -34,37 +32,58 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public WebElement getWrappedElement() {
-        if (!checkWrappedElement()) {
+        return getWrappedElement(true);
+    }
+
+    private WebElement getWrappedElement(boolean isDisplay) {
+        if (!checkWrappedElement(isDisplay)) {
             if (ArrayUtils.isEmpty(locators)) {
                 throw new IllegalStateException("Locator for UIElement " + this + " is not set!");
             }
-            Iterator<By> iterator = Arrays.asList(locators).iterator();
-            while (iterator.hasNext()) {
-                By locator = iterator.next();
-                if (locator == null) {
-                    throw new IllegalArgumentException("Locator is null");
+            wrappedElement = getWebElement(isDisplay);
+        }
+
+
+        if (wrappedElement != null) {
+            new UIElementDecorator(this, wrappedElement).execute();
+        }
+        return wrappedElement;
+    }
+
+    private WebElement getWebElement(boolean isDisplay) {
+        Iterator<By> iterator = Arrays.asList(locators).iterator();
+
+        while (iterator.hasNext()) {
+            By locator = iterator.next();
+            if (locator == null) {
+                throw new IllegalArgumentException("Locator is null");
+            }
+            try {
+                SearchContext searchContext = getSearchContext();
+                WebElement webElement = searchContext.findElement(locator);
+                if (isDisplay && !webElement.isDisplayed()) {
+                    if (iterator.hasNext()) {
+                        continue;
+                    }
                 }
-                try {
-                    SearchContext searchContext = getSearchContext();
-                    wrappedElement = searchContext.findElement(locator);
-                    break;
-                } catch (Exception ex) {
-                    if (!iterator.hasNext()) {
-                        throw ex;
+                return webElement;
+            } catch (IsNotDisplayedException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                if (!iterator.hasNext()) {
+                    if (isDisplay) {
+                        throw new IsNotDisplayedException("Cannot locate " + this + ". Locators: " + getLocatorString(), ex);
+                    } else {
+                        return null;
                     }
                 }
             }
         }
-        new UIElementDecorator(this, wrappedElement).execute();
 
-        if (!waitUntil(this, () -> wrappedElement.isDisplayed())) {
-            throw new IsNotDisplayedException(getContext());
-        }
-
-        return wrappedElement;
+        throw new IsNotDisplayedException("Cannot locate " + this + ". Locators: " + getLocatorString());
     }
 
-    private boolean checkWrappedElement() {
+    private boolean checkWrappedElement(boolean isDisplay) {
 
         boolean OK = wrappedElement != null;
 
@@ -72,7 +91,12 @@ public class UIElement extends HtmlObject implements WrapsElement {
             try {
                 wrappedElement.getLocation();
             } catch (Exception ex) {
-                OK = false;
+                if (isDisplay) {
+                    OK = false;
+                } else {
+                    wrappedElement = null;
+                    OK = true;
+                }
             }
         }
         return OK;
@@ -80,21 +104,13 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public SearchContext getSearchContext() {
-
-        if (previousContext.get() != null && getContext() != null && previousContext.get().equals(getContext().getClass())) {
-            previousContext.set(getContext().getClass());
-            return getContext();
-        }
-
         if (getContext() == null) {
-            previousContext.set(null);
             return inOpenedBrowser();
         } else {
-            previousContext.set(getContext().getClass());
+            return getContext();
         }
-
-        return getContext();
     }
+
 
     /**
      * Internal method
@@ -178,52 +194,25 @@ public class UIElement extends HtmlObject implements WrapsElement {
 
     @Override
     public List<WebElement> findElements(By by) {
+        verifyIsDisplayed();
         return getWrappedElement().findElements(by);
     }
 
     @Override
     public WebElement findElement(By by) {
+        verifyIsDisplayed();
         return getWrappedElement().findElement(by);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-
-        if (obj == null) {
-            return false;
+    private void verifyIsDisplayed() {
+        if (!DisplayStack.contains(this)) {
+            DisplayStack.add(this);
+            Waiting.waitUntil(this, () -> {
+                getWrappedElement();
+                return isDisplayed();
+            });
+            DisplayStack.remove(this);
         }
-
-        if (!getClass().isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-
-        final UIElement other = (UIElement) obj;
-
-        if (!(Objects.equals(this.getLocators(), other.getLocators()) && Objects.equals(this.context, other.context))) {
-            return false;
-        }
-
-        if (!(getWrappedElement() != null && other.getWrappedElement() != null && getPosition().equals(other.getPosition()))) {
-            return false;
-        }
-
-        if (getWrappedElement() != null && other.getWrappedElement() == null) {
-            return false;
-        }
-
-        if (getWrappedElement() == null && other.getWrappedElement() != null) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.getLocators());
-        hash = 97 * hash + Objects.hashCode(this.context);
-        return hash;
     }
 
     //Elements
@@ -345,9 +334,18 @@ public class UIElement extends HtmlObject implements WrapsElement {
     @Override
     public boolean isDisplayed() {
         try {
-            return getWrappedElement().isDisplayed();
+            return getWrappedElement(true).isDisplayed();
         } catch (Exception ex) {
             return false;
+        }
+    }
+
+    @Override
+    public boolean isNotDisplayed() {
+        try {
+            return !getWrappedElement(false).isDisplayed();
+        } catch (Exception ex) {
+            return true;
         }
     }
 
