@@ -2,6 +2,8 @@ package com.qantium.uisteps.core.browser.pages;
 
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static com.qantium.uisteps.core.properties.UIStepsProperty.ELEMENT_DECORATOR_STYLE;
 import static com.qantium.uisteps.core.properties.UIStepsProperty.ELEMENT_DECORATOR_USE;
 
@@ -33,10 +35,17 @@ public class UIElementDecorator {
 
         lastUIElement.set(uiElement);
         lastWebElement.set(wrappedElement);
-        lastStyle.set(uiElement.executeScript("return arguments[0].style;", lastWebElement.get()));
+        lastStyle.set(wrappedElement.getAttribute("style"));
+
+        StringBuilder style = new StringBuilder();
+
+        if (lastStyle.get() != null) {
+            style.append(lastStyle.get()).append(";");
+        }
+        style.append(ELEMENT_DECORATOR_STYLE.getValue()).append(";");
 
         if (Boolean.valueOf(ELEMENT_DECORATOR_USE.getValue())) {
-            uiElement.executeScript("arguments[0].style = '" + ELEMENT_DECORATOR_STYLE.getValue() + "';", wrappedElement);
+            uiElement.executeScript("arguments[0].style = '" + style + "';", wrappedElement);
         }
     }
 }
