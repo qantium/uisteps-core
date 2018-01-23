@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.qantium.uisteps.core.browser.wait.Waiting.waitUntil;
+
 /**
  * Created by Anton Solyankin
  */
@@ -43,7 +45,7 @@ public class UIObjectFactory implements IUIObjectFactory {
         if (ArrayUtils.isEmpty(locators)) {
             locators = locatorFactory.getLocators(uiObject);
         }
-        return get(uiElements, context, locators);
+        return get(true, uiElements, context, locators);
     }
 
     @Override
@@ -67,10 +69,10 @@ public class UIObjectFactory implements IUIObjectFactory {
     @Override
     public <T extends UIObject> T get(Class<T> uiObject, HtmlObject context, By... locators) {
         T uiObjectInstance = getInstanceOf(uiObject);
-        return get(uiObjectInstance, context, locators);
+        return get(true, uiObjectInstance, context, locators);
     }
 
-    private <T extends UIObject> T get(T uiObject, HtmlObject context, By... locators) {
+    private <T extends UIObject> T get(boolean wait, T uiObject, HtmlObject context, By... locators) {
 
         uiObject.setBrowser(browser);
         if (uiObject instanceof UIElement) {
@@ -80,6 +82,11 @@ public class UIObjectFactory implements IUIObjectFactory {
         if (!uiObject.getClass().isAnnotationPresent(NotInit.class)) {
             initFields(uiObject);
         }
+
+//        if(wait) {
+//            waitUntil(uiObject, () -> uiObject.isDisplayed());
+//        }
+
         return uiObject;
     }
 
@@ -119,7 +126,7 @@ public class UIObjectFactory implements IUIObjectFactory {
                             }
                         }
 
-                        get(uiElement, fieldContext, locatorFactory.getLocators(field));
+                        get(false, uiElement, fieldContext, locatorFactory.getLocators(field));
                     }
 
                     if (uiElement instanceof Group) {

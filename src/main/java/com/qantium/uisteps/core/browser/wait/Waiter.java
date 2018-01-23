@@ -29,7 +29,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
 
     private R perform(boolean checkResult) throws WaitingException {
 
-        sleep(getDelay());
+        //sleep(getDelay());
 
         if (startTime.get() < 0) {
             waiterIsInitialized = true;
@@ -66,7 +66,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
             }
         }
         flushWaiter();
-        throw exception;
+        throw new WaitingException(this, exception);
     }
 
     private void flushWaiter() {

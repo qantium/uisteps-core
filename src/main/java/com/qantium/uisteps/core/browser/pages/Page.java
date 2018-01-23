@@ -16,13 +16,13 @@
 package com.qantium.uisteps.core.browser.pages;
 
 import com.qantium.uisteps.core.browser.NotInit;
+import com.qantium.uisteps.core.browser.wait.Waiting;
 import com.qantium.uisteps.core.screenshots.Screenshot;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -68,12 +68,22 @@ public class Page extends HtmlObject {
 
     @Override
     public List<WebElement> findElements(By locator) {
+        verifyIsDisplayed();
         return inOpenedBrowser().findElements(locator);
     }
 
     @Override
     public WebElement findElement(By locator) {
+        verifyIsDisplayed();
         return inOpenedBrowser().findElement(locator);
+    }
+
+    private void verifyIsDisplayed() {
+        if (!DisplayStack.contains(this)) {
+            DisplayStack.add(this);
+            Waiting.waitUntil(this, () -> isDisplayed());
+            DisplayStack.remove(this);
+        }
     }
 
     @Override

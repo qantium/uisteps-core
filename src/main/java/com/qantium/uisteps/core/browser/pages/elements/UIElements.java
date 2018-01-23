@@ -59,28 +59,24 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
         return waitFor(this, () -> getElements().get(index));
     }
 
-    @Override
-    public List<WebElement> findElements(By by) {
-        return getSearchContext().findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return getSearchContext().findElement(by);
-    }
-
 
     protected Class<E> getElementType() {
         return elementType;
     }
 
     public boolean isEmpty() {
-        return getElements().isEmpty();
+        refresh();
+        return elements.isEmpty();
     }
 
     @Override
     public boolean isDisplayed() {
         return !isEmpty();
+    }
+
+    @Override
+    public boolean isNotDisplayed() {
+        return isEmpty();
     }
 
     private E[] toArray() {
@@ -107,22 +103,15 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
         elements = new LinkedList<>();
         Iterator<By> iterator = Arrays.asList(getLocators()).iterator();
         while (iterator.hasNext()) {
-            try {
-                By locator = iterator.next();
-                for (WebElement wrappedElement : getContext().findElements(locator)) {
-                    if (wrappedElement.isDisplayed()) {
-                        E uiElement = get(getElementType(), locator);
-                        uiElement.setWrappedElement(wrappedElement);
-                        elements.add(uiElement);
-                    }
-                }
-            } catch (Exception ex) {
-                if (!iterator.hasNext() && elements.isEmpty()) {
-                    throw ex;
+            By locator = iterator.next();
+            for (WebElement wrappedElement : getContext().findElements(locator)) {
+                if (wrappedElement.isDisplayed()) {
+                    E uiElement = get(getElementType(), locator);
+                    uiElement.setWrappedElement(wrappedElement);
+                    elements.add(uiElement);
                 }
             }
         }
-
         return (T) this;
     }
 
@@ -147,7 +136,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
     }
 
     public int size() {
-        return getElements().size();
+        refresh();
+        return elements.size();
     }
 
 
@@ -166,17 +156,8 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
     }
 
     @Override
-    protected HtmlObject getChildContext() {
+    protected HtmlObject context() {
         return getContext();
-    }
-
-    @Override
-    public SearchContext getSearchContext() {
-        if (getContext() == null) {
-            return inOpenedBrowser();
-        } else {
-            return getContext().getSearchContext();
-        }
     }
 
     @Override
@@ -186,6 +167,16 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
 
     @Override
     public WebElement getWrappedElement() {
+        throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        throw new UnsupportedOperationException("This operation is not supported for UIElements");
+    }
+
+    @Override
+    public WebElement findElement(By by) {
         throw new UnsupportedOperationException("This operation is not supported for UIElements");
     }
 
@@ -233,12 +224,11 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
     }
 
     public boolean anyMatch(Predicate<E> predicate) {
-        Stream<E> stream = stream();
+
         return waitUntil(this, () -> stream().anyMatch(predicate));
     }
 
     public boolean allMatch(Predicate<E> predicate) {
-        Stream<E> stream = stream();
         return waitUntil(this, () -> stream().allMatch(predicate));
     }
 
