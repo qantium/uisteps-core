@@ -92,10 +92,7 @@ public class UIElements<E extends UIElement> extends UIElement implements Iterab
     }
 
     public Stream<E> stream() {
-        waitUntilNot(this, () -> {
-            refresh();
-            return isEmpty();
-        });
+        waitUntilNot(this, () -> refresh().isEmpty());
         return new Stream(getElements().stream());
     }
 
