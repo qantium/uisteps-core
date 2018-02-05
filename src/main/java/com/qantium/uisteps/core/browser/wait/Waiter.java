@@ -29,7 +29,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
 
     private R perform(boolean checkResult) throws WaitingException {
 
-        //sleep(getDelay());
+        sleep(getDelay());
 
         if (startTime.get() < 0) {
             waiterIsInitialized = true;
@@ -44,7 +44,7 @@ public abstract class Waiter<R> extends TimeoutBuilder {
 
                 if (checkResult) {
                     if (result instanceof Boolean) {
-                        if (!Boolean.TRUE.equals(result)) {
+                        if (Boolean.FALSE.equals(result)) {
                             sleep(getPollingTime());
                             continue;
                         }

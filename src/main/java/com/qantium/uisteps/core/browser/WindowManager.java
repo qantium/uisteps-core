@@ -76,7 +76,7 @@ public class WindowManager implements IWindowManager {
 
         driver.switchTo().window((String) handles.toArray()[index]);
 
-        if (Waiting.waitUntilNot(() -> (
+        if (Waiting.waitUntil(() -> (
                 (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"))) {
             throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
         }
