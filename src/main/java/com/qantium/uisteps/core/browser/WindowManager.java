@@ -1,7 +1,5 @@
 package com.qantium.uisteps.core.browser;
 
-import com.qantium.uisteps.core.browser.pages.Page;
-import com.qantium.uisteps.core.browser.wait.IsNotDisplayedException;
 import com.qantium.uisteps.core.browser.wait.Waiting;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -76,11 +74,8 @@ public class WindowManager implements IWindowManager {
 
         driver.switchTo().window((String) handles.toArray()[index]);
 
-        if (Waiting.waitUntil(() -> (
-                (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"))) {
-            throw new IsNotDisplayedException(new Page().withName("Page in opened window"));
-        }
-
+        Waiting.waitUntil(() -> (
+                (JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
     }
 
     @Override
